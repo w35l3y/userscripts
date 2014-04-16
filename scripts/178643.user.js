@@ -3,7 +3,7 @@
 // @namespace      http://gm.wesley.eti.br
 // @description    Envia comentários ao mantis baseados nas informações obtidas nas builds do hudson/jenkins
 // @include        /^https?:\/\/.*\/job\/[\w% -]+\/changes$/
-// @version        2.2.0
+// @version        2.2.1
 // @language       pt-br
 // @grant          GM_log
 // @grant          GM_addStyle
@@ -13,9 +13,9 @@
 // @grant          GM_xmlhttpRequest
 // @grant          GM_getResourceText
 // @icon           http://gm.wesley.eti.br/icon.php?desc=178643
-// @resource       meta 178643.user.js
+// @resource       meta https://github.com/w35l3y/userscripts/raw/master/scripts/178643.user.js
 // @resource       i18n http://pastebin.com/download.php?i=ULrVTsSg
-// @resource       updaterWindowHtml http://pastebin.com/download.php?i=3gr9tRAT
+// @resource       updaterWindowHtml ../resources/html/updaterWindowHtml
 // @resource       updaterWindowCss http://pastebin.com/download.php?i=C1qAvAed
 // @resource       winConfigCss http://pastebin.com/download.php?i=Ldk4J4bi
 // @resource       jobs http://pastebin.com/download.php?i=xzKNyumC
@@ -35,7 +35,7 @@
 // @history        2.2.0 Adicionada possibilidade de funcionar em diversos sistemas do hudson e mantis ao mesmo tempo
 // @history        2.1.1 Ajustado para funcionar também quando a url possuir caractere de espaço
 // @history        2.0.8 Simplificado o template dos comentários
-// @history        2.0.6 Ajustado <a href="http://userscripts.org/scripts/show/163374">Includes : WinConfig</a> para permitir mover a janela
+// @history        2.0.6 Ajustado <a href="https://github.com/w35l3y/userscripts/blob/master/includes/163374.user.js">Includes : WinConfig</a> para permitir mover a janela
 // @history        2.0.4 Resolvido problema no parser da data
 // @history        2.0.0 Substituído todos os alert, confirm e prompt pelas alternativas em <a href="//userscripts.org/scripts/show/163374">Includes : WinConfig</a>
 // @history        1.2.1 Adicionado ícone de ajuda (?) nos campos
