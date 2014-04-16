@@ -3,7 +3,7 @@
 // @namespace      http://gm.wesley.eti.br
 // @description    Envia comentários ao mantis baseados nas informações obtidas nas builds do hudson/jenkins
 // @include        /^https?:\/\/.*\/job\/[\w% -]+\/changes$/
-// @version        2.2.1
+// @version        2.2.2
 // @language       pt-br
 // @grant          GM_log
 // @grant          GM_addStyle
@@ -32,6 +32,7 @@
 // @require        http://pastebin.com/download.php?i=5Ji72UdS
 // @require        ../includes/163374.user.js
 // @require        http://pastebin.com/download.php?i=P6VTBRRK
+// @history        2.2.2 Ajustada a lista de jobs para permitir caracteres codificados (%xx)
 // @history        2.2.0 Adicionada possibilidade de funcionar em diversos sistemas do hudson e mantis ao mesmo tempo
 // @history        2.1.1 Ajustado para funcionar também quando a url possuir caractere de espaço
 // @history        2.0.8 Simplificado o template dos comentários
@@ -56,7 +57,7 @@ processaUrl = function (str) {
 			host			: RegExp.$1 + RegExp.$4,
 			username	: RegExp.$2,
 			password	: RegExp.$3,
-			path			: RegExp.$5
+			path			: decodeURIComponent(RegExp.$5),
 		};
 	}
 },
