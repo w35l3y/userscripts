@@ -3,7 +3,7 @@
 // @namespace      http://gm.wesley.eti.br
 // @description    Envia comentários ao mantis baseados nas informações obtidas nas builds do hudson/jenkins
 // @include        /^https?:\/\/.*\/job\/[\w% -]+\/changes$/
-// @version        2.2.2
+// @version        2.3.0
 // @language       pt-br
 // @grant          GM_log
 // @grant          GM_addStyle
@@ -32,7 +32,7 @@
 // @require        http://pastebin.com/download.php?i=5Ji72UdS
 // @require        ../includes/163374.user.js
 // @require        http://pastebin.com/download.php?i=P6VTBRRK
-// @history        2.2.2 Ajustada a lista de jobs para permitir caracteres codificados (%xx)
+// @history        2.3.0 Resolvido problema ao abrir certas urls com caracteres especiais
 // @history        2.2.0 Adicionada possibilidade de funcionar em diversos sistemas do hudson e mantis ao mesmo tempo
 // @history        2.1.1 Ajustado para funcionar também quando a url possuir caractere de espaço
 // @history        2.0.8 Simplificado o template dos comentários
@@ -43,7 +43,7 @@
 // @history        1.2.1 Adicionada a possibilidade de processar builds de outras pessoas
 // ==/UserScript==
 
-var jj = /^(\w+:\/\/[\w:.\/-]+\/)job\/([\w -]+)\/changes$/.test(decodeURIComponent(location.href)) && [RegExp.$1, RegExp.$2],
+var jj = /\/job\/([^\/]+)\/changes$/.test(decodeURIComponent(location.pathname)) && [location.origin + "/", RegExp.$1],
 jobs = JSON.parse(GM_getValue("jobs", "{}")),
 jobsInfo = JSON.parse(GM_getResourceText("jobs")),
 debug = GM_getValue("debug", false),
@@ -199,6 +199,8 @@ process = function (jobName, loc, doc, info) {
 												} else if ($2 + $3 == "??o") {
 													return $1 + "ção";
 												}
+											} else if ($2 + $3 == "?e") {
+												return $1 + "õe";
 											}/* else if ($2 + $3 == "?o") {
 												return $1 + "ão";
 											}*/
@@ -214,6 +216,10 @@ process = function (jobName, loc, doc, info) {
 												default		:
 													return $0;
 											}
+										}).replace(/(\?+)o\b/g, function ($0, $1) {
+											return ["ão", "ção"][$1.length - 1] || $0;
+										}).replace(/(?=\b)(\d+)([\?ao])(?=\s)/g, function ($0, $1, $2) {
+											return $1 + ["º","ª"][~~($2 == "a")];
 										});
 
 										b.mantis = b.mantis.split(/\s*[\|,\/e]\s*/).filter(function($0) {return $0.length}).map(function ($0) {
@@ -597,7 +603,7 @@ next = function (cfg, cb) {
 						}
 					}(jL, 0));
 				}
-				break;
+				//break;
 			}
 		}
 	} else if (cb) {
@@ -615,7 +621,7 @@ win = new WinConfig({
 				urls	: "http://",
 			},
 			hudson	: {
-				urls	: location.protocol + "//" + location.host + "/" + (jj?jj[1]:""),
+				urls	: location.origin + "/" + (jj?jj[1]:""),
 			},
 			lastBuild		: 0,
 			reprocessBuild	: 0,
