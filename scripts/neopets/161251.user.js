@@ -21,7 +21,7 @@
 // @grant          GM_getResourceText
 // @resource       includes http://pastebin.com/download.php?i=eArANXdm
 // @resource       hpBar http://img803.imageshack.us/img803/7471/hpbar.png
-// @resource       meta http://userscripts.org/scripts/source/161251.meta.js
+// @resource       meta https://github.com/w35l3y/userscripts/raw/master/scripts/neopets/161251.user.js
 // @resource       i18n http://pastebin.com/download.php?i=ULrVTsSg
 // @resource       updaterWindowHtml https://raw.githubusercontent.com/w35l3y/userscripts/master/resources/html/updaterWindowHtml
 // @resource       updaterWindowCss http://pastebin.com/download.php?i=C1qAvAed
