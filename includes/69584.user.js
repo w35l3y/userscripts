@@ -7,12 +7,11 @@
 // @copyright      2012+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        2.0.0.3
+// @version        2.1.0
 // @language       en
 // @include        nowhere
 // @exclude        *
-// @require        54389.user.js
-// @require        54987.user.js
+// @require        163374.user.js
 // @require        56489.user.js
 // ==/UserScript==
 
@@ -32,10 +31,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 **************************************************************************/
-
-if (typeof(WinConfig) != "undefined") {
-	WinConfig.loadDefaultCss();
-}
 
 ShowMyCode = function () {};
 
@@ -92,16 +87,14 @@ ShowMyCode.execute = function (params) {
 	} else if (typeof(WinConfig) != "undefined") {
 		WinConfig.init({
 			"title" : "Captcha",
-			"type" : "prompt",
+			"type" : WinConfig.WindowType.PROMPT,
 			"description" : "<center><img src='http://www.showmycode.com/?c' width='30' height='22' /><br /><br />Enter the code from the image above</center>",
-			"positiveCallback" : function(w, e) {
-				w.FadeOut(0);
-				
-				params.captcha = e.form.elements.namedItem("text").value.toUpperCase();
+			"load" : function(cfg) {
+				params.captcha = cfg.text.toUpperCase();
 				
 				x(params);
 			}
-		}).Open().FadeIn();
+		});
 	} else {
 		throw "Missing parameter 'captcha'";
 	}
