@@ -59,11 +59,11 @@
 // @require        ../../includes/85618.user.js
 // @require        ../../includes/87940.user.js
 // @require        ../../includes/87942.user.js
-// @require        ../../includes/56528.user.js
-// @require        ../../includes/56533.user.js
-// @require        ../../includes/56503.user.js
-// @require        ../../includes/56562.user.js
 // @require        ../../includes/163374.user.js
+// @require        ../../includes/neopets/56528.user.js
+// @require        ../../includes/neopets/56533.user.js
+// @require        ../../includes/neopets/56503.user.js
+// @require        ../../includes/neopets/56562.user.js
 // @require        http://pastebin.com/download.php?i=sin7DHJi
 // @require        http://pastebin.com/download.php?i=P6VTBRRK
 // @contributor    nozkfox
