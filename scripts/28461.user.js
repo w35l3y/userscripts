@@ -23,20 +23,20 @@
 // @resource       includes http://pastebin.com/download.php?i=eArANXdm
 // @resource       random_events http://pastebin.com/download.php?i=839tCaQh
 // @resource       randomEventsHtml http://pastebin.com/download.php?i=nPMWZeHY
-// @resource       meta https://github.com/w35l3y/userscripts/raw/master/scripts/neopets/28461.user.js
+// @resource       meta https://github.com/w35l3y/userscripts/raw/neopets/scripts/28461.user.js
 // @resource       i18n http://pastebin.com/download.php?i=ULrVTsSg
-// @resource       updaterWindowHtml https://raw.githubusercontent.com/w35l3y/userscripts/master/resources/html/updaterWindowHtml
+// @resource       updaterWindowHtml ../../master/resources/html/updaterWindowHtml
 // @resource       updaterWindowCss http://pastebin.com/download.php?i=C1qAvAed
 // @resource       winConfigCss http://pastebin.com/download.php?i=Ldk4J4bi
 // @resource       winConfigDiceARooCss http://pastebin.com/download.php?i=67LnUSrC
-// @require        ../../includes/63808.user.js
-// @require        ../../includes/56489.user.js
-// @require        ../../includes/85618.user.js
-// @require        ../../includes/87940.user.js
-// @require        ../../includes/87942.user.js
-// @require        ../../includes/154322.user.js
-// @require        ../../includes/neopets/154363.user.js
-// @require        ../../includes/163374.user.js
+// @require        ../../master/includes/63808.user.js
+// @require        ../../master/includes/56489.user.js
+// @require        ../../master/includes/85618.user.js
+// @require        ../../master/includes/87940.user.js
+// @require        ../../master/includes/87942.user.js
+// @require        ../../master/includes/154322.user.js
+// @require        ../../master/includes/163374.user.js
+// @require        ../includes/154363.user.js
 // @require        http://pastebin.com/download.php?i=P6VTBRRK
 // @cfu:version    version
 // @history        6.0.0 Added <a href="http://userscripts.org/guides/773">Includes Checker</a>
