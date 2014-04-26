@@ -15,7 +15,7 @@
 // @icon           http://gm.wesley.eti.br/icon.php?desc=178643
 // @resource       meta https://github.com/w35l3y/userscripts/raw/master/scripts/hudson/178643.user.js
 // @resource       i18n http://pastebin.com/download.php?i=ULrVTsSg
-// @resource       updaterWindowHtml ../resources/html/updaterWindowHtml
+// @resource       updaterWindowHtml ../../resources/html/updaterWindowHtml
 // @resource       updaterWindowCss http://pastebin.com/download.php?i=C1qAvAed
 // @resource       winConfigCss http://pastebin.com/download.php?i=Ldk4J4bi
 // @resource       jobs http://pastebin.com/download.php?i=xzKNyumC
