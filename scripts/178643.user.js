@@ -13,24 +13,24 @@
 // @grant          GM_xmlhttpRequest
 // @grant          GM_getResourceText
 // @icon           http://gm.wesley.eti.br/icon.php?desc=178643
-// @resource       meta https://github.com/w35l3y/userscripts/raw/master/scripts/hudson/178643.user.js
+// @resource       meta https://github.com/w35l3y/userscripts/raw/work/scripts/178643.user.js
 // @resource       i18n http://pastebin.com/download.php?i=ULrVTsSg
-// @resource       updaterWindowHtml ../resources/html/updaterWindowHtml
+// @resource       updaterWindowHtml ../../master/resources/html/updaterWindowHtml
 // @resource       updaterWindowCss http://pastebin.com/download.php?i=C1qAvAed
 // @resource       winConfigCss http://pastebin.com/download.php?i=Ldk4J4bi
 // @resource       jobs http://pastebin.com/download.php?i=xzKNyumC
 // @resource       includes http://pastebin.com/download.php?i=eArANXdm
 // @resource       templates http://pastebin.com/download.php?i=btV4urde
-// @require        ../includes/63808.user.js
-// @require        ../includes/56489.user.js
-// @require        ../includes/85618.user.js
-// @require        ../includes/87940.user.js
-// @require        ../includes/87942.user.js
-// @require        ../includes/292725.user.js
-// @require        ../includes/288385.user.js
-// @require        ../includes/176400.user.js
+// @require        ../../master/includes/63808.user.js
+// @require        ../../master/includes/56489.user.js
+// @require        ../../master/includes/85618.user.js
+// @require        ../../master/includes/87940.user.js
+// @require        ../../master/includes/87942.user.js
+// @require        ../../master/includes/292725.user.js
+// @require        ../../master/includes/288385.user.js
+// @require        ../../master/includes/176400.user.js
 // @require        http://pastebin.com/download.php?i=5Ji72UdS
-// @require        ../includes/163374.user.js
+// @require        ../../master/includes/163374.user.js
 // @require        http://pastebin.com/download.php?i=P6VTBRRK
 // @history        2.3.0 Resolvido problema ao abrir certas urls com caracteres especiais
 // @history        2.2.0 Adicionada possibilidade de funcionar em diversos sistemas do hudson e mantis ao mesmo tempo
