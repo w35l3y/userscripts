@@ -21,15 +21,15 @@
 // @grant          GM_xmlhttpRequest
 // @grant          GM_getResourceText
 // @resource       includes http://pastebin.com/download.php?i=eArANXdm
-// @resource       meta https://github.com/w35l3y/userscripts/raw/master/scripts/neopets/60748.user.js
+// @resource       meta https://github.com/w35l3y/userscripts/raw/neopets/scripts/60748.user.js
 // @resource       i18n http://pastebin.com/download.php?i=ULrVTsSg
-// @resource       updaterWindowHtml https://github.com/w35l3y/userscripts/raw/master/resources/html/updaterWindowHtml
+// @resource       updaterWindowHtml ../../master/resources/html/updaterWindowHtml
 // @resource       updaterWindowCss http://pastebin.com/download.php?i=C1qAvAed
-// @require        ../../includes/63808.user.js
-// @require        ../../includes/56489.user.js
-// @require        ../../includes/85618.user.js
-// @require        ../../includes/87940.user.js
-// @require        ../../includes/87942.user.js
+// @require        ../../master/includes/63808.user.js
+// @require        ../../master/includes/56489.user.js
+// @require        ../../master/includes/85618.user.js
+// @require        ../../master/includes/87940.user.js
+// @require        ../../master/includes/87942.user.js
 // @require        http://pastebin.com/download.php?i=P6VTBRRK
 // @history        2.0.0 Fixed some bugs
 // @history        1.0.3.0 Firefox 4 bug fixes
