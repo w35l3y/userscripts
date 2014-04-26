@@ -13,7 +13,7 @@
 // @include        http://www.neopets.com/quickref.phtml
 // @icon           http://gm.wesley.eti.br/icon.php?desc=34126
 // @resource       includes http://pastebin.com/download.php?i=eArANXdm
-// @resource       meta https://github.com/w35l3y/userscripts/raw/neopets/script/34126.user.js
+// @resource       meta https://github.com/w35l3y/userscripts/raw/neopets/scripts/34126.user.js
 // @resource       i18n http://pastebin.com/download.php?i=ULrVTsSg
 // @resource       updaterWindowHtml ../../master/resources/html/updaterWindowHtml
 // @resource       updaterWindowCss http://pastebin.com/download.php?i=C1qAvAed
