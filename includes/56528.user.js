@@ -10,7 +10,7 @@
 // @version        1.0.1
 // @language       en
 // @include        http*://www.neopets.com/safetydeposit.phtml*#debug
-// @require        ../56489.user.js
+// @require        ../../master/includes/56489.user.js
 // ==/UserScript==
 
 /**************************************************************************

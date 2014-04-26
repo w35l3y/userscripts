@@ -13,11 +13,11 @@
 // @exclude        *
 // @resource       i18n http://pastebin.com/download.php?i=ULrVTsSg
 // @require        http://www.onicos.com/staff/iz/amuse/javascript/expert/md5.txt
-// @require        ../63808.user.js
-// @require        ../85618.user.js
-// @require        ../87940.user.js
-// @require        ../56489.user.js
-// @require        ../69584.user.js
+// @require        ../../master/includes/63808.user.js
+// @require        ../../master/includes/85618.user.js
+// @require        ../../master/includes/87940.user.js
+// @require        ../../master/includes/56489.user.js
+// @require        ../../master/includes/69584.user.js
 // ==/UserScript==
 
 /**************************************************************************

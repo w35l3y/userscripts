@@ -7,12 +7,12 @@
 // @copyright      2009+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        1.0.0.4
+// @version        1.0.1
 // @language       en
 // @contributor    Steinn (http://userscripts.org/users/85134)
 // @include        nowhere
 // @exclude        *
-// @require        ../56489.user.js
+// @require        ../../master/includes/56489.user.js
 // ==/UserScript==
 
 /**************************************************************************
