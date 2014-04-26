@@ -21,8 +21,8 @@
 // @grant          GM_xmlhttpRequest
 // @resource       random_events http://pastebin.com/download.php?i=839tCaQh
 // @resource       randomEventsHtml http://pastebin.com/download.php?i=nPMWZeHY
-// @require        ../63808.user.js
-// @require        ../154322.user.js
+// @require        ../../master/includes/63808.user.js
+// @require        ../../master/includes/154322.user.js
 // @contributor     jellyneo (http://www.jellyneo.net/?go=rereg)
 // ==/UserScript==
 
