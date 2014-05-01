@@ -22,11 +22,12 @@ My public scripts are now here because userscripts.org is lacking on support.
 
 We are grateful to the maintainers, contributors, and sponsors of the following technologies which make Project possible:
 
-* [github_username](https://github.com/github_username)
+* [github_username](/github_username)
 
 ## Reporting issues
 1. Make sure you can't [contribute](#contributing)
-2. Access [New Issue](../../issues/new)
+2. Ensure your report was NOT sent by someone else (View [Issues](issues))
 3. Review the [guidelines for contributing](CONTRIBUTING.md) to this repository
+4. Send your report by clicking on [New Issue](issues/new)
 
 ![How to report issues](resources/image/readme_reporting_issues.png)
