@@ -54,12 +54,12 @@
 // @resource       winConfigCss http://pastebin.com/download.php?i=Ldk4J4bi
 // @resource       winConfigPriceCheckerCss http://pastebin.com/download.php?i=VCzrR5E8
 // @resource       includes http://pastebin.com/download.php?i=eArANXdm
-// @require        ../../master/includes/63808.user.js
-// @require        ../../master/includes/56489.user.js
-// @require        ../../master/includes/85618.user.js
-// @require        ../../master/includes/87940.user.js
-// @require        ../../master/includes/87942.user.js
-// @require        ../../master/includes/163374.user.js
+// @require        ../../../raw/master/includes/63808.user.js
+// @require        ../../../raw/master/includes/56489.user.js
+// @require        ../../../raw/master/includes/85618.user.js
+// @require        ../../../raw/master/includes/87940.user.js
+// @require        ../../../raw/master/includes/87942.user.js
+// @require        ../../../raw/master/includes/163374.user.js
 // @require        ../includes/56528.user.js
 // @require        ../includes/56533.user.js
 // @require        ../includes/56503.user.js
