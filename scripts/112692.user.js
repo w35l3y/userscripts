@@ -49,7 +49,7 @@
 // @icon           http://gm.wesley.eti.br/icon.php?desc=112692
 // @resource       meta https://github.com/w35l3y/userscripts/raw/neopets/scripts/112692.user.js
 // @resource       i18n http://pastebin.com/download.php?i=ULrVTsSg
-// @resource       updaterWindowHtml https://github.com/w35l3y/userscripts/raw/master/resources/html/updaterWindowHtml
+// @resource       updaterWindowHtml ../../../raw/master/resources/html/updaterWindowHtml
 // @resource       updaterWindowCss http://pastebin.com/download.php?i=C1qAvAed
 // @resource       winConfigCss http://pastebin.com/download.php?i=Ldk4J4bi
 // @resource       winConfigPriceCheckerCss http://pastebin.com/download.php?i=VCzrR5E8
