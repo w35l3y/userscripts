@@ -15,13 +15,13 @@
 // @resource       includes http://pastebin.com/download.php?i=eArANXdm
 // @resource       meta https://github.com/w35l3y/userscripts/raw/neopets/scripts/34126.user.js
 // @resource       i18n http://pastebin.com/download.php?i=ULrVTsSg
-// @resource       updaterWindowHtml ../../master/resources/html/updaterWindowHtml
+// @resource       updaterWindowHtml ../../../raw/master/resources/html/updaterWindowHtml
 // @resource       updaterWindowCss http://pastebin.com/download.php?i=C1qAvAed
-// @require        ../../master/includes/63808.user.js
-// @require        ../../master/includes/56489.user.js
-// @require        ../../master/includes/85618.user.js
-// @require        ../../master/includes/87940.user.js
-// @require        ../../master/includes/87942.user.js
+// @require        ../../../raw/master/includes/63808.user.js
+// @require        ../../../raw/master/includes/56489.user.js
+// @require        ../../../raw/master/includes/85618.user.js
+// @require        ../../../raw/master/includes/87940.user.js
+// @require        ../../../raw/master/includes/87942.user.js
 // @require        http://pastebin.com/download.php?i=P6VTBRRK
 // @uso:version    version
 // @history        4.0.0 Added <a href="http://userscripts.org/guides/773">Includes Checker</a>
