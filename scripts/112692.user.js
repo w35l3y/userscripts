@@ -7,7 +7,7 @@
 // @copyright      2013+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        4.6.4
+// @version        4.6.5
 // @language       en
 // @include        http*://www.neopets.com/games/kadoatery/index.phtml
 // @include        http*://www.neopets.com/objects.phtml?*type=inventory*
@@ -38,6 +38,7 @@
 // @include        http*://www.neopets.com/closet.phtml*
 // @include        http*://www.neopets.com/medieval/earthfaerie.phtml
 // @include        http*://www.neopets.com/faerieland/darkfaerie.phtml
+// @include        http*://www.neopets.com/space/coincidence.phtml
 // @grant          GM_log
 // @grant          GM_addStyle
 // @grant          GM_getValue
@@ -49,17 +50,17 @@
 // @icon           http://gm.wesley.eti.br/icon.php?desc=112692
 // @resource       meta https://github.com/w35l3y/userscripts/raw/neopets/scripts/112692.user.js
 // @resource       i18n http://pastebin.com/download.php?i=ULrVTsSg
-// @resource       updaterWindowHtml ../../../raw/master/resources/html/updaterWindowHtml
+// @resource       updaterWindowHtml ../resources/html/updaterWindowHtml
 // @resource       updaterWindowCss http://pastebin.com/download.php?i=C1qAvAed
 // @resource       winConfigCss http://pastebin.com/download.php?i=Ldk4J4bi
 // @resource       winConfigPriceCheckerCss http://pastebin.com/download.php?i=VCzrR5E8
 // @resource       includes http://pastebin.com/download.php?i=eArANXdm
-// @require        ../../../raw/master/includes/63808.user.js
-// @require        ../../../raw/master/includes/56489.user.js
-// @require        ../../../raw/master/includes/85618.user.js
-// @require        ../../../raw/master/includes/87940.user.js
-// @require        ../../../raw/master/includes/87942.user.js
-// @require        ../../../raw/master/includes/163374.user.js
+// @require        ../includes/63808.user.js
+// @require        ../includes/56489.user.js
+// @require        ../includes/85618.user.js
+// @require        ../includes/87940.user.js
+// @require        ../includes/87942.user.js
+// @require        ../includes/163374.user.js
 // @require        ../includes/56528.user.js
 // @require        ../includes/56533.user.js
 // @require        ../includes/56503.user.js
@@ -67,6 +68,7 @@
 // @require        http://pastebin.com/download.php?i=sin7DHJi
 // @require        http://pastebin.com/download.php?i=P6VTBRRK
 // @contributor    nozkfox
+// @history        4.6.5 Added to Spaceship Interior
 // @history        4.6.4 Fixed some minor bugs
 // @history        4.6. A0dded Bank and SDB options
 // @history        4.5.1 Fixed minor bugs when Auto pricing is enabled
@@ -139,6 +141,7 @@
 			/winter/snowfaerie.phtml
 			/winter/snowfaerie2.phtml
 	0x1000	/quickstock.phtml
+	0x8000	/space/coincidence.phtml
 
 [disabled]
 	0x0200	/games/kadoatery/index.phtml
@@ -335,6 +338,12 @@ GM_addStyle(GM_getResourceText("winConfigPriceCheckerCss"));
 					title	: "Igloo Garage Sale",
 					description	: '<a href="/winter/igloo2.phtml">Igloo Garage Sale</a>',
 					help	: true,
+				}, {
+					value	: 0x8000,
+					label	: "Spaceship Interior",
+					title	: "Spaceship Interior",
+					description	: '<a href="/space/coincidence.phtml">Aboard The Coincidence</a>',
+					help	: true,
 				}],
 			}],
 		}, {
@@ -487,6 +496,9 @@ GM_addStyle(GM_getResourceText("winConfigPriceCheckerCss"));
 				}, {
 					value	: 0x4000,
 					label	: "Igloo Garage Sale",
+				}, {
+					value	: 0x8000,
+					label	: "Spaceship Interior",
 				}],
 			}, {
 				name	: "target",
@@ -623,7 +635,12 @@ GM_addStyle(GM_getResourceText("winConfigPriceCheckerCss"));
 			case "/island/tradingpost.phtml":
 				return {
 					"key" : 0x0080,
-					"item" : ".//td/text()[preceding-sibling::*[1][contains(@src, '/items/')]]",
+					"item" : ".//td/text()[preceding-sibling::img[1][contains(@src, '/items/')]]",
+				};
+			case "/space/coincidence.phtml":
+				return {
+					"key" : 0x8000,
+					"item" : ".//td/text()[preceding-sibling::img[1][contains(@src, '/items/')]]",
 				};
 			case "/island/training.phtml":
 			case "/pirates/academy.phtml":
