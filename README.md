@@ -9,9 +9,11 @@ My public scripts are now here because userscripts.org is lacking on support.
 ![Opening the correct folder](resources/image/readme_installing-0.png)
 ![Opening the correct file](resources/image/readme_installing-1.png)
 3. Make sure when you hover mouse over RAW button the link shows the correct branch name
+
 **Correct way**
 
 ![Correct way](resources/image/readme_installing-2.png)
+
 **Incorrect way**
 
 ![Incorrect way](resources/image/readme_installing-2b.png)
