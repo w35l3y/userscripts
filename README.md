@@ -4,11 +4,14 @@ userscripts
 My public scripts are now here because userscripts.org is lacking on support.
 
 ## Installing
-1. Make sure you are in the correct branch
-2. Navigate to the script and click on it
-3. With Greasemonkey enabled, click RAW
-
-![How to install scripts on github](resources/image/readme_installing.png)
+1. Make sure you are in the correct branch (normally [master/scripts](scripts))
+2. Navigate to the script by the correct way and click on it
+![Opening the correct folder](resources/image/readme_installing-0.png)
+![Opening the correct file](resources/image/readme_installing-1.png)
+3. Make sure when you hover mouse over RAW button the link shows the correct branch name
+![Correct way](resources/image/readme_installing-2.png) vs
+![Incorrect way](resources/image/readme_installing-2b.png)
+4. With Greasemonkey enabled, click RAW
 
 ## Contributing
 
