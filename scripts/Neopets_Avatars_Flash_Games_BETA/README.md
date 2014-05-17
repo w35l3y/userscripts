@@ -1,0 +1,1 @@
+[![Install](../../resources/image/install_button.jpg)](../../../../raw/master/scripts/Neopets_Avatars_Flash_Games_BETA/127882.user.js)
