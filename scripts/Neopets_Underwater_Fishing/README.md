@@ -1,1 +1,1 @@
-![Install](../../resources/image/install_button.jpg)
+[![Install](../../resources/image/install_button.jpg)](../../../raw/master/scripts/Neopets_Underwater_Fishing/34126.user.js)
