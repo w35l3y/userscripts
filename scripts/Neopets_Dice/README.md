@@ -1,1 +1,0 @@
-[![Install](../../resources/image/install_button.jpg)](../../../../raw/master/scripts/Neopets_Dice/28461.user.js)
