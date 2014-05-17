@@ -23,15 +23,15 @@
 // @resource       hpBar http://img803.imageshack.us/img803/7471/hpbar.png
 // @resource       meta https://github.com/w35l3y/userscripts/raw/neopets/scripts/161251.user.js
 // @resource       i18n http://pastebin.com/download.php?i=ULrVTsSg
-// @resource       updaterWindowHtml ../../../raw/master/resources/html/updaterWindowHtml
+// @resource       updaterWindowHtml ../resources/html/updaterWindowHtml
 // @resource       updaterWindowCss http://pastebin.com/download.php?i=C1qAvAed
 // @resource       winConfigCss http://pastebin.com/download.php?i=Ldk4J4bi
 // @resource       winConfigBattledomeCss http://pastebin.com/download.php?i=pRhS97Zg
-// @require        ../../../raw/master/includes/63808.user.js
-// @require        ../../../raw/master/includes/85618.user.js
-// @require        ../../../raw/master/includes/87940.user.js
-// @require        ../../../raw/master/includes/87942.user.js
-// @require        ../../../raw/master/includes/163374.user.js
+// @require        ../includes/63808.user.js
+// @require        ../includes/85618.user.js
+// @require        ../includes/87940.user.js
+// @require        ../includes/87942.user.js
+// @require        ../includes/163374.user.js
 // @require        http://pastebin.com/download.php?i=P6VTBRRK
 // @history        2.1.1 Added <a href="http://userscripts.org/guides/773">Includes Checker</a>
 // @history        2.1.0 Fixed SecurityError (Firefox 23+)
