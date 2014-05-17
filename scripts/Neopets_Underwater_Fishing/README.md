@@ -1,0 +1,1 @@
+![Install](../../resources/image/install_button.jpg)
