@@ -3,9 +3,7 @@
 [![Install](../../resources/image/install_button.jpg)](../../../../raw/master/scripts/Neopets_Avatars_Flash_Games_BETA/127882.user.js)
 
 **Summary:** Displays Avatars Flash Games and lets us to send score automatically<br />
-**Version:** 3.0.1<br />
 **License:** GNU GPL<br />
-
 [![PayPal - The safer, easier way to pay online!](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif "PayPal - The safer, easier way to pay online!")](http://goo.gl/Fv19S)
 
 ### Screenshots
@@ -13,4 +11,4 @@
 ![Monkey Button](Monkey Button.png)
 ![Settings](Settings.png)
 
-![Daily installs](http://gm.wesley.eti.br/count.php?type=image&id=127882)
+![Daily installs](http://gm.wesley.eti.br/count.php?type=image&id=scripts/Neopets_Avatars_Flash_Games_BETA/127882.user.js)
