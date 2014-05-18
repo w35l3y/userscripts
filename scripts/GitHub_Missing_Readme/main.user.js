@@ -1,13 +1,13 @@
 // ==UserScript==
 // @name        GitHub : Missing Readme
 // @namespace   http://gm.wesley.eti.br
-// @description Updates the README.md for the current folder
+// @description Updates the README.md for the current folder that contains an userscript (.user.js) in it
 // @author      w35l3y
 // @email       w35l3y@brasnet.org
 // @copyright   2014+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.0.0
+// @version     1.0.1
 // @language    en
 // @include     http*://github.com/*/userscripts/tree/master/scripts/*
 // @resource    template ./README-template.md
@@ -58,6 +58,7 @@ for each (var file in files) {
 				var content = Template.get(GM_getResourceText("template"), {
 					meta	: processMeta(data),
 					info	: info,
+					path	: info.Path + "/" + info.File,	
 					raw		: "../../../raw/" + info.Branch + "/" + info.Path + "/" + file.textContent,
 					sshots	: files.filter(function (a) {
 								return /\.(?:jpg|png|gif)$/i.test(a.href);
