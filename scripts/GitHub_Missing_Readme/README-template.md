@@ -9,4 +9,4 @@
 ### Screenshots
 %{values}![%{name/}](%{node.textContent/})
 %{/values}%{/sshots}
-![Daily installs](http://gm.wesley.eti.br/count.php?type=image&id=%{info.Path/}/%{file.textContent/})
+![Daily installs](http://gm.wesley.eti.br/count.php?id=%{info.Path/}/%{file.textContent/}&type=image)
