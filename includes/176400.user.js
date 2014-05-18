@@ -7,13 +7,13 @@
 // @copyright      2013+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        2.0.0
+// @version        2.0.2
 // @language       en
 // @include        /userscripts\.org\/scripts\/review\/176400$/
 // @grant          GM_getResourceText
 // @icon           http://gm.wesley.eti.br/icon.php?desc=176400
-// @require        /scripts/source/292725.user.js
-// @require        /scripts/source/288385.user.js
+// @require        ./292725.user.js
+// @require        ./288385.user.js
 // @debug          true
 // @uso:author     55607
 // @uso:script     176400
@@ -65,8 +65,8 @@ Template.get = function (template, context) {
 	}
 
 	return (function recursive (value, root, last, iindex, wild) {
-		return value.replace((wild?/\#\{(\w+(?:\.\w+)*)(?:\|(\w+)?\s*([<>=]{1,2})\s*([-\w]+)?)?\}([^]+)?\#\{\/\1\}/g
-															:/\#\{(\w+(?:\.\w+)*)(?:\|(\w+)?\s*([<>=]{1,2})\s*([-\w]+)?)?\}([^]+?)?\#\{\/\1\}/g), function (all, key, value1, operator, value2, content) {
+		return value.replace((wild?/([#$%&@])\{(\w+(?:\.\w+)*)(?:\|(\w+)?\s*([<>=]{1,2})\s*([-\w]+)?)?\}([^]+)?\1\{\/\2\}/g
+															:/([#$%&@])\{(\w+(?:\.\w+)*)(?:\|(\w+)?\s*([<>=]{1,2})\s*([-\w]+)?)?\}([^]+?)?\1\{\/\2\}/g), function (all, symbol, key, value1, operator, value2, content) {
 			var c = key.split("."),
 			r = root,
 			l = [];
@@ -113,7 +113,7 @@ Template.get = function (template, context) {
 
 			if (d) {
 				if (r instanceof Array) {
-					if (/\#\{values\}/.test(content)) {	// quicker way
+					if (/[#$%&@]\{values\}/.test(content)) {	// quicker way
 						return recursive(content, r, {}, iindex, true);
 					} else {
 						var o = "";
@@ -132,7 +132,7 @@ Template.get = function (template, context) {
 			} else {
 				return "";
 			}
-		}).replace(/\#\{(\w+(?:\.\w+)*)\/\}/g, function (all, key) {
+		}).replace(/[#$%&@]\{(\w+(?:\.\w+)*)\/\}/g, function (all, key) {
 			var c = key.split("."),
 			r = root,
 			l = [];

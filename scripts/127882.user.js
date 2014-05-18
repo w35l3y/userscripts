@@ -21,7 +21,7 @@
 // @grant          GM_xmlhttpRequest
 // @grant          GM_getResourceText
 // @resource       includes http://pastebin.com/download.php?i=eArANXdm
-// @resource       meta https://github.com/w35l3y/userscripts/raw/neopets/scripts/127882.user.js
+// @resource       meta https://github.com/w35l3y/userscripts/raw/master/scripts/Neopets_Avatars_Flash_Games_BETA/127882.user.js
 // @resource       i18n http://pastebin.com/download.php?i=ULrVTsSg
 // @resource       updaterWindowHtml ../resources/html/updaterWindowHtml
 // @resource       updaterWindowCss http://pastebin.com/download.php?i=C1qAvAed

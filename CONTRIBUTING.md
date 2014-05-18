@@ -1,5 +1,5 @@
 ## Reporting issues
-Install [this script](../../raw/github/scripts/github_new_issue.user.js) to help you report issues OR use the following template:
+Install [this script](../../raw/master/scripts/GitHub_New_Issue/github_new_issue.user.js) to help you report issues OR use the following template:
 
 > **Browser:** {version}<br />
 > **Greasemonkey:** {version}<br />
