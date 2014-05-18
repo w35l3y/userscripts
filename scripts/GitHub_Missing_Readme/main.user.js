@@ -1,16 +1,16 @@
 // ==UserScript==
 // @name        GitHub : Missing Readme
 // @namespace   http://gm.wesley.eti.br
-// @description Updates the README.md for the current folder that contains an userscript (.user.js) in it
+// @description Updates the README.md for the folders that contains userscripts (.user.js) in it
 // @author      w35l3y
 // @email       w35l3y@brasnet.org
 // @copyright   2014+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.1.0
+// @version     1.1.1
 // @language    en
 // @include     http*://github.com/*/userscripts/tree/*/scripts*
-// @icon        http://gm.wesley.eti.br/icon.php?desc=scripts/GitHub_Missing_Readme/main
+// @icon        http://gm.wesley.eti.br/icon.php?desc=scripts/GitHub_Missing_Readme/main.user.js#
 // @resource    template ./README-template.md
 // @resource    templateList ./README-templateList.md
 // @require     https://github.com/michael/github/raw/master/lib/underscore-min.js
@@ -78,7 +78,6 @@ if (/^\/(\w+)\/(\w+)\/tree\/(\w+)\/(.+)/.test(location.pathname)) {
 				return (a.group > b.group?1:-1);
 			});
 			
-			//writeContent(Template.get("| Group | Name |\n| :--- | :--- |\n%{files}| %{group/} | [%{dir/}](../../../raw/%{branch/}/%{file.path/}) |\n%{/files}", {
 			writeContent(Template.get(GM_getResourceText("templateList"), {
 				files	: scripts,
 			}));
