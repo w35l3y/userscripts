@@ -22,4 +22,4 @@ GNU GPL
 
 ### Downloads
 
-![Daily installs](http://gm.wesley.eti.br/count.php?type=image&id=%id%)
+![Daily installs](http://gm.wesley.eti.br/count.php?type=image&id=127882)
