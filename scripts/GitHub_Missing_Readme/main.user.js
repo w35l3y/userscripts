@@ -7,7 +7,7 @@
 // @copyright   2014+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.0.2
+// @version     1.0.3
 // @language    en
 // @include     http*://github.com/*/userscripts/tree/master/scripts/*
 // @icon        http://gm.wesley.eti.br/icon.php?desc=scripts/GitHub_Missing_Readme/main
@@ -59,7 +59,7 @@ for each (var file in files) {
 				var content = Template.get(GM_getResourceText("template"), {
 					meta	: processMeta(data),
 					info	: info,
-					path	: info.Path + "/" + info.File,	
+					file	: file,
 					raw		: "../../../raw/" + info.Branch + "/" + info.Path + "/" + file.textContent,
 					sshots	: files.filter(function (a) {
 								return /\.(?:jpg|png|gif)$/i.test(a.href);
