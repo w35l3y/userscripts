@@ -11,4 +11,4 @@
 #{sshots|>1}### Screenshots
 #{values}![#{name/}](#{node.textContent/})
 #{/values}
-#{/sshots}![Daily installs](http://gm.wesley.eti.br/count.php?type=image&id=#{info.File/})
+#{/sshots}![Daily installs](http://gm.wesley.eti.br/count.php?type=image&id=#{path/})
