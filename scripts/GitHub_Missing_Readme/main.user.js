@@ -10,7 +10,7 @@
 // @version     1.0.0
 // @language    en
 // @include     http*://github.com/*/userscripts/tree/master/scripts/*
-// @resource    template README-template.md
+// @resource    template ./README-template.md
 // @require     https://github.com/michael/github/raw/master/lib/underscore-min.js
 // @require     http://pastebin.com/raw.php?i=FY7MDpMa
 // @require     https://github.com/michael/github/raw/master/github.js
