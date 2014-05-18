@@ -6,11 +6,11 @@
 **Version:** 2.1.2
 **License:** GNU GPL
 
-<div style="background:none repeat scroll 0 0 #EEE;border:1px solid #CCC;margin:10px 0;padding:10px;text-align:center">
-![Opponent Settings](Opponent Settings.png =100x100)
-![Moving HP Bar](Moving HP Bar.png)
-![Settings](Settings.png =100x)
-</div>
+### Screenshots
+
+	![Moving HP Bar](Moving HP Bar.png)
+	![Opponent Settings](Opponent Settings.png)
+	![Settings](Settings.png)
 
 ### Donate
 
