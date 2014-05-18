@@ -1,16 +1,16 @@
 # [Neopets : Battledome : Fight!](.)
 
 [![Install](../../resources/image/install_button.jpg)](../../../../raw/master/scripts/Neopets_Battledome_Fight/161251.user.js)
-
-**Summary:** Automatically fights at Battledome
-**Version:** 2.1.2
-**License:** GNU GPL
+<br />
+**Summary:** Automatically fights at Battledome<br />
+**Version:** 2.1.2<br />
+**License:** GNU GPL<br />
 
 ### Screenshots
 
-	![Moving HP Bar](Moving HP Bar.png)
-	![Opponent Settings](Opponent Settings.png)
-	![Settings](Settings.png)
+![Moving HP Bar](Moving HP Bar.png)
+![Opponent Settings](Opponent Settings.png)
+![Settings](Settings.png)
 
 ### Donate
 
