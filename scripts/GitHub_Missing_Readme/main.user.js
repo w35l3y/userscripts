@@ -7,9 +7,10 @@
 // @copyright   2014+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.0.1
+// @version     1.0.2
 // @language    en
 // @include     http*://github.com/*/userscripts/tree/master/scripts/*
+// @icon        http://gm.wesley.eti.br/icon.php?desc=scripts/GitHub_Missing_Readme/main
 // @resource    template ./README-template.md
 // @require     https://github.com/michael/github/raw/master/lib/underscore-min.js
 // @require     http://pastebin.com/raw.php?i=FY7MDpMa
