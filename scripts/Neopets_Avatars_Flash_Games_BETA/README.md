@@ -11,4 +11,4 @@
 ![Monkey Button](Monkey Button.png)
 ![Settings](Settings.png)
 
-![Daily installs](http://gm.wesley.eti.br/count.php?type=image&id=scripts/Neopets_Avatars_Flash_Games_BETA/127882.user.js)
+![Daily installs](http://gm.wesley.eti.br/count.php?id=scripts/Neopets_Avatars_Flash_Games_BETA/127882.user.js&type=image)
