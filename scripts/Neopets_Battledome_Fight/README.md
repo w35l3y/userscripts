@@ -4,7 +4,6 @@
 
 **Summary:** Automatically fights at Battledome<br />
 **License:** GNU GPL<br />
-
 [![PayPal - The safer, easier way to pay online!](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif "PayPal - The safer, easier way to pay online!")](http://goo.gl/Fv19S)
 
 ### Screenshots
@@ -12,4 +11,4 @@
 ![Opponent Settings](Opponent Settings.png)
 ![Settings](Settings.png)
 
-![Daily installs](http://gm.wesley.eti.br/count.php?type=image&id=161251)
+![Daily installs](http://gm.wesley.eti.br/count.php?id=scripts/Neopets_Battledome_Fight/161251.user.js&type=image)
