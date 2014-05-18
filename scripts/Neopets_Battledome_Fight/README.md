@@ -1,0 +1,1 @@
+[![Install](../../resources/image/install_button.jpg)](../../../../raw/master/scripts/Neopets_Battledome_Fight/161251.user.js)
