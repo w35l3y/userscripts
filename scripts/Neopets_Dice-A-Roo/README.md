@@ -3,7 +3,6 @@
 [![Install](../../resources/image/install_button.jpg)](../../../../raw/master/scripts/Neopets_Dice-A-Roo/28461.user.js)
 
 **Summary:** Plays Dice-a-Roo until your pet get tired.<br />
-**Version:** 6.0.0<br />
 **License:** GNU GPL<br />
 
 [![PayPal - The safer, easier way to pay online!](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif "PayPal - The safer, easier way to pay online!")](http://goo.gl/Fv19S)
