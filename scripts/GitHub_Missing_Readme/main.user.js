@@ -7,7 +7,7 @@
 // @copyright   2014+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.1.1
+// @version     1.2.0
 // @language    en
 // @include     http*://github.com/*/userscripts/tree/*/scripts*
 // @icon        http://gm.wesley.eti.br/icon.php?desc=scripts/GitHub_Missing_Readme/main.user.js#
@@ -27,7 +27,7 @@
 
 //GM_setValue("oauth", ""); // https://github.com/settings/tokens/new (execute this row once)
 
-if (/^\/(\w+)\/(\w+)\/tree\/(\w+)\/(.+)/.test(location.pathname)) {
+if (/^\/(\w+)\/(\w+)\/tree\/(\w+)\/(.+)/.test(location.pathname) && confirm("Update README.md?")) {
 	var info = {
 		Username	: RegExp.$1,
 		Reponame	: RegExp.$2,
@@ -40,30 +40,39 @@ if (/^\/(\w+)\/(\w+)\/tree\/(\w+)\/(.+)/.test(location.pathname)) {
 	}).getRepo(info.Username, info.Reponame);
 	
 	function writeContent (content) {
-		if (confirm(content)) {
-			var f = info.Path + "/README.md";
-			repo.write(info.Branch, f, content, "Updated default " + f, function (err) {
-				if (err) {
-					alert(JSON.stringify(err));
-				} else {
-					alert(f + " updated sucessfully.");
-				}
-			});
+		var f = info.Path + "/README.md";
+		repo.write(info.Branch, f, content, "Updated default " + f, function (err) {
+			if (err) {
+				alert(JSON.stringify(err));
+			} else {
+				alert(f + " updated sucessfully.");
+			}
+		});
+	}
+
+	function processMeta (data) {
+		var obj = {},
+		re = /^\/\/\s+@([\w:]+)\s+(.+)/gim;
+		while (re.exec(data)) {
+			obj[RegExp.$1.toLowerCase()] = RegExp.$2;
 		}
+		return obj;
 	}
 
 	if ("scripts" == info.Path) {
 		repo.getTree(info.Branch + "?recursive=true", function (err, tree) {
 			var scripts = [];
 			for each (var file in tree) {
-				if (/^scripts\/([^_]+)_(\w+)\/((\w+)\.user\.js)$/.test(file.path)) {
+				if (/^scripts\/(([^_]+)_(\w+))\/((\w+)\.user\.js)$/.test(file.path)) {
 					scripts.push({
 						file	: file,
 						branch	: info.Branch,
-						group	: RegExp.$1,
-						name	: RegExp.$3,
-						sname	: RegExp.$4,
-						dir		: RegExp.$2.replace(/_+/g, " "),
+						group	: RegExp.$2,
+						name	: RegExp.$4,
+						sname	: RegExp.$5,
+						dir		: RegExp.$1,
+						sdir	: RegExp.$3,
+						fdir	: RegExp.$3.replace(/_+/g, " "),
 					});
 				}
 			}
@@ -78,20 +87,20 @@ if (/^\/(\w+)\/(\w+)\/tree\/(\w+)\/(.+)/.test(location.pathname)) {
 				return (a.group > b.group?1:-1);
 			});
 			
-			writeContent(Template.get(GM_getResourceText("templateList"), {
-				files	: scripts,
-			}));
+			(function recursive (ai) {
+				if (ai < scripts.length) {
+					repo.getBlob(scripts[ai].file.sha, function (err, data) {
+						scripts[ai].meta = processMeta(data);
+						recursive(++ai);
+					});
+				} else {
+					writeContent(Template.get(GM_getResourceText("templateList"), {
+						files	: scripts,
+					}));
+				}
+			}(0));
 		});
 	} else {
-		function processMeta (data) {
-			var obj = {},
-			re = /^\/\/\s+@([\w:]+)\s+(.+)/gim;
-			while (re.exec(data)) {
-				obj[RegExp.$1.toLowerCase()] = RegExp.$2;
-			}
-			return obj;
-		}
-
 		var files = Array.prototype.slice.apply(document.querySelectorAll("td.content a"));
 		for each (var file in files) {
 			if (/\.user\.js$/.test(file.textContent)) {
