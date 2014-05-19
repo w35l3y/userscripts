@@ -11,11 +11,11 @@
 ![Monkey Button](Monkey Button.png)
 ![Settings](Settings.png)
 
-![Daily installs](http://gm.wesley.eti.br/count.php?id=scripts/Neopets_Avatars_Flash_Games_BETA/127882.user.js&type=image)
 
 ### Issues
 State|Topic|Replies|Author|Updated
 :---:|:---|:---:|:---:|---:
 open|#1: [Missing parameter 'options.include_movie'](https://github.com/w35l3y/userscripts/issues/1)|0|[w35l3y](https://github.com/w35l3y)|2014-04-25T19:07:44Z
 
-This file was generated automatically at `2014-05-19T07:13:02.715Z`
+![Daily installs](http://gm.wesley.eti.br/count.php?id=scripts/Neopets_Avatars_Flash_Games_BETA/127882.user.js&type=image)
+This file was generated automatically at `2014-05-19T07:13:50.504Z`
