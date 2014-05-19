@@ -7,17 +7,17 @@
 [![PayPal - The safer, easier way to pay online!](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif "PayPal - The safer, easier way to pay online!")](http://goo.gl/Fv19S)
 
 ### Screenshots
-![Monkey Button 2.png]()
-![Monkey Button.png]()
-![Settings.png]()
+![Monkey Button 2](Monkey Button 2.png)
+![Monkey Button](Monkey Button.png)
+![Settings](Settings.png)
 
 
 ### Issues
 State|Topic|Replies|Author|Updated
 :---:|:---|:---:|:---:|---:
-|#: []()||[]()|
+open|#1: [Missing parameter 'options.include_movie'](https://github.com/w35l3y/userscripts/issues/1)|0|[w35l3y](https://github.com/w35l3y)|2014-04-25T19:07:44Z
 
 ### Installs
-![Daily installs](http://gm.wesley.eti.br/count.php?id=scripts/Neopets__Avatars_Flash_Games_%5BBETA%5D/file&type=image)
+![Daily installs](http://gm.wesley.eti.br/count.php?id=scripts/Neopets__Avatars_Flash_Games_%5BBETA%5D/127882.user.js&type=image)
 
-This file was generated automatically at `2014-05-19T23:40:52.766Z`
+This file was generated automatically at `2014-05-19T23:47:53.235Z`
