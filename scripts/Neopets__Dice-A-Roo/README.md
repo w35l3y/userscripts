@@ -11,6 +11,6 @@
 
 
 ### Installs
-![Daily installs](http://gm.wesley.eti.br/count.php?id=scripts/file&type=image)
+![Daily installs](http://gm.wesley.eti.br/count.php?id=scripts/scripts/Neopets__Dice-A-Roo/28461.user.js&type=image)
 
-This file was generated automatically at `2014-05-19T21:18:17.756Z`
+This file was generated automatically at `2014-05-19T21:56:40.450Z`
