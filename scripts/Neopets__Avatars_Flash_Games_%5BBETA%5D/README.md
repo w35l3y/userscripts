@@ -20,4 +20,4 @@ open|#1: [Missing parameter 'options.include_movie'](https://github.com/w35l3y/u
 ### Installs
 ![Daily installs](http://gm.wesley.eti.br/count.php?id=scripts/Neopets__Avatars_Flash_Games_%5BBETA%5D/127882.user.js&type=image)
 
-This file was generated automatically at `2014-05-19T16:23:43.660Z`
+This file was generated automatically at `2014-05-19T16:29:40.034Z`
