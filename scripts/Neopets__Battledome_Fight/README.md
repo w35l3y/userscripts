@@ -7,9 +7,9 @@
 [![PayPal - The safer, easier way to pay online!](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif "PayPal - The safer, easier way to pay online!")](http://goo.gl/Fv19S)
 
 ### Screenshots
-![Moving HP Bar](node)
-![Opponent Settings](node)
-![Settings](node)
+![Moving HP Bar](Moving HP Bar.png)
+![Opponent Settings](Opponent Settings.png)
+![Settings](Settings.png)
 
 
 ### Issues
@@ -20,4 +20,4 @@ open|#2: [Different sets of weapons per round](https://github.com/w35l3y/userscr
 ### Installs
 ![Daily installs](http://gm.wesley.eti.br/count.php?id=scripts/file&type=image)
 
-This file was generated automatically at `2014-05-19T21:10:18.048Z`
+This file was generated automatically at `2014-05-19T21:18:17.755Z`

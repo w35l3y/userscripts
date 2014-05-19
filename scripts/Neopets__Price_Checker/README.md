@@ -7,10 +7,10 @@
 [![PayPal - The safer, easier way to pay online!](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif "PayPal - The safer, easier way to pay online!")](http://goo.gl/Fv19S)
 
 ### Screenshots
-![Settings](node)
+![Settings](Settings.png)
 
 
 ### Installs
 ![Daily installs](http://gm.wesley.eti.br/count.php?id=scripts/file&type=image)
 
-This file was generated automatically at `2014-05-19T21:10:18.049Z`
+This file was generated automatically at `2014-05-19T21:18:17.756Z`
