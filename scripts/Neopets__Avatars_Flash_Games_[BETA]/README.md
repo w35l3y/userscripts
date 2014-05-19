@@ -15,10 +15,9 @@
 ### Issues
 State|Topic|Replies|Author|Updated
 :---:|:---|:---:|:---:|---:
-open|#2: [Different sets of weapons per round](https://github.com/w35l3y/userscripts/issues/2)|0|[w35l3y](https://github.com/w35l3y)|2014-04-25T19:08:07Z
 open|#1: [Missing parameter 'options.include_movie'](https://github.com/w35l3y/userscripts/issues/1)|0|[w35l3y](https://github.com/w35l3y)|2014-04-25T19:07:44Z
 
 ### Installs
 ![Daily installs](http://gm.wesley.eti.br/count.php?id=scripts/Neopets__Avatars_Flash_Games_%5BBETA%5D/127882.user.js&type=image)
 
-This file was generated automatically at `2014-05-19T21:14:49.533Z`
+This file was generated automatically at `2014-05-19T21:17:39.010Z`
