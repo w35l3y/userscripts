@@ -11,7 +11,7 @@
 // @language       en
 // @include        nowhere
 // @exclude        *
-// @require        https://raw.github.com/einars/js-beautify/master/js/lib/beautify.js
+// @require        https://github.com/einars/js-beautify/raw/master/js/lib/beautify.js
 // @history        1.3.2 Updated @require#beautify.js
 // @history        1.3.1 Fixed minor bug (packed)
 // @history        1.3.0.0 Added another kind of deobfuscation (unzip)
