@@ -7,7 +7,7 @@
 // @copyright   2014+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.2.0
+// @version     1.3.0
 // @language    en
 // @include     http*://github.com/*/userscripts/tree/*/scripts*
 // @icon        http://gm.wesley.eti.br/icon.php?desc=scripts/GitHub_Missing_Readme/main.user.js#
@@ -34,10 +34,12 @@ if (/^\/(\w+)\/(\w+)\/tree\/(\w+)\/(.+)/.test(location.pathname) && confirm("Upd
 		Branch		: RegExp.$3,
 		Path		: RegExp.$4,
 	},
-	repo = new Github({
+	github = new Github({
 	  token: GM_getValue("oauth", "OAUTH_TOKEN"),
 	  auth: "oauth",
-	}).getRepo(info.Username, info.Reponame);
+	}),
+	issues = github.getIssues(info.Username, info.Reponame),
+	repo = github.getRepo(info.Username, info.Reponame);
 	
 	function writeContent (content) {
 		var f = info.Path + "/README.md";
@@ -63,7 +65,7 @@ if (/^\/(\w+)\/(\w+)\/tree\/(\w+)\/(.+)/.test(location.pathname) && confirm("Upd
 		repo.getTree(info.Branch + "?recursive=true", function (err, tree) {
 			var scripts = [];
 			for each (var file in tree) {
-				if (/^scripts\/(([^_]+)_(\w+))\/((\w+)\.user\.js)$/.test(file.path)) {
+				if (/^scripts\/(([^_]+)_([\w-]+))\/((\w+)\.user\.js)$/.test(file.path)) {
 					scripts.push({
 						file	: file,
 						branch	: info.Branch,
@@ -94,9 +96,37 @@ if (/^\/(\w+)\/(\w+)\/tree\/(\w+)\/(.+)/.test(location.pathname) && confirm("Upd
 						recursive(++ai);
 					});
 				} else {
-					writeContent(Template.get(GM_getResourceText("templateList"), {
-						files	: scripts,
-					}));
+					issues.list("state=all", function (err, issues) {
+						var labels = {};
+						for each (var issue in issues) {
+							for each (var label in issue.labels) {
+								if (!(label.name in labels)) {
+									labels[label.name] = {
+										open	: 0,
+										closed	: 0,
+										all		: 0,
+										label	: label.name,
+										flabel	: encodeURIComponent(label.name),
+									};
+								}
+								++labels[label.name][issue.state];
+								++labels[label.name].all;
+							}
+						}
+						for each (var s in scripts) {
+							var l = s.meta.name;
+							s.issues = labels[l] || {
+								open	: 0,
+								closed	: 0,
+								all		: 0,
+								label	: l,
+								flabel	: encodeURIComponent(l),
+							};
+						}
+						writeContent(Template.get(GM_getResourceText("templateList"), {
+							files	: scripts,
+						}));
+					});
 				}
 			}(0));
 		});
