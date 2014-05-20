@@ -11,7 +11,7 @@
 // @language       en
 // @include        nowhere
 // @exclude        *
-// @require        63808.user.js
+// @require        ../../includes/Includes__XPath/63808.user.js
 // ==/UserScript==
 
 /**************************************************************************

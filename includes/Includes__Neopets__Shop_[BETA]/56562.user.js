@@ -12,8 +12,8 @@
 // @include        nowhere
 // @exclude        *
 // @grant          GM_xmlhttpRequest
-// @require        ../../master/includes/63808.user.js
-// @require        ../../master/includes/56489.user.js
+// @require        ../../includes/Includes__XPath/63808.user.js
+// @require        ../../includes/Includes__HttpRequest/56489.user.js
 // @contributor    Steinn (http://userscripts.org/users/85134)
 // ==/UserScript==
 

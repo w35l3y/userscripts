@@ -11,8 +11,8 @@
 // @language       en
 // @include        nowhere
 // @exclude        *
-// @require        163374.user.js
-// @require        56489.user.js
+// @require        ../../includes/Includes__HttpRequest/56489.user.js
+// @require        ../../includes/Includes__WinConfig/163374.user.js
 // ==/UserScript==
 
 /**************************************************************************

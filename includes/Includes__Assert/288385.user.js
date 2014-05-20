@@ -12,7 +12,7 @@
 // @include        /userscripts\.org\/scripts\/review\/288385$/
 // @grant          GM_xmlhttpRequest
 // @icon           http://gm.wesley.eti.br/icon.php?desc=288385
-// @require        /scripts/source/292725.user.js
+// @require        ../../includes/Includes__Notify/292725.user.js
 // @debug          true
 // @uso:author     55607
 // @uso:script     288385

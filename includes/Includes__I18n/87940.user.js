@@ -18,9 +18,9 @@
 // @grant          GM_xmlhttpRequest
 // @grant          GM_getResourceText
 // @resource       i18n http://pastebin.com/download.php?i=ULrVTsSg
-// @resource       meta http://userscripts.org/scripts/source/87940.meta.js
-// @require        http://userscripts.org/scripts/source/56489.user.js
-// @require        http://userscripts.org/scripts/source/85618.user.js
+// @resource       meta ./87940.user.js
+// @require        ../../includes/Includes__HttpRequest/56489.user.js
+// @require        ../../includes/Includes__Translate/85618.user.js
 // ==/UserScript==
 
 /**************************************************************************

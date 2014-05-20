@@ -15,14 +15,14 @@
 // @grant          GM_log
 // @grant          GM_getValue
 // @grant          GM_setValue
-// @grant          GM_deleteValue
 // @grant          GM_openInTab
-// @grant          GM_getResourceText
+// @grant          GM_deleteValue
 // @grant          GM_xmlhttpRequest
+// @grant          GM_getResourceText
 // @resource       random_events http://pastebin.com/download.php?i=839tCaQh
 // @resource       randomEventsHtml http://pastebin.com/download.php?i=nPMWZeHY
-// @require        ../../master/includes/63808.user.js
-// @require        ../../master/includes/154322.user.js
+// @require        ../../includes/Includes__XPath/63808.user.js
+// @require        ../../includes/Includes__Persist_%5BBETA%5D/154322.user.js
 // @contributor     jellyneo (http://www.jellyneo.net/?go=rereg)
 // ==/UserScript==
 

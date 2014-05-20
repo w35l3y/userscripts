@@ -13,8 +13,8 @@
 // @exclude        *
 // @grant          GM_log
 // @grant          GM_xmlhttpRequest
-// @require        ../../master/includes/56489.user.js
-// @require        ../../master/includes/63808.user.js
+// @require        ../../includes/Includes__XPath/63808.user.js
+// @require        ../../includes/Includes__HttpRequest/56489.user.js
 // @contributor    Steinn (http://userscripts.org/users/85134)
 // @contributor    minicoz (http://userscripts.org/topics/125966#posts-498972)
 // @history        5.0.0 Added SSW (obj.is_super = true)

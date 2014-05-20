@@ -22,10 +22,10 @@
 // @resource       i18n http://pastebin.com/download.php?i=ULrVTsSg
 // @resource       updaterWindowHtml http://pastebin.com/download.php?i=3gr9tRAT
 // @resource       updaterWindowCss http://pastebin.com/download.php?i=C1qAvAed
-// @require        http://userscripts.org/scripts/source/63808.user.js
-// @require        http://userscripts.org/scripts/source/56489.user.js
-// @require        http://userscripts.org/scripts/source/85618.user.js
-// @require        http://userscripts.org/scripts/source/87940.user.js
+// @require        ../../includes/Includes__XPath/63808.user.js
+// @require        ../../includes/Includes__HttpRequest/56489.user.js
+// @require        ../../includes/Includes__Translate/85618.user.js
+// @require        ../../includes/Includes__I18n/87940.user.js
 // @history        1.0.3.0 Removed multiline strings due to recent firefox update
 // ==/UserScript==
 

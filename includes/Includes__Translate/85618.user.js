@@ -11,7 +11,7 @@
 // @language       en
 // @include        nowhere
 // @grant          GM_xmlhttpRequest
-// @require        http://userscripts.org/scripts/source/56489.user.js
+// @require        ../../includes/Includes__HttpRequest/56489.user.js
 // ==/UserScript==
 
 /**************************************************************************

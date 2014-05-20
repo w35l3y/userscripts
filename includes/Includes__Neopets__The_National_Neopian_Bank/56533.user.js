@@ -12,7 +12,7 @@
 // @contributor    Steinn (http://userscripts.org/users/85134)
 // @include        nowhere
 // @exclude        *
-// @require        ../../master/includes/56489.user.js
+// @require        ../../includes/Includes__HttpRequest/56489.user.js
 // ==/UserScript==
 
 /**************************************************************************
