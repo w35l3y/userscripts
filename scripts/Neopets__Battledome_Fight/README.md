@@ -19,5 +19,3 @@ open|#2: [Different sets of weapons per round](https://github.com/w35l3y/userscr
 
 ### Installs
 ![Daily installs](http://gm.wesley.eti.br/count.php?id=scripts/scripts/Neopets__Battledome_Fight/161251.user.js&type=image)
-
-This file was generated automatically at `2014-05-19T21:56:40.450Z`

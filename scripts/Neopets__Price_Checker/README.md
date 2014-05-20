@@ -12,5 +12,3 @@
 
 ### Installs
 ![Daily installs](http://gm.wesley.eti.br/count.php?id=scripts/scripts/Neopets__Price_Checker/112692.user.js&type=image)
-
-This file was generated automatically at `2014-05-19T21:56:40.451Z`
