@@ -13,8 +13,8 @@
 // @grant		GM_deleteValue
 // @grant		GM_xmlhttpRequest
 // @grant		GM_getResourceText
-// @require		https://github.com/w35l3y/userscripts/raw/master/scripts/X/../../includes/Includes_WinConfig/163374.user.js
 // @require		https://github.com/w35l3y/userscripts/raw/master/scripts/X/../../includes/Includes_HttpRequest/56489.user.js
-// @require	https://github.com/w35l3y/userscripts/raw/master/scripts/../../../raw/master/includes/Includes_ShowMyCode/69584.user.js
+// @require		https://github.com/w35l3y/userscripts/raw/master/scripts/X/../../includes/Includes_WinConfig/163374.user.js
+// @require		https://github.com/w35l3y/userscripts/raw/master/scripts/../../../raw/master/includes/Includes_ShowMyCode/69584.user.js
 ```
 

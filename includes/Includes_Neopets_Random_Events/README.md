@@ -17,6 +17,6 @@
 // @resource	random_events http://pastebin.com/download.php?i=839tCaQh
 // @require		https://github.com/w35l3y/userscripts/raw/master/scripts/X/../../includes/Includes_XPath/63808.user.js
 // @require		https://github.com/w35l3y/userscripts/raw/master/scripts/X/../../includes/Includes_Persist_%5BBETA%5D/154322.user.js
-// @require	https://github.com/w35l3y/userscripts/raw/master/scripts/../../../raw/master/includes/Includes_Neopets_Random_Events/154363.user.js
+// @require		https://github.com/w35l3y/userscripts/raw/master/scripts/../../../raw/master/includes/Includes_Neopets_Random_Events/154363.user.js
 ```
 
