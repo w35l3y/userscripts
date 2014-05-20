@@ -7,9 +7,9 @@
 
 # Usage
 ```
-// @require	https://github.com/w35l3y/userscripts/raw/master/scripts/56489.user.js
-// @require	https://github.com/w35l3y/userscripts/raw/master/scripts/163374.user.js
+// @require		https://github.com/w35l3y/userscripts/raw/master/scripts/X/../../includes/Includes__WinConfig/163374.user.js
+// @require		https://github.com/w35l3y/userscripts/raw/master/scripts/X/../../includes/Includes__HttpRequest/56489.user.js
 // @require	https://github.com/w35l3y/userscripts/raw/master/scripts/../../../raw/master/includes/Includes__ShowMyCode/69584.user.js
 ```
 
-This file was generated automatically at `2014-05-20T02:09:26.740Z`
+This file was generated automatically at `2014-05-20T03:15:42.800Z`
