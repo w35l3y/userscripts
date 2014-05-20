@@ -9,7 +9,7 @@
 %{grant}// @grant		%{value/}
 %{/grant}%{resource}// @resource	%{key/} %{value|!^http}https://github.com/w35l3y/userscripts/raw/master/scripts/X/%{/value}%{value/}
 %{/resource}%{require}// @require		%{value|!^http}https://github.com/w35l3y/userscripts/raw/master/scripts/X/%{/value}%{value/}
-%{/require}%{/meta}// @require	https://github.com/w35l3y/userscripts/raw/master/scripts/%{raw/}
+%{/require}%{/meta}// @require		https://github.com/w35l3y/userscripts/raw/master/scripts/%{raw/}
 ```
 %{sshots|>0}
 ### Screenshots
