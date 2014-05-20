@@ -7,18 +7,17 @@
 // @copyright   2014+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.4.0
+// @version     2.0.0
 // @language    en
-// @include     http*://github.com/*/userscripts/tree/*/scripts*
+// @include     /^https?:\/\/github\.com\/\w+\/\w+\/tree\/\w+\/\w+/
 // @icon        http://gm.wesley.eti.br/icon.php?desc=scripts/GitHub_Missing_Readme/main.user.js#
 // @resource    template ./README-template.md
 // @resource    templateList ./README-templateList.md
-// @require     https://github.com/michael/github/raw/master/lib/underscore-min.js
-// @require     http://pastebin.com/raw.php?i=FY7MDpMa
-// @require     https://github.com/michael/github/raw/master/github.js
-// @require     ../../includes/292725.user.js
-// @require     ../../includes/288385.user.js
-// @require     ../../includes/176400.user.js
+// @require     https://github.com/w35l3y/github/raw/master/lib/underscore-min.js
+// @require     https://github.com/w35l3y/github/raw/master/github.js
+// @require     ../../includes/Includes__Notify/292725.user.js
+// @require     ../../includes/Includes__Assert/288385.user.js
+// @require     ../../includes/Includes__Template_%5BBETA%5D/176400.user.js
 // @grant       GM_getValue
 // @grant       GM_setValue
 // @grant       GM_xmlhttpRequest
@@ -41,14 +40,9 @@ if (/^\/(\w+)\/(\w+)\/tree\/(\w+)\/(.+)/.test(location.pathname) && confirm("Upd
 	issu = github.getIssues(info.Username, info.Reponame),
 	repo = github.getRepo(info.Username, info.Reponame);
 	
-	function writeContent (content) {
-		var f = info.Path + "/README.md";
-		repo.write(info.Branch, f, content, "Updated default " + f, function (err) {
-			if (err) {
-				alert(JSON.stringify(err));
-			} else {
-				alert(f + " updated sucessfully.");
-			}
+	function writeContent (content, message) {
+		repo.write(info.Branch, content, message, function (err) {
+			alert(err?err:"File(s) updated successfully.");
 		});
 	}
 
@@ -61,21 +55,65 @@ if (/^\/(\w+)\/(\w+)\/tree\/(\w+)\/(.+)/.test(location.pathname) && confirm("Upd
 		return obj;
 	}
 
-	if ("scripts" == info.Path) {
+	if (!~info.Path.indexOf("/")) {
 		repo.getTree(info.Branch + "?recursive=true", function (err, tree) {
-			var scripts = [];
-			for each (var file in tree) {
-				if (/^scripts\/(([^_]+)_([\w-]+))\/((\w+)\.user\.js)$/.test(file.path)) {
-					scripts.push({
-						file	: file,
-						branch	: info.Branch,
-						group	: RegExp.$2,
-						name	: RegExp.$4,
-						sname	: RegExp.$5,
-						dir		: RegExp.$1,
-						sdir	: RegExp.$3,
-						fdir	: RegExp.$3.replace(/_+/g, " "),
-					});
+			var scripts = [],
+			path = {
+				name	: info.Path,
+				fname	: info.Path.charAt(0).toUpperCase() + info.Path.substr(1).toLowerCase(),
+				updated_at	: new Date().toISOString(),
+			},
+			trees = {},
+			blobs = tree.filter(function (a) {
+				return ("blob" == a.type);
+			});
+			for each (var dir in tree.filter(function (a) {
+				return ("tree" == a.type);
+			})) {
+				trees[dir.path] = dir;
+			}
+			for each (var file in blobs) {
+				if (!file.path.indexOf(info.Path)) {
+					if (/^((\w+)\/(([^_]+(?:__[^_]+)*)__([^\/]+)))\/((\w+)\.user\.js)$/.test(file.path)) {
+						var root = RegExp.$1;
+						scripts.push({
+							file	: file,
+							tree	: trees[root],
+							info	: info,
+							branch	: info.Branch,
+							issues	: {
+								meta : {
+									open	: 0,
+									closed	: 0,
+									all		: 0,
+								},
+								list	: [],
+							},
+							updated_at	: new Date().toISOString(),
+							raw		: "../../../raw/" + info.Branch + "/" + file.path,
+							name	: RegExp.$6,
+							sname	: RegExp.$7,
+							dir		: RegExp.$3,
+							sdir	: RegExp.$5,
+							group	: RegExp.$4.split("__").filter(function (a) {
+								return (a != path.fname);
+							}),
+							fdir	: RegExp.$5.replace(/_+/g, " "),
+							sshots	: blobs.filter(function (a) {
+								return (!a.path.indexOf(root + "/") && /\.(?:jpg|png|gif)$/i.test(a.path));
+							}).map(function (a) {
+								var n = a.path.replace(root + "/", "");
+								return {
+									name	: n,
+									fname	: n.replace(/\.\w+$/, ""),
+								};
+							}),
+						});
+					} else if (/^\w+\/README-templateList\.md$/.test(file.path)) {
+						path.templateList = file;
+					} else if (/^\w+\/README-template\.md$/.test(file.path)) {
+						path.template = file;
+					}
 				}
 			}
 
@@ -102,30 +140,78 @@ if (/^\/(\w+)\/(\w+)\/tree\/(\w+)\/(.+)/.test(location.pathname) && confirm("Upd
 							for each (var label in issue.labels) {
 								if (!(label.name in labels)) {
 									labels[label.name] = {
-										open	: 0,
-										closed	: 0,
-										all		: 0,
-										label	: label.name,
-										flabel	: encodeURIComponent(label.name),
+										meta : {
+											open	: 0,
+											closed	: 0,
+											all		: 0,
+											label	: label.name,
+											flabel	: encodeURIComponent(label.name),
+										},
+										list	: [],
 									};
 								}
-								++labels[label.name][issue.state];
-								++labels[label.name].all;
+								++labels[label.name].meta[issue.state];
+								++labels[label.name].meta.all;
 							}
+							labels[label.name].list.push(issue);
 						}
 						for each (var s in scripts) {
-							var l = s.meta.name;
-							s.issues = labels[l] || {
-								open	: 0,
-								closed	: 0,
-								all		: 0,
-								label	: l,
-								flabel	: encodeURIComponent(l),
-							};
+							s.issues.meta.label = s.meta.name;
+							s.issues.meta.flabel = encodeURIComponent(s.issues.label);
+							s.issues.list = issues.filter(function (a) {
+								var output = (-1 < a.body.indexOf(s.meta.name));
+								if (!output && a.labels.length) {
+									for each (var label in a.labels) {
+										if (s.meta.name == label.name) {
+											output = true;
+											break;
+										}
+									}
+								}
+								if (output) {
+									++s.issues.meta[a.state];
+									++s.issues.meta.all;
+								}
+
+								return output;
+							});
 						}
-						writeContent(Template.get(GM_getResourceText("templateList"), {
-							files	: scripts,
-						}));
+
+						path.files = scripts;
+						
+						function getTemplate (name, cb) {
+							if (path[name]) {
+								repo.getBlob(path[name].sha, cb);
+							} else {
+								cb(null, GM_getResourceText(name));
+							}
+						}
+
+						getTemplate("templateList", function (err, data) {
+							var trees = [{
+								path	: decodeURIComponent(info.Path) + "/README.md",
+								mode	: "100644",
+								type	: "blob",
+								content	: Template.get(data, path),
+							}];
+							
+							if (path.files.length) {
+								getTemplate("template", function (err, data) {
+									for each (var script in path.files) {
+										trees.push({
+											path	: decodeURIComponent(script.tree.path) + "/README.md",
+											mode	: "100644",
+											type	: "blob",
+											content	: Template.get(data, script),
+										});
+									}
+
+									writeContent(trees, "Updated all README.md recursively.");
+								});
+							} else {
+								writeContent(trees, "Updated " + trees[0].path);
+							}
+						});
 					});
 				}
 			}(0));
@@ -141,30 +227,45 @@ if (/^\/(\w+)\/(\w+)\/tree\/(\w+)\/(.+)/.test(location.pathname) && confirm("Upd
 				repo.getBlob(info.Sha, function (err, data) {
 					var meta = processMeta(data);
 
-					issu.list("labels=" + meta.name, function (err, issues) {
-						writeContent(Template.get(GM_getResourceText("template"), {
-							meta	: meta,
-							info	: info,
-							file	: file,
-							issues	: issues.filter(function (a) {
-								for each (var label in a.labels) {
-									if (meta.name == label.name) {
-										return true;
-									}
-								}
-								return false;
-							}),
-							updated_at	: new Date().toISOString(),
-							raw		: "../../../raw/" + info.Branch + "/" + info.Path + "/" + file.textContent,
-							sshots	: files.filter(function (a) {
-										return /\.(?:jpg|png|gif)$/i.test(a.href);
-									}).map(function (a) {
-										return {
-											node	: a,
-											name	: a.textContent.replace(/\.\w+$/, ""),
-										};
+					issu.list("state=all", function (err, issues) {
+						var path = decodeURIComponent(info.Path) + "/README.md";
+
+						writeContent([{
+							path	: path,
+							mode	: "100644",
+							type	: "blob",
+							content	: Template.get(GM_getResourceText("template"), {
+								meta	: meta,
+								info	: info,
+								file	: {
+									path	: file.textContent,
+								},
+								issues	: {
+									list : issues.filter(function (a) {
+										var output = (-1 < a.body.indexOf(meta.name));
+										if (!output) {
+											for each (var label in a.labels) {
+												if (meta.name == label.name) {
+													output = true;
+													break;
+												}
+											}
+										}
+										return output;
 									}),
-						}));
+								},
+								updated_at	: new Date().toISOString(),
+								raw		: "../../../raw/" + info.Branch + "/" + info.Path + "/" + file.textContent,
+								sshots	: files.filter(function (a) {
+									return /\.(?:jpg|png|gif)$/i.test(a.href);
+								}).map(function (a) {
+									return {
+										name	: a.textContent,
+										fname	: a.textContent.replace(/\.\w+$/, ""),
+									};
+								}),
+							}),
+						}], "Updated " + path);
 					});
 				});
 

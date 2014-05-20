@@ -7,13 +7,13 @@
 // @copyright      2013+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        2.0.2
+// @version        2.1.0
 // @language       en
 // @include        /userscripts\.org\/scripts\/review\/176400$/
 // @grant          GM_getResourceText
 // @icon           http://gm.wesley.eti.br/icon.php?desc=176400
-// @require        ./292725.user.js
-// @require        ./288385.user.js
+// @require        ../../includes/Includes__Notify/292725.user.js
+// @require        ../../includes/Includes__Assert/288385.user.js
 // @debug          true
 // @uso:author     55607
 // @uso:script     176400
@@ -65,8 +65,8 @@ Template.get = function (template, context) {
 	}
 
 	return (function recursive (value, root, last, iindex, wild) {
-		return value.replace((wild?/([#$%&@])\{(\w+(?:\.\w+)*)(?:\|(\w+)?\s*([<>=]{1,2})\s*([-\w]+)?)?\}([^]+)?\1\{\/\2\}/g
-															:/([#$%&@])\{(\w+(?:\.\w+)*)(?:\|(\w+)?\s*([<>=]{1,2})\s*([-\w]+)?)?\}([^]+?)?\1\{\/\2\}/g), function (all, symbol, key, value1, operator, value2, content) {
+		return value.replace((wild?/([#$%&@])\{(\w+(?:\.\w+)*)(?:\|(\w+)?\s*([<>=^!$~]{1,2})\s*([-\w]+)?)?\}([^]+)?\1\{\/\2\}/g
+															:/([#$%&@])\{(\w+(?:\.\w+)*)(?:\|(\w+)?\s*([<>=^!$~]{1,2})\s*([-\w]+)?)?\}([^]+?)?\1\{\/\2\}/g), function (all, symbol, key, value1, operator, value2, content) {
 			var c = key.split("."),
 			r = root,
 			l = [];
@@ -88,7 +88,7 @@ Template.get = function (template, context) {
 					}
 
 					return o;
-				} else {
+				} else if (!operator) {
 					return l;
 				}
 			}
@@ -108,7 +108,14 @@ Template.get = function (template, context) {
 				case "<=":d = (v1 <= v2);break;
 				case "=":d = (v1 == v2);break;
 				case "==":d = (v1 === v2);break;
+				case "!=":
 				case "<>":d = (v1 != v2);break;
+				case "^":d = !v1.indexOf(v2);break;
+				case "!^":d = !!v1.indexOf(v2);break;
+				case "~":d = !!~v1.indexOf(v2);break;
+				case "!~":d = !~v1.indexOf(v2);break;
+				case "$":d = !(v1.lastIndexOf(v2) - v1.length + v2.length);break;
+				case "!$":d = !!(v1.lastIndexOf(v2) - v1.length + v2.length);break;
 			}
 
 			if (d) {
