@@ -1,6 +1,6 @@
 # [Neopets : Underwater Fishing](.)
 
-[![Install](../../resources/image/install_button.jpg)](../../../../raw/master/scripts/Neopets__Underwater_Fishing/34126.user.js)
+[![Install](../../resources/image/install_button.jpg)](../../../../raw/master/scripts/Neopets_Underwater_Fishing/34126.user.js)
 
 **Summary:** Reels in your line for all your pets<br />
 **License:** GNU GPL<br />
@@ -8,4 +8,4 @@
 
 
 ### Installs
-![Daily installs](http://gm.wesley.eti.br/count.php?id=scripts/scripts/Neopets__Underwater_Fishing/34126.user.js&type=image)
+![Daily installs](http://gm.wesley.eti.br/count.php?id=scripts/scripts/Neopets_Underwater_Fishing/34126.user.js&type=image)

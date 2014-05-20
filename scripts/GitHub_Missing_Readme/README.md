@@ -1,6 +1,6 @@
 # [GitHub : Missing Readme](.)
 
-[![Install](../../resources/image/install_button.jpg)](../../../../raw/master/scripts/GitHub__Missing_Readme/main.user.js)
+[![Install](../../resources/image/install_button.jpg)](../../../../raw/master/scripts/GitHub_Missing_Readme/main.user.js)
 
 **Summary:** Updates the README.md for the folders that contains userscripts (.user.js) in it<br />
 **License:** GNU GPL<br />
@@ -8,4 +8,4 @@
 
 
 ### Installs
-![Daily installs](http://gm.wesley.eti.br/count.php?id=scripts/scripts/GitHub__Missing_Readme/main.user.js&type=image)
+![Daily installs](http://gm.wesley.eti.br/count.php?id=scripts/scripts/GitHub_Missing_Readme/main.user.js&type=image)

@@ -1,6 +1,6 @@
 # [Neopets : Price Checker](.)
 
-[![Install](../../resources/image/install_button.jpg)](../../../../raw/master/scripts/Neopets__Price_Checker/112692.user.js)
+[![Install](../../resources/image/install_button.jpg)](../../../../raw/master/scripts/Neopets_Price_Checker/112692.user.js)
 
 **Summary:** Puts a link near to the item name in many places.<br />
 **License:** GNU GPL<br />
@@ -11,4 +11,4 @@
 
 
 ### Installs
-![Daily installs](http://gm.wesley.eti.br/count.php?id=scripts/scripts/Neopets__Price_Checker/112692.user.js&type=image)
+![Daily installs](http://gm.wesley.eti.br/count.php?id=scripts/scripts/Neopets_Price_Checker/112692.user.js&type=image)
