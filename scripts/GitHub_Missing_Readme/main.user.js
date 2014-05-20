@@ -7,7 +7,7 @@
 // @copyright   2014+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     2.0.0
+// @version     2.1.0
 // @language    en
 // @include     /^https?:\/\/github\.com\/\w+\/\w+\/tree\/\w+\/\w+/
 // @icon        http://gm.wesley.eti.br/icon.php?desc=scripts/GitHub_Missing_Readme/main.user.js#
@@ -40,18 +40,53 @@ if (/^\/(\w+)\/(\w+)\/tree\/(\w+)\/(.+)/.test(location.pathname) && confirm("Upd
 	issu = github.getIssues(info.Username, info.Reponame),
 	repo = github.getRepo(info.Username, info.Reponame);
 	
-	function writeContent (content, message) {
-		repo.write(info.Branch, content, message, function (err) {
+	function writeContent (tree, message) {
+		repo.write(info.Branch, tree, message, function (err) {
 			alert(err?err:"File(s) updated successfully.");
 		});
 	}
 
 	function processMeta (data) {
 		var obj = {},
-		re = /^\/\/\s+@([\w:]+)\s+(.+)/gim;
+		re = /^\/\/\s+@([\w:]+)\s+(.+)/gim,
+		list = ["include", "exclude", "grant", "resource", "require", "history"],
+		orderByAsc = function (a, b) {
+			if (a.key) {
+				return (a.key > b.key?1:-1);
+			} else if (a.length == b.length) {
+				return (a > b?1:-1);
+			} else {
+				return (a.length > b.length?1:-1);
+			}
+		};
+
 		while (re.exec(data)) {
-			obj[RegExp.$1.toLowerCase()] = RegExp.$2;
+			var key = RegExp.$1.toLowerCase(),
+			value = RegExp.$2;
+			if (key in obj || ~list.indexOf(key)) {
+				if (!(key in obj)) {
+					obj[key] = [];
+				} else if (!(obj[key] instanceof Array)) {
+					obj[key] = [/^([^\s]+)\s+(.+)/.test(obj[key])?{
+						key	: RegExp.$1,
+						value	: RegExp.$2,
+					}:obj[key]];
+				}
+				obj[key].push(/^([^\s]+)\s+(.+)/.test(value)?{
+					key	: RegExp.$1,
+					value	: RegExp.$2,
+				}:value);
+			} else {
+				obj[key] = value;
+			}
 		}
+
+		for each (var k in list.slice(0, 4)) {
+			if (obj[k]) {
+				obj[k].sort(orderByAsc);
+			}
+		}
+
 		return obj;
 	}
 
@@ -74,7 +109,7 @@ if (/^\/(\w+)\/(\w+)\/tree\/(\w+)\/(.+)/.test(location.pathname) && confirm("Upd
 			}
 			for each (var file in blobs) {
 				if (!file.path.indexOf(info.Path)) {
-					if (/^((\w+)\/(([^_]+(?:__[^_]+)*)__([^\/]+)))\/((\w+)\.user\.js)$/.test(file.path)) {
+					if (/^(\w+\/([^\/]+))\/((\w+)\.user\.js)$/.test(file.path)) {
 						var root = RegExp.$1;
 						scripts.push({
 							file	: file,
@@ -91,14 +126,11 @@ if (/^\/(\w+)\/(\w+)\/tree\/(\w+)\/(.+)/.test(location.pathname) && confirm("Upd
 							},
 							updated_at	: new Date().toISOString(),
 							raw		: "../../../raw/" + info.Branch + "/" + file.path,
-							name	: RegExp.$6,
-							sname	: RegExp.$7,
-							dir		: RegExp.$3,
-							sdir	: RegExp.$5,
-							group	: RegExp.$4.split("__").filter(function (a) {
-								return (a != path.fname);
-							}),
-							fdir	: RegExp.$5.replace(/_+/g, " "),
+							name	: RegExp.$3,
+							sname	: RegExp.$4,
+							dir		: RegExp.$2,
+							group	: [],
+							meta	: {},
 							sshots	: blobs.filter(function (a) {
 								return (!a.path.indexOf(root + "/") && /\.(?:jpg|png|gif)$/i.test(a.path));
 							}).map(function (a) {
@@ -131,6 +163,9 @@ if (/^\/(\w+)\/(\w+)\/tree\/(\w+)\/(.+)/.test(location.pathname) && confirm("Upd
 				if (ai < scripts.length) {
 					repo.getBlob(scripts[ai].file.sha, function (err, data) {
 						scripts[ai].meta = processMeta(data);
+						scripts[ai].group = scripts[ai].meta.name.split(" : ").slice(0, -1).filter(function (a) {
+							return (a != path.fname);
+						});
 						recursive(++ai);
 					});
 				} else {
