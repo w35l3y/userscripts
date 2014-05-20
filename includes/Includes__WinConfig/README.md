@@ -17,4 +17,14 @@
 // @require	https://github.com/w35l3y/userscripts/raw/master/scripts/../../../raw/master/includes/Includes__WinConfig/163374.user.js
 ```
 
-This file was generated automatically at `2014-05-20T02:09:26.742Z`
+### Screenshots
+![Custom Dialog - Example 1](Custom Dialog - Example 1.png)
+![Custom Dialog - Example 2](Custom Dialog - Example 2.png)
+![Custom Dialog - Example 3](Custom Dialog - Example 3.png)
+![Error Dialog](Error Dialog.png)
+![Explanation Dialog](Explanation Dialog.png)
+![Prompt Dialog](Prompt Dialog.png)
+![Question Dialog](Question Dialog.png)
+![Warning Dialog](Warning Dialog.png)
+
+This file was generated automatically at `2014-05-20T03:15:42.802Z`

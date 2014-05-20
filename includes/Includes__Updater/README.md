@@ -17,11 +17,11 @@
 // @resource	meta http://userscripts.org/scripts/source/87942.meta.js
 // @resource	updaterWindowCss http://pastebin.com/download.php?i=C1qAvAed
 // @resource	updaterWindowHtml http://pastebin.com/download.php?i=3gr9tRAT
-// @require	http://userscripts.org/scripts/source/56489.user.js
-// @require	http://userscripts.org/scripts/source/63808.user.js
-// @require	http://userscripts.org/scripts/source/85618.user.js
-// @require	http://userscripts.org/scripts/source/87940.user.js
+// @require		https://github.com/w35l3y/userscripts/raw/master/scripts/X/../../includes/Includes__I18n/87940.user.js
+// @require		https://github.com/w35l3y/userscripts/raw/master/scripts/X/../../includes/Includes__XPath/63808.user.js
+// @require		https://github.com/w35l3y/userscripts/raw/master/scripts/X/../../includes/Includes__Translate/85618.user.js
+// @require		https://github.com/w35l3y/userscripts/raw/master/scripts/X/../../includes/Includes__HttpRequest/56489.user.js
 // @require	https://github.com/w35l3y/userscripts/raw/master/scripts/../../../raw/master/includes/Includes__Updater/87942.user.js
 ```
 
-This file was generated automatically at `2014-05-20T02:09:26.742Z`
+This file was generated automatically at `2014-05-20T03:15:42.801Z`

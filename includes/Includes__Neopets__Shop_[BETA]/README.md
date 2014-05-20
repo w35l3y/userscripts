@@ -8,9 +8,9 @@
 # Usage
 ```
 // @grant		GM_xmlhttpRequest
-// @require	https://github.com/w35l3y/userscripts/raw/master/scripts/../../master/includes/56489.user.js
-// @require	https://github.com/w35l3y/userscripts/raw/master/scripts/../../master/includes/63808.user.js
+// @require		https://github.com/w35l3y/userscripts/raw/master/scripts/X/../../includes/Includes__XPath/63808.user.js
+// @require		https://github.com/w35l3y/userscripts/raw/master/scripts/X/../../includes/Includes__HttpRequest/56489.user.js
 // @require	https://github.com/w35l3y/userscripts/raw/master/scripts/../../../raw/master/includes/Includes__Neopets__Shop_[BETA]/56562.user.js
 ```
 
-This file was generated automatically at `2014-05-20T02:09:26.739Z`
+This file was generated automatically at `2014-05-20T03:15:42.797Z`

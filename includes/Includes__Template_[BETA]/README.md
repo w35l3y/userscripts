@@ -8,9 +8,9 @@
 # Usage
 ```
 // @grant		GM_getResourceText
-// @require	https://github.com/w35l3y/userscripts/raw/master/scripts/../../includes/Includes__Assert/288385.user.js
-// @require	https://github.com/w35l3y/userscripts/raw/master/scripts/../../includes/Includes__Notify/292725.user.js
+// @require		https://github.com/w35l3y/userscripts/raw/master/scripts/X/../../includes/Includes__Assert/288385.user.js
+// @require		https://github.com/w35l3y/userscripts/raw/master/scripts/X/../../includes/Includes__Notify/292725.user.js
 // @require	https://github.com/w35l3y/userscripts/raw/master/scripts/../../../raw/master/includes/Includes__Template_[BETA]/176400.user.js
 ```
 
-This file was generated automatically at `2014-05-20T02:09:26.741Z`
+This file was generated automatically at `2014-05-20T03:15:42.800Z`
