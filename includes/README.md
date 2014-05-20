@@ -21,4 +21,3 @@
 [![Usage](../resources/image/download_icon.png)](Includes__Neopets__Shop_[BETA]#usage "Usage")|[Includes : Neopets : Shop [BETA]](Includes__Neopets__Shop_[BETA])<br />Shop Function|Neopets|[0 / 0](../../../issues?labels=undefined&state=open "Includes : Neopets : Shop [BETA]")
 [![Usage](../resources/image/download_icon.png)](Includes__Neopets__The_National_Neopian_Bank#usage "Usage")|[Includes : Neopets : The National Neopian Bank](Includes__Neopets__The_National_Neopian_Bank)<br />Bank Function|Neopets|[0 / 0](../../../issues?labels=undefined&state=open "Includes : Neopets : The National Neopian Bank")
 
-This file was generated automatically at `2014-05-20T04:01:51.839Z`

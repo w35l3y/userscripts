@@ -26,4 +26,3 @@
 ![Question Dialog](Question Dialog.png)
 ![Warning Dialog](Warning Dialog.png)
 
-This file was generated automatically at `2014-05-20T04:01:51.850Z`

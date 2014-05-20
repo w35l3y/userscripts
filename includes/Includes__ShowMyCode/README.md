@@ -18,4 +18,3 @@
 // @require	https://github.com/w35l3y/userscripts/raw/master/scripts/../../../raw/master/includes/Includes__ShowMyCode/69584.user.js
 ```
 
-This file was generated automatically at `2014-05-20T04:01:51.847Z`

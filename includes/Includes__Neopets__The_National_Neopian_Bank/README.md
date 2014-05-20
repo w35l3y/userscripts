@@ -11,4 +11,3 @@
 // @require	https://github.com/w35l3y/userscripts/raw/master/scripts/../../../raw/master/includes/Includes__Neopets__The_National_Neopian_Bank/56533.user.js
 ```
 
-This file was generated automatically at `2014-05-20T04:01:51.846Z`

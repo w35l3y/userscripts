@@ -9,4 +9,3 @@
 // @require	https://github.com/w35l3y/userscripts/raw/master/scripts/../../../raw/master/includes/Includes__HttpRequest/56489.user.js
 ```
 
-This file was generated automatically at `2014-05-20T04:01:51.842Z`

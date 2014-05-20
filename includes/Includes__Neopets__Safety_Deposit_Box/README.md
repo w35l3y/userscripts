@@ -11,4 +11,3 @@
 // @require	https://github.com/w35l3y/userscripts/raw/master/scripts/../../../raw/master/includes/Includes__Neopets__Safety_Deposit_Box/56528.user.js
 ```
 
-This file was generated automatically at `2014-05-20T04:01:51.844Z`

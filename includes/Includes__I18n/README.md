@@ -18,4 +18,3 @@
 // @require	https://github.com/w35l3y/userscripts/raw/master/scripts/../../../raw/master/includes/Includes__I18n/87940.user.js
 ```
 
-This file was generated automatically at `2014-05-20T04:01:51.842Z`
