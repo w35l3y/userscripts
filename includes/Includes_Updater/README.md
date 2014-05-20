@@ -13,13 +13,13 @@
 // @grant		GM_xmlhttpRequest
 // @grant		GM_getResourceText
 // @resource	i18n http://pastebin.com/download.php?i=ULrVTsSg
-// @resource	meta http://userscripts.org/scripts/source/87942.meta.js
+// @resource	meta https://github.com/w35l3y/userscripts/raw/master/includes/Includes__Updater/87942.user.js
 // @resource	updaterWindowCss http://pastebin.com/download.php?i=C1qAvAed
 // @resource	updaterWindowHtml http://pastebin.com/download.php?i=3gr9tRAT
-// @require		https://github.com/w35l3y/userscripts/raw/master/scripts/X/../../includes/Includes__I18n/87940.user.js
-// @require		https://github.com/w35l3y/userscripts/raw/master/scripts/X/../../includes/Includes__XPath/63808.user.js
-// @require		https://github.com/w35l3y/userscripts/raw/master/scripts/X/../../includes/Includes__Translate/85618.user.js
-// @require		https://github.com/w35l3y/userscripts/raw/master/scripts/X/../../includes/Includes__HttpRequest/56489.user.js
-// @require	https://github.com/w35l3y/userscripts/raw/master/scripts/../../../raw/master/includes/Includes__Updater/87942.user.js
+// @require		https://github.com/w35l3y/userscripts/raw/master/scripts/X/../../includes/Includes_I18n/87940.user.js
+// @require		https://github.com/w35l3y/userscripts/raw/master/scripts/X/../../includes/Includes_XPath/63808.user.js
+// @require		https://github.com/w35l3y/userscripts/raw/master/scripts/X/../../includes/Includes_Translate/85618.user.js
+// @require		https://github.com/w35l3y/userscripts/raw/master/scripts/X/../../includes/Includes_HttpRequest/56489.user.js
+// @require	https://github.com/w35l3y/userscripts/raw/master/scripts/../../../raw/master/includes/Includes_Updater/87942.user.js
 ```
 

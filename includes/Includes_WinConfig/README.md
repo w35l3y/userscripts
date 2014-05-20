@@ -13,7 +13,7 @@
 // @grant		GM_deleteValue
 // @grant		GM_getResourceText
 // @resource	winConfigCss http://pastebin.com/download.php?i=Ldk4J4bi
-// @require	https://github.com/w35l3y/userscripts/raw/master/scripts/../../../raw/master/includes/Includes__WinConfig/163374.user.js
+// @require	https://github.com/w35l3y/userscripts/raw/master/scripts/../../../raw/master/includes/Includes_WinConfig/163374.user.js
 ```
 
 ### Screenshots

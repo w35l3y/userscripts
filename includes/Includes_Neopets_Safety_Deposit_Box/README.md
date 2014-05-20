@@ -7,7 +7,7 @@
 ### Usage
 ```
 // @grant		GM_xmlhttpRequest
-// @require		https://github.com/w35l3y/userscripts/raw/master/scripts/X/../../includes/Includes__HttpRequest/56489.user.js
-// @require	https://github.com/w35l3y/userscripts/raw/master/scripts/../../../raw/master/includes/Includes__Neopets__Safety_Deposit_Box/56528.user.js
+// @require		https://github.com/w35l3y/userscripts/raw/master/scripts/X/../../includes/Includes_HttpRequest/56489.user.js
+// @require	https://github.com/w35l3y/userscripts/raw/master/scripts/../../../raw/master/includes/Includes_Neopets_Safety_Deposit_Box/56528.user.js
 ```
 

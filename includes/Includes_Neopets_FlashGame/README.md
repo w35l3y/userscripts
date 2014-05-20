@@ -14,12 +14,12 @@
 // @grant		GM_xmlhttpRequest
 // @grant		GM_getResourceText
 // @resource	i18n http://pastebin.com/download.php?i=ULrVTsSg
-// @require		https://github.com/w35l3y/userscripts/raw/master/scripts/X/../../includes/Includes__I18n/87940.user.js
-// @require		https://github.com/w35l3y/userscripts/raw/master/scripts/X/../../includes/Includes__XPath/63808.user.js
-// @require		https://github.com/w35l3y/userscripts/raw/master/scripts/X/../../includes/Includes__Translate/85618.user.js
-// @require		https://github.com/w35l3y/userscripts/raw/master/scripts/X/../../includes/Includes__ShowMyCode/69584.user.js
-// @require		https://github.com/w35l3y/userscripts/raw/master/scripts/X/../../includes/Includes__HttpRequest/56489.user.js
+// @require		https://github.com/w35l3y/userscripts/raw/master/scripts/X/../../includes/Includes_I18n/87940.user.js
+// @require		https://github.com/w35l3y/userscripts/raw/master/scripts/X/../../includes/Includes_XPath/63808.user.js
+// @require		https://github.com/w35l3y/userscripts/raw/master/scripts/X/../../includes/Includes_Translate/85618.user.js
+// @require		https://github.com/w35l3y/userscripts/raw/master/scripts/X/../../includes/Includes_ShowMyCode/69584.user.js
+// @require		https://github.com/w35l3y/userscripts/raw/master/scripts/X/../../includes/Includes_HttpRequest/56489.user.js
 // @require		http://www.onicos.com/staff/iz/amuse/javascript/expert/md5.txt
-// @require	https://github.com/w35l3y/userscripts/raw/master/scripts/../../../raw/master/includes/Includes__Neopets__FlashGame/127696.user.js
+// @require	https://github.com/w35l3y/userscripts/raw/master/scripts/../../../raw/master/includes/Includes_Neopets_FlashGame/127696.user.js
 ```
 
