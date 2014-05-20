@@ -7,6 +7,6 @@
 ### Usage
 ```
 // @require		https://github.com/einars/js-beautify/raw/master/js/lib/beautify.js
-// @require	https://github.com/w35l3y/userscripts/raw/master/scripts/../../../raw/master/includes/Includes_JsCode/87269.user.js
+// @require		https://github.com/w35l3y/userscripts/raw/master/scripts/../../../raw/master/includes/Includes_JsCode/87269.user.js
 ```
 

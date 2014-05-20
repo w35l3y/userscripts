@@ -8,6 +8,6 @@
 ```
 // @grant		GM_xmlhttpRequest
 // @require		https://github.com/w35l3y/userscripts/raw/master/scripts/X/../../includes/Includes_Notify/292725.user.js
-// @require	https://github.com/w35l3y/userscripts/raw/master/scripts/../../../raw/master/includes/Includes_Assert/288385.user.js
+// @require		https://github.com/w35l3y/userscripts/raw/master/scripts/../../../raw/master/includes/Includes_Assert/288385.user.js
 ```
 

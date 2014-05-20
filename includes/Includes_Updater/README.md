@@ -20,6 +20,6 @@
 // @require		https://github.com/w35l3y/userscripts/raw/master/scripts/X/../../includes/Includes_XPath/63808.user.js
 // @require		https://github.com/w35l3y/userscripts/raw/master/scripts/X/../../includes/Includes_Translate/85618.user.js
 // @require		https://github.com/w35l3y/userscripts/raw/master/scripts/X/../../includes/Includes_HttpRequest/56489.user.js
-// @require	https://github.com/w35l3y/userscripts/raw/master/scripts/../../../raw/master/includes/Includes_Updater/87942.user.js
+// @require		https://github.com/w35l3y/userscripts/raw/master/scripts/../../../raw/master/includes/Includes_Updater/87942.user.js
 ```
 

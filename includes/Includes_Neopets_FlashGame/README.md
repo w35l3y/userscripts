@@ -20,6 +20,6 @@
 // @require		https://github.com/w35l3y/userscripts/raw/master/scripts/X/../../includes/Includes_ShowMyCode/69584.user.js
 // @require		https://github.com/w35l3y/userscripts/raw/master/scripts/X/../../includes/Includes_HttpRequest/56489.user.js
 // @require		http://www.onicos.com/staff/iz/amuse/javascript/expert/md5.txt
-// @require	https://github.com/w35l3y/userscripts/raw/master/scripts/../../../raw/master/includes/Includes_Neopets_FlashGame/127696.user.js
+// @require		https://github.com/w35l3y/userscripts/raw/master/scripts/../../../raw/master/includes/Includes_Neopets_FlashGame/127696.user.js
 ```
 
