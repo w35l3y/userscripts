@@ -11,6 +11,11 @@
 // @language       en
 // @include        nowhere
 // @exclude        *
+// @grant          GM_log
+// @grant          GM_getValue
+// @grant          GM_setValue
+// @grant          GM_openInTab
+// @grant          GM_xmlhttpRequest
 // @require        ../../includes/Includes__XPath/63808.user.js
 // ==/UserScript==
 

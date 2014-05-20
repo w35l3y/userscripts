@@ -11,6 +11,13 @@
 // @language       en
 // @include        nowhere
 // @exclude        *
+// @grant          GM_log
+// @grant          GM_addStyle
+// @grant          GM_getValue
+// @grant          GM_setValue
+// @grant          GM_deleteValue
+// @grant          GM_xmlhttpRequest
+// @grant          GM_getResourceText
 // @resource       i18n http://pastebin.com/download.php?i=ULrVTsSg
 // @require        http://www.onicos.com/staff/iz/amuse/javascript/expert/md5.txt
 // @require        ../../includes/Includes__XPath/63808.user.js

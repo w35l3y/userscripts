@@ -11,6 +11,13 @@
 // @language       en
 // @include        nowhere
 // @exclude        *
+// @grant          GM_log
+// @grant          GM_addStyle
+// @grant          GM_getValue
+// @grant          GM_setValue
+// @grant          GM_deleteValue
+// @grant          GM_getResourceText
+// @grant          GM_xmlhttpRequest
 // @require        ../../includes/Includes__HttpRequest/56489.user.js
 // @require        ../../includes/Includes__WinConfig/163374.user.js
 // ==/UserScript==

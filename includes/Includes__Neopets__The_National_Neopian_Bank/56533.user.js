@@ -12,6 +12,7 @@
 // @contributor    Steinn (http://userscripts.org/users/85134)
 // @include        nowhere
 // @exclude        *
+// @grant          GM_xmlhttpRequest
 // @require        ../../includes/Includes__HttpRequest/56489.user.js
 // ==/UserScript==
 

@@ -9,6 +9,7 @@
 // @homepage       http://gm.wesley.eti.br
 // @version        1.0.1
 // @language       en
+// @grant          GM_xmlhttpRequest
 // @include        http*://www.neopets.com/safetydeposit.phtml*#debug
 // @require        ../../includes/Includes__HttpRequest/56489.user.js
 // ==/UserScript==
