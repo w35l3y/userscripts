@@ -17,5 +17,3 @@ State|Topic|Replies|Author|Updated
 %{/values}%{/issues.list}
 ### Installs
 ![Daily installs](http://gm.wesley.eti.br/count.php?id=%{info.Path/}/%{file.path/}&type=image)
-
-This file was generated automatically at `%{updated_at/}`

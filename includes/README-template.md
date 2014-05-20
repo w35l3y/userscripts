@@ -20,4 +20,3 @@ State|Topic|Replies|Author|Updated
 :---:|:---|:---:|:---:|---:
 %{values}%{state/}|#%{number/}: [%{title/}](%{html_url/})|%{comments/}|[%{user.login/}](%{user.html_url/})|%{updated_at/}
 %{/values}%{/issues.list}
-This file was generated automatically at `%{updated_at/}`
