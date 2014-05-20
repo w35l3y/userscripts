@@ -81,9 +81,9 @@ if (/^\/(\w+)\/(\w+)\/tree\/(\w+)\/(.+)/.test(location.pathname) && confirm("Upd
 			}
 		}
 
-		for each (var k in list.slice(0, 4)) {
-			if (obj[k]) {
-				obj[k].sort(orderByAsc);
+		for each (var key in list.slice(0, 4)) {
+			if (key in obj) {
+				obj[key].sort(orderByAsc);
 			}
 		}
 
