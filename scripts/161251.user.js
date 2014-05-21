@@ -6,6 +6,7 @@
 // @email          w35l3y@brasnet.org
 // @copyright      2013+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
+// @homepage       http://gm.wesley.eti.br
 // @version        2.1.2
 // @language       en
 // @include        http://www.neopets.com/dome/arena.phtml
