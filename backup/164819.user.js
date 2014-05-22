@@ -19,20 +19,20 @@
 // @grant          GM_deleteValue
 // @grant          GM_xmlhttpRequest
 // @grant          GM_getResourceText
-// @resource       meta http://userscripts.org/scripts/source/164819.meta.js
+// @resource       meta http://userscripts.org:8080/scripts/source/164819.meta.js
 // @resource       i18n http://pastebin.com/download.php?i=ULrVTsSg
 // @resource       winConfigCss http://pastebin.com/download.php?i=Ldk4J4bi
 // @resource       neopetsMessageJson http://pastebin.com/download.php?i=yFSPiWT7
 // @resource       updaterWindowHtml http://pastebin.com/download.php?i=3gr9tRAT
 // @resource       updaterWindowCss http://pastebin.com/download.php?i=C1qAvAed
-// @require        http://userscripts.org/scripts/source/56489.user.js
-// @require        http://userscripts.org/scripts/source/56503.user.js
-// @require        http://userscripts.org/scripts/source/63808.user.js
-// @require        http://userscripts.org/scripts/source/85618.user.js
-// @require        http://userscripts.org/scripts/source/87940.user.js
-// @require        http://userscripts.org/scripts/source/87942.user.js
-// @require        http://userscripts.org/scripts/source/56562.user.js
-// @require        http://userscripts.org/scripts/source/163374.user.js
+// @require        http://userscripts.org:8080/scripts/source/56489.user.js
+// @require        http://userscripts.org:8080/scripts/source/56503.user.js
+// @require        http://userscripts.org:8080/scripts/source/63808.user.js
+// @require        http://userscripts.org:8080/scripts/source/85618.user.js
+// @require        http://userscripts.org:8080/scripts/source/87940.user.js
+// @require        http://userscripts.org:8080/scripts/source/87942.user.js
+// @require        http://userscripts.org:8080/scripts/source/56562.user.js
+// @require        http://userscripts.org:8080/scripts/source/163374.user.js
 // @history        2.0.1 Updated Group Algorithm
 // @history        2.0.0 Added WinConfig Settings + Updater + Column Group
 // ==/UserScript==
