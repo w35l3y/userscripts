@@ -15,7 +15,7 @@
 ### Issues
 State|Topic|Replies|Author|Updated
 :---:|:---|:---:|:---:|---:
-open|#1: [Missing parameter 'options.include_movie'](https://github.com/w35l3y/userscripts/issues/1)|0|[w35l3y](https://github.com/w35l3y)|2014-04-25T19:07:44Z
+open|#1: [Missing parameter 'options.include_movie'](https://github.com/w35l3y/userscripts/issues/1)|0|[w35l3y](https://github.com/w35l3y)|2014-05-23T14:12:09Z
 
 ### Installs
 ![Daily installs](http://gm.wesley.eti.br/count.php?id=scripts/scripts/Neopets_Avatars_Flash_Games_[BETA]/127882.user.js&type=image)
