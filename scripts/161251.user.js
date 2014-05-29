@@ -20,7 +20,7 @@
 // @grant          GM_getResourceURL
 // @grant          GM_getResourceText
 // @resource       includes http://pastebin.com/download.php?i=eArANXdm
-// @resource       hpBar http://img803.imageshack.us/img803/7471/hpbar.png
+// @resource       hpBar https://dl.dropboxusercontent.com/u/84546878/hpbar.png
 // @resource       meta https://github.com/w35l3y/userscripts/raw/master/scripts/Neopets_Battledome_Fight!/161251.user.js
 // @resource       i18n http://pastebin.com/download.php?i=ULrVTsSg
 // @resource       updaterWindowHtml ../resources/html/updaterWindowHtml
