@@ -25,7 +25,7 @@
 // @require        https://github.com/Kurowaru/userscripts/raw/master/includes/85618.user.js
 // @require        https://github.com/Kurowaru/userscripts/raw/master/includes/87940.user.js
 // @require        https://github.com/Kurowaru/userscripts/raw/master/includes/87942.user.js
-// @require        https://github.com/Kurowaru/userscripts/raw/master/includes/54000.user.js
+// @require        https://github.com/Kurowaru/userscripts/raw/master/backup/54000.user.js
 // @cfu:version    version
 // @history        3.0.0.0 Updated @require#87942
 // @history        2.0.0.1 Fixed resource i18n
