@@ -20,12 +20,12 @@
 // @resource       meta http://userscripts.org:8080/scripts/source/54076.meta.js
 // @resource       updaterWindowHtml http://pastebin.com/download.php?i=3gr9tRAT
 // @resource       updaterWindowCss http://pastebin.com/download.php?i=C1qAvAed
-// @require        http://userscripts.org:8080/scripts/source/63808.user.js
-// @require        http://userscripts.org:8080/scripts/source/56489.user.js
-// @require        http://userscripts.org:8080/scripts/source/85618.user.js
-// @require        http://userscripts.org:8080/scripts/source/87940.user.js
-// @require        http://userscripts.org:8080/scripts/source/87942.user.js
-// @require        http://userscripts.org:8080/scripts/source/54000.user.js
+// @require        https://github.com/Kurowaru/userscripts/raw/master/includes/63808.user.js
+// @require        https://github.com/Kurowaru/userscripts/raw/master/includes/56489.user.js
+// @require        https://github.com/Kurowaru/userscripts/raw/master/includes/85618.user.js
+// @require        https://github.com/Kurowaru/userscripts/raw/master/includes/87940.user.js
+// @require        https://github.com/Kurowaru/userscripts/raw/master/includes/87942.user.js
+// @require        https://github.com/Kurowaru/userscripts/raw/master/includes/54000.user.js
 // @cfu:version    version
 // @history        3.0.0.0 Updated @require#87942
 // @history        2.0.0.1 Fixed resource i18n
