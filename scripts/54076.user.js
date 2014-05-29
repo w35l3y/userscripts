@@ -85,3 +85,4 @@ if (NeopetsDocument.Username)
 
 	setTimeout(recursive, sd.valueOf() - curr.valueOf());
 }());
+}
