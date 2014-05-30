@@ -7,7 +7,7 @@
 // @copyright   2014+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     2.1.0
+// @version     2.1.1
 // @language    en
 // @include     /^https?:\/\/github\.com\/\w+\/\w+\/tree\/\w+\/\w+/
 // @icon        http://gm.wesley.eti.br/icon.php?desc=scripts/GitHub_Missing_Readme/main.user.js#
@@ -132,7 +132,7 @@ if (/^\/(\w+)\/(\w+)\/tree\/(\w+)\/(.+)/.test(location.pathname) && confirm("Upd
 							group	: [],
 							meta	: {},
 							sshots	: blobs.filter(function (a) {
-								return (!a.path.indexOf(root + "/") && /\.(?:jpg|png|gif)$/i.test(a.path));
+								return (!a.path.indexOf(root + "/") && !~a.path.indexOf("/", 1 + root.length) && /\.(?:jpg|png|gif)$/i.test(a.path));
 							}).map(function (a) {
 								var n = a.path.replace(root + "/", "");
 								return {
@@ -169,7 +169,7 @@ if (/^\/(\w+)\/(\w+)\/tree\/(\w+)\/(.+)/.test(location.pathname) && confirm("Upd
 						recursive(++ai);
 					});
 				} else {
-					issu.list("state=all", function (err, issues) {
+					issu.list({state:"all"}, function (err, issues) {
 						var labels = {};
 						for each (var issue in issues) {
 							for each (var label in issue.labels) {
@@ -262,7 +262,7 @@ if (/^\/(\w+)\/(\w+)\/tree\/(\w+)\/(.+)/.test(location.pathname) && confirm("Upd
 				repo.getBlob(info.Sha, function (err, data) {
 					var meta = processMeta(data);
 
-					issu.list("state=all", function (err, issues) {
+					issu.list({state:"all"}, function (err, issues) {
 						var path = decodeURIComponent(info.Path) + "/README.md";
 
 						writeContent([{
