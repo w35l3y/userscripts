@@ -10,6 +10,7 @@
 ![Moving HP Bar](Moving HP Bar.png)
 ![Opponent Settings](Opponent Settings.png)
 ![Settings](Settings.png)
+![resources/image/hpbar](resources/image/hpbar.png)
 
 
 ### Issues
