@@ -15,6 +15,7 @@
 ### Issues
 State|Topic|Replies|Author|Updated
 :---:|:---|:---:|:---:|---:
+closed|#9: [404 errors in 2 scripts for 63808.user.js](https://github.com/w35l3y/userscripts/issues/9)|9|[iBubbless](https://github.com/iBubbless)|2014-05-22T13:55:21Z
 open|#1: [Missing parameter 'options.include_movie'](https://github.com/w35l3y/userscripts/issues/1)|0|[w35l3y](https://github.com/w35l3y)|2014-05-23T14:12:09Z
 
 ### Installs

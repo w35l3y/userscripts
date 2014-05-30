@@ -10,12 +10,13 @@
 ![Moving HP Bar](Moving HP Bar.png)
 ![Opponent Settings](Opponent Settings.png)
 ![Settings](Settings.png)
-![resources/image/hpbar](resources/image/hpbar.png)
 
 
 ### Issues
 State|Topic|Replies|Author|Updated
 :---:|:---|:---:|:---:|---:
+closed|#11: [HP Bar image error](https://github.com/w35l3y/userscripts/issues/11)|3|[DaviidC](https://github.com/DaviidC)|2014-05-30T00:37:41Z
+closed|#9: [404 errors in 2 scripts for 63808.user.js](https://github.com/w35l3y/userscripts/issues/9)|9|[iBubbless](https://github.com/iBubbless)|2014-05-22T13:55:21Z
 open|#2: [Different sets of weapons per round](https://github.com/w35l3y/userscripts/issues/2)|0|[w35l3y](https://github.com/w35l3y)|2014-04-25T19:08:07Z
 
 ### Installs
