@@ -22,17 +22,17 @@
 // @resource       includes http://pastebin.com/download.php?i=eArANXdm
 // @resource       random_events http://pastebin.com/download.php?i=839tCaQh
 // @resource       randomEventsHtml http://pastebin.com/download.php?i=nPMWZeHY
-// @resource       meta http://userscripts.org/scripts/source/28760.meta.js
+// @resource       meta https://github.com/w35l3y/userscripts/raw/master/scripts/Neopets_Cliffhanger/28760.user.js
 // @resource       i18n http://pastebin.com/download.php?i=ULrVTsSg
 // @resource       updaterWindowHtml http://pastebin.com/download.php?i=3gr9tRAT
 // @resource       updaterWindowCss http://pastebin.com/download.php?i=C1qAvAed
-// @require        http://userscripts.org/scripts/source/63808.user.js
-// @require        http://userscripts.org/scripts/source/56489.user.js
-// @require        http://userscripts.org/scripts/source/85618.user.js
-// @require        http://userscripts.org/scripts/source/87940.user.js
-// @require        http://userscripts.org/scripts/source/87942.user.js
-// @require        http://userscripts.org/scripts/source/154322.user.js
-// @require        http://userscripts.org/scripts/source/154363.user.js
+// @require        ../../includes/Includes_XPath/63808.user.js
+// @require        ../../includes/Includes_HttpRequest/56489.user.js
+// @require        ../../includes/Includes_Translate/85618.user.js
+// @require        ../../includes/Includes_I18n/87940.user.js
+// @require        ../../includes/Includes_Updater/87942.user.js
+// @require        ../../includes/Includes_Persist_%5BBETA%5D/154322.user.js
+// @require        ../../includes/Includes_Neopets_Random_Events/154363.user.js
 // @require        http://pastebin.com/download.php?i=P6VTBRRK
 // @contributor    cnwcentral (http://www.cnwcentral.com/neopets/cliffhanger.shtml)
 // @cfu:version    version
