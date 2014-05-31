@@ -43,16 +43,16 @@
 // @icon           http://gm.wesley.eti.br/icon.php?desc=32041
 // @resource       includes http://pastebin.com/download.php?i=eArANXdm
 // @resource       i18n http://pastebin.com/download.php?i=ULrVTsSg
-// @resource       meta http://userscripts.org/scripts/source/32041.meta.js
+// @resource       meta https://github.com/w35l3y/userscripts/raw/master/scripts/Neopets_Dailies_To-Do/32041.user.js
 // @resource       updaterWindowHtml http://pastebin.com/download.php?i=3gr9tRAT
 // @resource       updaterWindowCss http://pastebin.com/download.php?i=C1qAvAed
 // @resource       winConfigCss http://pastebin.com/download.php?i=Ldk4J4bi
-// @require        http://userscripts.org/scripts/source/63808.user.js
-// @require        http://userscripts.org/scripts/source/56489.user.js
-// @require        http://userscripts.org/scripts/source/85618.user.js
-// @require        http://userscripts.org/scripts/source/87940.user.js
-// @require        http://userscripts.org/scripts/source/87942.user.js
-// @require        http://userscripts.org/scripts/source/163374.user.js
+// @require        ../../includes/Includes_XPath/63808.user.js
+// @require        ../../includes/Includes_HttpRequest/56489.user.js
+// @require        ../../includes/Includes_Translate/85618.user.js
+// @require        ../../includes/Includes_I18n/87940.user.js
+// @require        ../../includes/Includes_Updater/87942.user.js
+// @require        ../../includes/Includes_WinConfig/163374.user.js
 // @require        http://pastebin.com/download.php?i=P6VTBRRK
 // @history        5.1.1 Updated some dailies
 // @history        5.1.0 Updated <a href="http://userscripts.org/scripts/show/163374">Includes : WinConfig</a>
