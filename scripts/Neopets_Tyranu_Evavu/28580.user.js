@@ -7,16 +7,16 @@
 // @copyright      2011+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        2.0.0.2
+// @version        2.0.2
 // @language       en
 // @include        http://www.neopets.com/games/tyranuevavu.phtml*
-// @icon           http://www.gravatar.com/avatar.php?gravatar_id=81269f79d21e612f9f307d16b09ee82b&r=PG&s=92&default=identicon
-// @resource       meta http://userscripts.org/scripts/source/28580.meta.js
+// @icon           http://gm.wesley.eti.br/icon.php?desc=28580
+// @resource       meta https://github.com/w35l3y/userscripts/raw/master/scripts/Neopets_Tyranu_Evavu/28580.user.js
 // @resource       i18n http://pastebin.com/download.php?i=ULrVTsSg
-// @require        http://userscripts.org/scripts/source/63808.user.js
-// @require        http://userscripts.org/scripts/source/85618.user.js
-// @require        http://userscripts.org/scripts/source/87940.user.js
-// @require        http://userscripts.org/scripts/source/87942.user.js
+// @require        ../../includes/Includes_XPath/63808.user.js
+// @require        ../../includes/Includes_Translate/85618.user.js
+// @require        ../../includes/Includes_I18n/87940.user.js
+// @require        ../../includes/Includes_Updater/87942.user.js
 // @uso:version    version
 // @history        2.0.0.1 Fixed @resource i18n
 // ==/UserScript==
@@ -76,4 +76,4 @@
 	}
 
 	window.setTimeout(nextAction, interval[0] + Math.floor(Math.random() * interval[1]));
-})();
+}());
