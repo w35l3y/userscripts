@@ -11,7 +11,7 @@
 // @language       en
 // @include        http://www.neopets.com/market.phtml?type=wizard
 // @include        http://www.neopets.com/market.phtml
-// @icon           http://www.gravatar.com/avatar.php?gravatar_id=81269f79d21e612f9f307d16b09ee82b&r=PG&s=92&default=identicon
+// @icon           http://gm.wesley.eti.br/icon.php?desc=164819
 // @grant          GM_log
 // @grant          GM_addStyle
 // @grant          GM_getValue
@@ -19,20 +19,20 @@
 // @grant          GM_deleteValue
 // @grant          GM_xmlhttpRequest
 // @grant          GM_getResourceText
-// @resource       meta http://userscripts.org:8080/scripts/source/164819.meta.js
+// @resource       meta https://github.com/w35l3y/userscripts/raw/master/scripts/Neopets_Shop_Wizard_Improved_Search/164819.user.js
 // @resource       i18n http://pastebin.com/download.php?i=ULrVTsSg
 // @resource       winConfigCss http://pastebin.com/download.php?i=Ldk4J4bi
 // @resource       neopetsMessageJson http://pastebin.com/download.php?i=yFSPiWT7
 // @resource       updaterWindowHtml http://pastebin.com/download.php?i=3gr9tRAT
 // @resource       updaterWindowCss http://pastebin.com/download.php?i=C1qAvAed
-// @require        http://userscripts.org:8080/scripts/source/56489.user.js
-// @require        http://userscripts.org:8080/scripts/source/56503.user.js
-// @require        http://userscripts.org:8080/scripts/source/63808.user.js
-// @require        http://userscripts.org:8080/scripts/source/85618.user.js
-// @require        http://userscripts.org:8080/scripts/source/87940.user.js
-// @require        http://userscripts.org:8080/scripts/source/87942.user.js
-// @require        http://userscripts.org:8080/scripts/source/56562.user.js
-// @require        http://userscripts.org:8080/scripts/source/163374.user.js
+// @require        ../../includes/Includes_XPath/63808.user.js
+// @require        ../../includes/Includes_HttpRequest/56489.user.js
+// @require        ../../includes/Includes_Neopets_Shop_Wizard/56503.user.js
+// @require        ../../includes/Includes_Translate/85618.user.js
+// @require        ../../includes/Includes_I18n/87940.user.js
+// @require        ../../includes/Includes_Updater/87942.user.js
+// @require        ../../includes/Includes_Neopets_Shop_%5BBETA%5D/56562.user.js
+// @require        ../../includes/Includes_WinConfig/163374.user.js
 // @history        2.0.1 Updated Group Algorithm
 // @history        2.0.0 Added WinConfig Settings + Updater + Column Group
 // ==/UserScript==
