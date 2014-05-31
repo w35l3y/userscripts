@@ -11,7 +11,7 @@
 // @language       en
 // @include        http://www.neopets.com/*#alert
 // @include        http://www.neopets.com/*#console
-// @require        http://userscripts.org/scripts/source/63808.user.js
+// @require        ../../includes/Includes_XPath/63808.user.js
 // ==/UserScript==
 
 /**************************************************************************
