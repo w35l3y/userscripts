@@ -7,7 +7,7 @@
 // @copyright      2013+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        1.2.0
+// @version        2.0.0
 // @language       en
 // @include        http://www.neopets.com/neoboards/preferences.phtml*
 // @include        http://www.neopets.com/neoboards/topic.phtml?topic=*
@@ -20,6 +20,8 @@
 // @grant          GM_deleteValue
 // @grant          GM_xmlhttpRequest
 // @grant          GM_getResourceText
+// @icon           http://gm.wesley.eti.br/icon.php?desc=161705
+// @resource       includes http://pastebin.com/download.php?i=eArANXdm
 // @resource       meta http://userscripts.org:8080/scripts/source/161705.meta.js
 // @resource       i18n http://pastebin.com/download.php?i=ULrVTsSg
 // @resource       updaterWindowHtml http://pastebin.com/download.php?i=3gr9tRAT
@@ -29,6 +31,8 @@
 // @require        ../includes/85618.user.js
 // @require        ../includes/87940.user.js
 // @require        ../includes/87942.user.js
+// @require        http://pastebin.com/download.php?i=P6VTBRRK
+// @history        2.0.0 Added <a href="http://userscripts.org/guides/773">Includes Checker</a>
 // ==/UserScript==
 
 /**************************************************************************
