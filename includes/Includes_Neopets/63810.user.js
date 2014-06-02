@@ -7,7 +7,7 @@
 // @copyright      2009+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        1.0.0.3
+// @version        1.0.1
 // @language       en
 // @include        http://www.neopets.com/*#alert
 // @include        http://www.neopets.com/*#console
@@ -40,7 +40,7 @@ Neopets.convert = function(doc)
 		var _t = new Date(),
 		_s = function(e)
 		{
-			return xpath("string("+e+")", _d) || "";
+			return xpath("string(" + e + ")", _d) || "";
 		},
 		_n = function(e)
 		{
@@ -52,7 +52,7 @@ Neopets.convert = function(doc)
 			var out = new Date();
 			out.setMilliseconds((out.getTimezoneOffset()-480)*60000);	/* GMT-0800 */
 
-			var nst = (_s("//script[contains(text(),'var nh = ')]/text()").match(/var n[hmsa] = ([""''])?[\w\d]{1,}\1\;$/gm) || (function(x)
+			var nst = (_s(".//script[contains(text(),'var nh = ')]/text()").match(/var n[hmsa] = ([""''])?[\w\d]{1,}\1\;$/gm) || (function(x)
 			{
 				var o = new Date(x),
 				s = 1 + new Date(o.getFullYear(), 2, 8).getDay(),
@@ -89,29 +89,29 @@ Neopets.convert = function(doc)
 			return out;
 		};
 		this.Username = function(){return (/([^=]+)$/.test(_s("id('header')//a[contains(@href,'?user=')]/@href")) && RegExp.$1 || "");};
-		this.Language = function(){return (/var nl = ([""''])?(\w{1,})\1\;$/m.test(_s("//script[contains(text(),'var nl = ')]/text()")) && RegExp.$2 || _s("//select[@name='lang']/option[@selected]/@value") || /\blang=(\w+)\b/.test(document.cookie) && RegExp.$1 || "en");};
-		this.Theme = function(){return (/\/themes\/([\d\w_]+)/.test(_s("//link[contains(@href,'/themes/')]/@href | //img[contains(@src,'/themes/')][1]/@src")) && RegExp.$1 || "000_def_f65b1");};
+		this.Language = function(){return (/var nl = ([""''])?(\w{1,})\1\;$/m.test(_s(".//script[contains(text(),'var nl = ')]/text()")) && RegExp.$2 || _s(".//select[@name='lang']/option[@selected]/@value") || /\blang=(\w+)\b/.test(document.cookie) && RegExp.$1 || "en");};
+		this.Theme = function(){return (/\/themes\/([\d\w_]+)/.test(_s(".//link[contains(@href,'/themes/')]/@href | .//img[contains(@src,'/themes/')][1]/@src")) && RegExp.$1 || "000_def_f65b1");};
 		this.Neopoints = function(){return (_n("id('header')//td/a[contains(@href,'?type=inventory')]/text()"));};
 		this.Neocredits = function(){return (_n("id('header')//td/a[contains(@href,'mall/index.phtml')]/text()"));};
 		this.ActivePet = function()
 		{
-			var health = _s("//td[@class='activePetInfo']//tr[2]/td[2]/descendant::text()").split(/\s+\/\s+/);
+			var health = _s(".//td[@class='activePetInfo']//tr[2]/td[2]/descendant::text()").split(/\s+\/\s+/);
 
 			return {
-				'Name':_s("//a[contains(@href,'quickref.phtml')]/descendant::text()"),
-				'Species':_s("//td[@class='activePetInfo']//tr[1]/td[2]/descendant::text()"),
+				'Name':_s(".//a[contains(@href,'quickref.phtml')]/descendant::text()"),
+				'Species':_s(".//td[@class='activePetInfo']//tr[1]/td[2]/descendant::text()"),
 				'Health':[parseInt(health[0], 10)||0,parseInt(health[1], 10)||0],
-				'Mood':_s("//td[@class='activePetInfo']//tr[3]/td[2]/descendant::text()"),
-				'Hunger':_s("//td[@class='activePetInfo']//tr[4]/td[2]/descendant::text()"),
-				'Age':_n("//td[@class='activePetInfo']//tr[5]/td[2]/descendant::text()"),
-				'Level':_n("//td[@class='activePetInfo']//tr[6]/td[2]/descendant::text()")
+				'Mood':_s(".//td[@class='activePetInfo']//tr[3]/td[2]/descendant::text()"),
+				'Hunger':_s(".//td[@class='activePetInfo']//tr[4]/td[2]/descendant::text()"),
+				'Age':_n(".//td[@class='activePetInfo']//tr[5]/td[2]/descendant::text()"),
+				'Level':_n(".//td[@class='activePetInfo']//tr[6]/td[2]/descendant::text()")
 			};
 		};		
 		this.Neofriends = function()
 		{
 			var nfs = [];
 
-			var fs = xpath("//td[@class='neofriend']//tr[position() mod 2 = 1]/td/div[2]/text()[2]", _d);
+			var fs = xpath(".//td[@class='neofriend']//tr[position() mod 2 = 1]/td/div[2]/text()[2]", _d);
 
 			for ( var ai = 0 , at = fs.length ; ai < at ; ++ai )
 			{

@@ -1,0 +1,23 @@
+#messageContainerGroup {
+	z-index: 11;
+	text-align: right;
+	position: fixed;
+	bottom: 0px;
+	right: 0px;
+	background-color: #000;
+	font-weight: bold;
+	color: #FFF;
+	display: block;
+	padding: 4px;
+	padding-left: 7px;
+	min-width: 0px;
+	min-height: 14px;
+}
+
+#messageContainerGroup > .messageContainerDiv {
+	margin-right: 2px;
+}
+
+#messageContainerGroup > .messageContainerDiv > span.warn {
+	color: red;
+}
