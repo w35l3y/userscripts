@@ -7,7 +7,7 @@
 // @copyright      2014+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        1.0.0
+// @version        1.0.1
 // @language       en
 // @include        nowhere
 // @exclude        *
@@ -51,8 +51,9 @@ Message = function () {
 						ctx.node.style.opacity = sum;
 					} else {
 						if (!--this.totalMessages) {
-							ctx.node.parentNode.style.opacity = 0;
+							ctx.node.parentNode.style.display = "none";
 						}
+						clearInterval(ctx.timer);
 						ctx.node.parentNode.removeChild(ctx.node);
 					}
 				}.bind(this), ctx.opts.min);
@@ -61,17 +62,17 @@ Message = function () {
 			this.totalMessages = 0;
 
 			container.setAttribute("id", "messageContainerGroup");
-			container.style.opacity = 1;
+			container.style.display = "none";
 			document.body.appendChild(container);
 
 			this._add = function (msgs, opts) {
-				container.style.opacity = 1;
+				container.style.display = "block";
 				var group = [].concat(msgs),
 				o = {
 					ini		: 5000,
 					min		: 40,
 					max		: 4000,
-					fixed	: !!opts.error,
+					fixed	: opts && !!opts.error,
 					append	: true,
 				};
 				if (typeof(opts) == "object") {
@@ -86,7 +87,7 @@ Message = function () {
 					text.setAttribute("class", "messageContainerDiv");
 					text.style.opacity = 1;
 					text.innerHTML = msg;
-					container.insertBefore(text, [o.append?null:container.firstChild]);
+					container.insertBefore(text, o.append?null:container.firstChild);
 					var cm = {
 						node	: text,
 						opts	: o,
@@ -95,7 +96,9 @@ Message = function () {
 					};
 					GM_log([cm.created_at, msg]);
 					if (!cm.opts.fixed) {
-						cm.timer = setTimeout.apply(this, [timedMessage, o.ini, cm]);
+						cm.timer = setTimeout(function (cm) {
+							timedMessage.call(this, cm);
+						}.bind(this), o.ini, cm);
 					}
 					++this.totalMessages;
 				}
