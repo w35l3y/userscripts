@@ -7,7 +7,7 @@
 // @copyright      2012+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        1.1.0
+// @version        1.2.0
 // @language       en
 // @include        nowhere
 // @exclude        *
@@ -94,7 +94,7 @@ FlashGame.convert = function (doc, type) {
 			try {
 				md = unsafeWindow.com.mtvnet.games.GameSettings.Game.metadata;
 			} catch (e) { }
-			var flashvars = xpath("string(id('gameWrapper')//param[@name='flashvars']/@value|id('gameWrapper')//script[contains(., 'gamePreloader')]/text())", doc) || md.gameURL || "";
+			var flashvars = xpath("string(id('gameWrapper')//param[@name='flashvars']/@value|id('gameWrapper')//script[contains(., 'gamePreloader')]/text()|.//script[contains(., '/games/gaming_system/')]/text())", doc) || md.gameURL || "";
 
 			if (flashvars.length) {
 				var filter_values = function (key, value) {
@@ -122,7 +122,10 @@ FlashGame.convert = function (doc, type) {
 							return v;
 					}
 				},
-				re = /&(\w+)=([^&"]+)/gm, p;
+				re1 = /&(\w+)=([^&"]+)/gm,
+				re2 = /able\('(\w+)',\s*'([^']+)'\)/gm,
+				re = (re1.test(flashvars)?re1:re2),
+				p;
 				while (p = re.exec(flashvars)) {
 					var v = decodeURIComponent(p[2]);
 
