@@ -7,12 +7,13 @@
 // @copyright   2014+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     2.1.1
+// @version     2.2.0
 // @language    en
 // @include     /^https?:\/\/github\.com\/\w+\/\w+\/tree\/\w+\/\w+/
 // @icon        http://gm.wesley.eti.br/icon.php?desc=scripts/GitHub_Missing_Readme/main.user.js#
 // @resource    template ./README-template.md
 // @resource    templateList ./README-templateList.md
+// @require     http://pastebin.com/raw.php?i=FY7MDpMa
 // @require     https://github.com/w35l3y/github/raw/master/lib/underscore-min.js
 // @require     https://github.com/w35l3y/github/raw/master/github.js
 // @require     ../../includes/Includes_Notify/292725.user.js
