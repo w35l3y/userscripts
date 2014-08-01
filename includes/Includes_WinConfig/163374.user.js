@@ -7,7 +7,7 @@
 // @copyright      2013+, w35l3y (http://gm.wesley.eti.br/includes)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br/includes
-// @version        1.7.0
+// @version        1.7.1
 // @language       en
 // @include        nowhere
 // @exclude        *
@@ -574,6 +574,9 @@ var WinConfig = function (params) {
 			} else if (fld.multiple && WinConfig.FieldType.TEXT == fld.type) {
 				var ff = document.createElement("textarea");
 				fld.elements = [ff];
+				for (var bi in fld.attrs) {
+					ff.setAttribute(bi, fld.attrs[bi]);
+				}
 
 				ff.setAttribute("name", fld.name);
 				if ("default" in fld) {
