@@ -3,7 +3,7 @@
 // @namespace      http://gm.wesley.eti.br
 // @description    Envia comentários ao mantis baseados nas informações obtidas nas builds do hudson/jenkins
 // @include        /^https?:\/\/.*\/job\/[\w% -]+\/changes$/
-// @version        2.3.1
+// @version        2.3.2
 // @language       pt-br
 // @grant          GM_log
 // @grant          GM_addStyle
@@ -200,7 +200,7 @@ process = function (jobName, loc, doc, info) {
 											b.users = RegExp.$2;
 										}
 										b.description = RegExp.$3.replace(/��/g, "?").trim().replace(/(\w)(\?+)(\w)/g, function ($0, $1, $2, $3) {
-											if (~"aeiou".indexOf($1)) {
+											if (~"aeiouclnpr".indexOf($1)) {
 												if ($2 + $3 == "??e") {
 													return $1 + "çõe";
 												} else if ($2 + $3 == "??o") {
@@ -409,9 +409,6 @@ process = function (jobName, loc, doc, info) {
 																				pl.add("username", mantis.info.username || "");
 																				pl.add("password", passw);
 																				pl.add("issue_id", mantis.number);
-																				pl.add("note", {
-																					text: text,
-																				});
 
 																				if (debug) {
 																					setTimeout(function () {build.status.push({mantis:mantis, code:Math.random(), message:"Teste"});}, 3000);
@@ -423,8 +420,16 @@ process = function (jobName, loc, doc, info) {
 																						description	: Template.get("addNote", {
 																							url		: mantis.info.host,
 																							mantis: mantis.number,
-																							text	: text,
 																						}),
+																						fields: [{
+																							name	: "text",
+																							type	: WinConfig.FieldType.TEXT,
+																							multiple: true,
+																							default	: text,
+																							attrs	: {
+																								rows: 12,
+																							},
+																						}],
 																						size	: ["700px", 0], 
 																						condition	: function () {
 																							if (info.mantis && info.mantis.urls) {
@@ -433,9 +438,14 @@ process = function (jobName, loc, doc, info) {
 																								return 0;
 																							}
 																						},
-																						load		: function () {
+																						load		: function (cfg) {
+																							pl.add("note", {
+																								text: cfg.text,
+																							});
 																							//console.log("Sending comment to mantis #" + mantis);
 																							SOAPClient.invoke(mantis.info.host + "api/soap/mantisconnect.php", "mc_issue_note_add", pl, true, function (r, xhr) {
+																								mantis.note = cfg.text;
+
 																								if (r instanceof Error) {
 																									build.status.push({mantis:mantis, code:1, message:r.fileName});
 																								} else if (r) {
