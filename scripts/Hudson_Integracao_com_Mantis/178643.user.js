@@ -189,9 +189,9 @@ process = function (jobName, loc, doc, info) {
 									fText = (xpath(".//div[@class = 'changeset-message']", row)[0] || row.firstElementChild).innerHTML.replace(/<br ?\/?>/g, "\n"),
 									reType = 1;
 
-									if (/\s*(?:\[\s*(\w+(?:[\|\.\s,\/-]*\w+)*)\s*\])?\s*(?:(?:mantis)?\s*([a-z]*\d+(?:\s*[\|,\/e]\s*[a-z]*\d+)*)\s*:)\s*([^]+)\s*$/.test(fText)
+									if (/\s*(?:\[\s*(\w+(?:[\|\.\s,\/-]*\w+)*)\s*\])?\s*(?:(?:mantis)?\s*([a-z]*\d+(?:\s*[\n\|,\/e]\s*[a-z]*\d+)*)\s*:)\s*([^]+)\s*$/.test(fText)
 										|| ((reType = 2) && /\s*(?:\[(?:mantis)?\s*([a-z]*\d+(?:\s*[\|,\/e]\s*[a-z]*\d+)*)\s*\])\s*(?:\[\s*(\w+(?:[\|\.\s,\/-]*\w+)*)\s*\])?\s*([^]+)\s*$/.test(fText))
-										|| /\s*(?:\[(?:mantis)?\s*([a-z]*\d+(?:\s*[\|,\/e]\s*[a-z]*\d+)*)\s*\])?\s*(?:\[\s*(\w+(?:[\|\.\s,\/-]*\w+)*)\s*\])\s*([^]+)\s*$/.test(fText)) {
+										|| /\s*(?:\[(?:mantis)?\s*([a-z]*\d+(?:\s*[\n\|,\/e]\s*[a-z]*\d+)*)\s*\])?\s*(?:\[\s*(\w+(?:[\|\.\s,\/-]*\w+)*)\s*\])\s*([^]+)\s*$/.test(fText)) {
 										if (1 == reType) {
 											b.mantis = RegExp.$2;
 											b.users = RegExp.$1;
@@ -229,7 +229,7 @@ process = function (jobName, loc, doc, info) {
 											return $1 + ["º","ª"][~~($2 == "a")];
 										});
 
-										b.mantis = b.mantis.split(/\s*[\|,\/e]\s*/).filter(function($0) {return $0.length}).map(function ($0) {
+										b.mantis = b.mantis.replace(/\n/g, "").split(/\s*[\|,\/e]\s*/).filter(function($0) {return $0.length}).map(function ($0) {
 											return (/([a-z]+)?(\d+)$/.test($0)?{
 												number: RegExp.$2 || $0,
 												prefix: RegExp.$1 || "",
