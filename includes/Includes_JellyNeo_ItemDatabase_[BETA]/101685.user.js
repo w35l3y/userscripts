@@ -37,6 +37,31 @@ if (!JellyNeo) {
 
 JellyNeo.ItemDatabase = function () {};
 
+JellyNeo.ItemDatabase.getTotal = function (params){
+	var data = {
+		"go" : "show_items",
+		"sortby" : "price",
+		"ncoff" : 1,
+		"start" : 0,
+		"r1" : 1,
+		"r2" : 99
+	};
+
+	for (ai in params.data) {
+		data[ai] = params.data[ai];
+	}
+
+	HttpRequest.open({
+		"method" : "get",
+		"url" : "http://items.jellyneo.net/index.php",
+		"onsuccess" : function (xhr) {
+			var next = xpath("string(id('content')/b/text())", xhr.response.xml);
+			var next = next.split(" ")[0];
+			params.callback(next);
+		}
+	}).send(data);
+};
+
 JellyNeo.ItemDatabase.find = function (params) {
 	var data = {
 		"go" : "show_items",
