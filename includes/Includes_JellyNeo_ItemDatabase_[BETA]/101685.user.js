@@ -63,6 +63,7 @@ JellyNeo.ItemDatabase.find = function (params) {
 			"onsuccess" : function (xhr) {
 				var next = xpath("string(id('content')/p/a[text() = 'Next']/@href)", xhr.response.xml),
 				items = xpath("id('content')/form/center/table//tr/td", xhr.response.xml),
+				total = parseInt(xpath("number(substring-before(id('content')/b/text(), ' '))", xhr.response.xml), 10),
 				ai, at;
 
 				for (ai = 0, at = items.length; ai < at; ++ai) {
@@ -83,7 +84,10 @@ JellyNeo.ItemDatabase.find = function (params) {
 
 					recursive(++page, list);
 				} else {
-					params.callback(list);
+					params.callback({
+						total	: total,
+						list	: list
+					});
 				}
 			}
 		}).send(data);

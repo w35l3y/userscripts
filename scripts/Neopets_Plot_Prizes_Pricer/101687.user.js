@@ -24,9 +24,9 @@
 // @grant          GM_xmlhttpRequest
 // @icon           http://gm.wesley.eti.br/icon.php?desc=101687
 // @resource       includes http://pastebin.com/download.php?i=eArANXdm
-// @require        http://userscripts.org/scripts/source/56489.user.js
-// @require        http://userscripts.org/scripts/source/63808.user.js
-// @require        http://userscripts.org/scripts/source/101685.user.js
+// @require        ../../includes/Includes_HttpRequest/56489.user.js
+// @require        ../../includes/Includes_XPath/63808.user.js
+// @require        ../../includes/Includes_JellyNeo_ItemDatabase_%5BBETA%5D/101685.user.js
 // @require        http://pastebin.com/download.php?i=P6VTBRRK
 // @history        3.0.0 Added <a href="http://userscripts.org/guides/773">Includes Checker</a>
 // @history        3.0.0 Added missing @icon
@@ -132,24 +132,24 @@
 							"pic" : "/" + img + ".gif",
 							"pic_type" : "partial"
 						},
-						"callback" : function (list) {
+						"callback" : function (obj) {
 							var name = "cache_" + location.pathname,
 							cache = JSON.parse(GM_getValue(name, "{}")),
 							ai;
 
-							if (list.length) {
-								attachNpRatio(prize, point, list[0]);
+							if (obj.list.length) {
+								attachNpRatio(prize, point, obj.list[0]);
 
 								for (ai = cache.items.length - 1; ai > -1; --ai) {
-									if (cache.items[ai].id === list[0].id) {
+									if (cache.items[ai].id === obj.list[0].id) {
 										break;
 									}
 								}
 
 								if (~ai) {
-									cache.items[ai] = list[0];
+									cache.items[ai] = obj.list[0];
 								} else {
-									cache.items.push(list[0]);
+									cache.items.push(obj.list[0]);
 								}
 
 								GM_setValue(name, JSON.stringify(cache));
@@ -181,7 +181,9 @@
 				"notes_type" : "partial",
 			},
 			"pages" : -1,
-			"callback" : attachPrices
+			"callback" : function (obj) {
+				attachPrices(obj.list, false);
+			}
 		});
 	} else {
 		attachPrices([], false);
