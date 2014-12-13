@@ -37,6 +37,36 @@ if (!JellyNeo) {
 
 JellyNeo.ItemDatabase = function () {};
 
+JellyNeo.ItemDatabase.shops = function shops(params){
+	HttpRequest.open({
+		"method" : "get",
+		"url" : "http://www.jellyneo.net/?go=shopsdirectory",
+		"onsuccess" : function (xhr) {
+			var ai, at, shopInfo = xpath("//td[@width='150']", xhr.response.xml);
+			var shops = new Array();
+			for (ai = 0,at = shopInfo.length; ai < at; ++ai) {
+				var link = xpath("string(.//a[contains(@href, 'neopets.com')]/@href)",shopInfo[ai]);
+				var jnLink = xpath("string(.//a[contains(@href, 'items.jellyneo')]/@href)",shopInfo[ai]);
+				var shopName = xpath("string(.//a[contains(@href, 'neopets.com')]/text()[2])",shopInfo[ai]);
+				if(link.indexOf('obj_type=') !== -1){
+					neoCategory = link.split("obj_type=")[1];
+				}else{
+					neoCategory = link;
+				}
+				if(jnLink){
+					shops.push({
+						"itemdb" : jnLink,
+						"link" : link,
+						"name" : shopName,
+						"cat" : neoCategory
+					});
+				}
+			}
+			params.callback(shops);
+		}
+	}).send();
+};
+
 JellyNeo.ItemDatabase.getTotal = function (params){
 	var data = {
 		"go" : "show_items",
