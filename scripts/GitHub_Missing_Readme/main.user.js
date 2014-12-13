@@ -14,8 +14,8 @@
 // @resource    template ./README-template.md
 // @resource    templateList ./README-templateList.md
 // @require     http://pastebin.com/raw.php?i=FY7MDpMa
-// @require     https://github.com/w35l3y/github/raw/master/lib/underscore-min.js
-// @require     https://github.com/w35l3y/github/raw/master/github.js
+// @require     https://github.com/w35l3y/github-js/raw/master/lib/underscore-min.js
+// @require     https://github.com/w35l3y/github-js/raw/master/github.js
 // @require     ../../includes/Includes_Notify/292725.user.js
 // @require     ../../includes/Includes_Assert/288385.user.js
 // @require     ../../includes/Includes_Template_%5BBETA%5D/176400.user.js
