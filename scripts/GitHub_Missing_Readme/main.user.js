@@ -1,4 +1,4 @@
-// ==UserScript==
+﻿// ==UserScript==
 // @name        GitHub : Missing Readme
 // @namespace   http://gm.wesley.eti.br
 // @description Updates the README.md for the folders that contains userscripts (.user.js) in it
@@ -189,7 +189,9 @@ if (/^\/(\w+)\/(\w+)\/tree\/(\w+)\/(.+)/.test(location.pathname) && confirm("Upd
 								++labels[label.name].meta[issue.state];
 								++labels[label.name].meta.all;
 							}
-							labels[label.name].list.push(issue);
+							if (label) {
+								labels[label.name].list.push(issue);
+							}
 						}
 						for each (var s in scripts) {
 							s.issues.meta.label = s.meta.name;
