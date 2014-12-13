@@ -6,7 +6,7 @@ JellyNeo.ItemDatabase.find({
 	pages : -1, // get all items from the cateogry not just the first page
 	"data" : { // you can use any get method in JellyNeo url scheme
 		"sortby" : "price",
-		"r1" : "1", // rarity check
+		"r1" : "1", // rarity limit (only 1-99 stock in main shops)
 		"r2" : "99",
 		"cat" : "15",
 		"p1" : "1",
