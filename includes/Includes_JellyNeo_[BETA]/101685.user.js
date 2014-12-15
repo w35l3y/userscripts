@@ -7,7 +7,7 @@
 // @copyright      2013+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        2.0.0 BETA
+// @version        2.0.1 BETA
 // @language       en
 // @include        nowhere
 // @exclude        *
@@ -40,9 +40,7 @@ JellyNeo.shops = function (params) {
 		"method"	: "get",
 		"url"		: "http://www.jellyneo.net/index.php",
 		"onsuccess"	: function (xhr) {
-			var shops = xpath(".//td[a[contains(@href, 'neopets.com')]/br]", xhr.response.xml),
-			list = [],
-			getQS = function (v) {
+			var getQS = function (v) {
 				var re = /[&?](\w+)=(\w+)/gi,
 				out = {};
 
@@ -54,21 +52,18 @@ JellyNeo.shops = function (params) {
 					"raw"	: v,
 					"params": out
 				};
-			},
-			ai, at;
-
-			for (ai = 0, at = shops.length; ai < at; ++ai) {
-				var npLink = xpath(".//a[contains(@href, 'neopets.com')]", shops[ai]);
-
-				list.push({
-					"name" : xpath("string(./text()[2])", npLink),
-					"npLink" : getQS(npLink.getAttribute("href")),
-					"jnLink" : getQS(xpath("string(.//a[contains(@href, 'items.jellyneo')]/@href)", shops[ai]))
-				});
-			}
+			};
 
 			params.callback({
-				list	: list
+				list	: xpath(".//td[a[contains(@href, 'neopets.com')]/br]", xhr.response.xml).map(function (shop) {
+					var npLink = xpath("./a[contains(@href, 'neopets.com')]", shop)[0];
+
+					return {
+						"name"		: npLink.textContent.trim(),
+						"npLink"	: getQS(npLink.getAttribute("href")),
+						"jnLink"	: getQS(xpath("string(./a[contains(@href, 'items.jellyneo')]/@href)", shop))
+					};
+				})
 			});
 		}
 	}).send({
@@ -87,6 +82,7 @@ JellyNeo.ItemDatabase.find = function (params) {
 		"ncoff"			: 1,
 		"start"			: 0
 	},
+	total = 0,
 	ai;
 
 	if (!params.pages) {
@@ -102,24 +98,29 @@ JellyNeo.ItemDatabase.find = function (params) {
 			"method"	: "get",
 			"url"		: "http://items.jellyneo.net/index.php",
 			"onsuccess"	: function (xhr) {
-				var next = xpath("string(id('content')/p/a[text() = 'Next']/@href)", xhr.response.xml),
-				items = xpath("id('content')/form/center/table//tr/td", xhr.response.xml),
-				total = parseInt(xpath("number(substring-before(id('content')/b/text(), ' '))", xhr.response.xml), 10),
-				ai, at;
-
-				for (ai = 0, at = items.length; ai < at; ++ai) {
-					let img = xpath(".//img", items[ai]);
-
-					if (img.length) {
-						list.push({
-							"id" : /\bshowitem=(\d+)/.test(img[0].parentNode.href) && RegExp.$1,
-							"name" : img[0].getAttribute("title"),
-							"image" : img[0].getAttribute("src"),
-							"price" : parseInt(xpath("string(.//a[contains(@href, '=price_history&')]/text())", items[ai]).replace(/[,.]/g, ""), 10)
-						});
-					}
+				if (!page) {
+					total = parseInt(xpath("number(substring-before(id('content')/b/text(), ' '))", xhr.response.xml), 10);
 				}
+				var next = xpath("string(id('content')/p/a[text() = 'Next']/@href)", xhr.response.xml),
+				pageList = xpath("id('content')/form/center/table//tr/td[.//img]", xhr.response.xml).map(function (item) {
+					var img = xpath(".//img", item)[0];
 
+					return {
+						"id"	: /\bshowitem=(\d+)/.test(img.parentNode.href) && RegExp.$1,
+						"name"	: img.getAttribute("title"),
+						"image"	: img.getAttribute("src"),
+						"price"	: parseInt(xpath("string(.//a[contains(@href, '=price_history&')]/text())", item).replace(/[,.]/g, ""), 10)
+					};
+				});
+
+				params.pages && params.each && params.each({
+					total	: total,
+					page	: page,
+					list	: pageList,
+					data	: data
+				});
+
+				Array.prototype.push.apply(list, pageList);
 				if ((params.pages === -1 || page < params.pages) && next && /\bstart=(\d+)/.test(next)) {
 					data.start = RegExp.$1;
 
@@ -127,7 +128,9 @@ JellyNeo.ItemDatabase.find = function (params) {
 				} else {
 					params.callback({
 						total	: total,
-						list	: list
+						page	: page,
+						list	: list,
+						data	: data
 					});
 				}
 			}
