@@ -1,13 +1,13 @@
 // ==UserScript==
-// @name           Includes : JellyNeo : ItemDatabase [BETA]
+// @name           Includes : JellyNeo [BETA]
 // @namespace      http://gm.wesley.eti.br/includes/jellyneo
-// @description    JellyNeo.ItemDatabase Function
+// @description    JellyNeo Function
 // @author         w35l3y
 // @email          w35l3y@brasnet.org
 // @copyright      2013+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        1.0.2 BETA
+// @version        2.0.0 BETA
 // @language       en
 // @include        nowhere
 // @exclude        *
@@ -35,71 +35,57 @@ if (!JellyNeo) {
 	var JellyNeo = function () {};
 }
 
-JellyNeo.ItemDatabase = function () {};
-
-JellyNeo.ItemDatabase.shops = function shops(params){
+JellyNeo.shops = function (params) {
 	HttpRequest.open({
-		"method" : "get",
-		"url" : "http://www.jellyneo.net/?go=shopsdirectory",
-		"onsuccess" : function (xhr) {
-			var ai, at, shopInfo = xpath("//td[@width='150']", xhr.response.xml);
-			var shops = new Array();
-			for (ai = 0,at = shopInfo.length; ai < at; ++ai) {
-				var link = xpath("string(.//a[contains(@href, 'neopets.com')]/@href)",shopInfo[ai]);
-				var jnLink = xpath("string(.//a[contains(@href, 'items.jellyneo')]/@href)",shopInfo[ai]);
-				var shopName = xpath("string(.//a[contains(@href, 'neopets.com')]/text()[2])",shopInfo[ai]);
-				if(link.indexOf('obj_type=') !== -1){
-					neoCategory = link.split("obj_type=")[1];
-				}else{
-					neoCategory = link;
+		"method"	: "get",
+		"url"		: "http://www.jellyneo.net/index.php",
+		"onsuccess"	: function (xhr) {
+			var shops = xpath(".//td[a[contains(@href, 'neopets.com')]/br]", xhr.response.xml),
+			list = [],
+			getQS = function (v) {
+				var re = /[&?](\w+)=(\w+)/gi,
+				out = {};
+
+				while (re.exec(v)) {
+					out[RegExp.$1] = RegExp.$2;
 				}
-				if(jnLink){
-					shops.push({
-						"itemdb" : jnLink,
-						"link" : link,
-						"name" : shopName,
-						"cat" : neoCategory
-					});
-				}
+
+				return {
+					"raw"	: v,
+					"params": out
+				};
+			},
+			ai, at;
+
+			for (ai = 0, at = shops.length; ai < at; ++ai) {
+				var npLink = xpath(".//a[contains(@href, 'neopets.com')]", shops[ai]);
+
+				list.push({
+					"name" : xpath("string(./text()[2])", npLink),
+					"npLink" : getQS(npLink.getAttribute("href")),
+					"jnLink" : getQS(xpath("string(.//a[contains(@href, 'items.jellyneo')]/@href)", shops[ai]))
+				});
 			}
-			params.callback(shops);
+
+			params.callback({
+				list	: list
+			});
 		}
-	}).send();
+	}).send({
+		"go"	: "shopsdirectory"
+	});
 };
 
-JellyNeo.ItemDatabase.getTotal = function (params){
-	var data = {
-		"go" : "show_items",
-		"sortby" : "price",
-		"ncoff" : 1,
-		"start" : 0,
-		"r1" : 1,
-		"r2" : 99
-	};
-
-	for (ai in params.data) {
-		data[ai] = params.data[ai];
-	}
-
-	HttpRequest.open({
-		"method" : "get",
-		"url" : "http://items.jellyneo.net/index.php",
-		"onsuccess" : function (xhr) {
-			var next = xpath("string(id('content')/b/text())", xhr.response.xml);
-			var next = next.split(" ")[0];
-			params.callback(next);
-		}
-	}).send(data);
-};
+JellyNeo.ItemDatabase = function () {};
 
 JellyNeo.ItemDatabase.find = function (params) {
 	var data = {
-		"go" : "show_items",
-		"sortby" : "release",
-		"sortby_type" : "desc",
-		"numitems" : 100,
-		"ncoff" : 1,
-		"start" : 0
+		"go"			: "show_items",
+		"sortby"		: "release",
+		"sortby_type"	: "desc",
+		"numitems"		: 100,
+		"ncoff"			: 1,
+		"start"			: 0
 	},
 	ai;
 
@@ -113,11 +99,12 @@ JellyNeo.ItemDatabase.find = function (params) {
 
 	(function recursive (page, list) {
 		HttpRequest.open({
-			"method" : "get",
-			"url" : "http://items.jellyneo.net/index.php",
-			"onsuccess" : function (xhr) {
+			"method"	: "get",
+			"url"		: "http://items.jellyneo.net/index.php",
+			"onsuccess"	: function (xhr) {
 				var next = xpath("string(id('content')/p/a[text() = 'Next']/@href)", xhr.response.xml),
 				items = xpath("id('content')/form/center/table//tr/td", xhr.response.xml),
+				total = parseInt(xpath("number(substring-before(id('content')/b/text(), ' '))", xhr.response.xml), 10),
 				ai, at;
 
 				for (ai = 0, at = items.length; ai < at; ++ai) {
@@ -138,7 +125,10 @@ JellyNeo.ItemDatabase.find = function (params) {
 
 					recursive(++page, list);
 				} else {
-					params.callback(list);
+					params.callback({
+						total	: total,
+						list	: list
+					});
 				}
 			}
 		}).send(data);
