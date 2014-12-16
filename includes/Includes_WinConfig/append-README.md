@@ -26,7 +26,7 @@ WinConfig.init({
 		return N;	// -1=OPEN_DIALOG 0=ERROR (call 'unload' without opening dialog) 1=SUCCESS (call 'load' without opening dialog)
 	},
 	load		: function (cfg) {	// OK Button
-		// ...cfg.group1.fieldName
+		// ... cfg.group1.fieldName1
 	},
 	unload		: function () {		// Cancel Button
 		// ...
@@ -39,6 +39,7 @@ WinConfig.init({
 PROMPT
 WinConfig.init({
 	type	: WinConfig.WindowType.PROMPT,	// title="Prompt Dialog" buttons=OK, CANCEL
+	description	: "Type something",
 	load	: function (cfg) {
 		console.log(cfg.text);
 	}
@@ -47,6 +48,7 @@ WinConfig.init({
 QUESTION
 WinConfig.init({
 	type	: WinConfig.WindowType.QUESTION,	// title="Question Dialog" / buttons=YES, NO
+	description	: "Are you sure you want to proceed?",
 	load	: function (cfg) {
 		console.log("YES");
 	},
@@ -58,6 +60,7 @@ WinConfig.init({
 WARNING, ERROR, SUCCESS, EXPLANATION (varies default styles)
 WinConfig.init({
 	type	: WinConfig.WindowType.WARNING,	// title="Warning Dialog" / buttons=OK
+	description	: "Something has happened!",
 	load	: function (cfg) {
 		console.log("OK");
 	}
