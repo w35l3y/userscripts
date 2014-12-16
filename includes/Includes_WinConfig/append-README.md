@@ -21,6 +21,8 @@ WinConfig.init({
 		default	: "",			// default value
 		nogroup	: false,		// removes from the group of fields
 		fields	: [...],		// list of fields (only if the current field is a group)
+		focused	: false,		// default=false (defines focus)
+		help	: false,		// default=false (displays the description of the field by clicking on (?) icon)
 	}],
 	condition	: function (cfg) {
 		return N;	// -1=OPEN_DIALOG 0=ERROR (call 'unload' without opening dialog) 1=SUCCESS (call 'load' without opening dialog)
