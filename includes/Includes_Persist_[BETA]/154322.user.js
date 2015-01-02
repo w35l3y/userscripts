@@ -7,7 +7,7 @@
 // @copyright      2013+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        1.0.1.0
+// @version        2.0.0
 // @language       en
 // @include        nowhere
 // @exclude        *
@@ -333,7 +333,7 @@ Persist.services	= {
 						api_paste_code		: x.value,	// required
 					},
 					odata		: {
-						api_paste_key		: obj.key,
+						api_paste_key		: obj.key || "",
 						api_option			: "paste"
 					},
 					onload	: function (y) {
@@ -468,6 +468,7 @@ Persist.services	= {
 	PASTEBIN2	: {
 		write	: function (obj) {
 			var ovalue = obj.value,
+			onload = obj.onload,
 			xthis = this,
 			execute = function (x) {
 				var onload = x.onload,
@@ -482,12 +483,13 @@ Persist.services	= {
 						paste_private		: "2",
 						paste_expire_date	: "N",
 						paste_code			: x.value,	// required
+						paste_name			: "",
 					},
 					odata	: {
 						submit			: "Submit",
 						submit_hidden	: "submit_hidden",
-						item_key		: obj.key,
-						post_key		: obj.key,
+						item_key		: obj.key || "",
+						post_key		: obj.post_key || "",
 					},
 					onload	: function (y) {
 						var doc = y.response.doc(),
@@ -508,7 +510,8 @@ Persist.services	= {
 							if (xpath("string(.//text()[contains(., 'Pastebin.com is under heavy load right now')])", doc)) {
 								x.onerror.apply(xthis, [x]);
 							} else {
-								if (xpath("id('siimage')", doc)[0]) {
+								x.captcha = xpath("id('siimage')", doc)[0];
+								if (x.captcha) {
 									x.value = nvalue;
 									GM_log(ovalue);
 									alert("A new window will be opened. You must fill the captcha correctly, otherwise you will lose your data and a new paste will be created next time.");
@@ -527,7 +530,6 @@ Persist.services	= {
 								"You have reached the maximum number of [25] unlisted pastes.",
 								"You have reached the maximum number of [10] private pastes.",
 							][/index\.php\?e=(\d+)/.test(url) && (x.code = RegExp.$1 - 1)] || xpath("string(id('notice'))", doc) || "Unknown error (ERROR " + x.code + ")";
-
 							x.onerror.apply(xthis, [x]);
 						}
 					}
@@ -541,26 +543,39 @@ Persist.services	= {
 			};
 
 			if (1 == Math.abs(obj.mode)) {	// prepend or append
-				var onload = obj.onload;
-
 				if ("" != ovalue) {
 					obj.onload = function (x) {
-						obj.onload = onload;
-
 						if (-1 == obj.mode) {	// prepend
 							obj.value = ovalue + obj.value;
 						} else {	// append
 							obj.value += ovalue;
 						}
-					
-						return execute.apply(xthis, [obj]);
+
+						if (obj.delete) {
+							obj.onload = function (x) {
+								obj.onload = onload;
+
+								return execute.apply(xthis, [obj]);
+							};
+							
+							return xthis.delete.apply(xthis, [obj]);
+						} else {
+							obj.onload = onload;
+
+							return execute.apply(xthis, [obj]);
+						}
 					};
 				}
-
-				return xthis.read.apply(xthis, [obj]);
 			} else {
-				return execute.apply(xthis, [obj]);
+				obj.onload = function (x) {
+					obj.onload = onload;
+					obj.value = ovalue;
+
+					return execute.apply(xthis, [obj]);
+				};
 			}
+
+			return xthis.read.apply(xthis, [obj]);
 		},
 		read	: function (obj) {
 			var xthis = this;
@@ -568,16 +583,22 @@ Persist.services	= {
 			if ("key" in obj && obj.key) {
 				var onload = obj.onload,
 				p = {
-					read		: false,
-					url		: "http://pastebin.com/download.php",
+					read	: false,
+					url		: "http://pastebin.com/edit.php",
 					method	: "get",
-					adata		: {
+					adata	: {
 						i	: obj.key
 					},
 					onload	: function (x) {
-						var url = x.response.raw().finalUrl;
+						var doc = x.response.doc(),
+						url = x.response.raw().finalUrl,
+						value = doc.getElementById("paste_code").value;
 
 						x.onload = onload;
+						x.post_key = doc.querySelector("input[name = 'post_key']").getAttribute("value");
+						if (value) {
+							x.value = value;
+						}
 
 						if (url.indexOf(x.url)) {	// Unknown Paste ID
 							x.value = "";
@@ -613,8 +634,10 @@ Persist.services	= {
 					url		: "http://pastebin.com/",
 					method	: "get",
 					onload	: function (c) {
-						if (xpath("boolean(id('header_bottom')//a[contains(@href, '/logout')])", c.response.doc())) {
+						var doc = c.response.doc();
+						if (xpath("boolean(id('header_bottom')//a[contains(@href, '/logout')])", doc)) {
 							obj.value = "";
+							obj.post_key = doc.querySelector("input[name = 'post_key']").getAttribute("value");
 
 							obj[typeof obj.onwarn == "function"?"onwarn":"onload"].apply(xthis, [obj]);
 						} else {
@@ -645,14 +668,10 @@ Persist.services	= {
 					r	: "/" + obj.key
 				},
 				onload	: function (x) {
-					if (/^Paste Removed$/i.test(x.value)) {
-						obj.onload = onload;
-						obj.value = value;
+					obj.onload = onload;
+					obj.value = value;
 
-						obj.onload.apply(xthis, [obj]);
-					} else {
-						obj.onerror.apply(xthis, [obj]);
-					}
+					obj.onload.apply(xthis, [obj]);
 				}
 			};
 		
