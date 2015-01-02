@@ -7,7 +7,7 @@
 // @copyright      2013+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        2.1.3
+// @version        2.2.0
 // @language       en
 // @include        http://www.neopets.com/dome/arena.phtml
 // @icon           http://gm.wesley.eti.br/icon.php?desc=161251
@@ -27,6 +27,7 @@
 // @resource       updaterWindowCss http://pastebin.com/download.php?i=C1qAvAed
 // @resource       winConfigCss http://pastebin.com/download.php?i=Ldk4J4bi
 // @resource       winConfigBattledomeCss http://pastebin.com/download.php?i=pRhS97Zg
+// @require        http://images.neopets.com/js/jquery-1.7.1.min.js
 // @require        ../../includes/Includes_XPath/63808.user.js
 // @require        ../../includes/Includes_HttpRequest/56489.user.js
 // @require        ../../includes/Includes_WinConfig/163374.user.js
@@ -64,10 +65,10 @@
 **************************************************************************/
 
 GM_addStyle(GM_getResourceText("winConfigBattledomeCss"));
+//GM_deleteValue("config-players-username");
 
 setTimeout(function () {
 	var plays = GM_getValue("plays", 0),
-	$ = unsafeWindow.$,
 	text = $("script:contains('#p1name')").text(),
 	p1name = (/#p1name.+['"]([-,.\s\w]+)/.test(text)) && RegExp.$1 || "",
 	p2name = (/#p2name.+['"]([-,.\s\w]+)/.test(text)) && RegExp.$1 || "",
@@ -406,7 +407,7 @@ setTimeout(function () {
 
 		return r;
 	};
-
+	
 	if (config && !(key in players && execute(key))) {
 		var key2 = "@";
 		
