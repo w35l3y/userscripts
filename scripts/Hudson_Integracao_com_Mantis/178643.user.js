@@ -1,9 +1,9 @@
-// ==UserScript==
+﻿// ==UserScript==
 // @name           Hudson : Integração com Mantis
 // @namespace      http://gm.wesley.eti.br
 // @description    Envia comentários ao mantis baseados nas informações obtidas nas builds do hudson/jenkins
 // @include        /^https?:\/\/.*\/job\/[\w% -]+\/changes$/
-// @version        2.3.2
+// @version        2.3.3
 // @language       pt-br
 // @grant          GM_log
 // @grant          GM_addStyle
@@ -189,9 +189,9 @@ process = function (jobName, loc, doc, info) {
 									fText = (xpath(".//div[@class = 'changeset-message']", row)[0] || row.firstElementChild).innerHTML.replace(/<br ?\/?>/g, "\n"),
 									reType = 1;
 
-									if (/\s*(?:\[\s*(\w+(?:[\|\.\s,\/-]*\w+)*)\s*\])?\s*(?:(?:mantis)?\s*([a-z]*\d+(?:\s*[\n\|,\/e]\s*[a-z]*\d+)*)\s*:)\s*([^]+)\s*$/.test(fText)
-										|| ((reType = 2) && /\s*(?:\[(?:mantis)?\s*([a-z]*\d+(?:\s*[\|,\/e]\s*[a-z]*\d+)*)\s*\])\s*(?:\[\s*(\w+(?:[\|\.\s,\/-]*\w+)*)\s*\])?\s*([^]+)\s*$/.test(fText))
-										|| /\s*(?:\[(?:mantis)?\s*([a-z]*\d+(?:\s*[\n\|,\/e]\s*[a-z]*\d+)*)\s*\])?\s*(?:\[\s*(\w+(?:[\|\.\s,\/-]*\w+)*)\s*\])\s*([^]+)\s*$/.test(fText)) {
+									if (/\s*(?:\[\s*(\w{2,}(?:[\|\.\s,\/-]*\w{2,})*)\s*\])?\s*(?:(?:mantis)?\s*(\w*\d+(?:\s*[\n\|,\/e]\s*\w*\d+)*)\s*:)\s*([^]+)\s*$/.test(fText)
+										|| ((reType = 2) && /\s*(?:\[(?:mantis)?\s*(\w*\d+(?:\s*[\|,\/e]\s*\w*\d+)*)\s*\])\s*(?:\[\s*(\w{2,}(?:[\|\.\s,\/-]*\w{2,})*)\s*\])?\s*([^]+)\s*$/.test(fText))
+										|| /\s*(?:\[(?:mantis)?\s*(\w*\d+(?:\s*[\n\|,\/e]\s*\w*\d+)*)\s*\])?\s*(?:\[\s*(\w{2,}(?:[\|\.\s,\/-]*\w{2,})*)\s*\])\s*([^]+)\s*$/.test(fText)) {
 										if (1 == reType) {
 											b.mantis = RegExp.$2;
 											b.users = RegExp.$1;
