@@ -15,7 +15,7 @@
 ### Issues
 State|Topic|Replies|Author|Updated
 :---:|:---|:---:|:---:|---:
-open|#15: [Neopets_Battledome_Fight! refuses to begin battling.](https://github.com/w35l3y/userscripts/issues/15)|3|[zxundra](https://github.com/zxundra)|2014-11-01T21:48:14Z
+closed|#15: [Neopets_Battledome_Fight! refuses to begin battling.](https://github.com/w35l3y/userscripts/issues/15)|3|[zxundra](https://github.com/zxundra)|2015-01-02T01:01:20Z
 closed|#14: [Stopped working the last 2 days](https://github.com/w35l3y/userscripts/issues/14)|3|[iBubbless](https://github.com/iBubbless)|2014-07-18T02:17:10Z
 closed|#11: [HP Bar image error](https://github.com/w35l3y/userscripts/issues/11)|3|[DaviidC](https://github.com/DaviidC)|2014-05-30T00:37:41Z
 closed|#9: [404 errors in 2 scripts for 63808.user.js](https://github.com/w35l3y/userscripts/issues/9)|9|[iBubbless](https://github.com/iBubbless)|2014-05-22T13:55:21Z
