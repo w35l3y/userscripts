@@ -7,7 +7,7 @@
 // @copyright      2013+, w35l3y (http://gm.wesley.eti.br/includes)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br/includes
-// @version        1.7.1
+// @version        1.8.0
 // @language       en
 // @include        nowhere
 // @exclude        *
@@ -305,10 +305,15 @@ var WinConfig = function (params) {
 	};
 	
 	this.get = function (v, d) {
+		var x = v.split("."),
+		r = function (vv, g) {
+			var k = vv.shift();
+			return (k in g?(vv.length?r(vv, g[k]):g[k]):d);
+		};
 		if ("group" in this) {
-			return (this.group in config && v in config[this.group]?config[this.group][v]:d);
+			return (this.group in config?r(x, config[this.group]):d);
 		} else {
-			return (v in config?config[v]:d);
+			return r(x, config);
 		}
 	}
 
@@ -996,7 +1001,10 @@ WinConfig.CustomField.hotkey = function (_window) {
 	}
 
 	window.addEventListener("keyup", function (e) {
-		var cfg = _window.get(_field.name);
+		var name = (function r (f) {
+			return (f && f.parent?(f.parent.parent?r(f.parent):"") + f.name + ".":"");
+		}(_field.parent)) + _field.name,
+		cfg = _window.get(name);
 
 		if (cfg && cfg.keyCode == e.keyCode) {
 			var keys = ["alt", "ctrl", "shift", "meta"];
