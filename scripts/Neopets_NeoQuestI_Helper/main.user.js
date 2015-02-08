@@ -1,9 +1,15 @@
 // ==UserScript==
-// @name        Neopets : NeoQuestI Helper
+// @name        Neopets : NeoQuest I : Helper
 // @namespace   http://gm.wesley.eti.br
-// @description Adds shortcuts to NQI
+// @description Adds shortkeys to NQI
+// @author      w35l3y
+// @email       w35l3y@brasnet.org
+// @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
+// @license     GNU GPL
+// @homepage    http://gm.wesley.eti.br/includes
+// @version     1.0.1
+// @language    en
 // @include     http://www.neopets.com/games/neoquest/neoquest.phtml*
-// @version     1.0.0
 // @grant       GM_log
 // @grant       GM_addStyle
 // @grant       GM_getValue
@@ -11,11 +17,29 @@
 // @grant       GM_deleteValue
 // @grant       GM_xmlhttpRequest
 // @grant       GM_getResourceText
+// @icon        http://gm.wesley.eti.br/icon.php?desc=scripts/Neopets_NeoQuestI_Helper/main.user.js
 // @resource    winConfigCss http://pastebin.com/raw.php?i=Ldk4J4bi
 // @require     https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
 // @require     https://github.com/w35l3y/userscripts/raw/master/includes/Includes_HttpRequest/56489.user.js
 // @require     https://github.com/w35l3y/userscripts/raw/master/includes/Includes_WinConfig/163374.user.js
 // ==/UserScript==
+
+/**************************************************************************
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+**************************************************************************/
 
 GM_addStyle(".winConfig_NeoQuestHelperSettings .fieldClass_hotkey {float:left;margin-right:2px;width:33%}");
 
