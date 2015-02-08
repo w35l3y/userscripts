@@ -7,21 +7,16 @@
 // @copyright      2011+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        2.0.0.0
+// @version        2.1.0
 // @language       en
+// @grant          GM_getValue
+// @grant          GM_setValue
 // @include        http://www.neopets.com/games/hidenseek.phtml
 // @include        http://www.neopets.com/games/process_hideandseek.phtml?*
 // @include        http://www.neopets.com/games/hidenseek/*.phtml?xfn=
 // @include        http://www.neopets.com/games/hidenseek/*.phtml
-// @icon           http://www.gravatar.com/avatar.php?gravatar_id=81269f79d21e612f9f307d16b09ee82b&r=PG&s=92&default=identicon
-// @resource       meta http://userscripts.org/scripts/source/34085.meta.js
-// @resource       i18n http://pastebin.com/download.php?i=1F0jQb5L
-// @require        http://pastebin.com/download.php?i=sin7DHJi
-// @require        http://userscripts.org/scripts/source/63808.user.js
-// @require        http://userscripts.org/scripts/source/85618.user.js
-// @require        http://userscripts.org/scripts/source/87940.user.js
-// @require        http://userscripts.org/scripts/source/87942.user.js
-// @uso:version    version
+// @icon           http://gm.wesley.eti.br/icon.php?desc=34085
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
 // ==/UserScript==
 
 /**************************************************************************
@@ -120,7 +115,7 @@
 					while (~places[board].indexOf(index = Math.floor(1 + areas.length * Math.random()))) {}
 
 					setTimeout(function(area) {
-						location.replace(area.getAttribute("href"));
+						area.click();
 					}, rnd, areas[index - 1]);
 				}
 			}
