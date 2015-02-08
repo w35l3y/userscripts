@@ -7,7 +7,7 @@
 // @copyright      2013+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        4.6.5
+// @version        4.6.6
 // @language       en
 // @include        http*://www.neopets.com/games/kadoatery/index.phtml
 // @include        http*://www.neopets.com/objects.phtml?*type=inventory*
@@ -49,12 +49,12 @@
 // @grant          GM_getResourceText
 // @icon           http://gm.wesley.eti.br/icon.php?desc=112692
 // @resource       meta https://github.com/w35l3y/userscripts/raw/master/scripts/Neopets_Price_Checker/112692.user.js
-// @resource       i18n http://pastebin.com/download.php?i=ULrVTsSg
+// @resource       i18n http://pastebin.com/raw.php?i=ULrVTsSg
 // @resource       updaterWindowHtml ../../resources/html/updaterWindowHtml
-// @resource       updaterWindowCss http://pastebin.com/download.php?i=C1qAvAed
-// @resource       winConfigCss http://pastebin.com/download.php?i=Ldk4J4bi
-// @resource       winConfigPriceCheckerCss http://pastebin.com/download.php?i=VCzrR5E8
-// @resource       includes http://pastebin.com/download.php?i=eArANXdm
+// @resource       updaterWindowCss http://pastebin.com/raw.php?i=C1qAvAed
+// @resource       winConfigCss http://pastebin.com/raw.php?i=Ldk4J4bi
+// @resource       winConfigPriceCheckerCss http://pastebin.com/raw.php?i=VCzrR5E8
+// @resource       includes http://pastebin.com/raw.php?i=eArANXdm
 // @require        ../../includes/Includes_XPath/63808.user.js
 // @require        ../../includes/Includes_HttpRequest/56489.user.js
 // @require        ../../includes/Includes_WinConfig/163374.user.js
@@ -65,8 +65,8 @@
 // @require        ../../includes/Includes_Neopets_The_National_Neopian_Bank/56533.user.js
 // @require        ../../includes/Includes_Neopets_Shop_Wizard/56503.user.js
 // @require        ../../includes/Includes_Neopets_Shop_%5BBETA%5D/56562.user.js
-// @require        http://pastebin.com/download.php?i=sin7DHJi
-// @require        http://pastebin.com/download.php?i=P6VTBRRK
+// @require        http://pastebin.com/raw.php?i=sin7DHJi
+// @require        http://pastebin.com/raw.php?i=P6VTBRRK
 // @contributor    nozkfox
 // @history        4.6.5 Added to Spaceship Interior
 // @history        4.6.4 Fixed some minor bugs
