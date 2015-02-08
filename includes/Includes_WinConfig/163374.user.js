@@ -7,7 +7,7 @@
 // @copyright      2013+, w35l3y (http://gm.wesley.eti.br/includes)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br/includes
-// @version        1.8.0
+// @version        1.8.1
 // @language       en
 // @include        nowhere
 // @exclude        *
@@ -982,12 +982,13 @@ WinConfig.CustomField.hotkey = function (_window) {
 			default : 0x53,
 			value	: (function () {
 				var output = [],
-				opts = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+				opts = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789`abcdefghijklmn"
+				lopts = {"`":"N0","a":"N1","b":"N2","c":"N3","d":"N4","e":"N5","f":"N6","g":"N7","h":"N8","i":"N9"};
 
 				for (var ai = 0;ai < opts.length;++ai) {
 					output.push({
 						value	: opts.charCodeAt(ai),
-						label	: opts[ai],
+						label	: lopts[opts[ai]] || opts[ai],
 					});
 				}
 
@@ -1000,7 +1001,7 @@ WinConfig.CustomField.hotkey = function (_window) {
 		this[ai] = tmp[ai];
 	}
 
-	window.addEventListener("keyup", function (e) {
+	document.addEventListener("keyup", function (e) {
 		var name = (function r (f) {
 			return (f && f.parent?(f.parent.parent?r(f.parent):"") + f.name + ".":"");
 		}(_field.parent)) + _field.name,
