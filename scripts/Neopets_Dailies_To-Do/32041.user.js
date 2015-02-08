@@ -7,7 +7,7 @@
 // @copyright      2012+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        5.1.1
+// @version        5.2.0
 // @language       en
 // @include        http://www.neopets.com/altador/council.phtml
 // @include        http://www.neopets.com/altador/council.phtml?*
@@ -41,19 +41,18 @@
 // @grant          GM_xmlhttpRequest
 // @grant          GM_getResourceText
 // @icon           http://gm.wesley.eti.br/icon.php?desc=32041
-// @resource       includes http://pastebin.com/download.php?i=eArANXdm
-// @resource       i18n http://pastebin.com/download.php?i=ULrVTsSg
+// @resource       i18n http://pastebin.com/raw.php?i=ULrVTsSg
 // @resource       meta https://github.com/w35l3y/userscripts/raw/master/scripts/Neopets_Dailies_To-Do/32041.user.js
-// @resource       updaterWindowHtml http://pastebin.com/download.php?i=3gr9tRAT
-// @resource       updaterWindowCss http://pastebin.com/download.php?i=C1qAvAed
-// @resource       winConfigCss http://pastebin.com/download.php?i=Ldk4J4bi
+// @resource       updaterWindowHtml http://pastebin.com/raw.php?i=3gr9tRAT
+// @resource       updaterWindowCss http://pastebin.com/raw.php?i=C1qAvAed
+// @resource       winConfigCss http://pastebin.com/raw.php?i=Ldk4J4bi
 // @require        ../../includes/Includes_XPath/63808.user.js
 // @require        ../../includes/Includes_HttpRequest/56489.user.js
 // @require        ../../includes/Includes_Translate/85618.user.js
 // @require        ../../includes/Includes_I18n/87940.user.js
 // @require        ../../includes/Includes_Updater/87942.user.js
 // @require        ../../includes/Includes_WinConfig/163374.user.js
-// @require        http://pastebin.com/download.php?i=P6VTBRRK
+// @history        5.2.0 Removed <a href="http://userscripts.org/guides/773">Includes Checker</a>
 // @history        5.1.1 Updated some dailies
 // @history        5.1.0 Updated <a href="http://userscripts.org/scripts/show/163374">Includes : WinConfig</a>
 // @history        5.0.0 Added <a href="http://userscripts.org/scripts/show/163374">Includes : WinConfig</a>
