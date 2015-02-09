@@ -4,19 +4,15 @@
 // @description    Improves Standings page
 // @author         w35l3y
 // @email          w35l3y@brasnet.org
-// @copyright      2011+, w35l3y (http://gm.wesley.eti.br)
+// @copyright      2013+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        1.0.0.1
+// @version        2.0.0
 // @language       en
 // @include        http://www.neopets.com/altador/colosseum/standings.phtml
+// @include        http://www.neopets.com/altador/colosseum/schedule.phtml?day=*&team=all
 // @icon           http://www.gravatar.com/avatar.php?gravatar_id=81269f79d21e612f9f307d16b09ee82b&r=PG&s=92&default=identicon
-// @resource       meta http://userscripts.org/scripts/source/105955.meta.js
-// @resource       i18n http://pastebin.com/download.php?i=1F0jQb5L
 // @require        http://userscripts.org/scripts/source/63808.user.js
-// @require        http://userscripts.org/scripts/source/85618.user.js
-// @require        http://userscripts.org/scripts/source/87940.user.js
-// @require        http://userscripts.org/scripts/source/87942.user.js
 // ==/UserScript==
 
 /**************************************************************************
@@ -36,41 +32,72 @@
 
 **************************************************************************/
 
-(function() {
-	var value = [9, 3, 0],	// YYB : win, draw, lose
-	teams = [];
+(function () {
+	var sum = JSON.parse(GM_getValue("sum", "{}")),
+	rounds = ["first", "second", "third", "fourth"];
 
-	for each (var team in xpath("id('standings')//tr/td/span/img[contains(@src, '_50')]")) {
-		var id = parseInt(team.getAttribute("onclick").match(/\d+/)[0], 10),
-		sum = [[0, 0, 0], [0, 0, 0]],
-		points = document.createElement("sup"),
-		row = xpath("./ancestor::tr[1]/td[position()> 1]", team).map(function(a, i) {
-			var x = parseInt(a.textContent, 10);
-			sum[Math.floor(i/3) > 0 ? 1 : 0][i % 3] += x;
+	if ("/altador/colosseum/schedule.phtml" == location.pathname) {
+		if (/day=([a-z]+)/.test(location.search) && "all" != RegExp.$1) {
+			var day = RegExp.$1,
+			list = xpath("id('schedule')/div/table/tbody/tr[td[img[contains(@src, '/vs.')]]]");
 
-			return x;
-		}),
-		round = Math.pow(10, 5),
-		s = 0,
-		pxs;
+			sum[day] = {};
 
-		for (pxs in sum[0])	{	// yyb
-			s += sum[0][pxs] * value[pxs];
+			for (var ai = list.length - 1;~ai;--ai) {
+				var rteams = xpath("./td[img[contains(@src, '/vs.')]]/img[@onclick]", list[ai]).map(function ($0) {
+					return {
+						id		: (/\((\d+)\)/.test($0.getAttribute("onclick")) && RegExp.$1),
+						name	: (/(\w+)_\d/.test($0.getAttribute("src")) && RegExp.$1),
+					};
+				}),
+				rgoals = xpath("./td[.//img[@width = 45]]/text()[position() = last()]", list[ai]);
+				for each (var rt in rteams) {
+					if (!(rt.name in sum[day])) {
+						sum[day][rt.name] = [];
+						for (var bi = rgoals.length;bi--;) {
+							sum[day][rt.name].push({
+								goals	: 0,
+								stats	: [0, 0, 0],
+							});
+						}
+					}
+				}
+				for (var bi in rgoals) {
+					if (/(\d+) - (\d+)/.test(rgoals[bi].textContent)) {
+						var g0 = parseInt(RegExp.$1, 10),
+						g1 = parseInt(RegExp.$2, 10),
+						p0 = (g1 > g0?2:~~(g0 == g1));
+
+						sum[day][rteams[0].name][bi].goals += g0;
+						++sum[day][rteams[0].name][bi].stats[p0];
+
+						sum[day][rteams[1].name][bi].goals += g1;
+						++sum[day][rteams[1].name][bi].stats[2 - p0];
+					}
+				}
+			}
+
+			GM_setValue("sum", JSON.stringify(sum));
+
+			console.log(sum);
 		}
-		for (pxs in sum[1])	{	// side games
-			s += sum[1][pxs] * value[pxs] * 1/3;
+	} else {
+		for each (var roundNode in xpath(".//div[@class = 'standingMod' and .//table[@class = 'standingBracketMiddle']]")) {
+			var roundNumber = /round-(\d+)/.test(xpath("string(.//div[@class = 'standingModTitle']/@style)", roundNode)) && (RegExp.$1 - 1);
+
+			for each (var teamNode in xpath(".//div[@class = 'standingBracketLogo']", roundNode)) {
+				var id = /(\w+)_\d/.test(teamNode.getAttribute("style")) && RegExp.$1,
+				sup = document.createElement("sup");
+
+				sup.textContent = (id && sum[rounds[roundNumber]] && sum[rounds[roundNumber]][id]?sum[rounds[roundNumber]][id].reduce(function (a, b) {
+					a.goals += b.goals;
+
+					return a;
+				}).goals:0);
+
+				teamNode.nextElementSibling.firstElementChild.textContent += " ";
+				teamNode.nextElementSibling.appendChild(sup);
+			}
 		}
-
-		if (teams.length) {
-			points.textContent = "(" + (s - teams[teams.length - 1]) + ")";
-			points.setAttribute("title", s + " (" + (s - teams[0]) + ")");
-		} else {
-			points.textContent = s;
-			points.setAttribute("title", s + " (0)");
-		}
-
-		teams.push(s);
-
-		team.parentNode.parentNode.appendChild(points);
 	}
 }());
