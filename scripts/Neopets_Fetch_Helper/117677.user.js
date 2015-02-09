@@ -7,7 +7,7 @@
 // @copyright      2012+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        3.0.0
+// @version        3.1.0
 // @language       en
 // @include        http://www.neopets.com/games/maze/maze.phtml*
 // @grant          GM_log
@@ -18,17 +18,16 @@
 // @grant          GM_xmlhttpRequest
 // @grant          GM_getResourceText
 // @icon           http://gm.wesley.eti.br/icon.php?desc=117677
-// @resource       includes http://pastebin.com/download.php?i=eArANXdm
-// @resource       meta http://userscripts.org/scripts/source/117677.meta.js
-// @resource       i18n http://pastebin.com/download.php?i=ULrVTsSg
-// @resource       updaterWindowHtml http://pastebin.com/download.php?i=3gr9tRAT
-// @resource       updaterWindowCss http://pastebin.com/download.php?i=C1qAvAed
-// @require        http://userscripts.org/scripts/source/63808.user.js
-// @require        http://userscripts.org/scripts/source/56489.user.js
-// @require        http://userscripts.org/scripts/source/85618.user.js
-// @require        http://userscripts.org/scripts/source/87940.user.js
-// @require        http://userscripts.org/scripts/source/87942.user.js
-// @require        http://pastebin.com/download.php?i=P6VTBRRK
+// @resource       meta https://github.com/w35l3y/userscripts/raw/master/scripts/Neopets_Fetch_Helper/117677.user.js
+// @resource       i18n http://pastebin.com/raw.php?i=ULrVTsSg
+// @resource       updaterWindowCss http://pastebin.com/raw.php?i=C1qAvAed
+// @resource       updaterWindowHtml http://pastebin.com/raw.php?i=3gr9tRAT
+// @require        ../../includes/Includes_XPath/63808.user.js
+// @require        ../../includes/Includes_HttpRequest/56489.user.js
+// @require        ../../includes/Includes_Translate/85618.user.js
+// @require        ../../includes/Includes_I18n/87940.user.js
+// @require        ../../includes/Includes_Updater/87942.user.js
+// @history        3.1.0 Removed <a href="http://userscripts.org/guides/773">Includes Checker</a> (migrated to GitHub)
 // @history        3.0.0 Added <a href="http://userscripts.org/guides/773">Includes Checker</a>
 // @history        2.0.0.0 Updated @require#87942
 // @history        1.0.4.0 Prevents from going to inaccessible directions
@@ -88,7 +87,7 @@ var table, queue = [], pending = {
 };
 
 function getCellPath(cell) {
-	return /\/path_(\w+)\./.test(cell.getAttribute("background")) && RegExp.$1;
+	return (/\/path_(\w+)\./.test(cell.getAttribute("background"))) && RegExp.$1;
 }
 
 function innerText(s, t, tt, c) {
