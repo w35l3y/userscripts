@@ -84,6 +84,10 @@ Shop.check = function (obj) {
 								
 								if (params.list.length) {
 									console.log("onsuccess " + params.list[0].Price + " " + params.list[0].Stock);
+
+									if (10 > params.list[0].Price) {
+										obj.indexes[1] = obj.tries;
+									}
 								}
 
 								window.setTimeout(recursive2, obj.wait(), obj);
