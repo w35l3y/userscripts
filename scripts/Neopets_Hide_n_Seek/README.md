@@ -8,6 +8,4 @@
 
 
 ### Installs
-![Daily installs](http://gm.wesley.eti.br/count.php?id=scripts/Neopets_Hide_n_Seek/34085.user.js&type=image)
-
-This file was generated automatically at `2015-02-08T16:45:04.210Z`
+![Daily installs](http://gm.wesley.eti.br/count.php?id=scripts/scripts/Neopets_Hide_n_Seek/34085.user.js&type=image)
