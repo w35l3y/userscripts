@@ -7,7 +7,7 @@
 // @copyright      2013+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        2.0.1
+// @version        2.0.2
 // @language       en
 // @include        nowhere
 // @exclude        *
@@ -80,7 +80,7 @@ Timer = function (obj) {
 		return str.replace(/\{(\d+)(?:([?:])([^:]+?)?(?::(.+?))?)?\}/g, function ($0, $1, $2, $3, $4) {
 			//alert(Array.prototype.slice.apply(arguments).join("\n"));
 			if ($2 == "?") {	// bool & plural
-				return ($1 in test_cond && test_cond[$1].call(t, output[$1]) || output[$1] > 1 ? $3 : $4);
+				return ($1 in test_cond && test_cond[$1].call(t, output[$1]) || output[$1] > 1 ? $3 : ($4?$4:""));
 			} else if (output[$1].toString().length < $3) {	// padding
 				return ("000" + output[$1]).substr(-$3);
 			} else if ($4) {
