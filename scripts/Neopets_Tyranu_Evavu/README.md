@@ -8,4 +8,4 @@
 
 
 ### Installs
-![Daily installs](http://gm.wesley.eti.br/count.php?id=scripts/scripts/Neopets_Tyranu_Evavu/28580.user.js&type=image)
+![Daily installs](http://gm.wesley.eti.br/count.php?id=scripts/Neopets_Tyranu_Evavu/28580.user.js&type=image)

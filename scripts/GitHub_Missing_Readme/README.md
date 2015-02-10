@@ -13,4 +13,4 @@ State|Topic|Replies|Author|Updated
 closed|#12: [Passing parameters to GET requests](https://github.com/w35l3y/userscripts/issues/12)|0|[w35l3y](https://github.com/w35l3y)|2014-05-30T02:57:09Z
 
 ### Installs
-![Daily installs](http://gm.wesley.eti.br/count.php?id=scripts/scripts/GitHub_Missing_Readme/main.user.js&type=image)
+![Daily installs](http://gm.wesley.eti.br/count.php?id=scripts/GitHub_Missing_Readme/main.user.js&type=image)

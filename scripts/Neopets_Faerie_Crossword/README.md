@@ -8,4 +8,4 @@
 
 
 ### Installs
-![Daily installs](http://gm.wesley.eti.br/count.php?id=scripts/scripts/Neopets_Faerie_Crossword/76450.user.js&type=image)
+![Daily installs](http://gm.wesley.eti.br/count.php?id=scripts/Neopets_Faerie_Crossword/76450.user.js&type=image)

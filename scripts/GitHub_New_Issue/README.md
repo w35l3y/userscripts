@@ -6,4 +6,4 @@
 
 
 ### Installs
-![Daily installs](http://gm.wesley.eti.br/count.php?id=scripts/scripts/GitHub_New_Issue/github_new_issue.user.js&type=image)
+![Daily installs](http://gm.wesley.eti.br/count.php?id=scripts/GitHub_New_Issue/github_new_issue.user.js&type=image)

@@ -20,4 +20,4 @@ closed|#9: [404 errors in 2 scripts for 63808.user.js](https://github.com/w35l3y
 open|#1: [Missing parameter 'options.include_movie'](https://github.com/w35l3y/userscripts/issues/1)|0|[w35l3y](https://github.com/w35l3y)|2014-05-23T14:12:09Z
 
 ### Installs
-![Daily installs](http://gm.wesley.eti.br/count.php?id=scripts/scripts/Neopets_Avatars_Flash_Games_[BETA]/127882.user.js&type=image)
+![Daily installs](http://gm.wesley.eti.br/count.php?id=scripts/Neopets_Avatars_Flash_Games_[BETA]/127882.user.js&type=image)

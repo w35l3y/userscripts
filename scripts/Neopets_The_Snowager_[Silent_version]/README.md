@@ -8,4 +8,4 @@
 
 
 ### Installs
-![Daily installs](http://gm.wesley.eti.br/count.php?id=scripts/scripts/Neopets_The_Snowager_[Silent_version]/54076.user.js&type=image)
+![Daily installs](http://gm.wesley.eti.br/count.php?id=scripts/Neopets_The_Snowager_[Silent_version]/54076.user.js&type=image)

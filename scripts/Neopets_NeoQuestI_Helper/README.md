@@ -11,4 +11,4 @@
 
 
 ### Installs
-![Daily installs](http://gm.wesley.eti.br/count.php?id=scripts/scripts/Neopets_NeoQuestI_Helper/main.user.js&type=image)
+![Daily installs](http://gm.wesley.eti.br/count.php?id=scripts/Neopets_NeoQuestI_Helper/main.user.js&type=image)

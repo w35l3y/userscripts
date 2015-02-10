@@ -6,4 +6,4 @@
 
 
 ### Installs
-![Daily installs](http://gm.wesley.eti.br/count.php?id=scripts/scripts/PeixeUrbano_Coupon_Page_Title/main.user.js&type=image)
+![Daily installs](http://gm.wesley.eti.br/count.php?id=scripts/PeixeUrbano_Coupon_Page_Title/main.user.js&type=image)

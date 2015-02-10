@@ -7,4 +7,4 @@
 
 
 ### Installs
-![Daily installs](http://gm.wesley.eti.br/count.php?id=scripts/scripts/Hudson_Integracao_com_Mantis/178643.user.js&type=image)
+![Daily installs](http://gm.wesley.eti.br/count.php?id=scripts/Hudson_Integracao_com_Mantis/178643.user.js&type=image)

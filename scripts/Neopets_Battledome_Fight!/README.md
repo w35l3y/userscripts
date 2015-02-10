@@ -22,4 +22,4 @@ closed|#9: [404 errors in 2 scripts for 63808.user.js](https://github.com/w35l3y
 open|#2: [Different sets of weapons per round](https://github.com/w35l3y/userscripts/issues/2)|0|[w35l3y](https://github.com/w35l3y)|2014-04-25T19:08:07Z
 
 ### Installs
-![Daily installs](http://gm.wesley.eti.br/count.php?id=scripts/scripts/Neopets_Battledome_Fight!/161251.user.js&type=image)
+![Daily installs](http://gm.wesley.eti.br/count.php?id=scripts/Neopets_Battledome_Fight!/161251.user.js&type=image)

@@ -13,4 +13,4 @@
 
 
 ### Installs
-![Daily installs](http://gm.wesley.eti.br/count.php?id=scripts/scripts/Neopets_Infinite_Neoboard_Pens/161705.user.js&type=image)
+![Daily installs](http://gm.wesley.eti.br/count.php?id=scripts/Neopets_Infinite_Neoboard_Pens/161705.user.js&type=image)
