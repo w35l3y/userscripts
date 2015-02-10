@@ -16,4 +16,4 @@ State|Topic|Replies|Author|Updated
 %{values}%{state/}|#%{number/}: [%{title/}](%{html_url/})|%{comments/}|[%{user.login/}](%{user.html_url/})|%{updated_at/}
 %{/values}%{/issues.list}
 ### Installs
-![Daily installs](http://gm.wesley.eti.br/count.php?id=%{info.Path/}/%{file.path/}&type=image)
+![Daily installs](http://gm.wesley.eti.br/count.php?id=%{file.path/}&type=image)
