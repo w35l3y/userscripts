@@ -6,7 +6,7 @@
 // @copyright      2015+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        1.1.0
+// @version        1.2.0
 // @language       en
 // @include        http://www.neopets.com/games/pyramids/*
 // @grant          GM_setValue
@@ -36,7 +36,7 @@
 **************************************************************************/
 
 AjaxUpdate.init({
-	root		: "id('content')/table/tbody/tr/td[2]/div[2]/div",
+	root		: "id('content')/table/tbody/tr/td[2]/div/div[@class = 'frame']",
 	triggers	: ".//a[contains(@href, '?action=')]|.//form[contains(@action, 'pyramids')]",
 	onsuccess	: function (obj) {
 		var x = xpath(".//a[contains(@href, 'action=collect')]|.//form[contains(@action, 'pyramids.phtml')]", obj.document)[0],
@@ -47,7 +47,7 @@ AjaxUpdate.init({
 		if (x) {
 			var start = -1;
 
-			if (xpath("boolean(.//div[2]/div[1]/p/img[contains(@src, 'pyramids_front')])", obj.document)) {
+			if (xpath("boolean(.//div/div[1]/p/img[contains(@src, 'pyramids_front')])", obj.document)) {
 				if (!xpath("boolean(.//div[2]/p[3]/b[2]/text())", obj.document)) {
 					start = 0;
 				}
