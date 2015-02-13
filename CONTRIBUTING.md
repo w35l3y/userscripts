@@ -6,5 +6,5 @@ Install [this script](../../raw/master/scripts/GitHub_New_Issue/github_new_issue
 > **Script:** NAME VERSION<br />
 > **Accessed url:** URL THAT OCCURRED THE ERROR<br />
 > **Installation url:** URL THAT YOU USED TO INSTALL THE SCRIPT (only if the error occurred during installation or first execution)<br />
-> **Error Message:** MESSAGE<br />
+> **Error Message:** MESSAGE (usually found in the Error Console [ Ctrl+Shift+J ])<br />
 > **Obs.:** OBSERVATION<br />
