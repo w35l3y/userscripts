@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.0.0
+// @version     1.0.1
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -226,7 +226,7 @@ var Cron = function (id, current) {
 			var cd = _currentDate(),
 			n = tasks[0].next(),
 			wait = Math.max(Math.min(n - cd, Math.pow(2, 31)), 0);
-			_debug("1 TIMER", tasks[0].id, cd, n, n - cd, wait);
+			console.log("1 TIMER", tasks[0].id, cd, n, n - cd, wait);
 			timer = setTimeout(function () {
 				tasks.shift().execute(_add);
 			}, wait);
