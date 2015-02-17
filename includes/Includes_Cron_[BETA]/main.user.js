@@ -14,7 +14,7 @@
 // @grant       GM_getValue
 // @grant       GM_setValue
 // @grant       GM_deleteValue
-// @icon        http://gm.wesley.eti.br/icon.php?desc=includes/Includes_Cron/main.user.js
+// @icon        http://gm.wesley.eti.br/icon.php?desc=includes/Includes_Cron_[BETA]/main.user.js
 // ==/UserScript==
 
 /**************************************************************************
