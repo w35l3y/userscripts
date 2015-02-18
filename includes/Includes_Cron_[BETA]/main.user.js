@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.0.1
+// @version     1.1.0
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -95,7 +95,9 @@ var Cron = function (id, current) {
 			daily	: "0 0 0 * * * *",
 			midnight: "0 0 0 * * * *",
 			hourly	: "0 0 * * * * *",
-		};
+		},
+		_listeners = [];
+
 		Object.defineProperties(this, {
 			id	: {
 				value	: obj.id,
@@ -155,6 +157,10 @@ var Cron = function (id, current) {
 		this.execute = function (cb) {
 			var _this = this,
 			pUpdate = function () {
+				for (var ai = 0, at = _listeners.length;ai < at;++ai) {
+					_listeners[ai].apply(null, arguments);
+				}
+
 				_this.update(_currentDate());
 				cb(_this);
 			},
@@ -171,6 +177,8 @@ var Cron = function (id, current) {
 				_debug("2 WAIT", obj.id, c);
 				pUpdate();
 			}
+
+			return this;
 		};
 		
 		this.update = function (date) {
@@ -199,10 +207,25 @@ var Cron = function (id, current) {
 			_debug("3 NEXT", obj.id, date);
 			nextAt[obj.id] = date.valueOf();
 			GM_setValue(nextAtKey, JSON.stringify(nextAt));
+
+			return this;
 		};
 
 		this.next = function () {
-			return nextAt[obj.id] || 0;//new Date().getUTCMilliseconds();
+			return nextAt[obj.id] || 0;
+		};
+		
+		this.addListener = function (cb) {
+			_listeners.push(cb);
+
+			return this;
+		};
+		
+		this.removeListener = function (cb) {
+			var index = _listeners.indexOf(cb);
+			if (~index) {
+				return _listeners.splice(index, 1)[0];
+			}
 		};
 
 		_debug(this);
@@ -226,18 +249,22 @@ var Cron = function (id, current) {
 			var cd = _currentDate(),
 			n = tasks[0].next(),
 			wait = Math.max(Math.min(n - cd, Math.pow(2, 31)), 0);
-			console.log("1 TIMER", tasks[0].id, cd, n, n - cd, wait);
+			console.log("1 TIMER", tasks[0].id, cd, new Date(n), n - cd, wait);
 			timer = setTimeout(function () {
 				tasks.shift().execute(_add);
 			}, wait);
 		}
 	};
 	
-	this.add = function (obj) {
+	this.getDate = function () {
+		return _currentDate();
+	};
+	
+	this.addTask = function (obj) {
 		return _add(new Task(obj));
 	};
 
-	this.rm = function (o) {
+	this.removeTask = function (o) {
 		var index = -1;
 		if (typeof o == "string") {
 			for (var ai = 0, at = tasks.length;ai < at;++ai) {
@@ -257,12 +284,36 @@ var Cron = function (id, current) {
 
 		return removed;
 	};
+	
+	this.addListener = function (taskId, cb) {
+		for (var ai = 0, at = _tasks.length;ai < at;++ai) {
+			if (taskId == _tasks[ai].id) {
+				_tasks[ai].addListener(cb);
+				break;
+			}
+		}
+
+		return this;
+	};
+
+	this.removeListener = function (taskId, cb) {
+		for (var ai = 0, at = _tasks.length;ai < at;++ai) {
+			if (taskId == _tasks[ai].id) {
+				_tasks[ai].removeListener(cb);
+				break;
+			}
+		}
+
+		return this;
+	};
 
 	this.reset = function () {
 		nextAt = {};
 		GM_deleteValue(nextAtKey);
 
 		_updateTimer();
+		
+		return this;
 	};
 	
 	_debug("0 DIFF", diff);
