@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.1.0
+// @version     1.1.1
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -97,10 +97,20 @@ var Neopets = function (doc) {
 	this.getTime = function () {
 		return new Date(Date.now() - diff);
 	};
+	
+	this.getDocument = function () {
+		return doc;
+	};
 
 	Object.defineProperties(this, {
 		staticTime	: {
 			value	: createdAt,
+		},
+		time		: {
+			get		: this.getTime,
+		},
+		document	: {
+			get		: this.getDocument,
 		},
 		username	: {
 			get		: function () {
