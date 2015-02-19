@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.1.0
+// @version     1.2.0
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -72,16 +72,16 @@ var Cron = function (id, current) {
 		[0, 23],	// hour
 		[1, 31],	// day
 		[1, 12],	// month
-		[0, 6],	// weekday
-		[0, 0],	// year
+		[0, 6],		// weekday
+		[0, 0],		// year
 	],
 	methods = [
 		[60, "UTCSeconds"],
 		[60, "UTCMinutes"],
 		[24, "UTCHours"],
-		[31, "UTCDate"],	// under test [Date.UTC(createdAt.getUTCFullYear(), 1 + createdAt.getUTCMonth(), 0, 0, 0, 0, 0).getUTCDate(), "UTCDate"],
-		[12, "UTCMonth"],
-		[7, "UTCDay"],
+		[31, "UTCDate"],	// under test
+		[12, "UTCMonth"],	// under test
+		[7, "UTCDay"],		// under test
 		[0, "UTCFullYear"],	// under test
 	],
 	Task = function (obj) {
@@ -100,42 +100,41 @@ var Cron = function (id, current) {
 
 		Object.defineProperties(this, {
 			id	: {
+				enumerable	: true,
 				value	: obj.id,
 			},
 			interval	: {
+				enumerable	: true,
 				value	: ((obj.interval || "*").replace(/^@(\w+)$/, function ($0, $1) {
 					return ($1 in map?map[$1]:$0);
 				}) + " * * * * * *").trim().split(/\s+/g).slice(0, 7).map(function (data, index, array) {
 					if (/^([\*\?]|\d+(?:-\d+)?(?:,\d+(?:-\d+)?)*)(?:([\#\/])(\d+))?$/.test(data)) {
 						var type = 1 + "#/".indexOf(RegExp.$2 || undefined);
 
-						if (_type.HASH != type || _type.WEEKDAY == index) {
-							var step = parseInt(RegExp.$3, 10) || 1,
-							currentValue = _current["get" + methods[index][1]](),
-							pInterval = intervals[index];
+						var step = parseInt(RegExp.$3, 10) || 1,
+						currentValue = _current["get" + methods[index][1]](),
+						pInterval = intervals[index];
 
-							return {
-								step	: step,
-								type	: type,
-								wildcard: 1 + "*?".indexOf(RegExp.$1 || undefined),
-								values	: RegExp.$1.replace("?", function () {
-									return currentValue + (currentValue % step);
-								}).replace("*", pInterval.join("-")).replace(/(\d+)-(\d+)/g, function ($0, $1, $2) {
-									var isMonth = (_type.MONTH == index),
-									opts = [parseInt($1, 10) - isMonth + (obj.relative?currentValue % step:0)];
-									for (var ai = opts[0] + step, at = parseInt($2, 10) - isMonth;ai <= at;ai += step) {
-										opts.push(ai);
-									}
-									return opts.join(",");
-								}).split(",").map(function (data) {
-									return parseInt(data, 10);	// parse numbers
-								}).sort(function (a, b) {
-									return (a > b?1:-1);	// asc
-								}).filter(function (data, index, array) {
-									return data != array[index - 1] && (_type.YEAR == index || pInterval[0] <= data && data <= pInterval[1]);	// repeated values and out of bound
-								}),
-							};
-						}
+						return {
+							step	: step,
+							type	: type,
+							wildcard: 1 + "*?".indexOf(RegExp.$1 || undefined),
+							values	: RegExp.$1.replace("?", function () {
+								return currentValue + (currentValue % step);
+							}).replace("*", pInterval.join("-")).replace(/(\d+)-(\d+)/g, function ($0, $1, $2) {
+								var opts = [parseInt($1, 10) + (obj.relative?currentValue % step:0)];
+								for (var ai = opts[0] + step, at = parseInt($2, 10);ai <= at;ai += step) {
+									opts.push(ai);
+								}
+								return opts.join(",");
+							}).split(",").map(function (data) {
+								return parseInt(data, 10) - (_type.MONTH == index);	// parse numbers
+							}).sort(function (a, b) {
+								return (a > b?1:-1);	// asc
+							}).filter(function (data, index, array) {
+								return data != array[index - 1] && (_type.YEAR == index || pInterval[0] <= data && data <= pInterval[1]);	// repeated values and out of bound
+							}),
+						};
 					}
 
 					throw "Malformed or not supported parameter: " + data + " " + index;
@@ -144,12 +143,18 @@ var Cron = function (id, current) {
 		});
 		
 		this.ready = function (date) {
+			var _this = this;
 			return this.next() <= date && this.interval.every(function (data, index, array) {
 				if (_type.WEEKDAY == index && _type.HASH == data.type) {
 					throw "Not implemented yet";
 				} else {
-					return (_type.ASTERISK == data.wildcard
-						|| 0 <= data.values.indexOf((_type.MONTH == index) + date["get" + methods[index][1]]()));
+					if (_type.ASTERISK == data.wildcard
+						|| 0 <= data.values.indexOf((_type.MONTH == index) + date["get" + methods[index][1]]())) {
+						return true;
+					} else {
+						console.log(_this.id, index, date["get" + methods[index][1]](), data);
+						return false;
+					}
 				}
 			});
 		};
@@ -167,7 +172,7 @@ var Cron = function (id, current) {
 			c = _currentDate();
 
 			if (this.ready(c)) {
-				_debug("2 READY", obj.id, c);
+				console.log("2 READY", obj.id, c);
 				if (obj.command(pUpdate)) {
 					pUpdate();
 				} else {
@@ -183,24 +188,31 @@ var Cron = function (id, current) {
 		
 		this.update = function (date) {
 			date.setUTCMilliseconds(1000);
+			var max = new Date(Date.UTC(date.getUTCFullYear(), 1 + date.getUTCMonth(), 0, 0, 0, 0, 0)).getUTCDate();
 
 			for (var index = 0, at = this.interval.length;index < at;++index) {
 				var method = methods[index],
 				pInterval = this.interval[index],
 				tInterval = pInterval.values,
 				value = date["get" + method[1]](),
-				tmp = [0, method[0]];
-				for (var bi = 0, bt = tInterval.length;bi < bt;++bi) {
-					if (tInterval[bi] >= value) {
-						tmp = [bi, 0];
-						break;
+				tmp = [tInterval[0], (_type.DAY == index?max:method[0])];
+				if (_type.DAY != index
+					|| _type.HASH != pInterval.type
+					|| value <= pInterval.step
+					|| ~this.interval[_type.MONTH].values.indexOf(date.getUTCMonth())) {
+					for (var bi = 0, bt = tInterval.length;bi < bt;++bi) {
+						if (tInterval[bi] >= value) {
+							tmp = [tInterval[bi], 0];
+							break;
+						}
 					}
 				}
 				
 				if (_type.WEEKDAY == index) {
-					date.setUTCDate(date.getUTCDate() + tInterval[tmp[0]] + tmp[1] - value);
-				} else if (_type.YEAR != index || 0 < tInterval[tmp[0]]) {
-					date["set" + method[1]](tInterval[tmp[0]] + tmp[1]);
+					date.setUTCDate(date.getUTCDate() + tmp[0] + tmp[1] - value);
+				} else if (_type.YEAR != index || 0 < tmp[0]) {
+					//console.log(index, tmp[0], tmp[1], tmp[0] + tmp[1]);
+					date["set" + method[1]](tmp[0] + tmp[1]);
 				}
 			}
 
@@ -248,7 +260,7 @@ var Cron = function (id, current) {
 		if (tasks.length) {
 			var cd = _currentDate(),
 			n = tasks[0].next(),
-			wait = Math.max(Math.min(n - cd, Math.pow(2, 31)), 0);
+			wait = Math.max(Math.min(n - cd, Math.pow(2, 31) - 1), 0);
 			console.log("1 TIMER", tasks[0].id, cd, new Date(n), n - cd, wait);
 			timer = setTimeout(function () {
 				tasks.shift().execute(_add);
