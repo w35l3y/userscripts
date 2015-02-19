@@ -51,7 +51,7 @@ var Neopets = function (doc) {
 			method		: "post",
 			url			: url,
 			onsuccess	: function (xhr) {
-				doc = xhr.response.xml;
+				_this.document = xhr.response.xml;
 
 				if (type in _listeners) {
 					for (var ai = 0, at = _listeners[type].length;ai < at;++ai) {
@@ -111,6 +111,10 @@ var Neopets = function (doc) {
 		},
 		document	: {
 			get		: this.getDocument,
+			set		: function (value) {
+				doc = value;
+				this.np = _n("id('header')//td/a[contains(@href, 'inventory')]/text()");
+			},
 		},
 		username	: {
 			get		: function () {
@@ -146,9 +150,8 @@ var Neopets = function (doc) {
 			},
 		},
 		np			: {
-			get		: function () {
-				return _n("id('header')//td/a[contains(@href, 'inventory')]/text()");
-			},
+			writable: true,
+			value	: 0,
 		},
 		nc			: {
 			get		: function () {
