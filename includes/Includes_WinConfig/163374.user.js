@@ -7,7 +7,7 @@
 // @copyright      2013+, w35l3y (http://gm.wesley.eti.br/includes)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br/includes
-// @version        1.8.1
+// @version        1.8.2
 // @language       en
 // @include        nowhere
 // @exclude        *
@@ -308,10 +308,10 @@ var WinConfig = function (params) {
 		var x = v.split("."),
 		r = function (vv, g) {
 			var k = vv.shift();
-			return (k in g?(vv.length?r(vv, g[k]):g[k]):d);
+			return (k in g?(vv.length?r(vv, g[k]):g[k]):(vv.length?r(vv, d[k]):d[k]));
 		};
 		if ("group" in this) {
-			return (this.group in config?r(x, config[this.group]):d);
+			return (this.group in config?r(x, config[this.group]):r(x, d[this.group]));
 		} else {
 			return r(x, config);
 		}
