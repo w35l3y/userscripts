@@ -7,7 +7,7 @@
 // @copyright      2013+, w35l3y (http://gm.wesley.eti.br/includes)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br/includes
-// @version        1.8.2
+// @version        1.8.3
 // @language       en
 // @include        nowhere
 // @exclude        *
@@ -117,9 +117,15 @@ var WinConfig = function (params) {
 	body = document.createElement("div"),
 	foot = document.createElement("div"),
 	addEvent = function (input, event, func, _this, params) {
-		input.addEventListener(event, function (e) {
-			func.apply(_this, [e].concat(params));
-		}, false);
+		if (func instanceof Array) {
+			for (var ai = 0, at = func.length;ai < at;++ai) {
+				addEvent(input, event, func[ai], _this, params);
+			}
+		} else {
+			input.addEventListener(event, function (e) {
+				func.apply(_this, [e].concat(params));
+			}, false);
+		}
 	},
 	focusedInput,
 	buttons = [],
@@ -138,136 +144,140 @@ var WinConfig = function (params) {
 				for (var ai in _this.fields) {
 					var field = _this.fields[ai];
 
-					for (var bi in field.elements) {
-						var elem = field.elements[bi];
+					if (field.getConfig instanceof Function) {
+						cfg[field.name] = field.getConfig();
+					} else {
+						for (var bi in field.elements) {
+							var elem = field.elements[bi];
 
-						if (WinConfig.FieldType.GROUP == field.type) {
-							var x = recursive(field);
+							if (WinConfig.FieldType.GROUP == field.type) {
+								var x = recursive(field);
 
-							if (!(field.name in cfg)) {
-								cfg[field.name] = {};
-							}
-
-							for (var ai in x) {
-								cfg[field.name][ai] = x[ai];
-							}
-						} else if (WinConfig.FieldType.CHECK == field.type) {
-							if (elem.checked) {
-								if (field.multiple && field.value instanceof Array && field.value.length > 1) {
-									if (WinConfig.FieldFormat.NUMBER & field.format) {
-										cfg[field.name] |= elem.value;
-									} else if (WinConfig.FieldFormat.BOOLEAN & field.format) {
-										if (field.name in cfg) {
-											cfg[field.name].push(elem.value == "true");
-										} else {
-											cfg[field.name] = [elem.value == "true"];
-										}
-									} else if (field.name in cfg) {
-										cfg[field.name].push(elem.value);
-									} else {
-										cfg[field.name] = [elem.value];
-									}
-								} else {
-									var o = elem.value;
-
-									if (WinConfig.FieldFormat.BOOLEAN & field.format) {
-										cfg[field.name] = (o == "true" || !isNaN(o) && !!parseInt(o, 10));
-									} else if (WinConfig.FieldFormat.NUMBER & field.format) {
-										cfg[field.name] = parseInt(o, 10);
-									} else {
-										cfg[field.name] = o;
-									}
+								if (!(field.name in cfg)) {
+									cfg[field.name] = {};
 								}
-							} else if (!(field.name in cfg)) {
-								if ("empty" in field) {
-									if (!field.multiple || (WinConfig.FieldFormat.NUMBER & field.format) || (true === field.value) || (field.value instanceof Array && 1 == field.value.length)) {
-										cfg[field.name] = field.empty;
-									} else {
-										cfg[field.name] = [field.empty];
-									}
-								} else if (WinConfig.FieldFormat.NUMBER & field.format) {
-									cfg[field.name] = 0;
-								} else if (field.multiple) {
-									cfg[field.name] = [];
-								}
-							}
-						} else if (WinConfig.FieldType.SELECT == field.type) {
-							if (~elem.selectedIndex) {
-								if (field.multiple) {
-									for (var ci in field.value) {
-										var e = field.value[ci].elements[0];
 
-										if (e.selected) {
-											if (field.unique && (WinConfig.FieldFormat.NUMBER & field.format)) {
-												cfg[field.name] |= e.value;
+								for (var ai in x) {
+									cfg[field.name][ai] = x[ai];
+								}
+							} else if (WinConfig.FieldType.CHECK == field.type) {
+								if (elem.checked) {
+									if (field.multiple && field.value instanceof Array && field.value.length > 1) {
+										if (WinConfig.FieldFormat.NUMBER & field.format) {
+											cfg[field.name] |= elem.value;
+										} else if (WinConfig.FieldFormat.BOOLEAN & field.format) {
+											if (field.name in cfg) {
+												cfg[field.name].push(elem.value == "true");
 											} else {
-												var o = e.value;
-												if (WinConfig.FieldFormat.BOOLEAN & field.format) {
-													o = (o == "true" || !isNaN(o) && !!parseInt(o, 10))
-												} else if (WinConfig.FieldFormat.NUMBER & field.format) {
-													o = parseInt(o, 10);
-												}
+												cfg[field.name] = [elem.value == "true"];
+											}
+										} else if (field.name in cfg) {
+											cfg[field.name].push(elem.value);
+										} else {
+											cfg[field.name] = [elem.value];
+										}
+									} else {
+										var o = elem.value;
 
-												if (field.name in cfg) {
-													cfg[field.name].push(o);
+										if (WinConfig.FieldFormat.BOOLEAN & field.format) {
+											cfg[field.name] = (o == "true" || !isNaN(o) && !!parseInt(o, 10));
+										} else if (WinConfig.FieldFormat.NUMBER & field.format) {
+											cfg[field.name] = parseInt(o, 10);
+										} else {
+											cfg[field.name] = o;
+										}
+									}
+								} else if (!(field.name in cfg)) {
+									if ("empty" in field) {
+										if (!field.multiple || (WinConfig.FieldFormat.NUMBER & field.format) || (true === field.value) || (field.value instanceof Array && 1 == field.value.length)) {
+											cfg[field.name] = field.empty;
+										} else {
+											cfg[field.name] = [field.empty];
+										}
+									} else if (WinConfig.FieldFormat.NUMBER & field.format) {
+										cfg[field.name] = 0;
+									} else if (field.multiple) {
+										cfg[field.name] = [];
+									}
+								}
+							} else if (WinConfig.FieldType.SELECT == field.type) {
+								if (~elem.selectedIndex) {
+									if (field.multiple) {
+										for (var ci in field.value) {
+											var e = field.value[ci].elements[0];
+
+											if (e.selected) {
+												if (field.unique && (WinConfig.FieldFormat.NUMBER & field.format)) {
+													cfg[field.name] |= e.value;
 												} else {
-													cfg[field.name] = [o];
+													var o = e.value;
+													if (WinConfig.FieldFormat.BOOLEAN & field.format) {
+														o = (o == "true" || !isNaN(o) && !!parseInt(o, 10))
+													} else if (WinConfig.FieldFormat.NUMBER & field.format) {
+														o = parseInt(o, 10);
+													}
+
+													if (field.name in cfg) {
+														cfg[field.name].push(o);
+													} else {
+														cfg[field.name] = [o];
+													}
 												}
 											}
 										}
-									}
-								} else {
-									var o = elem.options[elem.selectedIndex].value;
-
-									if (WinConfig.FieldFormat.BOOLEAN & field.format) {
-										cfg[field.name] = (o == "true" || !isNaN(o) && !!parseInt(o, 10));
-									} else if (WinConfig.FieldFormat.NUMBER & field.format) {
-										cfg[field.name] = parseInt(o, 10);
 									} else {
-										cfg[field.name] = o;
+										var o = elem.options[elem.selectedIndex].value;
+
+										if (WinConfig.FieldFormat.BOOLEAN & field.format) {
+											cfg[field.name] = (o == "true" || !isNaN(o) && !!parseInt(o, 10));
+										} else if (WinConfig.FieldFormat.NUMBER & field.format) {
+											cfg[field.name] = parseInt(o, 10);
+										} else {
+											cfg[field.name] = o;
+										}
+									}
+								} else if (!(field.name in cfg)) {
+									if ("empty" in field) {
+										cfg[field.name] = field.empty;
+									} else if (WinConfig.FieldFormat.NUMBER & field.format) {
+										cfg[field.name] = 0;
+									} else if (field.multiple) {
+										cfg[field.name] = [];
 									}
 								}
-							} else if (!(field.name in cfg)) {
-								if ("empty" in field) {
-									cfg[field.name] = field.empty;
-								} else if (WinConfig.FieldFormat.NUMBER & field.format) {
-									cfg[field.name] = 0;
-								} else if (field.multiple) {
-									cfg[field.name] = [];
+							} else if (WinConfig.FieldType.TEXT == field.type && (WinConfig.FieldFormat.ARRAY & field.format)) {
+								var arr = elem.value.split("\n");
+								if (WinConfig.FieldFormat.NUMBER & field.format) {
+									arr = arr.map(function (v) {
+										return parseInt(v, 10);
+									});
+								} else if (WinConfig.FieldFormat.BOOLEAN & field.format) {
+									arr = arr.map(function (v) {
+										return (v == "true" || !isNaN(v) && !!parseInt(v, 10));
+									});
 								}
-							}
-						} else if (WinConfig.FieldType.TEXT == field.type && (WinConfig.FieldFormat.ARRAY & field.format)) {
-							var arr = elem.value.split("\n");
-							if (WinConfig.FieldFormat.NUMBER & field.format) {
-								arr = arr.map(function (v) {
-									return parseInt(v, 10);
-								});
-							} else if (WinConfig.FieldFormat.BOOLEAN & field.format) {
-								arr = arr.map(function (v) {
-									return (v == "true" || !isNaN(v) && !!parseInt(v, 10));
-								});
-							}
-							cfg[field.name] = arr;
-						} else if (WinConfig.FieldType.TEXT == field.type || WinConfig.FieldType.HIDDEN == field.type || WinConfig.FieldType.PASSWORD == field.type) {
-							var x;
-							if (WinConfig.FieldFormat.NUMBER & field.format) {
-								if (elem.value) {
-									x = parseInt(elem.value, 10);
-								} else if ("empty" in field) {
-									x = field.empty;
-								}
-							} else {
-								x = elem.value;
-							}
-
-							if (WinConfig.FieldFormat.ARRAY & field.format) {
-								if (field.name in cfg) {
-									cfg[field.name].push(x);
+								cfg[field.name] = arr;
+							} else if (WinConfig.FieldType.TEXT == field.type || WinConfig.FieldType.HIDDEN == field.type || WinConfig.FieldType.PASSWORD == field.type) {
+								var x;
+								if (WinConfig.FieldFormat.NUMBER & field.format) {
+									if (elem.value) {
+										x = parseInt(elem.value, 10);
+									} else if ("empty" in field) {
+										x = field.empty;
+									}
 								} else {
-									cfg[field.name] = [x];
+									x = elem.value;
 								}
-							} else {
-								cfg[field.name] = x;
+
+								if (WinConfig.FieldFormat.ARRAY & field.format) {
+									if (field.name in cfg) {
+										cfg[field.name].push(x);
+									} else {
+										cfg[field.name] = [x];
+									}
+								} else {
+									cfg[field.name] = x;
+								}
 							}
 						}
 					}
@@ -308,10 +318,10 @@ var WinConfig = function (params) {
 		var x = v.split("."),
 		r = function (vv, g) {
 			var k = vv.shift();
-			return (k in g?(vv.length?r(vv, g[k]):g[k]):(vv.length?r(vv, d[k]):d[k]));
+			return (k in g?(vv.length?r(vv, g[k]):g[k]):d && (vv.length?r(vv, d[k]):d[k]));
 		};
 		if ("group" in this) {
-			return (this.group in config?r(x, config[this.group]):r(x, d[this.group]));
+			return (this.group in config?r(x, config[this.group]):d && r(x, d[this.group]));
 		} else {
 			return r(x, config);
 		}
@@ -397,65 +407,69 @@ var WinConfig = function (params) {
 				if (field.name in cfg) {
 					var c = cfg[field.name];
 
-					for (var bi in field.elements) {
-						var elem = field.elements[bi];
+					if (field.setConfig instanceof Function) {
+						field.setConfig(c);
+					} else {
+						for (var bi in field.elements) {
+							var elem = field.elements[bi];
 
-						if (WinConfig.FieldType.GROUP == field.type) {
-							recursive(field, c);
-						} else if (WinConfig.FieldType.CHECK == field.type) {
-							var tmp = elem.checked;
-							if (field.unique && (WinConfig.FieldFormat.NUMBER & field.format)) {
-								tmp = !(elem.value & ~(c & elem.value));
-							} else if (c instanceof Array) {
-								tmp = false;
-
-								for (var ci in c) {
-									if (c[ci] == elem.value) {
-										tmp = true;
-										break;
-									}
-								}
-							} else {
-								tmp = (String(c) == elem.value);
-							}
-
-							if (elem.checked != tmp) {
-								elem.click();
-//								elem.checked = tmp;
-							}
-						} else if (WinConfig.FieldType.SELECT == field.type) {
-							for (var di in field.value) {
-								var elem2 = field.value[di].elements[0],
-								tmp = elem2.selected;
-
+							if (WinConfig.FieldType.GROUP == field.type) {
+								recursive(field, c);
+							} else if (WinConfig.FieldType.CHECK == field.type) {
+								var tmp = elem.checked;
 								if (field.unique && (WinConfig.FieldFormat.NUMBER & field.format)) {
-									tmp = !(elem2.value & ~(c & elem2.value));
+									tmp = !(elem.value & ~(c & elem.value));
 								} else if (c instanceof Array) {
 									tmp = false;
 
 									for (var ci in c) {
-										if (c[ci] == elem2.value) {
+										if (c[ci] == elem.value) {
 											tmp = true;
 											break;
 										}
 									}
 								} else {
-									tmp = (c == elem2.value);
+									tmp = (String(c) == elem.value);
 								}
 
-								if (elem2.selected != tmp) {
-									elem2.selected = tmp;
-
-//									elem2.click();
-//									var evObj = document.createEvent("MouseEvents");
-//									evObj.initMouseEvent("click", true, true, window, 0, 0, 0, 0, 0, true, false, false, false, 0, null);
-//									elem2.dispatchEvent(evObj);
+								if (elem.checked != tmp) {
+									elem.click();
+	//								elem.checked = tmp;
 								}
+							} else if (WinConfig.FieldType.SELECT == field.type) {
+								for (var di in field.value) {
+									var elem2 = field.value[di].elements[0],
+									tmp = elem2.selected;
+
+									if (field.unique && (WinConfig.FieldFormat.NUMBER & field.format)) {
+										tmp = !(elem2.value & ~(c & elem2.value));
+									} else if (c instanceof Array) {
+										tmp = false;
+
+										for (var ci in c) {
+											if (c[ci] == elem2.value) {
+												tmp = true;
+												break;
+											}
+										}
+									} else {
+										tmp = (c == elem2.value);
+									}
+
+									if (elem2.selected != tmp) {
+										elem2.selected = tmp;
+
+										// elem2.click();
+										// var evObj = document.createEvent("MouseEvents");
+										// evObj.initMouseEvent("click", true, true, window, 0, 0, 0, 0, 0, true, false, false, false, 0, null);
+										// elem2.dispatchEvent(evObj);
+									}
+								}
+							} else if (WinConfig.FieldType.TEXT == field.type && (WinConfig.FieldFormat.ARRAY & field.format)) {
+								elem.value = c.join("\n");
+							} else if (WinConfig.FieldType.TEXT == field.type || WinConfig.FieldType.HIDDEN == field.type || WinConfig.FieldType.PASSWORD == field.type) {
+								elem.value = c;
 							}
-						} else if (WinConfig.FieldType.TEXT == field.type && (WinConfig.FieldFormat.ARRAY & field.format)) {
-							elem.value = c.join("\n");
-						} else if (WinConfig.FieldType.TEXT == field.type || WinConfig.FieldType.HIDDEN == field.type || WinConfig.FieldType.PASSWORD == field.type) {
-							elem.value = c;
 						}
 					}
 				}
@@ -498,6 +512,11 @@ var WinConfig = function (params) {
 				for (var bi in fld) {
 					x[bi] = fld[bi];
 				}
+
+				if (x.default && x.setConfig instanceof Function) {
+					x.setConfig(x.default);
+					delete fld.default;
+				}
 				_parent.fields[ai] = fld = x;
 			}
 
@@ -512,6 +531,10 @@ var WinConfig = function (params) {
 			}
 			fld.parent = _parent;
 			
+			if (!("events" in fld)) {
+				fld.events = {};
+			}
+
 			desc2.setAttribute("class", "description");
 			desc2.innerHTML = fld.description;
 			div.setAttribute("class", "fieldClass_" + fld.class + " fieldName_" + fld.name + " fieldParent_" + _parent.name + " fieldType_" + fld.type + " field");
@@ -595,10 +618,6 @@ var WinConfig = function (params) {
 				
 				ff.setAttribute("name", fld.name);
 				
-				if (!("events" in fld)) {
-					fld.events = {};
-				}
-
 				if (fld.multiple) {
 					ff.setAttribute("multiple", "multiple");
 
@@ -607,7 +626,10 @@ var WinConfig = function (params) {
 							ff.setAttribute("selected", "selected");
 						}
 
-						fld.events.change = function (e) {
+						if (!(fld.events.change instanceof Array)) {
+							fld.events.change = [fld.events.change];
+						}
+						fld.events.change.push(function (e) {
 							for (var bi = e.target.selectedIndex; bi < e.target.options.length;++bi) {
 								var opt = e.target.options[bi];
 
@@ -621,7 +643,7 @@ var WinConfig = function (params) {
 									}
 								}
 							}
-						};
+						});
 					}
 				}
 
@@ -695,7 +717,11 @@ var WinConfig = function (params) {
 								input.events = {};
 							}
 
-							input.events.change = function (e, field) {
+							if (!(fld.events.change instanceof Array)) {
+								input.events.change = [fld.events.change];
+							}
+
+							input.events.change.push(function (e, field) {
 								for each (var f in document.querySelectorAll("div.fieldParent_" + this.parent.name + " input[name = '" + e.target.name + "']")) {
 									if (f != e.target) {
 										var value = (field.value & f.value);
@@ -705,7 +731,7 @@ var WinConfig = function (params) {
 										}
 									}
 								}
-							};
+							});
 						} else if ("default" in fld) {
 							if (fld.default instanceof Array) {
 								for (var ci in fld.default) {
@@ -723,6 +749,9 @@ var WinConfig = function (params) {
 							ff.setAttribute("checked", "checked");
 						}
 
+						for (var ci in fld.events) {
+							addEvent(ff, ci, fld.events[ci], fld, [input]);
+						}
 						for (var ci in input.events) {
 							addEvent(ff, ci, input.events[ci], fld, [input]);
 						}
