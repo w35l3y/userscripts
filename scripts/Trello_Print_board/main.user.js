@@ -7,11 +7,13 @@
 // @copyright      2015+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        1.0.0
+// @version        1.0.1
 // @include        https://trello.com/b/*/*
 // @icon           http://gm.wesley.eti.br/icon.php?desc=scripts/Trello_Print_board/main.user.js
 // @grant          GM_openInTab
 // @grant          GM_getResourceText
+// @resource       core https://d78fikflryjgj.cloudfront.net/css/76ead370f4805199a6d67aca7c014143/core.css
+// @resource       normalize http://fiddle.jshell.net/css/normalize.css
 // @resource       print-boardCss http://pastebin.com/download.php?i=gpNrTUkh
 // @require        http://code.jquery.com/jquery-2.1.3.js
 // @require        http://api.trello.com/1/client.js?key=05e1b25a9057bb2aecbc99363285a8c2&dummy=.js
@@ -35,22 +37,31 @@
 **************************************************************************/
 
 var openInBackground = true,
+debug = false,
 onAuthorize = function () {
 	if (/\/b\/(\w+)/.test(location.pathname)) {
+		// https://trello.com/docs/api/board/index.html
 		Trello.boards.get(RegExp.$1, {
 			cards	: "all",
 			lists	: "all",
-			card_checklists: "all"
+			card_checklists: "all",
+			members	: "all",
 		}, function (board) {
-			var $ulList = $("<ul>"),
+			debug && console.log(board);
+			var members = {},
+			$ulList = $("<ul>"),
 			$check = $("<input type='checkbox'>")
 			.addClass("checkbox"),
 			$hr = $("<hr>").addClass("hr");
 
+			for (var ai in board.members) {
+				members[board.members[ai].id] = board.members[ai];
+			}
+
 			$.each(board.lists, function(ix, list) {
 				var $liList = $("<li>")
 				.text(list.name)
-				.addClass("list")
+				.addClass("custom-list")
 				.appendTo($ulList),
 				$ulCard = $("<ul>").appendTo($liList);
 				$hr.clone().appendTo($liList);
@@ -61,25 +72,33 @@ onAuthorize = function () {
 					var $liCard = $("<li>")
 					.text(card.name)
 					.prepend($check.clone().prop("checked", card.closed))
+					.append($("<div>").addClass("badge badge-state-image-only subscribed").append($("<div>").addClass("badge-icon icon-sm"+(card.subscribed?" icon-star":""))))
+					.append($("<div>").addClass("duedate").text(card.due?new Date(card.due).toLocaleDateString():""))
 					.addClass("card")
-					.appendTo($ulCard),
-					$ulChecklist = $("<ul>").appendTo($liCard);
+					.appendTo($ulCard);
 
-					$.each(card.checklists, function (ix, checklist) {
-						var $liChecklist = $("<li>")
-						.text(checklist.name)
-						.addClass("checklist")
-						.appendTo($ulChecklist),
-						$ulItem = $("<ul>").appendTo($liChecklist);
+					card.idMembers.length && $liCard.append($("<div>").addClass("members").text(card.idMembers.map(function (id) {
+						return members[id].initials;
+					}).join(", ")));
 
-						$.each(checklist.checkItems, function (ix, item) {
-							var $liItem = $("<li>")
-							.text(item.name)
-							.prepend($check.clone().prop("checked", "complete" == item.state))
-							.addClass("item")
-							.appendTo($ulItem);
+					if (card.checklists.length) {
+						var $ulChecklist = $("<ul>").appendTo($liCard);
+						$.each(card.checklists, function (ix, checklist) {
+							var $liChecklist = $("<li>")
+							.text(checklist.name)
+							.addClass("checklist")
+							.appendTo($ulChecklist),
+							$ulItem = $("<ul>").appendTo($liChecklist);
+
+							$.each(checklist.checkItems, function (ix, item) {
+								var $liItem = $("<li>")
+								.text(item.name)
+								.prepend($check.clone().prop("checked", "complete" == item.state))
+								.addClass("item")
+								.appendTo($ulItem);
+							});
 						});
-					});
+					}
 				});
 			}); 
 
@@ -89,7 +108,7 @@ onAuthorize = function () {
 				.find("body")
 				.html($ulList);
 
-				$("#print-document")[0]
+				!debug && $("#print-document")[0]
 				.contentWindow
 				.print();
 			} else {
@@ -100,7 +119,7 @@ onAuthorize = function () {
 
 					$(win.document.head).append($("<style>", {
 						type	: "text/css"
-					}).text(GM_getResourceText("print-boardCss")));
+					}).append(GM_getResourceText("core")).append(GM_getResourceText("normalize")).append(GM_getResourceText("print-boardCss")));
 					$(win.document.body).html($ulList);
 
 					win.print();
@@ -123,9 +142,6 @@ $("#content").one("DOMNodeInserted", "#permission-level", function (e) {
 	.addClass("board-header-btn")
 	.append($("<span>").addClass("board-header-btn-icon icon-sm icon-camera"))
 	.append($("<span>").addClass("board-header-btn-text").text("Print"))
-	.append($("<iframe>", {
-		id	: "print-document"
-	}).hide())
 	.insertAfter($("#permission-level"))
 	.on("click", function () {
 		Trello.authorize({
@@ -141,13 +157,21 @@ $("#content").one("DOMNodeInserted", "#permission-level", function (e) {
 	});
 
 	if (openInBackground) {
+		$("#print-board")
+		.append($("<iframe>", {
+			id	: "print-document"
+		}).hide());
+		debug && $("#print-board").css("height", "400px");
+
+		debug && $("#print-document").css("width", "800px").css("height", "400px").show();
+
 		$("#print-document").load(function () {
 			$("#print-document")
 			.contents()
 			.find("head")
 			.append($("<style>", {
 				type	: "text/css"
-			}).text(GM_getResourceText("print-boardCss")));
+			}).append(GM_getResourceText("core")).append(GM_getResourceText("normalize")).append(GM_getResourceText("print-boardCss")));
 
 			$("#print-board").show();
 		});
