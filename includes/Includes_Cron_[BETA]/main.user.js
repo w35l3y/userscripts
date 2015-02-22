@@ -173,7 +173,7 @@ var Cron = function (id, current) {
 
 			if (this.ready(c)) {
 				console.log("2 READY", obj.id, c);
-				if (obj.command(pUpdate)) {
+				if (obj.command.apply(obj, [pUpdate])) {
 					pUpdate();
 				} else {
 					_debug("No synchronous response (possibly asynchronous)");
