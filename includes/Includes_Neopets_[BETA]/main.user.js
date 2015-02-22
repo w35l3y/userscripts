@@ -38,6 +38,9 @@
 var Neopets = function (doc) {
 	var createdAt = new Date(),
 	diff = GM_getValue("neopets-diff", 0),
+	_b = function (v) {
+		return xpath("boolean(" + v + ")", doc);
+	},
 	_s = function (v) {
 		return xpath("string(" + v + ")", doc) || "";
 	},
@@ -46,20 +49,43 @@ var Neopets = function (doc) {
 	},
 	contentTime = doc && _s(".//script[contains(text(), 'var na =')]/text()"),
 	_listeners = {},
+	_this = this,
 	_post = function (url, data, type) {
-		HttpRequest.open({
-			method		: "post",
-			url			: url,
-			onsuccess	: function (xhr) {
-				_this.document = xhr.response.xml;
-
+		_this.request({
+			action	: url,
+			data	: data,
+			callback: function () {
 				if (type in _listeners) {
 					for (var ai = 0, at = _listeners[type].length;ai < at;++ai) {
-						_listeners[type][ai](doc);
+						_listeners[type][ai](xhr);
 					}
 				}
 			}
-		}).send(data);
+		});
+	};
+	
+	this.request = function (obj) {
+		HttpRequest.open({
+			method		: obj.method || "post",
+			url			: obj.action,
+			headers		: {
+				Referer	: obj.referer || obj.action,
+			},
+			onsuccess	: function (xhr) {
+				var doc = xhr.response.xml,
+				data = {
+					error	: xpath("boolean(.//img[@class = 'errorOops']|id('oops'))", doc),
+					errmsg	: xpath("string(.//div[@class = 'errorMessage']/text())", doc),
+					body	: doc,
+				};
+
+				if (!data.error) {
+					_this.document = doc;
+				}
+
+				obj.callback(data);
+			}
+		}).send(obj.data);
 	};
 
 	if (contentTime) {
@@ -213,6 +239,11 @@ var Neopets = function (doc) {
 				_post("http://www.neopets.com/process_changepet.phtml", {
 					new_active_pet	: value,
 				}, "activePet");
+			},
+		},
+		events		: {
+			get		: function () {
+				throw "Not implemented yet";
 			},
 		},
 		friends		: {
