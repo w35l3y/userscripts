@@ -7,7 +7,7 @@
 // @copyright      2013+, w35l3y (http://gm.wesley.eti.br/includes)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br/includes
-// @version        1.8.3
+// @version        1.8.4
 // @language       en
 // @include        nowhere
 // @exclude        *
@@ -507,8 +507,8 @@ var WinConfig = function (params) {
 				format	: WinConfig.FieldFormat.STRING,
 			};
 			
-			if (fld.key in WinConfig.CustomField) {
-				var x = new WinConfig.CustomField[fld.key](_this);
+			if (fld.key instanceof Function || fld.key in WinConfig.CustomField) {
+				var x = new (fld.key instanceof Function?fld.key:WinConfig.CustomField[fld.key])(_this);
 				for (var bi in fld) {
 					x[bi] = fld[bi];
 				}
