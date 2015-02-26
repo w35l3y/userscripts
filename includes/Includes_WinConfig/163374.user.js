@@ -7,7 +7,7 @@
 // @copyright      2013+, w35l3y (http://gm.wesley.eti.br/includes)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br/includes
-// @version        1.8.4
+// @version        1.8.5
 // @language       en
 // @include        nowhere
 // @exclude        *
@@ -51,6 +51,10 @@ var WinConfig = function (params) {
 	this.parent = null;
 	this.children = [];
 
+	this.reset = function () {
+		GM_deleteValue("config-" + this.name);
+	};
+	
 	this.buttons = (function (type) {
 		switch (type) {
 			case WinConfig.WindowType.PROMPT:
@@ -1034,9 +1038,12 @@ WinConfig.CustomField.hotkey = function (_window) {
 		var name = (function r (f) {
 			return (f && f.parent?(f.parent.parent?r(f.parent):"") + f.name + ".":"");
 		}(_field.parent)) + _field.name,
-		cfg = _window.get(name);
+		cfg = _window.get(name) || {
+			keyCode	: 0x53,
+			keys	: 0x7,
+		};
 
-		if (cfg && cfg.keyCode == e.keyCode) {
+		if (cfg.keyCode == e.keyCode) {
 			var keys = ["alt", "ctrl", "shift", "meta"];
 
 			for (var ai in keys) {
