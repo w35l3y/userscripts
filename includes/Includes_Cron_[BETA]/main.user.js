@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.2.0
+// @version     1.2.1
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -37,8 +37,9 @@
 // http://infocenter.sybase.com/help/index.jsp?topic=/com.sybase.infocenter.dc01963.0510/doc/html/psh1360346725201.html
 var Cron = function (id, current) {
 	var diff = (current?current.valueOf() - Date.now():0),
+	isDebug = false,
 	_debug = function () {
-		false && console.debug.apply(console, arguments);
+		isDebug && console.debug.apply(console, arguments);
 	},
 	_currentDate = function () {
 		var v = new Date();
@@ -161,12 +162,12 @@ var Cron = function (id, current) {
 		
 		this.execute = function (cb) {
 			var _this = this,
-			pUpdate = function () {
+			pUpdate = function (next) {
 				for (var ai = 0, at = _listeners.length;ai < at;++ai) {
 					_listeners[ai].apply(null, arguments);
 				}
 
-				_this.update(_currentDate());
+				_this.update(next?new Date(next):_currentDate());
 				cb(_this);
 			},
 			c = _currentDate();
@@ -247,8 +248,8 @@ var Cron = function (id, current) {
 		var pInterval = o.next();
 		for (var index = 0, at = tasks.length;index < at && pInterval >= tasks[index].next();++index) {}
 
-		_debug("0 ADD", o.id, pInterval, index);
 		tasks.splice(index, 0, o);	// inserts 'o' at position 'index'
+		_debug("0 ADD", o.id, pInterval, index);
 
 		_updateTimer();
 		
@@ -263,6 +264,7 @@ var Cron = function (id, current) {
 			wait = Math.max(Math.min(n - cd, Math.pow(2, 31) - 1), 0);
 			console.log("1 TIMER", tasks[0].id, cd, new Date(n), n - cd, wait);
 			timer = setTimeout(function () {
+				isDebug && alert("Ready...");
 				tasks.shift().execute(_add);
 			}, wait);
 		}
@@ -277,7 +279,9 @@ var Cron = function (id, current) {
 	};
 
 	this.removeTask = function (o) {
-		var index = -1;
+		var index = -1,
+		removed;
+
 		if (typeof o == "string") {
 			for (var ai = 0, at = tasks.length;ai < at;++ai) {
 				if (o == tasks[ai].id) {
@@ -289,9 +293,11 @@ var Cron = function (id, current) {
 			index = tasks.indexOf(o);
 		}
 
-		var removed = tasks.splice(index, 1)[0];
-		if (!index) {
-			_updateTimer();
+		if (~index) {
+			removed = tasks.splice(index, 1)[0];
+			if (!index) {	// index 0 removed
+				_updateTimer();
+			}
 		}
 
 		return removed;
