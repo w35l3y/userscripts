@@ -7,12 +7,13 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.1.1
+// @version     1.1.2
 // @language    en
 // @include     nowhere
 // @exclude     *
 // @grant       GM_getValue
 // @grant       GM_setValue
+// @grant       GM_xmlhttpRequest
 // @icon        http://gm.wesley.eti.br/icon.php?desc=includes/Includes_Neopets_[BETA]/main.user.js
 // @require     https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
 // @require     https://github.com/w35l3y/userscripts/raw/master/includes/Includes_HttpRequest/56489.user.js
@@ -51,13 +52,13 @@ var Neopets = function (doc) {
 	_listeners = {},
 	_this = this,
 	_post = function (url, data, type) {
-		_this.request({
+		return _this.request({
 			action	: url,
 			data	: data,
-			callback: function () {
+			callback: function (obj) {
 				if (type in _listeners) {
 					for (var ai = 0, at = _listeners[type].length;ai < at;++ai) {
-						_listeners[type][ai](xhr);
+						_listeners[type][ai](obj);
 					}
 				}
 			}
@@ -65,25 +66,32 @@ var Neopets = function (doc) {
 	};
 	
 	this.request = function (obj) {
-		HttpRequest.open({
+		return HttpRequest.open({
 			method		: obj.method || "post",
 			url			: obj.action,
 			headers		: {
 				Referer	: obj.referer || obj.action,
 			},
 			onsuccess	: function (xhr) {
-				var doc = xhr.response.xml,
+				var _doc = xhr.response.xml,
 				data = {
-					error	: xpath("boolean(.//img[@class = 'errorOops']|id('oops'))", doc),
-					errmsg	: xpath("string(.//div[@class = 'errorMessage']/text())", doc),
-					body	: doc,
+					error	: xpath("boolean(.//img[@class = 'errorOops']|id('oops'))", _doc),
+					errmsg	: xpath("string(.//div[@class = 'errorMessage']/text())", _doc),
+					body	: _doc,
 				};
 
 				if (!data.error) {
-					_this.document = doc;
+					_this.document = _doc;
 				}
 
+				console.log(xhr.response.text);
 				obj.callback(data);
+
+				if (false && "events" in _listeners) {	// there were random events
+					for (var ai = 0, at = _listeners.events.length;ai < at;++ai) {
+						_listeners.events[ai](data);
+					}
+				}
 			}
 		}).send(obj.data);
 	};
@@ -107,6 +115,7 @@ var Neopets = function (doc) {
 			createdAt.getUTCMilliseconds()
 		)),
 		diff = Date.now() - createdAt;
+
 		GM_setValue("neopets-diff", diff);
 	} else {
 		createdAt.setUTCMilliseconds(createdAt.getUTCMilliseconds() - diff);
@@ -239,6 +248,9 @@ var Neopets = function (doc) {
 				_post("http://www.neopets.com/process_changepet.phtml", {
 					new_active_pet	: value,
 				}, "activePet");
+				/*
+				addEventListener("activePet", function () {})
+				*/
 			},
 		},
 		events		: {
@@ -258,4 +270,6 @@ var Neopets = function (doc) {
 			},
 		},
 	});
+	
+	this.document = doc;
 };
