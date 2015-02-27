@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.2.1
+// @version     1.2.2
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -244,6 +244,7 @@ var Cron = function (id, current) {
 		_debug(this);
 	},
 	tasks = [],
+	runKey = id + "-runKey",
 	_add = function (o) {
 		var pInterval = o.next();
 		for (var index = 0, at = tasks.length;index < at && pInterval >= tasks[index].next();++index) {}
@@ -251,6 +252,7 @@ var Cron = function (id, current) {
 		tasks.splice(index, 0, o);	// inserts 'o' at position 'index'
 		_debug("0 ADD", o.id, pInterval, index);
 
+		GM_deleteValue(runKey);
 		_updateTimer();
 		
 		return o;
@@ -264,8 +266,13 @@ var Cron = function (id, current) {
 			wait = Math.max(Math.min(n - cd, Math.pow(2, 31) - 1), 0);
 			console.log("1 TIMER", tasks[0].id, cd, new Date(n), n - cd, wait);
 			timer = setTimeout(function () {
-				isDebug && alert("Ready...");
-				tasks.shift().execute(_add);
+				if (GM_getValue(runKey, true)) {	// tries to solve concurrent executions
+					GM_setValue(runKey, false);
+					isDebug && alert("Ready...");
+					tasks.shift().execute(_add);
+				} else {
+					setTimeout(_updateTimer, 200 + Math.floor(300 * Math.random()));
+				}
 			}, wait);
 		}
 	};
