@@ -7,7 +7,7 @@
 // @copyright      2013+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        3.0.0
+// @version        3.1.0
 // @language       en
 // @include        http://www.neopets.com/*
 // @icon           http://gm.wesley.eti.br/icon.php?desc=89503
@@ -17,18 +17,15 @@
 // @grant          GM_deleteValue
 // @grant          GM_xmlhttpRequest
 // @grant          GM_getResourceText
-// @resource       includes http://pastebin.com/download.php?i=eArANXdm
-// @resource       meta http://userscripts.org/scripts/source/89503.meta.js
 // @resource       i18n http://pastebin.com/download.php?i=ULrVTsSg
-// @resource       updaterWindowHtml http://pastebin.com/download.php?i=3gr9tRAT
 // @resource       updaterWindowCss http://pastebin.com/download.php?i=C1qAvAed
-// @require        http://userscripts.org/scripts/source/63808.user.js
-// @require        http://userscripts.org/scripts/source/56489.user.js
-// @require        http://userscripts.org/scripts/source/85618.user.js
-// @require        http://userscripts.org/scripts/source/87940.user.js
-// @require        http://userscripts.org/scripts/source/87942.user.js
-// @require        http://pastebin.com/download.php?i=sin7DHJi
-// @require        http://pastebin.com/download.php?i=P6VTBRRK
+// @resource       updaterWindowHtml http://pastebin.com/download.php?i=3gr9tRAT
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_HttpRequest/56489.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Translate/85618.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_I18n/87940.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Updater/87942.user.js
+// @history        3.1.0 Added 4 more themes (Battleground: Seekers, Daily Dare: Chadley, Monster Hunting and Habitarium)
 // @history        3.0.0 Fixed some bugs
 // @history        2.3.0 Added "Battleground: Awakened" Theme
 // @history        2.3.0 Added "Battleground: Brute Squad" Theme
@@ -78,13 +75,17 @@
 			"32"	: ["032_ord_635af", "Battleground: Order of the Red Erisim", 6],
 			"34"	: ["034_tvg_yg724", "Battleground: Thieves Guild", 6],
 			"33"	: ["033_swy_82090", "Battleground: The Sway", 6],
+			"31"	: ["031_skr_8944c", "Battleground: Seekers", 6],
 			"8"		: ["008_com_e529a", "Curse of Maraqua", 10],
 			"12"	: ["012_tcg_d977a", "Cyodrake's Gaze", 8],
 			"23"	: ["023_dyd_c470b", "Daily Dare", 10],
+			"36"	: ["036_ddc_je4z0", "Daily Dare: Chadley", 2],
 			"26"	: ["026_fon_f2c70", "Festival of Neggs", 7],
+			"38"	: ["038_hab_ig53k", "Habitarium", 12],
 			"4"		: ["004_bir_a2e60", "Happy Birthday", 7],
 			"3"		: ["003_hws_9bde9", "Haunted Woods", 11],
 			"28"	: ["028_kri_306cb", "Krawk Island", 7],
+			"37"	: ["037_hmh_f7k8s", "Monster Hunting", 14],
 			"0"		: ["000_def_f65b1", "Neopets Basic", 15],
 			"16"	: ["016_blu_e56fc", "Neopets Blue", 15],
 			"17"	: ["017_grn_f0c1a", "Neopets Green", 15],
