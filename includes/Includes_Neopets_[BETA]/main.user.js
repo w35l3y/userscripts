@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.1.2
+// @version     1.2.0
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -49,8 +49,8 @@ var Neopets = function (doc) {
 		return parseInt(_s(v).replace(/[,.]/g, ""), 10) || 0;
 	},
 	contentTime = doc && _s(".//script[contains(text(), 'var na =')]/text()"),
-	_listeners = {},
 	_this = this,
+	_listeners = {},
 	_post = function (url, data, type) {
 		return _this.request({
 			action	: url,
@@ -66,6 +66,13 @@ var Neopets = function (doc) {
 	};
 	
 	this.request = function (obj) {
+		if (obj.ck) {
+			if (!obj.data) {
+				obj.data = {};
+			}
+			obj.data[obj.ck] = this.ck;
+		}
+
 		return HttpRequest.open({
 			method		: obj.method || "post",
 			url			: obj.action,
@@ -74,22 +81,37 @@ var Neopets = function (doc) {
 			},
 			onsuccess	: function (xhr) {
 				var _doc = xhr.response.xml,
+				_txt = xhr.response.text,
 				data = {
 					error	: xpath("boolean(.//img[@class = 'errorOops']|id('oops'))", _doc),
 					errmsg	: xpath("string(.//div[@class = 'errorMessage']/text())", _doc),
 					body	: _doc,
 				};
 
-				if (!data.error) {
+				if (data.error) {
+					if (obj.ck && !xpath("boolean(.//a[contains(@onclick, 'templateLogin')])", _doc)) {
+						_this.request({
+							method	: "get",
+							action	: "http://www.neopets.com/space/strangelever.phtml",
+							callback: function () {},
+						});
+					}
+				} else {
 					_this.document = _doc;
 				}
 
-				console.log(xhr.response.text);
+				//console.log(xhr.response.text);
 				obj.callback(data);
-
-				if (false && "events" in _listeners) {	// there were random events
-					for (var ai = 0, at = _listeners.events.length;ai < at;++ai) {
-						_listeners.events[ai](data);
+				
+				var l = [
+					["events", /class="inner_wrapper2"/.test(_txt)],
+				];
+				
+				for (var ai in l) {
+					if (l[1] && l[0] in _listeners) {
+						for (var bi = 0, bt = _listeners[l[0]].length;bi < bt;++bi) {
+							_listeners[l[0]][bi](data);
+						}
 					}
 				}
 			}
@@ -148,12 +170,22 @@ var Neopets = function (doc) {
 			get		: this.getDocument,
 			set		: function (value) {
 				doc = value;
-				this.np = _n("id('header')//td/a[contains(@href, 'inventory')]/text()");
+
+				var np = _n("id('header')//td/a[contains(@href, 'inventory')]/text()"),
+				_refck = _s(".//*[(@name = '_ref_ck' or @name = 'ck') and string-length(@value) = 32]/@value") || (/_ref_ck=(\w{32})/.test(_s(".//*[contains(@href, '_ref_ck')]/@href"))?RegExp.$1:"");
+
+				np && this.np = np;
+				_refck && saveUserData("ck", _refck);
 			},
 		},
 		username	: {
 			get		: function () {
 				return (/([^=]+)$/.test(_s("id('header')//a[contains(@href, '?user=')]/@href")) && RegExp.$1 || "");
+			},
+		},
+		loggedIn	: {
+			get		: function () {
+				return !_b(".//a[contains(@onclick, 'templateLogin')]");
 			},
 		},
 		language	: {
@@ -178,10 +210,18 @@ var Neopets = function (doc) {
 		},
 		theme		: {
 			get		: function () {
-				return (/\/themes\/(\w+)/.test(_s(".//link[contains(@href, '/themes/')]/@href | .//img[contains(@src, '/themes/')][1]/@src")) && RegExp.$1 || "");
+				return parseInt(/\/themes\/(\d+)_/.test(_s(".//link[contains(@href, '/themes/')]/@href | .//img[contains(@src, '/themes/')][1]/@src")) && RegExp.$1 || "", 10);
 			},
 			set		: function (value) {
-				throw "Not implemented yet";
+				_post("http://www.neopets.com/settings/set_theme.phtml", {
+					theme	: value,
+					_ref_ck	: this.ck,
+				}, "theme");
+			},
+		},
+		ck		: {
+			get		: function () {
+				return _userTmp.ck;
 			},
 		},
 		np			: {
@@ -255,7 +295,16 @@ var Neopets = function (doc) {
 		},
 		events		: {
 			get		: function () {
-				throw "Not implemented yet";
+				return xpath(".//div[@class = 'inner_wrapper2']/img[@class = 'item']", doc).map(function (item) {
+					return {
+						icon	: item.previousElementSibling.getAttribute("src"),
+						item	: {
+							name	: xpath("string(./b)", item.nextElementSibling),
+							image	: item.getAttribute("src"),
+						},
+						message	: item.nextElementSibling.textContent.trim(),
+					};
+				});
 			},
 		},
 		friends		: {
@@ -271,5 +320,12 @@ var Neopets = function (doc) {
 		},
 	});
 	
+	var userKey = "neopets-" + this.username,
+	_userTmp = JSON.parse(GM_getValue(userKey, "{}")),
+	saveUserData = function (k, v) {
+		_userTmp[k] = v;
+		GM_setValue(userKey, JSON.stringify(_userTmp));
+	};
+
 	this.document = doc;
 };
