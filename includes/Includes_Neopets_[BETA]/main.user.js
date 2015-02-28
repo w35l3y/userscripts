@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.2.0
+// @version     1.2.1
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -174,7 +174,7 @@ var Neopets = function (doc) {
 				var np = _n("id('header')//td/a[contains(@href, 'inventory')]/text()"),
 				_refck = _s(".//*[(@name = '_ref_ck' or @name = 'ck') and string-length(@value) = 32]/@value") || (/_ref_ck=(\w{32})/.test(_s(".//*[contains(@href, '_ref_ck')]/@href"))?RegExp.$1:"");
 
-				np && this.np = np;
+				np && (this.np = np);
 				_refck && saveUserData("ck", _refck);
 			},
 		},
