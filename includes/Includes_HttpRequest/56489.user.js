@@ -7,7 +7,7 @@
 // @copyright      2011+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br/includes
-// @version        2.0.5.1
+// @version        2.1.0
 // @language       en
 // @include        nowhere
 // @exclude        *
@@ -41,44 +41,63 @@ HttpRequest.open = function (params) {
 		}
 
 		this.options = {
-			"method"		: params.method.toUpperCase() || "GET",
-			"url"			: params.url,
+			"method"		: (params.method || "GET").toUpperCase(),
+			"url"			: params.url || "",
 			"headers"		: { "User-Agent" : window.navigator.userAgent },
 			"synchronous"	: !!params.synchronous,
 			"onload"		: function (e) {
-				var obj = params.parameters || {};
+				var obj = params.parameters || {},
+				_resp = {};
 
-				obj.response = {
-					"raw"	: e,
-					"text"	: e.responseText,
-					"xml"	: e.responseXML
-				};
+				Object.defineProperties(_resp, {
+					raw : {
+						get	: function () {
+							return e;
+						},
+					},
+					text: {
+						get	: function () {
+							return e.responseText;
+						},
+					},
+					xml	: {
+						get	: function () {
+							if (e.responseXML) {
+								return e.responseXML;
+							} else {
+								if (/^Content-Type: text\/xml/m.test(e.responseHeaders)) {
+									return new DOMParser().parseFromString(e.responseText, "text/xml");
+								} else if (/^Content-Type: text\/html/m.test(e.responseHeaders)) {
+									/*var dt = document.implementation.createDocumentType("html", "-//W3C//DTD HTML 4.01 Transitional//EN", "http://www.w3.org/TR/html4/loose.dtd");
+									var doc = document.implementation.createDocument(null, null, dt);
 
-				if (/^Content-Type: (?:text|application)\/(?:x-)?json/m.test(e.responseHeaders)) {
-					try {
-						obj.response.json = (typeof JSON != "undefined" && typeof JSON.parse == "function" ? JSON.parse(e.responseText) : eval("(" + e.responseText + ")") );
-					} catch (e) {
-						obj.response.json = {};
+									// I have to find a workaround because this technique make the html(*)/head/body tags disappear.  
+									var html = document.createElement("html");
+									html.innerHTML = e.responseText;
+									doc.appendChild(html);*/
+									var doc = document.implementation.createHTMLDocument("");
+									doc.documentElement.innerHTML = e.responseText;
+
+									return doc;
+								}
+							}
+						},
+					},
+					json: {
+						get	: function () {
+							if (/^Content-Type: (?:text|application)\/(?:x-)?json/m.test(e.responseHeaders)) {
+								try {
+									return (typeof JSON != "undefined" && typeof JSON.parse == "function" ? JSON.parse(e.responseText) : eval("(" + e.responseText + ")") );
+								} catch (e) {
+									return {};
+								}
+							}
+						},
 					}
-				}
-
-				if (!obj.response.xml) {
-					if (/^Content-Type: text\/xml/m.test(e.responseHeaders)) {
-						obj.response.xml = new DOMParser().parseFromString(e.responseText, "text/xml");
-					} else if (/^Content-Type: text\/html/m.test(e.responseHeaders)) {
-						/*var dt = document.implementation.createDocumentType("html", "-//W3C//DTD HTML 4.01 Transitional//EN", "http://www.w3.org/TR/html4/loose.dtd");
-						var doc = document.implementation.createDocument(null, null, dt);
-
-						// I have to find a workaround because this technique make the html(*)/head/body tags disappear.  
-						var html = document.createElement("html");
-						html.innerHTML = e.responseText;
-						doc.appendChild(html);*/
-						var doc = document.implementation.createHTMLDocument("");
-						doc.documentElement.innerHTML = e.responseText;
-
-						obj.response.xml = doc;
-					}
-				}
+				});
+				Object.defineProperty(obj, "response", {
+					value	: _resp,
+				});
 
 				if (typeof params.onsuccess == "function") {
 					params.onsuccess(obj);
@@ -121,9 +140,10 @@ HttpRequest.open = function (params) {
 					var x = "";
 					for (var key in content) {
 						if (content[key] instanceof Array) {
-							var keyarr = key.replace(/^\s+|\s+$/g, "");
-							if (!/\[\w*\]$/.test(key))
-							keyarr += "[]";
+							var keyarr = key.trim();
+							if (!/\[\w*\]$/.test(key)) {
+								keyarr += "[]";
+							}
 
 							for each (var v in content[key]) {
 								x += "&" + encodeURIComponent(keyarr) + "=" + encodeURIComponent(v);
@@ -139,7 +159,7 @@ HttpRequest.open = function (params) {
 						this.options.headers["Content-Type"] = "application/x-www-form-urlencoded";
 						this.options.data = content;
 					} else {
-						this.options.url += (/\?/.test(this.options.url) ? "&" : "?") + content;
+						this.options.url += (~this.options.url.indexOf("?") ? "&" : "?") + content;
 					}
 				} else {
 					this.options.data = content;
