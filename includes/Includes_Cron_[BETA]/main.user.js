@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.2.2
+// @version     1.3.0
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -68,34 +68,25 @@ var Cron = function (id, current) {
 		SLASH	: 2,
 	},
 	intervals = [
-		[0, 59],	// second
-		[0, 59],	// minute
-		[0, 23],	// hour
-		[1, 31],	// day
-		[1, 12],	// month
-		[0, 6],		// weekday
-		[0, 0],		// year
-	],
-	methods = [
-		[60, "UTCSeconds"],
-		[60, "UTCMinutes"],
-		[24, "UTCHours"],
-		[31, "UTCDate"],	// under test
-		[12, "UTCMonth"],	// under test
-		[7, "UTCDay"],		// under test
-		[0, "UTCFullYear"],	// under test
+		[0, 59, 60, "UTCSeconds"],	// second
+		[0, 59, 60, "UTCMinutes"],	// minute
+		[0, 23, 24, "UTCHours"],	// hour
+		[1, 31, 0, "UTCDate"],	// day
+		[1, 12, 12, "UTCMonth"],	// month
+		[0, 6, 7, "UTCDay"],		// weekday
+		[0, 0, 0, "UTCFullYear"],		// year
 	],
 	Task = function (obj) {
 		var _current = _currentDate(),
 		map = {
 					// s m h D M d Y
-			reboot	: "? ? ? ? ? * ?",
-			yearly	: "0 0 0 1 1 * *",
-			monthly	: "0 0 0 1 * * *",
-			weekly	: "0 0 0 * * 0 *",
-			daily	: "0 0 0 * * * *",
-			midnight: "0 0 0 * * * *",
-			hourly	: "0 0 * * * * *",
+			reboot	: "? ? ? ? ? ? ?",				// unchanged
+			yearly	: "*#0 *#0 *#0 *#1 *#1 * *",	// "0 0 0 1 1 * *",
+			monthly	: "*#0 *#0 *#0 *#1 * * *",		// "0 0 0 1 * * *",
+			weekly	: "*#0 *#0 *#0 * * *#0 *",		// "0 0 0 * * 0 *",
+			daily	: "*#0 *#0 *#0 * * * *",		// "0 0 0 * * * *",
+			midnight: "0 0 0 * * * *",				// unchanged
+			hourly	: "*#0 *#0 * * * * *",			// "0 0 * * * * *",
 		},
 		_listeners = [];
 
@@ -110,21 +101,26 @@ var Cron = function (id, current) {
 					return ($1 in map?map[$1]:$0);
 				}) + " * * * * * *").trim().split(/\s+/g).slice(0, 7).map(function (data, index, array) {
 					if (/^([\*\?]|\d+(?:-\d+)?(?:,\d+(?:-\d+)?)*)(?:([\#\/])(\d+))?$/.test(data)) {
-						var type = 1 + "#/".indexOf(RegExp.$2 || undefined);
-
-						var step = parseInt(RegExp.$3, 10) || 1,
-						currentValue = _current["get" + methods[index][1]](),
-						pInterval = intervals[index];
+						var type = 1 + "#/".indexOf(RegExp.$2 || undefined),
+						step = (RegExp.$3?parseInt(RegExp.$3, 10):1),
+						currentValue = _current["get" + intervals[index][3]](),
+						pInterval = intervals[index].slice(0, 2),
+						wildcard = 1 + "*?".indexOf(RegExp.$1 || undefined);
 
 						return {
 							step	: step,
 							type	: type,
-							wildcard: 1 + "*?".indexOf(RegExp.$1 || undefined),
-							values	: RegExp.$1.replace("?", function () {
-								return currentValue + (currentValue % step);
-							}).replace("*", pInterval.join("-")).replace(/(\d+)-(\d+)/g, function ($0, $1, $2) {
-								var opts = [parseInt($1, 10) + (obj.relative?currentValue % step:0)];
-								for (var ai = opts[0] + step, at = parseInt($2, 10);ai <= at;ai += step) {
+							wildcard: wildcard,
+							values	: RegExp.$1
+							.replace("?", function () {
+								return currentValue + (step?currentValue % step:0);
+							})
+							.replace("*", pInterval.join("-"))
+							.replace(/(\d+)-(\d+)/g, function ($0, $1, $2) {
+								var opts = [parseInt($1, 10) + (obj.relative && step?currentValue % step:0)],
+								s = (_type.ASTERISK == wildcard && step?step:1);
+
+								for (var ai = opts[0] + s, at = parseInt($2, 10);ai <= at;ai += s) {
 									opts.push(ai);
 								}
 								return opts.join(",");
@@ -132,8 +128,9 @@ var Cron = function (id, current) {
 								return parseInt(data, 10) - (_type.MONTH == index);	// parse numbers
 							}).sort(function (a, b) {
 								return (a > b?1:-1);	// asc
-							}).filter(function (data, index, array) {
-								return data != array[index - 1] && (_type.YEAR == index || pInterval[0] <= data && data <= pInterval[1]);	// repeated values and out of bound
+							}).filter(function (data, i, array) {
+								return data != array[i - 1]
+									&& (_type.YEAR == index || (_type.MONTH != index || isFinite(--data)) && pInterval[0] <= data && data <= pInterval[1]);	// repeated values and out of bound
 							}),
 						};
 					}
@@ -145,15 +142,17 @@ var Cron = function (id, current) {
 		
 		this.ready = function (date) {
 			var _this = this;
+
 			return this.next() <= date && this.interval.every(function (data, index, array) {
 				if (_type.WEEKDAY == index && _type.HASH == data.type) {
 					throw "Not implemented yet";
 				} else {
 					if (_type.ASTERISK == data.wildcard
-						|| 0 <= data.values.indexOf((_type.MONTH == index) + date["get" + methods[index][1]]())) {
+						|| 0 <= data.values.indexOf(date["get" + intervals[index][3]]())) {
 						return true;
 					} else {
-						console.log(_this.id, index, date["get" + methods[index][1]](), data);
+						// TODO should be removed once it is tested
+						console.log("SKIP", _this.id, index, date["get" + intervals[index][3]](), data);
 						return false;
 					}
 				}
@@ -188,32 +187,45 @@ var Cron = function (id, current) {
 		};
 		
 		this.update = function (date) {
-			date.setUTCMilliseconds(1000);
+			date.setUTCMilliseconds(1000);	// NEXT : at least 1 second later
 			var max = new Date(Date.UTC(date.getUTCFullYear(), 1 + date.getUTCMonth(), 0, 0, 0, 0, 0)).getUTCDate();
 
 			for (var index = 0, at = this.interval.length;index < at;++index) {
-				var method = methods[index],
+				var method = intervals[index],
 				pInterval = this.interval[index],
 				tInterval = pInterval.values,
-				value = date["get" + method[1]](),
-				tmp = [tInterval[0], (_type.DAY == index?max:method[0])];
-				if (_type.DAY != index
-					|| _type.HASH != pInterval.type
-					|| value <= pInterval.step
-					|| ~this.interval[_type.MONTH].values.indexOf(date.getUTCMonth())) {
+				value = date["get" + method[3]](),
+				tmp = [tInterval[0], (_type.DAY == index?max:method[2])];
+				
+				if (~tInterval.indexOf(value)) {
+					if (_type.HASH == pInterval.type) {
+						date["set" + method[3]](pInterval.step + tmp[1] + (obj.relative?value:0));
+					} else if (_type.SLASH == pInterval.type) {
+						date["set" + method[3]](pInterval.step + value);
+					}
+				} else {
 					for (var bi = 0, bt = tInterval.length;bi < bt;++bi) {
-						if (tInterval[bi] >= value) {
+						if (tInterval[bi] > value) {
 							tmp = [tInterval[bi], 0];
 							break;
 						}
 					}
-				}
-				
-				if (_type.WEEKDAY == index) {
-					date.setUTCDate(date.getUTCDate() + tmp[0] + tmp[1] - value);
-				} else if (_type.YEAR != index || 0 < tmp[0]) {
-					//console.log(index, tmp[0], tmp[1], tmp[0] + tmp[1]);
-					date["set" + method[1]](tmp[0] + tmp[1]);
+
+					if (_type.WEEKDAY == index) {
+						// under test
+						date.setUTCDate(date.getUTCDate() + tmp[0] + tmp[1] - value);
+					} else if (_type.YEAR != index || 0 < tmp[0]) {
+						date["set" + method[3]](tmp[0] + tmp[1]);
+
+						if (!obj.relative) {
+							// reset prior indexes
+							for (var ci = 0;ci < index;++ci) {
+								if (_type.WEEKDAY != ci) {
+									date["set" + intervals[ci][3]](this.interval[ci].values[0]);
+								}
+							}
+						}
+					}
 				}
 			}
 
@@ -240,8 +252,6 @@ var Cron = function (id, current) {
 				return _listeners.splice(index, 1)[0];
 			}
 		};
-
-		_debug(this);
 	},
 	tasks = [],
 	runKey = id + "-runKey",
@@ -250,7 +260,7 @@ var Cron = function (id, current) {
 		for (var index = 0, at = tasks.length;index < at && pInterval >= tasks[index].next();++index) {}
 
 		tasks.splice(index, 0, o);	// inserts 'o' at position 'index'
-		_debug("0 ADD", o.id, pInterval, index);
+		console.debug("0 ADD", new Date(pInterval), index, o.id);
 
 		GM_deleteValue(runKey);
 		_updateTimer();
@@ -264,11 +274,11 @@ var Cron = function (id, current) {
 			var cd = _currentDate(),
 			n = tasks[0].next(),
 			wait = Math.max(Math.min(n - cd, Math.pow(2, 31) - 1), 0);
-			console.log("1 TIMER", tasks[0].id, cd, new Date(n), n - cd, wait);
+			//console.log("1 TIMER", tasks[0].id, cd, new Date(n), n - cd, wait);
 			timer = setTimeout(function () {
 				if (GM_getValue(runKey, true)) {	// tries to solve concurrent executions
 					GM_setValue(runKey, false);
-					isDebug && alert("Ready...");
+					//isDebug && alert("Ready...");
 					tasks.shift().execute(_add);
 				} else {
 					setTimeout(_updateTimer, 200 + Math.floor(300 * Math.random()));
