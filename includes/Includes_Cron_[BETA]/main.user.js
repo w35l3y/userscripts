@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.3.1
+// @version     1.3.2
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -187,7 +187,7 @@ var Cron = function (id, current) {
 		};
 		
 		this.update = function (date) {
-			//date.setUTCMilliseconds(0);
+			date.setUTCMilliseconds(0);
 			var max = new Date(Date.UTC(date.getUTCFullYear(), 1 + date.getUTCMonth(), 0, 0, 0, 0, 0)).getUTCDate();
 
 			for (var index = 0, at = this.interval.length;index < at;++index) {
