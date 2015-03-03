@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.3.0
+// @version     1.3.1
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -118,7 +118,7 @@ var Cron = function (id, current) {
 							.replace("*", pInterval.join("-"))
 							.replace(/(\d+)-(\d+)/g, function ($0, $1, $2) {
 								var opts = [parseInt($1, 10) + (obj.relative && step?currentValue % step:0)],
-								s = (_type.ASTERISK == wildcard && step?step:1);
+								s = (_type.ASTERISK == wildcard && step && !obj.relative?step:1);
 
 								for (var ai = opts[0] + s, at = parseInt($2, 10);ai <= at;ai += s) {
 									opts.push(ai);
@@ -187,7 +187,7 @@ var Cron = function (id, current) {
 		};
 		
 		this.update = function (date) {
-			date.setUTCMilliseconds(1000);	// NEXT : at least 1 second later
+			//date.setUTCMilliseconds(0);
 			var max = new Date(Date.UTC(date.getUTCFullYear(), 1 + date.getUTCMonth(), 0, 0, 0, 0, 0)).getUTCDate();
 
 			for (var index = 0, at = this.interval.length;index < at;++index) {
@@ -199,8 +199,8 @@ var Cron = function (id, current) {
 				
 				if (~tInterval.indexOf(value)) {
 					if (_type.HASH == pInterval.type) {
-						date["set" + method[3]](pInterval.step + tmp[1] + (obj.relative?value:0));
-					} else if (_type.SLASH == pInterval.type) {
+						date["set" + method[3]](pInterval.step + (obj.relative?value:tmp[1]));
+					} else if (_type.SLASH == pInterval.type || _type.SECOND == index) {
 						date["set" + method[3]](pInterval.step + value);
 					}
 				} else {
