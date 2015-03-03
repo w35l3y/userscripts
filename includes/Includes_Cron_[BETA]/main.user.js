@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.3.3
+// @version     1.3.4
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -146,7 +146,7 @@ var Cron = function (id, current) {
 		this.ready = function (date) {
 			var _this = this;
 
-			return this.next() <= date && this.interval.every(function (data, index, array) {
+			return this.interval.every(function (data, index, array) {
 				if (_type.WEEKDAY == index && _type.HASH == data.type) {
 					throw "Not implemented yet";
 				} else {
@@ -174,7 +174,9 @@ var Cron = function (id, current) {
 			},
 			c = _currentDate();
 
-			if (this.ready(c)) {
+			if (this.next() > c) {
+				cb(_this);
+			} else if (this.ready(c)) {
 				console.log("2 READY", obj.id, c);
 				if (obj.command.apply(obj, [pUpdate])) {
 					pUpdate();
