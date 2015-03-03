@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.3.2
+// @version     1.3.3
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -94,6 +94,9 @@ var Cron = function (id, current) {
 			id	: {
 				enumerable	: true,
 				value	: obj.id,
+			},
+			priority	: {
+				value	: obj.priority,
 			},
 			interval	: {
 				enumerable	: true,
@@ -257,7 +260,14 @@ var Cron = function (id, current) {
 	runKey = id + "-runKey",
 	_add = function (o) {
 		var pInterval = o.next();
-		for (var index = 0, at = tasks.length;index < at && pInterval >= tasks[index].next();++index) {}
+		for (var index = 0, at = tasks.length;index < at;++index) {
+			var t = tasks[index],
+			v = t.next();
+			if (pInterval < v || pInterval == v && (o.priority < t.priority || isFinite(o.priority) && t.priority === undefined)) {
+				pInterval == v && console.log("PRIOR", o.id, t.id);
+				break;
+			}
+		}
 
 		tasks.splice(index, 0, o);	// inserts 'o' at position 'index'
 		console.debug("0 ADD", new Date(pInterval), index, o.id);
