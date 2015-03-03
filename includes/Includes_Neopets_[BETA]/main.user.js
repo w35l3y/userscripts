@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.2.1
+// @version     1.2.2
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -102,18 +102,6 @@ var Neopets = function (doc) {
 
 				//console.log(xhr.response.text);
 				obj.callback(data);
-				
-				var l = [
-					["events", /class="inner_wrapper2"/.test(_txt)],
-				];
-				
-				for (var ai in l) {
-					if (l[1] && l[0] in _listeners) {
-						for (var bi = 0, bt = _listeners[l[0]].length;bi < bt;++bi) {
-							_listeners[l[0]][bi](data);
-						}
-					}
-				}
 			}
 		}).send(obj.data);
 	};
@@ -172,10 +160,26 @@ var Neopets = function (doc) {
 				doc = value;
 
 				var np = _n("id('header')//td/a[contains(@href, 'inventory')]/text()"),
-				_refck = _s(".//*[(@name = '_ref_ck' or @name = 'ck') and string-length(@value) = 32]/@value") || (/_ref_ck=(\w{32})/.test(_s(".//*[contains(@href, '_ref_ck')]/@href"))?RegExp.$1:"");
+				_refck = _s(".//*[(@name = '_ref_ck' or @name = 'ck') and string-length(@value) = 32]/@value") || (/_ref_ck=(\w{32})/.test(_s(".//*[contains(@href, '_ref_ck')]/@href"))?RegExp.$1:""),
+				listen = [
+					["events", _b(".//div[@class = 'inner_wrapper2']")],
+				],
+				data = {
+					error	: _b(".//img[@class = 'errorOops']|id('oops')"),
+					errmsg	: _s(".//div[@class = 'errorMessage']/text()"),
+					body	: doc,
+				};
 
 				np && (this.np = np);
 				_refck && saveUserData("ck", _refck);
+
+				for (var ai in listen) {
+					if (listen[1] && listen[0] in _listeners) {
+						for (var bi = 0, bt = _listeners[listen[0]].length;bi < bt;++bi) {
+							_listeners[listen[0]][bi](data);
+						}
+					}
+				}
 			},
 		},
 		username	: {
