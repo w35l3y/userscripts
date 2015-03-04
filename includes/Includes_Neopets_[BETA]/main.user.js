@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.2.2
+// @version     1.2.3
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -73,7 +73,7 @@ var Neopets = function (doc) {
 			obj.data[obj.ck] = this.ck;
 		}
 
-		return HttpRequest.open({
+		var req = HttpRequest.open({
 			method		: obj.method || "post",
 			url			: obj.action,
 			headers		: {
@@ -103,7 +103,15 @@ var Neopets = function (doc) {
 				//console.log(xhr.response.text);
 				obj.callback(data);
 			}
-		}).send(obj.data);
+		});
+		
+		if (obj.delay) {
+			return setTimeout(function () {
+				req.send(obj.data);
+			}, this.delay[0] + Math.floor(this.delay[1] * Math.random()));
+		} else {
+			return req.send(obj.data);
+		}
 	};
 
 	if (contentTime) {
@@ -171,7 +179,7 @@ var Neopets = function (doc) {
 				};
 
 				np && (this.np = np);
-				_refck && saveUserData("ck", _refck);
+				_refck && this.setUserData("ck", _refck);
 
 				for (var ai in listen) {
 					if (listen[1] && listen[0] in _listeners) {
@@ -231,6 +239,10 @@ var Neopets = function (doc) {
 		np			: {
 			writable: true,
 			value	: 0,
+		},
+		delay		: {
+			writable: true,
+			value	: [534, 363],
 		},
 		nc			: {
 			get		: function () {
@@ -325,8 +337,13 @@ var Neopets = function (doc) {
 	});
 	
 	var userKey = "neopets-" + this.username,
-	_userTmp = JSON.parse(GM_getValue(userKey, "{}")),
-	saveUserData = function (k, v) {
+	_userTmp = JSON.parse(GM_getValue(userKey, "{}"));
+	
+	this.getUserData = function (k) {
+		return _userTmp[k];
+	};
+	
+	this.setUserData = function (k, v) {
 		_userTmp[k] = v;
 		GM_setValue(userKey, JSON.stringify(_userTmp));
 	};
