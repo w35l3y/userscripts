@@ -7,13 +7,11 @@
 // @copyright      2013+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        2.1.0
+// @version        2.1.1
 // @language       en
 // @include        /userscripts\.org\/scripts\/review\/176400$/
 // @grant          GM_getResourceText
 // @icon           http://gm.wesley.eti.br/icon.php?desc=176400
-// @require        ../../includes/Includes_Notify/292725.user.js
-// @require        ../../includes/Includes_Assert/288385.user.js
 // @debug          true
 // @uso:author     55607
 // @uso:script     176400
@@ -162,6 +160,7 @@ Template.get = function (template, context) {
 	}(template, context, undefined, 0, true));
 }
 
+/*
 Assert.execute(new function TemplateTest () {
 	this.testOutputs = function () {
 		assertEquals("-1-2-3", Template.get("#{values}-#{value/}#{/values}", [1,2,3]));
@@ -170,3 +169,4 @@ Assert.execute(new function TemplateTest () {
 		assertEquals("*1|23-*1*2|34*5-*1*2*3|4", Template.get("#{values}#{index|>0}-#{/index}#{v1}*#{value/}#{/v1}|#{v2}#{index|>1}*#{/index}#{value/}#{/v2}#{/values}", [{v1:[1], v2:[2,3]}, {v1:[1,2], v2:[3,4,5]}, {v1:[1,2,3], v2:[4]}]));
 	};
 });
+*/
