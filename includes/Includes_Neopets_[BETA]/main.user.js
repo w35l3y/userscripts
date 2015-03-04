@@ -38,7 +38,7 @@
 
 var Neopets = function (doc) {
 	var createdAt = new Date(),
-	diff = GM_getValue("neopets-diff", 0),
+	diff = GM_getValue("neopets-diff", 28800000),	// UTC-0800
 	_b = function (v) {
 		return xpath("boolean(" + v + ")", doc);
 	},
