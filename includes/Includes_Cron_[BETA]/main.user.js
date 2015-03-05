@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.3.4
+// @version     1.3.5
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -175,6 +175,7 @@ var Cron = function (id, current) {
 			c = _currentDate();
 
 			if (this.next() > c) {
+				console.debug("2 DELAY", obj.id, c);
 				cb(_this);
 			} else if (this.ready(c)) {
 				console.log("2 READY", obj.id, c);
@@ -184,7 +185,7 @@ var Cron = function (id, current) {
 					_debug("No synchronous response (possibly asynchronous)");
 				}
 			} else {
-				_debug("2 WAIT", obj.id, c);
+				console.debug("2 WAIT", obj.id, c);
 				pUpdate();
 			}
 
@@ -288,11 +289,13 @@ var Cron = function (id, current) {
 			wait = Math.max(Math.min(n - cd, Math.pow(2, 31) - 1), 0);
 			//console.log("1 TIMER", tasks[0].id, cd, new Date(n), n - cd, wait);
 			timer = setTimeout(function () {
+				nextAt = JSON.parse(GM_getValue(nextAtKey, JSON.stringify(nextAt)));
 				if (GM_getValue(runKey, true)) {	// tries to solve concurrent executions
 					GM_setValue(runKey, false);
 					//isDebug && alert("Ready...");
 					tasks.shift().execute(_add);
 				} else {
+					console.log("DELAY");
 					setTimeout(_updateTimer, 200 + Math.floor(300 * Math.random()));
 				}
 			}, wait);
@@ -363,5 +366,5 @@ var Cron = function (id, current) {
 		return this;
 	};
 	
-	_debug("0 DIFF", diff);
+	console.debug("0 DIFF", diff);
 };
