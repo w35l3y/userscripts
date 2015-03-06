@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.2.4
+// @version     1.2.5
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -63,7 +63,8 @@ var Neopets = function (doc) {
 				}
 			}
 		});
-	};
+	},
+	_punct = ".,";
 	
 	this.request = function (obj) {
 		if (obj.ck) {
@@ -338,6 +339,10 @@ var Neopets = function (doc) {
 			value	: _b("id('superfooter')"),
 		},
 	});
+	
+	this.format = function (value) {
+		return ("" + value).replace(/[.]/g, _punct[0]).replace(/\d(?=(?:\d{3})+(?:\D|$))/g, "$&" + _punct[1]);
+	};
 	
 	var userKey = "neopets-" + this.username,
 	_userTmp = JSON.parse(GM_getValue(userKey, "{}"));
