@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.2.3
+// @version     1.2.4
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -333,6 +333,9 @@ var Neopets = function (doc) {
 					avatar	: "",
 				}];
 			},
+		},
+		premium		: {
+			value	: _b("id('superfooter')"),
 		},
 	});
 	
