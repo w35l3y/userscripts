@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.2.5
+// @version     1.2.6
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -124,11 +124,12 @@ var Neopets = function (doc) {
 			staticTime[RegExp.$1] = parseInt(RegExp.$2, 10);
 		}
 
+		var h = (staticTime.h % 12) + (12 * isPm);
 		createdAt = new Date(Date.UTC(
 			createdAt.getUTCFullYear(),
 			createdAt.getUTCMonth(),
-			createdAt.getUTCDate(),
-			(staticTime.h % 12) + (12 * isPm) - (createdAt.getUTCHours() < createdAt.getHours()?24:0),
+			createdAt.getUTCDate() - (h - createdAt.getUTCHours() > 24 - h),
+			h,
 			staticTime.m,
 			staticTime.s,
 			createdAt.getUTCMilliseconds()
