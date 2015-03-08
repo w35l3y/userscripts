@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.3.5
+// @version     1.3.6
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -275,7 +275,7 @@ var Cron = function (id, current) {
 		tasks.splice(index, 0, o);	// inserts 'o' at position 'index'
 		console.debug("0 ADD", new Date(pInterval), index, o.id);
 
-		GM_deleteValue(runKey);
+		localStorage.removeItem(runKey);
 		_updateTimer();
 		
 		return o;
@@ -290,17 +290,28 @@ var Cron = function (id, current) {
 			//console.log("1 TIMER", tasks[0].id, cd, new Date(n), n - cd, wait);
 			timer = setTimeout(function () {
 				nextAt = JSON.parse(GM_getValue(nextAtKey, JSON.stringify(nextAt)));
-				if (GM_getValue(runKey, true)) {	// tries to solve concurrent executions
-					GM_setValue(runKey, false);
+				if (!localStorage.getItem(runKey)) {	// tries to solve concurrent executions
+					localStorage.setItem(runKey, true);
 					//isDebug && alert("Ready...");
 					tasks.shift().execute(_add);
-				} else {
-					console.log("DELAY");
-					setTimeout(_updateTimer, 200 + Math.floor(300 * Math.random()));
 				}
 			}, wait);
 		}
 	};
+	
+	window.addEventListener("storage", function (e) {
+		if (runKey == e.key && e.oldValue != e.newValue) {
+			if (e.newValue === undefined) {
+				setTimeout(_updateTimer, Math.floor(200 * Math.random()));
+			} else if (e.newValue) {
+				clearTimeout(timer);
+				timer = setTimeout(function () {
+					localStorage.removeItem(runKey);
+					_updateTimer();
+				}, 30000 + Math.floor(500 * Math.random()));
+			}
+		}
+	}, false);
 	
 	this.getDate = function () {
 		return _currentDate();
