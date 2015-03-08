@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.2.6
+// @version     1.2.7
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -64,7 +64,14 @@ var Neopets = function (doc) {
 			}
 		});
 	},
-	_punct = ".,";
+	_punct = ".,",
+	processDocument = function (d) {
+		return {
+			error	: xpath("boolean(.//img[@class = 'errorOops']|id('oops'))", d),
+			errmsg	: xpath("string(.//div[@class = 'errorMessage']/text())", d),
+			body	: d,
+		};
+	};
 	
 	this.request = function (obj) {
 		if (obj.ck) {
@@ -83,11 +90,7 @@ var Neopets = function (doc) {
 			onsuccess	: function (xhr) {
 				var _doc = xhr.response.xml,
 				_txt = xhr.response.text,
-				data = {
-					error	: xpath("boolean(.//img[@class = 'errorOops']|id('oops'))", _doc),
-					errmsg	: xpath("string(.//div[@class = 'errorMessage']/text())", _doc),
-					body	: _doc,
-				};
+				data = processDocument(_doc);
 
 				if (data.error) {
 					if (obj.ck && !xpath("boolean(.//a[contains(@onclick, 'templateLogin')])", _doc)) {
@@ -154,7 +157,7 @@ var Neopets = function (doc) {
 	};
 	
 	this.getDocument = function () {
-		return doc;
+		return processDocument(doc);
 	};
 
 	Object.defineProperties(this, {
@@ -165,7 +168,9 @@ var Neopets = function (doc) {
 			get		: this.getTime,
 		},
 		document	: {
-			get		: this.getDocument,
+			get		: function () {
+				return doc;
+			},
 			set		: function (value) {
 				doc = value;
 
