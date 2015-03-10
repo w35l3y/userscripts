@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.3.6
+// @version     1.3.7
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -88,7 +88,33 @@ var Cron = function (id, current) {
 			midnight: "0 0 0 * * * *",				// unchanged
 			hourly	: "*#0 *#0 * * * * *",			// "0 0 * * * * *",
 		},
-		_listeners = [];
+		_listeners = [],
+		_execute = function (mode, cb) {
+			var _this = this,
+			pUpdate = function (next) {
+				for (var ai = 0, at = _listeners.length;ai < at;++ai) {
+					_listeners[ai].apply(null, arguments);
+				}
+
+				_this.update(next?new Date(next):_currentDate());
+				cb(_this);
+			},
+			c = _currentDate();
+
+			if (this.ready(c)) {
+				console.log("2 READY", obj.id, c);
+				if (obj.command.apply(obj, [mode, pUpdate])) {
+					pUpdate();
+				} else {
+					_debug("No synchronous response (possibly asynchronous)");
+				}
+			} else {
+				console.debug("2 WAIT", obj.id, c);
+				pUpdate();
+			}
+			
+			return this;
+		};
 
 		Object.defineProperties(this, {
 			id	: {
@@ -162,36 +188,6 @@ var Cron = function (id, current) {
 			});
 		};
 		
-		this.execute = function (cb) {
-			var _this = this,
-			pUpdate = function (next) {
-				for (var ai = 0, at = _listeners.length;ai < at;++ai) {
-					_listeners[ai].apply(null, arguments);
-				}
-
-				_this.update(next?new Date(next):_currentDate());
-				cb(_this);
-			},
-			c = _currentDate();
-
-			if (this.next() > c) {
-				console.debug("2 DELAY", obj.id, c);
-				cb(_this);
-			} else if (this.ready(c)) {
-				console.log("2 READY", obj.id, c);
-				if (obj.command.apply(obj, [pUpdate])) {
-					pUpdate();
-				} else {
-					_debug("No synchronous response (possibly asynchronous)");
-				}
-			} else {
-				console.debug("2 WAIT", obj.id, c);
-				pUpdate();
-			}
-
-			return this;
-		};
-		
 		this.update = function (date) {
 			date.setUTCMilliseconds(0);
 			var max = new Date(Date.UTC(date.getUTCFullYear(), 1 + date.getUTCMonth(), 0, 0, 0, 0, 0)).getUTCDate();
@@ -240,6 +236,24 @@ var Cron = function (id, current) {
 			GM_setValue(nextAtKey, JSON.stringify(nextAt));
 
 			return this;
+		};
+
+		this.execute2 = function (cb) {
+			var c = _currentDate();
+
+			if (this.next() > c) {
+				console.debug("2 DELAY", obj.id, c);
+				cb(this);
+			} else {
+				_execute.apply(this, [true, cb]);
+			}
+
+			return this;
+		},
+
+		
+		this.execute = function (cb) {
+			_execute.apply(this, [false, cb]);
 		};
 
 		this.next = function () {
@@ -293,7 +307,7 @@ var Cron = function (id, current) {
 				if (!localStorage.getItem(runKey)) {	// tries to solve concurrent executions
 					localStorage.setItem(runKey, true);
 					//isDebug && alert("Ready...");
-					tasks.shift().execute(_add);
+					tasks.shift().execute2(_add);
 				}
 			}, wait);
 		}
