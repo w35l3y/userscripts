@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.2.7
+// @version     1.2.8
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -318,6 +318,17 @@ var Neopets = function (doc) {
 		},
 		events		: {
 			get		: function () {
+			/*
+<table width="400" align="center">
+	<tbody><tr>
+		<td width="400" bgcolor="#ffffcc" align="center" cellpadding="3" colspan="2"><b>Something has happened!</b></td>
+	</tr>
+	<tr>
+		<td width="80"><img width="80" height="80" border="1" src="http://images.neopets.com/items/hall_petpet1.gif"></td>
+		<td width="320">You have received <strong>50 Neopoints</strong> from what seems to be a very rich Slorg.  That was nice of him.  Anyway, thanks for visiting the Shop of Offers today!  *triumphant music*<br></td>
+	</tr>
+</tbody></table>
+			*/
 				return xpath(".//div[@class = 'inner_wrapper2']/img[@class = 'item']", doc).map(function (item) {
 					return {
 						icon	: item.previousElementSibling.getAttribute("src"),
@@ -327,7 +338,16 @@ var Neopets = function (doc) {
 						},
 						message	: item.nextElementSibling.textContent.trim(),
 					};
-				});
+				}).concat(xpath(".//table[@width = '400']/tbody[tr[1]/td[@colspan = '2']]/tr[2][td[1]/img and td[2]]", doc).map(function (item) {
+					return {
+						icon	: item.previousElementSibling.cells[0].getAttribute("bgcolor"),
+						item	: {
+							name	: xpath("string(./b)", item.cells[1]),
+							image	: item.cells[0].firstElementChild.getAttribute("src"),
+						},
+						message	: item.cells[1].textContent.trim(),
+					};
+				}));
 			},
 		},
 		friends		: {
