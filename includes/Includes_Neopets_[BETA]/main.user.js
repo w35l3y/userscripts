@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.2.8
+// @version     1.2.9
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -110,9 +110,10 @@ var Neopets = function (doc) {
 		});
 		
 		if (obj.delay) {
+			var d = (obj.delay instanceof Array?obj.delay:this.delay);
 			return setTimeout(function () {
 				req.send(obj.data);
-			}, this.delay[0] + Math.floor(this.delay[1] * Math.random()));
+			}, d[0] + Math.floor(d[1] * Math.random()));
 		} else {
 			return req.send(obj.data);
 		}
