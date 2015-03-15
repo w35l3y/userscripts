@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.2.9
+// @version     1.2.10
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -178,7 +178,7 @@ var Neopets = function (doc) {
 				var np = _n("id('header')//td/a[contains(@href, 'inventory')]/text()"),
 				_refck = _s(".//*[(@name = '_ref_ck' or @name = 'ck') and string-length(@value) = 32]/@value") || (/_ref_ck=(\w{32})/.test(_s(".//*[contains(@href, '_ref_ck')]/@href"))?RegExp.$1:""),
 				listen = [
-					["events", _b(".//div[@class = 'inner_wrapper2']")],
+					["events", _b(".//div[@class = 'inner_wrapper2']|.//table[@width = '400']")],
 				],
 				data = {
 					error	: _b(".//img[@class = 'errorOops']|id('oops')"),
