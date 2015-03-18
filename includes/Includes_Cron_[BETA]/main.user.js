@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.3.7
+// @version     1.3.8
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -96,8 +96,10 @@ var Cron = function (id, current) {
 					_listeners[ai].apply(null, arguments);
 				}
 
-				_this.update(next?new Date(next):_currentDate());
+				var n = _this.update(next);
 				cb(_this);
+
+				return n;
 			},
 			c = _currentDate();
 
@@ -189,53 +191,58 @@ var Cron = function (id, current) {
 		};
 		
 		this.update = function (date) {
-			date.setUTCMilliseconds(0);
-			var max = new Date(Date.UTC(date.getUTCFullYear(), 1 + date.getUTCMonth(), 0, 0, 0, 0, 0)).getUTCDate();
+			if (!date) {
+				date = _currentDate();
+				date.setUTCMilliseconds(0);
+				var max = new Date(Date.UTC(date.getUTCFullYear(), 1 + date.getUTCMonth(), 0, 0, 0, 0, 0)).getUTCDate();
 
-			for (var index = 0, at = this.interval.length;index < at;++index) {
-				var method = intervals[index],
-				pInterval = this.interval[index],
-				tInterval = pInterval.values,
-				value = date["get" + method[3]](),
-				tmp = [tInterval[0], (_type.DAY == index?max:method[2])];
-				
-				if (~tInterval.indexOf(value)) {
-					if (_type.HASH == pInterval.type) {
-						date["set" + method[3]](pInterval.step + (obj.relative?value:tmp[1]));
-					} else if (_type.SLASH == pInterval.type || _type.SECOND == index) {
-						date["set" + method[3]](pInterval.step + value);
-					}
-				} else {
-					for (var bi = 0, bt = tInterval.length;bi < bt;++bi) {
-						if (tInterval[bi] > value) {
-							tmp = [tInterval[bi], 0];
-							break;
+				for (var index = 0, at = this.interval.length;index < at;++index) {
+					var method = intervals[index],
+					pInterval = this.interval[index],
+					tInterval = pInterval.values,
+					value = date["get" + method[3]](),
+					tmp = [tInterval[0], (_type.DAY == index?max:method[2])];
+					
+					if (~tInterval.indexOf(value)) {
+						if (_type.HASH == pInterval.type) {
+							date["set" + method[3]](pInterval.step + (obj.relative?value:tmp[1]));
+						} else if (_type.SLASH == pInterval.type || _type.SECOND == index) {
+							date["set" + method[3]](pInterval.step + value);
 						}
-					}
+					} else {
+						for (var bi = 0, bt = tInterval.length;bi < bt;++bi) {
+							if (tInterval[bi] > value) {
+								tmp = [tInterval[bi], 0];
+								break;
+							}
+						}
 
-					if (_type.WEEKDAY == index) {
-						// under test
-						date.setUTCDate(date.getUTCDate() + tmp[0] + tmp[1] - value);
-					} else if (_type.YEAR != index || 0 < tmp[0]) {
-						date["set" + method[3]](tmp[0] + tmp[1]);
+						if (_type.WEEKDAY == index) {
+							// under test
+							date.setUTCDate(date.getUTCDate() + tmp[0] + tmp[1] - value);
+						} else if (_type.YEAR != index || 0 < tmp[0]) {
+							date["set" + method[3]](tmp[0] + tmp[1]);
 
-						if (!obj.relative) {
-							// reset prior indexes
-							for (var ci = 0;ci < index;++ci) {
-								if (_type.WEEKDAY != ci) {
-									date["set" + intervals[ci][3]](this.interval[ci].values[0]);
+							if (!obj.relative) {
+								// reset prior indexes
+								for (var ci = 0;ci < index;++ci) {
+									if (_type.WEEKDAY != ci) {
+										date["set" + intervals[ci][3]](this.interval[ci].values[0]);
+									}
 								}
 							}
 						}
 					}
 				}
+			} else if (!(date instanceof Date)) {
+				date = new Date(date);
 			}
 
 			_debug("3 NEXT", obj.id, date);
 			nextAt[obj.id] = date.valueOf();
 			GM_setValue(nextAtKey, JSON.stringify(nextAt));
 
-			return this;
+			return date;
 		};
 
 		this.execute2 = function (cb) {
