@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.2.10
+// @version     1.2.11
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -250,7 +250,7 @@ var Neopets = function (doc) {
 		},
 		delay		: {
 			writable: true,
-			value	: [534, 363],
+			value	: [734, 463],
 		},
 		nc			: {
 			get		: function () {
