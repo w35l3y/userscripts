@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.3.8
+// @version     1.3.9
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -175,17 +175,13 @@ var Cron = function (id, current) {
 			var _this = this;
 
 			return this.interval.every(function (data, index, array) {
-				if (_type.WEEKDAY == index && _type.HASH == data.type) {
-					throw "Not implemented yet";
+				if (_type.ASTERISK == data.wildcard
+					|| 0 <= data.values.indexOf(date["get" + intervals[index][3]]())) {
+					return true;
 				} else {
-					if (_type.ASTERISK == data.wildcard
-						|| 0 <= data.values.indexOf(date["get" + intervals[index][3]]())) {
-						return true;
-					} else {
-						// TODO should be removed once it is tested
-						console.log("SKIP", _this.id, index, date["get" + intervals[index][3]](), data);
-						return false;
-					}
+					// TODO should be removed once it is tested
+					console.log("SKIP", _this.id, index, date["get" + intervals[index][3]](), data);
+					return false;
 				}
 			});
 		};
@@ -205,9 +201,18 @@ var Cron = function (id, current) {
 					
 					if (~tInterval.indexOf(value)) {
 						if (_type.HASH == pInterval.type) {
-							date["set" + method[3]](pInterval.step + (obj.relative?value:tmp[1]));
+							if (_type.WEEKDAY == index) {
+								var dd = date.getUTCDay();
+								date.setUTCDate(pInterval.step - dd + date.getUTCDate() + (obj.relative?value:tmp[1]) * (dd >= pInterval.step));
+							} else {
+								date["set" + method[3]](pInterval.step + (obj.relative?value:tmp[1]));
+							}
 						} else if (_type.SLASH == pInterval.type || _type.SECOND == index) {
-							date["set" + method[3]](pInterval.step + value);
+							if (_type.WEEKDAY == index) {
+								throw "Not implemented yet";
+							} else {
+								date["set" + method[3]](pInterval.step + value);
+							}
 						}
 					} else {
 						for (var bi = 0, bt = tInterval.length;bi < bt;++bi) {
