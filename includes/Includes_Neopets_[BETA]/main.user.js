@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.2.12
+// @version     1.3.0
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -151,6 +151,10 @@ var Neopets = function (doc) {
 		} else {
 			_listeners[type] = [callback];
 		}
+
+		if ("events" == type) {
+			this.document = doc;
+		}
 	};
 	
 	this.getTime = function () {
@@ -178,11 +182,7 @@ var Neopets = function (doc) {
 				var np = _n("id('header')//td/a[contains(@href, 'inventory')]/text()"),
 				_refck = _s(".//*[(@name = '_ref_ck' or @name = 'ck') and string-length(@value) = 32]/@value") || (/_ref_ck=(\w{32})/.test(_s(".//*[contains(@href, '_ref_ck')]/@href"))?RegExp.$1:""),
 				listen = [
-					["events", _b(".//div[@class = 'inner_wrapper2']|.//table[@width = '400']"), function (obj) {
-						return xpath(".//div[@class = 'inner_wrapper2']|.//table[@width = '400']").map(function (item) {
-							return item.outerHTML;
-						});
-					}],
+					["events", _b(".//div[@class = 'inner_wrapper2']|.//table[@width = '400']")],
 				],
 				data = {
 					error	: _b(".//img[@class = 'errorOops']|id('oops')"),
@@ -194,12 +194,11 @@ var Neopets = function (doc) {
 				_refck && this.setUserData("ck", _refck);
 
 				for (var ai in listen) {
-					if (listen[1] && listen[0] in _listeners) {
-						if (listen[2]) {
-							data.result = listen[2](data);
-						}
-						for (var bi = 0, bt = _listeners[listen[0]].length;bi < bt;++bi) {
-							_listeners[listen[0]][bi](data);
+					var l = listen[ai];
+					if (l[1] && l[0] in _listeners) {
+						data.result = this[l[0]];
+						for (var bi = 0, bt = _listeners[l[0]].length;bi < bt;++bi) {
+							_listeners[l[0]][bi](data);
 						}
 					}
 				}
