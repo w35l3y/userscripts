@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.3.9
+// @version     1.4.1
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -91,12 +91,12 @@ var Cron = function (id, current) {
 		_listeners = [],
 		_execute = function (mode, cb) {
 			var _this = this,
-			pUpdate = function (next) {
+			pUpdate = function (success, next) {
 				for (var ai = 0, at = _listeners.length;ai < at;++ai) {
 					_listeners[ai].apply(null, arguments);
 				}
 
-				var n = _this.update(next);
+				var n = _this.update(success, next);
 				cb(_this);
 
 				return n;
@@ -106,13 +106,13 @@ var Cron = function (id, current) {
 			if (this.ready(c)) {
 				console.log("2 READY", obj.id, c);
 				if (obj.command.apply(obj, [mode, pUpdate])) {
-					pUpdate();
+					pUpdate(true);
 				} else {
 					_debug("No synchronous response (possibly asynchronous)");
 				}
 			} else {
 				console.debug("2 WAIT", obj.id, c);
-				pUpdate();
+				pUpdate(false);
 			}
 			
 			return this;
@@ -186,20 +186,22 @@ var Cron = function (id, current) {
 			});
 		};
 		
-		this.update = function (date) {
+		this.update = function (success, date) {
 			if (!date) {
 				date = _currentDate();
 				date.setUTCMilliseconds(0);
-				var max = new Date(Date.UTC(date.getUTCFullYear(), 1 + date.getUTCMonth(), 0, 0, 0, 0, 0)).getUTCDate();
+				var max = new Date(Date.UTC(date.getUTCFullYear(), 1 + date.getUTCMonth(), 0, 0, 0, 0, 0)).getUTCDate(),
+				errorCount = 0;
 
 				for (var index = 0, at = this.interval.length;index < at;++index) {
 					var method = intervals[index],
 					pInterval = this.interval[index],
 					tInterval = pInterval.values,
 					value = date["get" + method[3]](),
-					tmp = [tInterval[0], (_type.DAY == index?max:method[2])];
+					tmp = [tInterval[0], (_type.DAY == index?max:method[2])],
+					inList = ~tInterval.indexOf(value);
 					
-					if (~tInterval.indexOf(value)) {
+					if ((success || _type.ASTERISK == pInterval.wildcard) && inList) {
 						if (_type.HASH == pInterval.type) {
 							if (_type.WEEKDAY == index) {
 								var dd = date.getUTCDay();
@@ -215,6 +217,12 @@ var Cron = function (id, current) {
 							}
 						}
 					} else {
+						if (errorCount && inList && !success) {
+							break;
+						} else {
+							++errorCount;
+						}
+
 						for (var bi = 0, bt = tInterval.length;bi < bt;++bi) {
 							if (tInterval[bi] > value) {
 								tmp = [tInterval[bi], 0];
