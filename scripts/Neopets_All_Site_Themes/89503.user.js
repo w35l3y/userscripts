@@ -7,7 +7,7 @@
 // @copyright      2013+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        3.1.0
+// @version        3.2.0
 // @language       en
 // @include        http://www.neopets.com/*
 // @icon           http://gm.wesley.eti.br/icon.php?desc=89503
@@ -25,6 +25,7 @@
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Translate/85618.user.js
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_I18n/87940.user.js
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Updater/87942.user.js
+// @history        3.2.0 Added "JumpStart" Theme
 // @history        3.1.0 Added 4 more themes (Battleground: Seekers, Daily Dare: Chadley, Monster Hunting and Habitarium)
 // @history        3.0.0 Fixed some bugs
 // @history        2.3.0 Added "Battleground: Awakened" Theme
@@ -84,6 +85,7 @@
 			"38"	: ["038_hab_ig53k", "Habitarium", 12],
 			"4"		: ["004_bir_a2e60", "Happy Birthday", 7],
 			"3"		: ["003_hws_9bde9", "Haunted Woods", 11],
+			"45"	: ["045_jmp_af2015", "JumpStart", 1],
 			"28"	: ["028_kri_306cb", "Krawk Island", 7],
 			"37"	: ["037_hmh_f7k8s", "Monster Hunting", 14],
 			"0"		: ["000_def_f65b1", "Neopets Basic", 15],
