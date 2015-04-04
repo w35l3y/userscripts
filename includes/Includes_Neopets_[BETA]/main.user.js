@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.3.0
+// @version     1.3.1
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -43,7 +43,7 @@ var Neopets = function (doc) {
 		return xpath("boolean(" + v + ")", doc);
 	},
 	_s = function (v) {
-		return xpath("string(" + v + ")", doc) || "";
+		return xpath("string(" + v + ")", doc).trim() || "";
 	},
 	_n = function (v) {
 		return parseInt(_s(v).replace(/[,.]/g, ""), 10) || 0;
@@ -172,6 +172,11 @@ var Neopets = function (doc) {
 		time		: {
 			get		: this.getTime,
 		},
+		username	: {
+			get		: function () {
+				return (/([^=]+)$/.test(_s("id('header')//a[contains(@href, '?user=')]/@href")) && RegExp.$1 || "");
+			},
+		},
 		document	: {
 			get		: function () {
 				return doc;
@@ -182,7 +187,7 @@ var Neopets = function (doc) {
 				var np = _n("id('header')//td/a[contains(@href, 'inventory')]/text()"),
 				_refck = _s(".//*[(@name = '_ref_ck' or @name = 'ck') and string-length(@value) = 32]/@value") || (/_ref_ck=(\w{32})/.test(_s(".//*[contains(@href, '_ref_ck')]/@href"))?RegExp.$1:""),
 				listen = [
-					["events", _b(".//div[@class = 'inner_wrapper2']|.//table[@width = '400']")],
+					["events", _b(".//div[@class = 'randomEvent']|.//div[@class = 'inner_wrapper2']|.//table[@width = '400']")],
 				],
 				data = {
 					error	: _b(".//img[@class = 'errorOops']|id('oops')"),
@@ -192,6 +197,10 @@ var Neopets = function (doc) {
 
 				np && (this.np = np);
 				_refck && this.setUserData("ck", _refck);
+
+				if (data.error && / pin /.test(data.errmsg.toLowerCase())) {
+					GM_deleteValue(this.username + "-pinNumber");
+				}
 
 				for (var ai in listen) {
 					var l = listen[ai];
@@ -204,9 +213,21 @@ var Neopets = function (doc) {
 				}
 			},
 		},
-		username	: {
+		pin			: {
 			get		: function () {
-				return (/([^=]+)$/.test(_s("id('header')//a[contains(@href, '?user=')]/@href")) && RegExp.$1 || "");
+				var pinUserKey = this.username + "-pinNumber",
+				pin = GM_getValue(pinUserKey, undefined);
+
+				if (typeof pin != "string") {
+					var pinTmp;
+					if (typeof (pinTmp = prompt("Pin Number:")) == "string") {
+						GM_setValue(pinUserKey, pin = pinTmp);
+					} else {
+						throw "pin_number is required.";
+					}
+				}
+
+				return pin;
 			},
 		},
 		loggedIn	: {
@@ -283,10 +304,30 @@ var Neopets = function (doc) {
 							return _s(".//td[@class = 'activePetInfo']//tr[1]/td[2]/descendant::text()");
 						},
 					},
+					stats	: {
+						get function () {
+							var o = {};
+
+							Object.defineProperties(o, {
+								level	: {
+									get	: function () {
+										return _n(".//td[@class = 'activePetInfo']//tr[6]/td[2]/descendant::text()");
+									},
+								},
+								endurance: {
+									get	: function () {
+										return parseInt(_s(".//td[@class = 'activePetInfo']//tr[2]/td[2]/descendant::text()").split(/\s+\/\s+/)[1].replace(/[,.]/g, ""), 10) || 0;
+									},
+								},
+							});
+
+							return o;
+						},
+					},
 					health	: {
 						get	: function () {
 							return _s(".//td[@class = 'activePetInfo']//tr[2]/td[2]/descendant::text()").split(/\s+\/\s+/).map(function (v) {
-								return parseInt(v, 10) || 0;
+								return parseInt(v.replace(/[,.]/g, ""), 10) || 0;
 							});
 						},
 					},
@@ -303,11 +344,6 @@ var Neopets = function (doc) {
 					age		: {
 						get	: function () {
 							return _n(".//td[@class = 'activePetInfo']//tr[5]/td[2]/descendant::text()");
-						},
-					},
-					level	: {
-						get	: function () {
-							return _n(".//td[@class = 'activePetInfo']//tr[6]/td[2]/descendant::text()");
 						},
 					},
 				});
@@ -345,7 +381,13 @@ var Neopets = function (doc) {
 						},
 						message	: item.nextElementSibling.textContent.trim(),
 					};
-				}).concat(xpath(".//table[@width = '400']/tbody[tr[1]/td[@colspan = '2']]/tr[2][td[1]/img and td[2]]", doc).map(function (item) {
+				}).concat(xpath(".//div[@class = 'randomEvent']/div[@class = 'copy']", doc).map(function (item) {
+					return {
+						icon	: undefined,
+						item	: {},
+						message	: item.textContent.trim(),
+					};
+				})).concat(xpath(".//table[@width = '400']/tbody[tr[1]/td[@colspan = '2']]/tr[2][td[1]/img and td[2]]", doc).map(function (item) {
 					return {
 						icon	: item.previousElementSibling.cells[0].getAttribute("bgcolor"),
 						item	: {
