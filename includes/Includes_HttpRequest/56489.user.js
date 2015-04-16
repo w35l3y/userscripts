@@ -7,10 +7,11 @@
 // @copyright      2011+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br/includes
-// @version        2.1.0
+// @version        2.1.1
 // @language       en
 // @include        nowhere
 // @exclude        *
+// @grant          GM_xmlhttpRequest
 // @contributor    sizzlemctwizzle (http://userscripts.org/guides/9)
 // @contributor    Seniltai (http://userscripts.org/topics/47687?page=2#posts-257677)
 // @contributor    ameboide (http://userscripts.org/topics/88021#posts-384155)
