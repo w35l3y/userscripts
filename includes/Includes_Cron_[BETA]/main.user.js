@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.4.1
+// @version     1.4.2
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -76,6 +76,9 @@ var Cron = function (id, current) {
 		[0, 6, 7, "UTCDay"],		// weekday
 		[0, 0, 0, "UTCFullYear"],		// year
 	],
+	unLoad = function (e) {
+		e.returnValue = "Cron is being executed...";
+	},
 	Task = function (obj) {
 		var _current = _currentDate(),
 		map = {
@@ -90,6 +93,8 @@ var Cron = function (id, current) {
 		},
 		_listeners = [],
 		_execute = function (mode, cb) {
+			window.addEventListener("beforeunload", unLoad, false);
+
 			var _this = this,
 			pUpdate = function (success, next) {
 				for (var ai = 0, at = _listeners.length;ai < at;++ai) {
@@ -99,6 +104,7 @@ var Cron = function (id, current) {
 				var n = _this.update(success, next);
 				cb(_this);
 
+				window.removeEventListener("beforeunload", unLoad);
 				return n;
 			},
 			c = _currentDate();
