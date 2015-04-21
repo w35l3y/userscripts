@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.0.0
+// @version     1.0.1
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -507,6 +507,16 @@ PremiumBar = function (activities) {
 
 		this.set = function (key, value) {
 			_data[this.id][key] = value;
+		};
+		
+		this.prompt = function (k, q, d) {
+			var _page = this.bar.page,
+			key = this.id + k,
+			data = _page.getUserData(key);
+			if (!data && (data = prompt((q || k) + "\n\nNote: This value isn't modifiable, so be careful.", d || ""))) {
+				_page.setUserData(key, data);
+			}
+			return data || "";
 		};
 		
 		if (obj.first) {
