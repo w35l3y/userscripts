@@ -663,7 +663,16 @@ PremiumBar = function (activities) {
 		shop = new Shop(this.page),
 		bank = new Bank(this.page),
 		sdb = new SDB(this.page),
-		items = [];
+		items = [],
+		iremoved = [],
+		getListItems = function () {
+			return iremoved.concat(obj.items.map(function (item) {
+				return {
+					name	: item[0],
+					bought	: true,
+				};
+			}));
+		};
 
 		obj.items.sort(function (a, b) {
 			if (a[1] == b[1]) {
@@ -677,8 +686,6 @@ PremiumBar = function (activities) {
 			return (a[1] > b[1]?-1:1);	// quantity DESC
 		});
 
-		// descobrir pq só tá pesquisando pelo primeiro item
-		// ao final dá "invalid url"
 		(function recursive1 (tries, index) {
 			if (tries) {
 				_this.update({
@@ -744,6 +751,7 @@ PremiumBar = function (activities) {
 								console.log("Buying first item");
 								recursive3(nBuys, 0, true);
 							} else {
+								o.items = getListItems();
 								obj.callback(o);
 							}
 						}
@@ -779,6 +787,7 @@ PremiumBar = function (activities) {
 					obj.callback({
 						error	: 1,
 						errmsg	: "NP limit exceeded [" + cost + " > " + obj.limit + "]",
+						items	: getListItems(),
 					});
 				} else {
 					var next1 = function () {
@@ -787,6 +796,7 @@ PremiumBar = function (activities) {
 								value	: cost,
 								callback: function (o) {
 									if (o.error) {
+										o.items = getListItems();
 										obj.callback(o);
 									} else {
 										recursive3(0, 0, true);
@@ -809,6 +819,10 @@ PremiumBar = function (activities) {
 
 											if (removed.name == obj.items[ai][0] && removed.quantity >= obj.items[ai][1]) {
 												console.log("Skipping from buying...", removed);
+												iremoved.push({
+													name	: removed.name,
+													bought	: false,
+												});
 												obj.items.splice(ai, 1);
 												items.splice(ai, 1);
 												// known issue: can't update the number of items to buy because 'obj.items' and 'items' are 2 separate lists and sorting is required
@@ -821,6 +835,7 @@ PremiumBar = function (activities) {
 								if (obj.items.length) {
 									next1();
 								} else {
+									o.items = iremoved;
 									obj.callback(o);
 								}
 							}
