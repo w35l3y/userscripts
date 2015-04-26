@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.3.1
+// @version     1.3.2
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -71,6 +71,19 @@ var Neopets = function (doc) {
 			errmsg	: xpath("string(.//div[@class = 'errorMessage']/text())", d),
 			body	: d,
 		};
+	},
+	parseText = function (text, format) {
+		switch (format) {
+			case "query":
+				var params = {},
+				tmp,
+				re = /(\w+)=(.+?)(?:&|$)/g;
+				while (tmp = re.exec(text)) {
+					params[tmp[1]] = decodeURIComponent(tmp[2]).replace(/\+/g, " ");
+				}
+				return params;
+		}
+		return text;
 	};
 	
 	this.request = function (obj) {
@@ -88,23 +101,34 @@ var Neopets = function (doc) {
 				Referer	: obj.referer || obj.action,
 			},
 			onsuccess	: function (xhr) {
-				var _doc = xhr.response.xml,
-				_txt = xhr.response.text,
-				data = processDocument(_doc);
+				var format = (obj.format || "xml").toLowerCase(),
+				_doc = xhr.response[~["xml", "json"].indexOf(format)?format:"text"],
+				data;
+				if ("xml" == format) {
+					data = processDocument(_doc);
 
-				if (data.error) {
-					if (obj.ck && !xpath("boolean(.//a[contains(@onclick, 'templateLogin')])", _doc)) {
-						_this.request({
-							method	: "get",
-							action	: "http://www.neopets.com/space/strangelever.phtml",
-							callback: function () {},
-						});
+					if (data.error) {
+						if (obj.ck && !xpath("boolean(.//a[contains(@onclick, 'templateLogin')])", _doc)) {
+							_this.request({
+								method	: "get",
+								action	: "http://www.neopets.com/space/strangelever.phtml",
+								callback: function () {},
+							});
+						}
+					} else {
+						_this.document = _doc;
 					}
 				} else {
-					_this.document = _doc;
+					var json = ("json" == format?_doc:parseText(_doc, format)),
+					err = 0 == json.success;
+
+					data = {
+						error	: err,
+						errmsg	: (err?json.msg:""),
+						body	: json,
+					};
 				}
 
-				//console.log(xhr.response.text);
 				obj.callback(data);
 			}
 		});
@@ -187,7 +211,7 @@ var Neopets = function (doc) {
 				var np = _n("id('header')//td/a[contains(@href, 'inventory')]/text()"),
 				_refck = _s(".//*[(@name = '_ref_ck' or @name = 'ck') and string-length(@value) = 32]/@value") || (/_ref_ck=(\w{32})/.test(_s(".//*[contains(@href, '_ref_ck')]/@href"))?RegExp.$1:""),
 				listen = [
-					["events", _b(".//div[@class = 'randomEvent']|.//div[@class = 'inner_wrapper2']|.//table[@width = '400']")],
+					["events", _b(".//div[@class = 'randomEvent']/div[@class = 'copy']|.//div[@class = 'inner_wrapper2']/img[@class = 'item']|.//table[@width = '400']/tbody[tr[1]/td[@colspan = '2']]/tr[2][td[1]/img and td[2]]")],
 				],
 				data = {
 					error	: _b(".//img[@class = 'errorOops']|id('oops')"),
@@ -305,7 +329,7 @@ var Neopets = function (doc) {
 						},
 					},
 					stats	: {
-						get function () {
+						get : function () {
 							var o = {};
 
 							Object.defineProperties(o, {
@@ -430,6 +454,6 @@ var Neopets = function (doc) {
 		_userTmp[k] = v;
 		GM_setValue(userKey, JSON.stringify(_userTmp));
 	};
-
+	
 	this.document = doc;
 };
