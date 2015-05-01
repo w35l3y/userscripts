@@ -7,12 +7,13 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.0.0
+// @version     1.0.1
 // @language    en
 // @include     nowhere
 // @exclude     *
 // @grant       GM_xmlhttpRequest
 // @grant       GM_getResourceText
+// @require     https://github.com/knadh/localStorageDB/raw/master/localstoragedb.min.js
 // @require     https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
 // @require     https://github.com/w35l3y/userscripts/raw/master/includes/Includes_HttpRequest/56489.user.js
 // @require     https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Neopets_[BETA]/main.user.js
@@ -47,19 +48,34 @@ var Shop = function (page) {
 					var cell = item.parentNode,
 					texts = xpath("../text()[5 < string-length(.)]", item),
 					n = function (v) {
-						return parseInt(v.replace(/[.,]/g, "").match(/\d+/)[0], 10);
+						return parseInt(v.replace(/\D+/g, ""), 10);
 					},
-					link = cell.firstElementChild.href;
-
-					return {
-						name	: item.textContent,
+					link = cell.firstElementChild.href,
+					output = {
+						id		: n(link.match(/obj_info_id=(\d+)/)[1]),
+						name	: item.textContent.trim(),
 						link	: (link.indexOf("http://")?"http://www.neopets.com" + ("/" == link[0]?"":"/"):"") + link,
 						stock	: n(texts[0].textContent),
 						price	: n(texts[1].textContent),
-						image	: cell.firstElementChild.firstElementChild.src,
+						image	: cell.firstElementChild.firstElementChild.src.replace(/^http:\/\/images\.neopets\.com\/items\/|\.gif$/g, ""),
 					};
-				});
 
+					if (!page.database.update("items", {
+						id	: output.id,
+					}, function (row) {
+						row.image = output.image;
+
+						return row;
+					})) {
+						console.log("Inserting item...", output);
+						page.database.insert("items", output);
+					}
+					
+					return output;
+				});
+				
+				page.database.commit();
+				
 				cb(obj);
 			},
 		});

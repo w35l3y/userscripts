@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.0.1
+// @version     1.0.2
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -29,6 +29,7 @@
 // @resource    crosswordAnswers https://gist.github.com/w35l3y/fab231758eb0991f36a0/raw/crossword.json
 // @resource    foodclubJson https://gist.github.com/w35l3y/fab231758eb0991f36a0/raw/foodclub.json
 // @require     http://pastebin.com/raw.php?i=FY7MDpMa
+// @require     https://github.com/knadh/localStorageDB/raw/master/localstoragedb.min.js
 // @require     https://github.com/w35l3y/github-js/raw/master/lib/underscore-min.js
 // @require     https://github.com/w35l3y/github-js/raw/master/github.js
 // @require     https://github.com/w35l3y/JSAMF/raw/master/web/web/amf.js
@@ -659,7 +660,7 @@ PremiumBar = function (activities) {
 		return executed;
 	};
 	
-	this.buy = function (obj) {
+	this.search = function (obj) {
 		if (!obj.items.length) {
 			throw "BUY : 'items' is required";
 		} else if (0 > obj.tries) {
@@ -670,19 +671,7 @@ PremiumBar = function (activities) {
 		}
 		var _this = this,
 		wizard = new Wizard(this.page),
-		shop = new Shop(this.page),
-		bank = new Bank(this.page),
-		sdb = new SDB(this.page),
-		items = [],
-		iremoved = [],
-		getListItems = function () {
-			return iremoved.concat(obj.items.map(function (item) {
-				return {
-					name	: item[0],
-					bought	: true,
-				};
-			}));
-		};
+		items = [];
 
 		obj.items.sort(function (a, b) {
 			if (a[1] == b[1]) {
@@ -738,35 +727,7 @@ PremiumBar = function (activities) {
 					}
 				});
 			} else {
-				var cost = 0,
-				recursive3 = function (nBuys, index, again) {
-					_this.update({
-						color	: _const.WAITING,
-						message	: "Buying " + obj.items[index][0] + "... (" + nBuys + ") " + again,
-					});
-					console.log(index, items[index]);
-					shop.buy({
-						url		: items[index][0].link,
-						callback: function (o) {
-							if (o.error || !o.items.length || o.items[0].name != items[index][0].name) {
-								items[index].shift();
-							}
-
-							if (o.error && (!again || /neopoint/i.test(o.errmsg))) {	// You do not have enough Neopoints to purchase this item!
-								obj.callback(o);
-							} else if (o.error || ++index < obj.items.length && nBuys < obj.items[index][1]) {	// existe próximo item
-								console.log("Buying next item");
-								recursive3(nBuys, index, !o.error);	// comprar
-							} else if (++nBuys < obj.items[0][1]) {	// ainda falta comprar itens
-								console.log("Buying first item");
-								recursive3(nBuys, 0, true);
-							} else {
-								o.items = getListItems();
-								obj.callback(o);
-							}
-						}
-					});
-				};
+				var cost = 0;
 
 				for (var ai = 0, at = items.length;ai < at;++ai) {
 					items[ai].sort(function (a, b) {
@@ -787,10 +748,43 @@ PremiumBar = function (activities) {
 					
 					// multiplica pela quantidade a ser comprada
 					if (items[ai].length) {
-						var min = obj.items[ai][1];
-						cost += min * items[ai][Math.min(2 + min, items[ai].length) - 1].price;
+						var item = items[ai][Math.min(3, items[ai].length) - 1];
+						cost += obj.items[ai][1] * items[ai][0].price;
+
+						console.log("Updating price...", item);
+						_this.page.database.insertOrUpdate("items", {
+							id	: item.id,
+						}, item);
 					}
 				}
+				_this.page.database.commit();
+
+				obj.callback({
+					cost	: cost,
+					items	: items,
+				});
+			}
+		}(obj.tries, 0));
+	};
+
+	this.buy = function (obj) {
+		var cb = obj.callback,
+		_this = this;
+		obj.callback = function (oo) {
+			obj.callback = cb;
+			var items = oo.items,
+			cost = Math.ceil(1.1 * oo.cost);
+
+			if (items && cost) {
+				var iremoved = [],
+				getListItems = function () {
+					return iremoved.concat(obj.items.map(function (item) {
+						return {
+							name	: item[0],
+							bought	: true,
+						};
+					}));
+				};
 
 				console.log(cost, obj.limit);
 				if (cost > obj.limit) {
@@ -800,9 +794,43 @@ PremiumBar = function (activities) {
 						items	: getListItems(),
 					});
 				} else {
-					var next1 = function () {
+					var shop = new Shop(_this.page),
+					total = 0,
+					recursive3 = function (nBuys, index, again) {
+						_this.update({
+							color	: _const.WAITING,
+							message	: "Buying " + obj.items[index][0] + "... (" + nBuys + ") " + again,
+						});
+						console.log(index, items[index]);
+						shop.buy({
+							url		: items[index][0].link,
+							callback: function (o) {
+								if (o.error || !o.items.length || o.items[0].name != items[index][0].name) {
+									items[index].shift();
+								}
+								if (!o.error) {
+									total += items[index][0].price;
+								}
+
+								o.total = total;
+								o.items = getListItems();
+								if (o.error && (!again || /neopoint/i.test(o.errmsg))) {	// You do not have enough Neopoints to purchase this item!
+									obj.callback(o);
+								} else if (o.error || ++index < obj.items.length && nBuys < obj.items[index][1]) {	// existe próximo item
+									console.log("Buying next item");
+									recursive3(nBuys, index, !o.error);	// comprar
+								} else if (++nBuys < obj.items[0][1]) {	// ainda falta comprar itens
+									console.log("Buying first item");
+									recursive3(nBuys, 0, true);
+								} else {
+									obj.callback(o);
+								}
+							}
+						});
+					},
+					next1 = function () {
 						if (cost > _this.page.np) {
-							bank.withdraw({
+							new Bank(_this.page).withdraw({
 								value	: cost,
 								callback: function (o) {
 									if (o.error) {
@@ -819,7 +847,7 @@ PremiumBar = function (activities) {
 					};
 
 					if (obj.sdb) {
-						sdb.remove({
+						new SDB(_this.page).remove({
 							items	: obj.items,
 							callback: function (o) {
 								if (1 == obj.sdb && o.removed.length) {
@@ -845,6 +873,7 @@ PremiumBar = function (activities) {
 								if (obj.items.length) {
 									next1();
 								} else {
+									o.total = 0;
 									o.items = iremoved;
 									obj.callback(o);
 								}
@@ -854,8 +883,13 @@ PremiumBar = function (activities) {
 						next1();
 					}
 				}
+			} else {
+				oo.total = 0;
+				obj.callback(oo);
 			}
-		}(obj.tries, 0));
+		};
+
+		_this.search(obj);
 	};
 
 	var actCfg = myWin.get("actions") || {};

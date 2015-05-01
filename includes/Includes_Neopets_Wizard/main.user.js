@@ -7,12 +7,13 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.0.0
+// @version     1.0.1
 // @language    en
 // @include     nowhere
 // @exclude     *
 // @grant       GM_xmlhttpRequest
 // @grant       GM_getResourceText
+// @require     https://github.com/knadh/localStorageDB/raw/master/localstoragedb.min.js
 // @require     https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
 // @require     https://github.com/w35l3y/userscripts/raw/master/includes/Includes_HttpRequest/56489.user.js
 // @require     https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Neopets_[BETA]/main.user.js
@@ -50,17 +51,18 @@ var Wizard = function (page) {
 				obj.items = xpath(".//td[@class = 'content']/div/table/tbody/tr/td[1]/a[contains(@href, '&buy_obj_info_id=')]", obj.body).map(function (item, index) {
 					var row = item.parentNode.parentNode.cells,
 					n = function (v) {
-						return parseInt(v.textContent.replace(/\D+/g, ""), 10);
+						return parseInt(v.replace(/\D+/g, ""), 10);
 					},
 					owner = item.textContent.trim(),
 					link = item.href;
 
 					return {
 						index	: index,
+						id		: n(link.match(/obj_info_id=(\d+)/)[1]),
 						name	: row[1].textContent.trim(),
 						link	: (link.indexOf("http://")?"http://www.neopets.com" + ("/" == link[0]?"":"/"):"") + link,
-						stock	: n(row[2]),
-						price	: n(row[3]),
+						stock	: n(row[2].textContent),
+						price	: n(row[3].textContent),
 						owner	: owner,
 						group	: getGroup(owner),
 					};
