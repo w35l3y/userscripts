@@ -534,7 +534,7 @@ FlashGame.url = function (obj) {
 
 				obj.start = function (obj) {
 					obj.timer = new Timer({
-						target	: new Date().valueOf() + obj.time,
+						target	: new Date().valueOf() + (obj.immediate?0:obj.time),
 					});
 					obj.stop(obj);
 
