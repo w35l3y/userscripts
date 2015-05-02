@@ -7,7 +7,7 @@
 // @copyright      2012+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        1.2.0
+// @version        1.2.1
 // @language       en
 // @include        nowhere
 // @exclude        *
@@ -23,6 +23,7 @@
 // @require        ../../includes/Includes_XPath/63808.user.js
 // @require        ../../includes/Includes_Translate/85618.user.js
 // @require        ../../includes/Includes_I18n/87940.user.js
+// @require        ../../includes/Includes_Timer/85450.user.js
 // @require        ../../includes/Includes_HttpRequest/56489.user.js
 // @require        ../../includes/Includes_ShowMyCode/69584.user.js
 // ==/UserScript==
@@ -396,6 +397,12 @@ FlashGame.url = function (obj) {
 			decimals_arr = JSON.parse(GM_getValue("decimals", "{}")),
 			idv = (function (inc) {
 				switch (inc) {
+					case "np6_include_v16":
+					return {
+						"fs_g" : "",
+						"r" : Math.random(),
+						"remove" : ["przlvl"],
+					};
 					case "np8_include_v20":
 					return {
 						"fs_g" : "0",
@@ -456,7 +463,7 @@ FlashGame.url = function (obj) {
 					"gd" : obj.time
 				},
 				t = {
-	//				"asp_fs_g" : ( params.options.forceScore != undefined ? params.options.forceScore||0 : "" ),
+					"asp_fs_g" : ( obj.options.forceScore != undefined ? obj.options.forceScore||0 : "" ),
 					"r" : idv.r,
 					"gmd_g" : obj.game,
 					"mltpl_g" : obj.options.multiple || 0,
@@ -1006,23 +1013,23 @@ FlashGame.test = function(querystring, crypt) {
 };
 
 /*
-		"1288" : [2, 9, -9327, 1, "altadorcupplayer.gif", "Yooyuball", function (score) {
-			var result = {"asp_pgs":"0,0,0,0,0,0,0,0,0,0,"};
+	"1288" : [2, 9, -9327, 1, "altadorcupplayer.gif", "Yooyuball", function (score) {
+		var result = {"asp_pgs":"0,0,0,0,0,0,0,0,0,0,"};
 
-			if (/^1(\d{2})(\d{2})$/.test(score)) {
-				result["asp_pgs"] = "0,0,0,0," + parseInt(RegExp.$1, 10) + ",0," + parseInt(RegExp.$2, 10) + ",0,0,0,";
-			}
+		if (/^1(\d{2})(\d{2})$/.test(score)) {
+			result["asp_pgs"] = "0,0,0,0," + parseInt(RegExp.$1, 10) + ",0," + parseInt(RegExp.$2, 10) + ",0,0,0,";
+		}
 
-			return result;
-		}, function (score) {
-			var adv = 0;
-			for (var i = 2;i && 1 < score - adv;--i) {
-				adv += Math.random() < i / 5;
-			}
-			score -= adv;
+		return result;
+	}, function (score) {
+		var adv = 0;
+		for (var i = 2;i && 1 < score - adv;--i) {
+			adv += Math.random() < i / 5;
+		}
+		score -= adv;
 
-			var result = "1" + ("00" + adv).substr(-2) + ("00" + score).substr(-2);
+		var result = "1" + ("00" + adv).substr(-2) + ("00" + score).substr(-2);
 
-			return /^10\d[01]\d$/.test(result) && parseInt(result, 10);
-		}],
+		return /^10\d[01]\d$/.test(result) && parseInt(result, 10);
+	}],
 */

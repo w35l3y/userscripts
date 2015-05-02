@@ -7,7 +7,7 @@
 // @copyright      2012+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        2.1.0
+// @version        2.1.1
 // @language       en
 // @include        nowhere
 // @exclude        *
@@ -82,10 +82,11 @@ ShowMyCode.execute = function (params) {
 				}
 			}
 		}).send({
-			//"MAX_FILE_SIZE" : "2097152",
+			"MAX_FILE_SIZE" : "2097152",
 			"decodingurl" : _params.url,
+			"upload"	: "",
 			"captcha" : _params.captcha,
-			"showmycodebutton" : "Show My Code!"
+			//"showmycodebutton" : "Show My Code!"
 		});
 	}
 	
