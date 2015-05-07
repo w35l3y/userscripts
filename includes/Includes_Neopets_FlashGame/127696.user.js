@@ -7,7 +7,7 @@
 // @copyright      2012+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        1.2.1
+// @version        1.3.0
 // @language       en
 // @include        nowhere
 // @exclude        *
@@ -673,6 +673,7 @@ FlashGame.send = function (obj) {
 	try {
 		obj.referer = obj.options.image_host + "/" + obj.options.include_movie;
 	} catch (e) {
+		console.log("1 FlashGame.send", e);
 	}
 
 	for each (var v in ["url", "referer"]) {
@@ -807,6 +808,7 @@ FlashGame.send = function (obj) {
 					}
 				}
 			} catch (e) {
+				console.log("2 FlashGame.send", e);
 			}
 
 			if (obj.onsuccess(obj)) {
@@ -868,13 +870,13 @@ FlashGame.execute = function (obj) {
 		obj.score -= obj.score % obj.array_score[2];
 		obj.score = Math.floor(obj.score);
 
-		obj.time = obj.array_time[0] * (1 + obj.array_time[1] * Math.random());
+		obj.time = obj.array_time[0];
 		if (obj.array_time[0] < 0) {
 			obj.time *= ((obj.ratio_time?obj.score - obj.max_score:0) - obj.max_score);
 		} else if (obj.ratio_time) {
 			obj.time *= obj.score;
 		}
-		obj.time = Math.ceil(obj.time);
+		obj.time = Math.ceil(obj.time + obj.array_time[1] * Math.random());
 		
 		if (typeof obj.array_score[3] == "function") {
 			obj.score = obj.array_score[3](obj.score);
@@ -1013,7 +1015,7 @@ FlashGame.test = function(querystring, crypt) {
 };
 
 /*
-	"1288" : [2, 9, -9327, 1, "altadorcupplayer.gif", "Yooyuball", function (score) {
+	"1288" : [2, , , , 9, -9327, 1, function (score) {
 		var result = {"asp_pgs":"0,0,0,0,0,0,0,0,0,0,"};
 
 		if (/^1(\d{2})(\d{2})$/.test(score)) {

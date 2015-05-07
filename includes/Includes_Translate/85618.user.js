@@ -79,10 +79,17 @@ var Translate = {
 						try {
 							r = xhr.response.json || JSON.parse(xhr.response.text.replace(/,(?=,)/g, ',null'));
 						} catch (e) {
-							r = eval(xhr.response.text);
-						}
+							console.log("Translate : Error parsing result... JSON.parse", e, args);
+							try {
+								r = eval(xhr.response.text);
 
-						cb(v(r[2], r[0][0][0]), args);
+								cb(v(r[2], r[0][0][0]), args);
+							} catch (e) {
+								console.log("Translate : Error parsing result... eval", e, args);
+
+								cb(v(from, text), args);
+							}
+						}
 					}
 				}).send({
 					"client"	: "t",

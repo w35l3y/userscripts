@@ -7,7 +7,7 @@
 // @copyright      2012+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        2.1.1
+// @version        2.2.0
 // @language       en
 // @include        nowhere
 // @exclude        *
@@ -50,9 +50,7 @@ ShowMyCode.execute = function (params) {
 				"Referer" : "http://www.showmycode.com/",
 			},
 			"onsuccess"	: function (xhr) {
-				for (var v in xhr) {
-					_params[v] = xhr[v];
-				}
+				_params.response = xhr.response;
 
 				if (/Wrong captcha/i.test(xhr.response.text)) {
 					_params.error = 4;
@@ -70,10 +68,7 @@ ShowMyCode.execute = function (params) {
 							"Referer" : "http://www.showmycode.com/",
 						},
 						"onsuccess"	: function (xhr) {
-							for (var v in xhr) {
-								_params[v] = xhr[v];
-							}
-
+							_params.response = xhr.response;
 							_params.error = (xhr.response.text.length == 0?1:0);
 
 							_params.onsuccess(_params);

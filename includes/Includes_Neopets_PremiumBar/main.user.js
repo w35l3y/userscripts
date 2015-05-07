@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.0.2
+// @version     1.0.3
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -361,7 +361,7 @@ PremiumBar = function (activities) {
 							o.next = cb(!o.error, o.next);
 						}
 						_activity.save(o);
-					}]);
+					}, auto]);
 
 					return false;
 				} else {
