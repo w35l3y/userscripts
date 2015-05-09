@@ -7,7 +7,7 @@
 // @copyright      2012+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        1.3.0
+// @version        1.3.1
 // @language       en
 // @include        nowhere
 // @exclude        *
@@ -74,7 +74,7 @@ FlashGame.convert = function (doc, type) {
 				"link"			: (!/javascript:void/i.test(url)?url:""),
 				"id"			: parseInt((/\-(\d+)\.\w+$/.test(img.src) || /game_id=(\d+)/.test(location.search)) && RegExp.$1, 10),
 				"name"			: xpath("string(id('gr-ctp-feedback-form')/p/b/text())", doc) || xpath("string(id('gr-ctp-feedback-form')/p/b/text()|id('gr-header')//h1/text())", doc).replace(/^[-\s]+/g, "") || img.alt || img.parentNode.title,
-				"ratio"			: parseFloat(xpath("string(id('gr-ctp-npratio')/div/text()[1])", doc).replace(/,/g, ".").replace(/[^\d.]+/g, "")),
+				"ratio"			: parseFloat(xpath("string(id('gr-ctp-npratio')/div/text()[1])", doc).replace(/,/g, ".").replace(/[^\d.]+/g, "")) || 0,
 				"featured"		: !!xpath("string(.//div[contains(@class, 'burst-featured-game')]/@class)", doc).length,
 				"shockwave"		: !!xpath("string(.//script/text()[contains(., 'NP_getUrl') and contains(., 'shockwave')])", doc).length,
 				"highscores"	: xpath("id('gr-ctp-hiscores')//ul[position() = last()]/li/span[2]/text()", doc).map(function (v) {
@@ -141,7 +141,7 @@ FlashGame.convert = function (doc, type) {
 				var xobj = {
 					"link"			: "",
 					"id"			: obj.list.id,
-					"ratio"			: parseFloat((1 / obj.list.n).toFixed(2)),
+					"ratio"			: (obj.list.n?parseFloat((1 / obj.list.n).toFixed(2)):0),
 					"featured"		: false,
 					"shockwave"		: false,
 					"highscores"	: [],
@@ -780,35 +780,37 @@ FlashGame.send = function (obj) {
 				}
 			}
 
-			try {
-				var data = JSON.parse(decodeURIComponent(result.list.call_external_params).substr(5)) || [];
+			if (result.list.call_external_params) {
+				try {
+					var data = JSON.parse(decodeURIComponent(result.list.call_external_params).substr(5)) || [];
 
-				for each (var d in data) {
-					switch (d.fn) {
-						case "setnp":
-							document.getElementById("npanchor").textContent = d.args;
-						break;
-						case "updateRank":
-							if (typeof unsafeWindow[d.fn] == "function") {
-								if (d.args) {
-									console.log("Execute", d);
-								} else {
-									unsafeWindow[d.fn]();
+					for each (var d in data) {
+						switch (d.fn) {
+							case "setnp":
+								document.getElementById("npanchor").textContent = d.args;
+							break;
+							case "updateRank":
+								if (typeof unsafeWindow[d.fn] == "function") {
+									if (d.args) {
+										console.log("Execute", d);
+									} else {
+										unsafeWindow[d.fn]();
+									}
 								}
-							}
-						break;
-						case "flash_func_trigger":
+							break;
+							case "flash_func_trigger":
+								console.log(d);
+								if (d.args && d.args.func && typeof unsafeWindow[d.args.func] == "function") {
+									unsafeWindow[d.args.func](d.args.param);
+								}
+							break;
+							default:
 							console.log(d);
-							if (d.args && d.args.func && typeof unsafeWindow[d.args.func] == "function") {
-								unsafeWindow[d.args.func](d.args.param);
-							}
-						break;
-						default:
-						console.log(d);
+						}
 					}
+				} catch (e) {
+					console.log("2 FlashGame.send", e);
 				}
-			} catch (e) {
-				console.log("2 FlashGame.send", e);
 			}
 
 			if (obj.onsuccess(obj)) {
@@ -842,7 +844,7 @@ FlashGame.execute = function (obj) {
 				return v + r * (min + obj.array_score[1]) * obj.array_score[2] * Math.random();
 			};
 
-			obj.score = xrand.apply(null, (obj.ratio_score?[rs, 0.15]:[obj.array_score[0], 1]));
+			obj.score = xrand.apply(null, (obj.ratio_score && obj.options.n?[rs, 0.15]:[obj.array_score[0], 1]));
 			obj.score -= obj.score % obj.array_score[2];
 
 			while (obj.score > obj.max_score) {
