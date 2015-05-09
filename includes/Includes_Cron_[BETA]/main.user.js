@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.4.2
+// @version     1.4.3
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -131,6 +131,9 @@ var Cron = function (id, current) {
 			},
 			priority	: {
 				value	: obj.priority,
+			},
+			delay		: {
+				value	: obj.delay,
 			},
 			interval	: {
 				enumerable	: true,
@@ -315,7 +318,6 @@ var Cron = function (id, current) {
 		tasks.splice(index, 0, o);	// inserts 'o' at position 'index'
 		console.debug("0 ADD", new Date(pInterval), index, o.id);
 
-		localStorage.removeItem(runKey);
 		_updateTimer();
 		
 		return o;
@@ -329,11 +331,18 @@ var Cron = function (id, current) {
 			wait = Math.max(Math.min(n - cd, Math.pow(2, 31) - 1), 0);
 			//console.log("1 TIMER", tasks[0].id, cd, new Date(n), n - cd, wait);
 			timer = setTimeout(function () {
+				var curr = new Date();
 				nextAt = JSON.parse(GM_getValue(nextAtKey, JSON.stringify(nextAt)));
-				if (!localStorage.getItem(runKey)) {	// tries to solve concurrent executions
-					localStorage.setItem(runKey, true);
+				if (curr - Date.parse(localStorage.getItem(runKey)) < 30000) {	// tries to solve concurrent executions
+					console.log("A task is being executed in another TAB");
+				} else {
+					curr.setUTCMilliseconds(tasks[0].delay || 0);
+					localStorage.setItem(runKey, curr.toISOString());
 					//isDebug && alert("Ready...");
-					tasks.shift().execute2(_add);
+					tasks.shift().execute2(function (o) {
+						localStorage.removeItem(runKey);
+						_add(o);
+					});
 				}
 			}, wait);
 		}

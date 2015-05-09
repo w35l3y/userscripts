@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.0.3
+// @version     1.0.4
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -533,6 +533,7 @@ PremiumBar = function (activities) {
 					id		: this.id + ai,
 					interval: t[0],
 					relative: t[1],
+					delay	: obj.delay,
 					priority: obj.priority,
 					command	: function (auto) {
 						_data = JSON.parse(GM_getValue("premium-data", "{}"));
