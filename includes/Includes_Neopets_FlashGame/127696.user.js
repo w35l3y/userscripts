@@ -7,7 +7,7 @@
 // @copyright      2012+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        1.3.1
+// @version        1.3.2
 // @language       en
 // @include        nowhere
 // @exclude        *
@@ -335,7 +335,7 @@ FlashGame.url = function (obj) {
 			data	: "options.include_movie",
 		};
 	} else {
-		console.log(obj);
+		//console.log(obj);
 		var test_value = function (v) {
 			switch (v) {
 				case "game":
@@ -510,8 +510,8 @@ FlashGame.url = function (obj) {
 					}
 				}
 
-				console.log(o.substr(1));
-				console.log(FlashGame.test(o.substr(1), decimals_arr[i.Decimals]));
+				//console.log(o.substr(1));
+				//console.log(FlashGame.test(o.substr(1), decimals_arr[i.Decimals]));
 
 				obj.url = "http://www.neopets.com/high_scores/process_flash_score.phtml?" + o.substr(1);
 
@@ -693,7 +693,7 @@ FlashGame.send = function (obj) {
 			"Referer" : obj.referer,
 		},
 		"onsuccess"	: function (xhr) {
-			console.log(xhr.response.text);
+			//console.log(xhr.response.text);
 			var result = FlashGame.convert(xhr.response.text, "process_flash_score") || {},
 			key = "plays-" + obj.options.username,
 			plays = JSON.parse(GM_getValue(key, '{"last":0,"games":{}}'));

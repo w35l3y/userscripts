@@ -331,10 +331,13 @@ var Cron = function (id, current) {
 			wait = Math.max(Math.min(n - cd, Math.pow(2, 31) - 1), 0);
 			//console.log("1 TIMER", tasks[0].id, cd, new Date(n), n - cd, wait);
 			timer = setTimeout(function () {
-				var curr = new Date();
+				var curr = new Date(),
+				wait2 = curr - Date.parse(localStorage.getItem(runKey));
 				nextAt = JSON.parse(GM_getValue(nextAtKey, JSON.stringify(nextAt)));
-				if (curr - Date.parse(localStorage.getItem(runKey)) < 30000) {	// tries to solve concurrent executions
-					console.log("A task is being executed in another TAB");
+				console.log(location.href);
+				if (wait2 < 30000) {	// tries to solve concurrent executions
+					console.log("A task is being executed in another TAB", wait2);
+					setTimeout(_updateTimer, 30000 - wait2 + Math.floor(500 * Math.random()));
 				} else {
 					curr.setUTCMilliseconds(tasks[0].delay || 0);
 					localStorage.setItem(runKey, curr.toISOString());
@@ -350,15 +353,7 @@ var Cron = function (id, current) {
 	
 	window.addEventListener("storage", function (e) {
 		if (runKey == e.key && e.oldValue != e.newValue) {
-			if (e.newValue === undefined) {
-				setTimeout(_updateTimer, Math.floor(200 * Math.random()));
-			} else if (e.newValue) {
-				clearTimeout(timer);
-				timer = setTimeout(function () {
-					localStorage.removeItem(runKey);
-					_updateTimer();
-				}, 30000 + Math.floor(500 * Math.random()));
-			}
+			setTimeout(_updateTimer, Math.floor(500 * Math.random()));
 		}
 	}, false);
 	
