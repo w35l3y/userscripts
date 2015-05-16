@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.4.0
+// @version     1.4.1
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -391,6 +391,19 @@ var Neopets = function (doc) {
 				addEventListener("activePet", function () {})
 				*/
 			},
+		},
+		event		: {
+			get		: function () {
+				var event = xpath(".//td[contains(@class, 'eventIcon')]/a/img[contains(@src, '/events/')]", doc)[0];
+				
+				if (event && /\/events\/([\w.]+)$/.test(event.getAttribute("src"))) {
+					return {
+						icon		: RegExp.$1,
+						link		: event.parentNode.getAttribute("href"),
+						description	: event.getAttribute("title"),
+					};
+				}
+			}
 		},
 		events		: {
 			get		: function () {
