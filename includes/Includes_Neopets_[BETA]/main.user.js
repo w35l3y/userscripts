@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.4.1
+// @version     1.4.2
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -466,14 +466,30 @@ var Neopets = function (doc) {
 	};
 	
 	var userKey = "neopets-" + this.username,
-	_userTmp = JSON.parse(GM_getValue(userKey, "{}"));
+	_userTmp = JSON.parse(GM_getValue(userKey, "{}")),
+	_userTmpCache = JSON.parse(GM_getValue(userKey + "_cache", "{}"));
 	
-	this.getUserData = function (k) {
-		return _userTmp[k];
+	this.getUserData = function (key) {
+		if (key in _userTmpCache && new Date() - _userTmpCache[key][0] > _userTmpCache[key][1]) {
+			this.deleteUserData(key);
+		}
+
+		return _userTmp[key];
 	};
 	
-	this.setUserData = function (k, v) {
-		_userTmp[k] = v;
+	this.deleteUserData = function (key) {
+		delete _userTmp[key];
+		delete _userTmpCache[key]
+		GM_setValue(userKey, JSON.stringify(_userTmp));
+		GM_setValue(userKey + "_cache", JSON.stringify(_userTmpCache));
+	};
+
+	this.setUserData = function (key, value, cache) {
+		if (cache) {
+			_userTmpCache[key] = [new Date().valueOf(), cache];
+			GM_setValue(userKey + "_cache", JSON.stringify(_userTmpCache));
+		}
+		_userTmp[key] = value;
 		GM_setValue(userKey, JSON.stringify(_userTmp));
 	};
 	
