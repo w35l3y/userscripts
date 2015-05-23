@@ -19,11 +19,11 @@
 // @icon           http://gm.wesley.eti.br/icon.php?desc=61379
 // @resource       winConfigCss http://pastebin.com/download.php?i=Ldk4J4bi
 // @resource       winConfigQuickPriceCheckerCss http://pastebin.com/download.php?i=mkruS5YA
-// @require        ../../../raw/master/includes/Includes_XPath/63808.user.js
-// @require        ../../../raw/master/includes/Includes_HttpRequest/56489.user.js
-// @require        ../../../raw/master/includes/Includes_Neopets_Shop_Wizard/56503.user.js
-// @require        ../../../raw/master/includes/Includes_Neopets_Shop_[BETA]/56562.user.js
-// @require        ../../../raw/master/includes/Includes_WinConfig/163374.user.js
+// @require        ../../includes/Includes_XPath/63808.user.js
+// @require        ../../includes/Includes_HttpRequest/56489.user.js
+// @require        ../../includes/Includes_Neopets_Shop_Wizard/56503.user.js
+// @require        ../../includes/Includes_Neopets_Shop_[BETA]/56562.user.js
+// @require        ../../includes/Includes_WinConfig/163374.user.js
 // @history        3.3.0 Removed Includes Checker
 // @history        3.2.1 Added missing @icon
 // @history        3.2.0 Added Includes Checker (due to the recent problems with userscripts.org)
