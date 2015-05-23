@@ -1,0 +1,34 @@
+.winconfig.winConfig_PriceCheckerSettings .body > div.field {
+	float: left;
+	clear: inherit;
+	margin-left: 10px;
+}
+
+.winConfig_PriceCheckerSettings .body > .fieldClass_hotkey,
+.winConfig_PriceCheckerSettings .body > .fieldName_group {
+	width: 300px;
+}
+
+.winConfig_PriceCheckerSettings .body > .fieldClass_enable {
+	width: 610px;
+}
+
+.winConfig_PriceCheckerSettings .body > .fieldClass_others {
+	width: 340px;
+}
+
+.winConfig_PriceCheckerSettings .body > .fieldClass_others2 {
+	width: 260px;
+}
+
+.winConfig_PriceCheckerSettings .body .fieldName_interval > fieldset {
+	height: 39px;
+}
+
+.dollar_button {
+        color: #008800;
+        cursor: pointer;
+}
+.price_shop {
+        padding-left: 2px;
+}

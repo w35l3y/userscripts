@@ -1,0 +1,105 @@
+.updaterWindow {
+	text-align: left;
+	position: fixed;
+	bottom: 10px;
+	right: 10px;
+	background: #EEEEEE;
+	border: solid thin #C7C7C7;
+	padding: 8px;
+	font-family: Calibri;
+	font-size: 12px;
+	-moz-border-radius: 5px;
+	cursor: default;
+	z-Index: 100;
+	line-height: 1.2;
+}
+.updaterWindow a {
+	text-decoration: none !important;
+}
+.updaterWindow>hr {
+	border-color: -moz-use-text-color -moz-use-text-color #CCCCCC;
+	border-style: none none solid;
+	border-width: 0 0 1px;
+	height: 0;
+	margin: 5px 0px;
+}
+.updaterWindow>table {
+	border-collapse: collapse;
+	margin: 0px;
+}
+.updaterWindow>table td {
+	font-family: Calibri;
+	font-size: 14px;
+	border: 0px solid #000000;
+	padding: 0px;
+	margin: 0px;
+}
+.updaterWindow>table td.disable {
+	font-size: 12px;
+}
+.updaterWindow>table td.disable input {
+	position: static;
+}
+.updaterWindow>table td.actions {
+	width: 87px;
+	vertical-align: top;
+}
+
+.updaterWindow>table td.version span,
+.updaterWindow>span.title a {
+	font-weight: bold;
+}
+.updaterWindow>img {
+	margin-right: 2px;
+}
+.updaterWindow>img,
+.updaterWindow>span.title,
+.updaterWindow>table td.disable>*,
+.updaterWindow>table td.actions a>* {
+	vertical-align: middle;
+}
+.updaterWindow>span.title a {
+	color: #000099;
+}
+.updaterWindow>table td.actions a {
+	width: 75px;
+	display: block;
+	padding: 5px;
+	margin: 5px 0px 5px 4px;
+	border: 1px solid #DEDEDE;
+	background-color: #F5F5F5;
+	color: #565656;
+	text-decoration: none;
+	cursor: pointer;
+	font-weight: bold;
+}
+.updaterWindow>table td.actions a>img {
+	margin-right: 4px;
+	width: 16px;
+	height: 16px;
+	border: 0px;
+}
+.updaterWindow>table td.version {
+	width: 50%;
+}
+.updaterWindow>table div.history {
+	border: 1px solid #000000;
+	font-size: 12px;
+	margin: 0px 5px 3px 5px;
+	overflow-y: auto;
+	height: 59px;
+	width: 250px;
+	background-color: #F5F5F5;
+	visibility: hidden;
+}
+.updaterWindow>table div.history>span {
+	font-weight: bold;
+}
+.updaterWindow>table div.history>ul {
+	margin: 0px;
+	padding: 0px;
+}
+.updaterWindow>table div.history>ul>li {
+	list-style-type: none;
+	margin-left: 10px;
+}

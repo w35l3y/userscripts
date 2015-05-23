@@ -1,0 +1,65 @@
+({
+	"version" : 1,
+	"default" : "en",
+	"languages" : {
+		"en" : {
+			"cfuw.title" : "New version available for",
+			"cfuw.cversion.label" : "Installed version",
+			"cfuw.lversion.label" : "Lastest version",
+			"cfuw.install.label" : "Install",
+			"cfuw.visit.label" : "Visit",
+			"cfuw.cancel.label" : "Cancel",
+			"cfuw.disable.label" : "Don't ask me again for this script",
+			"cfuw.uninstall.msg.error" : "The script name/namespace has changed.\nYou will need to uninstall the old version manually.",
+			"cfuw.version.unknown" : "Unknown",
+
+			"npafg.score.prompt" : "Score: (avatar =",
+			"npafg.time.prompt" : "Time in miliseconds:",
+			"npafg.wait.label" : "Wait...",
+			"npafg.running.bkgd" : "Scoresender is running in background...",
+			"npafg.error.unknown" : "Unknown error code:",
+			"npafg.msg.success": "Score sent successfully! ({0})",
+			"npafg.msg.reached_max" : "Max plays reached",
+			"npafg.msg.reviewed" : "Score reviewed",
+			"npafg.msg.missing_hash" : "Missing hash",
+			
+			"unknown" : "Unknown",
+
+			"inpfg.parameter.missing" : "Parameter '{0}' is wrong/missing.",
+			"inpfg.cached_encrypt.confirm" : "Would you like to use the cached encryption for the current game?\n\nLast update: {0}",
+			"inpfg.parameters.wrong" : "Parameters '{0}' are wrong.",
+			"inpfg.cached_encrypt.notfound" : "Encryptation for current game was not found.\nTry again later.",
+			"inpfg.clear_cache.confirm" : "Clear cache?",
+			"inpfg.cache_status.alert" : "Cached encryption is",
+			"inpfg.cache_encrypt.label" : "Cached encryption",
+			"inpfg.activated.label" : "Activated",
+			"inpfg.deactivated.label" : "Deactivated",
+			"inpfg.sendscore.confirm" : "Continue?",
+			"inpfg.game.label" : "Game",
+			"inpfg.user.label" : "User",
+			"inpfg.score.label" : "Score",
+			"inpfg.time.label" : "Time",
+			"inpfg.params.label" : "Params"
+		},
+		"pt" : {
+			"cfuw.title" : "Nova versão disponível para",
+			"cfuw.cversion.label" : "Versão instalada",
+			"cfuw.lversion.label" : "Versão atual",
+			"cfuw.install.label" : "Instalar",
+			"cfuw.visit.label" : "Visitar",
+			"cfuw.cancel.label" : "Cancelar",
+			"cfuw.disable.label" : "Não me pergunte novamente para este script",
+			"cfuw.uninstall.msg.error" : "O name/namespace do script mudou.\nSerá preciso desinstalar a versão antiga manualmente.",
+			"cfuw.version.unknown" : "Desconhecido",
+
+			"npafg.msg.reached_max" : "Limite diário alcançado",
+			"npafg.msg.reviewed" : "Pontuação revisada",
+			"npafg.msg.missing_hash" : "Faltando hash",
+
+			"inpfg.clear_cache.confirm" : "Limpar cache?",
+			"inpfg.cache_status.alert" : "Criptografia em cache está",
+			"inpfg.cache_encrypt.label" : "Criptografia em cache",
+			"inpfg.time.label" : "Tempo"
+		}
+	}
+})
