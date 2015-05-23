@@ -9,3 +9,5 @@
 
 ### Installs
 ![Daily installs](http://gm.wesley.eti.br/count.php?id=scripts/Neopets_Hide_n_Seek/34085.user.js&type=image)
+
+![Analytics](https://ga-beacon.appspot.com/UA-462297-6/master/Neopets_Hide_n_Seek?pixel)

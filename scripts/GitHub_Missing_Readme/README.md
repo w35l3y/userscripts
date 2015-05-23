@@ -14,3 +14,5 @@ closed|#12: [Passing parameters to GET requests](https://github.com/w35l3y/users
 
 ### Installs
 ![Daily installs](http://gm.wesley.eti.br/count.php?id=scripts/GitHub_Missing_Readme/main.user.js&type=image)
+
+![Analytics](https://ga-beacon.appspot.com/UA-462297-6/master/GitHub_Missing_Readme?pixel)

@@ -9,3 +9,5 @@
 
 ### Installs
 ![Daily installs](http://gm.wesley.eti.br/count.php?id=scripts/Neopets_Bank_and_Till/main.user.js&type=image)
+
+![Analytics](https://ga-beacon.appspot.com/UA-462297-6/master/Neopets_Bank_and_Till?pixel)

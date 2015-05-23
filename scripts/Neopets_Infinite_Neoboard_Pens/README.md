@@ -14,3 +14,5 @@
 
 ### Installs
 ![Daily installs](http://gm.wesley.eti.br/count.php?id=scripts/Neopets_Infinite_Neoboard_Pens/161705.user.js&type=image)
+
+![Analytics](https://ga-beacon.appspot.com/UA-462297-6/master/Neopets_Infinite_Neoboard_Pens?pixel)

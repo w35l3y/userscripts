@@ -7,3 +7,5 @@
 
 ### Installs
 ![Daily installs](http://gm.wesley.eti.br/count.php?id=scripts/PeixeUrbano_Coupon_Page_Title/main.user.js&type=image)
+
+![Analytics](https://ga-beacon.appspot.com/UA-462297-6/master/PeixeUrbano_Coupon_Page_Title?pixel)

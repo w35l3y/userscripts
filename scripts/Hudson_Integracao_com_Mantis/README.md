@@ -8,3 +8,5 @@
 
 ### Installs
 ![Daily installs](http://gm.wesley.eti.br/count.php?id=scripts/Hudson_Integracao_com_Mantis/178643.user.js&type=image)
+
+![Analytics](https://ga-beacon.appspot.com/UA-462297-6/master/Hudson_Integracao_com_Mantis?pixel)
