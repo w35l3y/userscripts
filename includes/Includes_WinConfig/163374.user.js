@@ -7,7 +7,7 @@
 // @copyright      2013+, w35l3y (http://gm.wesley.eti.br/includes)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br/includes
-// @version        1.8.5
+// @version        1.8.6
 // @language       en
 // @include        nowhere
 // @exclude        *
@@ -18,7 +18,7 @@
 // @grant          GM_setValue
 // @grant          GM_deleteValue
 // @grant          GM_getResourceText
-// @resource       winConfigCss http://pastebin.com/download.php?i=Ldk4J4bi
+// @resource       winConfigCss ../../includes/Includes_WinConfig/resources/default.css
 // ==/UserScript==
 
 /**************************************************************************
@@ -631,7 +631,7 @@ var WinConfig = function (params) {
 						}
 
 						if (!(fld.events.change instanceof Array)) {
-							fld.events.change = [fld.events.change];
+							fld.events.change = (fld.events.change?[fld.events.change]:[]);
 						}
 						fld.events.change.push(function (e) {
 							for (var bi = e.target.selectedIndex; bi < e.target.options.length;++bi) {
@@ -722,7 +722,7 @@ var WinConfig = function (params) {
 							}
 
 							if (!(fld.events.change instanceof Array)) {
-								input.events.change = [fld.events.change];
+								input.events.change = (fld.events.change?[fld.events.change]:[]);
 							}
 
 							input.events.change.push(function (e, field) {
