@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.4.2
+// @version     1.4.3
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -15,7 +15,7 @@
 // @grant       GM_setValue
 // @grant       GM_xmlhttpRequest
 // @icon        http://gm.wesley.eti.br/icon.php?desc=includes/Includes_Neopets_[BETA]/main.user.js
-// @require     https://github.com/knadh/localStorageDB/raw/master/localstoragedb.min.js
+// @require     https://github.com/w35l3y/localStorageDB/raw/master/localstoragedb.js
 // @require     https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
 // @require     https://github.com/w35l3y/userscripts/raw/master/includes/Includes_HttpRequest/56489.user.js
 // ==/UserScript==
@@ -84,6 +84,7 @@ var Neopets = function (doc) {
 				}
 				return params;
 		}
+
 		return text;
 	},
 	db = new localStorageDB("neopets", localStorage);
@@ -126,7 +127,7 @@ var Neopets = function (doc) {
 					}
 				} else {
 					var json = ("json" == format?_doc:parseText(_doc, format)),
-					err = 0 == json.success;
+					err = (0 == json.success);
 
 					data = {
 						error	: err,
