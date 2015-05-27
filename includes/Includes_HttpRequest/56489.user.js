@@ -7,7 +7,7 @@
 // @copyright      2011+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br/includes
-// @version        2.1.1
+// @version        2.2.0
 // @language       en
 // @include        nowhere
 // @exclude        *
@@ -86,10 +86,14 @@ HttpRequest.open = function (params) {
 					},
 					json: {
 						get	: function () {
-							if (/^Content-Type: (?:text|application)\/(?:x-)?json/m.test(e.responseHeaders)) {
+							try {
+								return JSON.parse(e.responseText);
+							} catch (e) {
+								console.log(e);
 								try {
-									return (typeof JSON != "undefined" && typeof JSON.parse == "function" ? JSON.parse(e.responseText) : eval("(" + e.responseText + ")") );
+									return eval("(" + e.responseText + ")");
 								} catch (e) {
+									console.log(e);
 									return {};
 								}
 							}
