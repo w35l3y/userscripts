@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.0.4
+// @version     1.1.0
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -21,7 +21,6 @@
 // @grant       GM_getResourceURL
 // @grant       GM_getResourceText
 // @resource    winConfigCss http://pastebin.com/raw.php?i=Ldk4J4bi
-// @resource    toolbarJs https://gist.github.com/w35l3y/252ea029821a8b8109fa/raw/toolbar.js
 // @resource    toolbarCss https://gist.github.com/w35l3y/252ea029821a8b8109fa/raw/toolbar.css
 // @resource    toolbarHtml https://gist.github.com/w35l3y/252ea029821a8b8109fa/raw/toolbar.html
 // @resource    toolbarStocks https://gist.github.com/w35l3y/252ea029821a8b8109fa/raw/stocks.html
@@ -39,6 +38,7 @@
 // @require     https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Neopets_[BETA]/main.user.js
 // @require     https://github.com/w35l3y/userscripts/raw/master/includes/Includes_WinConfig/163374.user.js
 // @require     https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Template_[BETA]/176400.user.js
+// @require     https://gist.github.com/w35l3y/252ea029821a8b8109fa/raw/toolbar.js
 // ==/UserScript==
 
 /**************************************************************************
@@ -947,7 +947,6 @@ PremiumBar = function (activities) {
 			}
 			return (ai > bi?1:-1);
 		}),
-		script = document.createElement("script"),
 		addClickEvent = function (d) {
 			xpath("id('" + d.id + "')/a")[0].addEventListener("click", function (e) {
 				e.preventDefault();
@@ -955,9 +954,6 @@ PremiumBar = function (activities) {
 				});
 			}, false);
 		};
-
-		script.setAttribute("type", "text/javascript");
-		script.setAttribute("src", GM_getResourceURL("toolbarJs"));
 
 		main.insertAdjacentHTML("afterend", GM_getResourceText("toolbarCss") + Template.get(GM_getResourceText("toolbarHtml"), {
 			activities	: activities.concat(customDailies),
@@ -978,7 +974,6 @@ PremiumBar = function (activities) {
 				},
 			},
 		}));
-		main.parentNode.appendChild(script);
 		
 		xpath("id('settings_anchor')")[0].addEventListener("click", function (e) {
 			myWin.open();
@@ -987,6 +982,8 @@ PremiumBar = function (activities) {
 		for (var ai = 0, at = dailies.length;ai < at;++ai) {
 			addClickEvent(dailies[ai]);
 		}
+
+		executeToolbar();
 	}
 	
 	window.addEventListener("storage", function (e) {
