@@ -38,6 +38,11 @@
 // @require     https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Neopets_[BETA]/main.user.js
 // @require     https://github.com/w35l3y/userscripts/raw/master/includes/Includes_WinConfig/163374.user.js
 // @require     https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Template_[BETA]/176400.user.js
+// @require     http://images.neopets.com/js/jquery-1.7.1.min.js
+// @require     http://images.neopets.com/js/jquery-ui-1.8.17.min.js
+// @require     http://images.neopets.com/js/jquery.ui-1.8.23/ui/jquery.ui.widget.js
+// @require     http://images.neopets.com/js/jquery.ui-1.8.23/ui/jquery.ui.mouse.js
+// @require     http://images.neopets.com/js/jquery.ui-1.8.23/ui/jquery.ui.sortable.js
 // @require     https://gist.github.com/w35l3y/252ea029821a8b8109fa/raw/toolbar.js
 // ==/UserScript==
 
