@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br/includes
-// @version     1.0.1
+// @version     1.1.0
 // @language    en
 // @include     http://www.neopets.com/games/neoquest/neoquest.phtml*
 // @grant       GM_log
@@ -18,10 +18,10 @@
 // @grant       GM_xmlhttpRequest
 // @grant       GM_getResourceText
 // @icon        http://gm.wesley.eti.br/icon.php?desc=scripts/Neopets_NeoQuestI_Helper/main.user.js
-// @resource    winConfigCss http://pastebin.com/raw.php?i=Ldk4J4bi
-// @require     https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
-// @require     https://github.com/w35l3y/userscripts/raw/master/includes/Includes_HttpRequest/56489.user.js
-// @require     https://github.com/w35l3y/userscripts/raw/master/includes/Includes_WinConfig/163374.user.js
+// @resource    winConfigCss ../../includes/Includes_WinConfig/resources/default.css
+// @require     ../../includes/Includes_XPath/63808.user.js
+// @require     ../../includes/Includes_HttpRequest/56489.user.js
+// @require     ../../includes/Includes_WinConfig/163374.user.js
 // ==/UserScript==
 
 /**************************************************************************
