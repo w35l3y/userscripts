@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.4.3
+// @version     1.4.4
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -305,13 +305,21 @@ var Cron = function (id, current) {
 	tasks = [],
 	runKey = id + "-runKey",
 	_add = function (o) {
-		var pInterval = o.next();
+		var _curr = _currentDate(),
+		pInterval = o.next();
 		for (var index = 0, at = tasks.length;index < at;++index) {
 			var t = tasks[index],
 			v = t.next();
-			if (pInterval < v || pInterval == v && (o.priority < t.priority || isFinite(o.priority) && t.priority === undefined)) {
-				pInterval == v && console.log("PRIOR", o.id, t.id);
-				break;
+			if (pInterval <= _curr) {
+				if (v > _curr || o.priority < t.priority || isFinite(o.priority) && t.priority === undefined) {
+					v <= _curr && console.log("0 PRIOR", o.id, t.id);
+					break;
+				}
+			} else if (pInterval < v
+				|| pInterval == v
+				&& (o.priority < t.priority || isFinite(o.priority) && t.priority === undefined)) {
+					pInterval == v && console.log("1 PRIOR", o.id, t.id);
+					break;
 			}
 		}
 
