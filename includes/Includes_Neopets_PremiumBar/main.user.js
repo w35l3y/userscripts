@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.1.0
+// @version     1.2.0
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -359,8 +359,24 @@ PremiumBar = function (activities) {
 					});
 
 					obj.execute.apply(this, [function (o) {
-						if (!o.error) {
-							_activity.bar.page.np -= obj.price;
+						var __page = _activity.bar.page;
+						if (!o.error && 0 < obj.price) {
+							__page.np -= obj.price;
+						}
+						if ("counter" in o) {
+							var ct = [].concat(o.counter),
+							counterKey = "counter-" + _activity.id,
+							counter = __page.getUserData(counterKey) || 0;
+
+							if (ct[0] > ++counter) {
+								__page.setUserData(counterKey, counter, ct[1] || 86400000);
+
+								var dd = __page.time;
+								dd.setUTCMilliseconds(ct[2] || 10000);
+								o.next = dd;
+							} else {
+								__page.deleteUserData(counterKey);
+							}							
 						}
 						if (cb) {
 							o.next = cb(!o.error, o.next);
@@ -779,7 +795,7 @@ PremiumBar = function (activities) {
 		obj.callback = function (oo) {
 			obj.callback = cb;
 			var items = oo.items,
-			cost = Math.ceil(1.1 * oo.cost);
+			cost = oo.cost;
 
 			if (items && cost) {
 				var iremoved = [],
@@ -792,7 +808,7 @@ PremiumBar = function (activities) {
 					}));
 				};
 
-				console.log(cost, obj.limit);
+				console.log("CHECK", cost, obj.limit);
 				if (cost > obj.limit) {
 					obj.callback({
 						error	: 1,
@@ -835,9 +851,10 @@ PremiumBar = function (activities) {
 						});
 					},
 					next1 = function () {
+						cost *= 1.25;
 						if (cost > _this.page.np) {
 							new Bank(_this.page).withdraw({
-								value	: cost,
+								value	: Math.ceil(cost),
 								callback: function (o) {
 									if (o.error) {
 										o.items = getListItems();
