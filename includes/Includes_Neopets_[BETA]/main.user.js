@@ -219,7 +219,7 @@ var Neopets = function (doc) {
 				doc = value;
 
 				var np = _n("id('header')//td/a[contains(@href, 'inventory')]/text()"),
-				_refck = _s(".//*[(@name = '_ref_ck' or @name = 'ck') and string-length(@value) = 32]/@value") || (/_ref_ck=(\w{32})/.test(_s(".//*[contains(@href, '_ref_ck')]/@href"))?RegExp.$1:""),
+				_refck = _s(".//*[(@name = '_ref_ck' or @name = 'ck') and string-length(@value) = 32]/@value") || (/_ref_ck=(\w{32})/.test(_s(".//*[contains(@href, '_ref_ck')]/@href"))?RegExp.$1:"") || (/_ref_ck\s*:\s*"(\w{32})"/.test(_s(".//script[contains(text(), '_ref_ck')]/text()"))?RegExp.$1:""),
 				listen = [
 					["events", _b(".//div[@class = 'randomEvent']/div[@class = 'copy']|.//div[@class = 'inner_wrapper2']/img[@class = 'item']|.//table[@width = '400']/tbody[tr[1]/td[@colspan = '2']]/tr[2][td[1]/img and td[2]]")],
 				],
