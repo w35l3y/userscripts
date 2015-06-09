@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.4.4
+// @version     1.4.5
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -87,21 +87,7 @@ var Neopets = function (doc) {
 
 		return text;
 	},
-	db = new localStorageDB("neopets", localStorage),
-	_checkListeners = function (d) {
-		var listen = [
-			["events", xpath("boolean(.//div[@class = 'randomEvent']/div[@class = 'copy']|.//div[@class = 'inner_wrapper2']/img[@class = 'item']|.//table[@width = '400']/tbody[tr[1]/td[@colspan = '2']]/tr[2][td[1]/img and td[2]])", d)],
-		];
-		for (var ai in listen) {
-			var l = listen[ai];
-			if (l[1] && l[0] in _listeners) {
-				data.result = this[l[0]];
-				for (var bi = 0, bt = _listeners[l[0]].length;bi < bt;++bi) {
-					_listeners[l[0]][bi](data);
-				}
-			}
-		}
-	};
+	db = new localStorageDB("neopets", localStorage);
 	if (db.isNew()) {
 		db.createTable("items", ["id", "name", "image", "rarity", "price"]);
 		db.commit();
@@ -198,7 +184,7 @@ var Neopets = function (doc) {
 		}
 
 		if ("events" == type) {
-			_checkListeners(doc);
+			this.document = doc;
 		}
 	};
 	
@@ -234,6 +220,9 @@ var Neopets = function (doc) {
 
 				var np = _n("id('header')//td/a[contains(@href, 'inventory')]/text()"),
 				_refck = _s(".//*[(@name = '_ref_ck' or @name = 'ck') and string-length(@value) = 32]/@value") || (/_ref_ck=(\w{32})/.test(_s(".//*[contains(@href, '_ref_ck')]/@href"))?RegExp.$1:"") || (/_ref_ck\s*:\s*"(\w{32})"/.test(_s(".//script[contains(text(), '_ref_ck')]/text()"))?RegExp.$1:""),
+				listen = [
+					["events", _b(".//div[@class = 'randomEvent']/div[@class = 'copy']|.//div[@class = 'inner_wrapper2']/img[@class = 'item']|.//table[@width = '400']/tbody[tr[1]/td[@colspan = '2']]/tr[2][td[1]/img and td[2]]")],
+				],
 				data = {
 					error	: _b(".//img[@class = 'errorOops']|id('oops')"),
 					errmsg	: _s(".//div[@class = 'errorMessage']/text()"),
@@ -247,7 +236,15 @@ var Neopets = function (doc) {
 					GM_deleteValue(this.username + "-pinNumber");
 				}
 
-				_checkListeners(doc);
+				for (var ai in listen) {
+					var l = listen[ai];
+					if (l[1] && l[0] in _listeners) {
+						data.result = this[l[0]];
+						for (var bi = 0, bt = _listeners[l[0]].length;bi < bt;++bi) {
+							_listeners[l[0]][bi](data);
+						}
+					}
+				}
 			},
 		},
 		pin			: {
