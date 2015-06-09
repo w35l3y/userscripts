@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.4.5
+// @version     1.4.6
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -44,7 +44,7 @@ var Neopets = function (doc) {
 		return xpath("boolean(" + v + ")", doc);
 	},
 	_s = function (v) {
-		return xpath("string(" + v + ")", doc).trim() || "";
+		return xpath("normalize-space(" + v + ")", doc) || "";
 	},
 	_n = function (v) {
 		return parseInt(_s(v).replace(/[,.]/g, ""), 10) || 0;
@@ -52,16 +52,21 @@ var Neopets = function (doc) {
 	contentTime = doc && _s(".//script[contains(text(), 'var na =')]/text()"),
 	_this = this,
 	_listeners = {},
-	_post = function (url, data, type) {
+	_executeEvent = function (d, t, l) {
+		if (t in l) {
+			d.result = _this[t];
+			for (var ai = 0, at = l[t].length;ai < at;++ai) {
+				l[t][ai](d);
+			}
+		}
+	},
+	_post = function (url, data, type, f) {
 		return _this.request({
 			action	: url,
 			data	: data,
+			format	: f,
 			callback: function (obj) {
-				if (type in _listeners) {
-					for (var ai = 0, at = _listeners[type].length;ai < at;++ai) {
-						_listeners[type][ai](obj);
-					}
-				}
+				_executeEvent(obj, type, _listeners);
 			}
 		});
 	},
@@ -69,7 +74,7 @@ var Neopets = function (doc) {
 	processDocument = function (d) {
 		return {
 			error	: xpath("boolean(.//img[@class = 'errorOops']|id('oops'))", d),
-			errmsg	: xpath("string(.//div[@class = 'errorMessage']/text())", d),
+			errmsg	: xpath("normalize-space(.//div[@class = 'errorMessage']/text())", d),
 			body	: d,
 		};
 	},
@@ -87,7 +92,12 @@ var Neopets = function (doc) {
 
 		return text;
 	},
-	db = new localStorageDB("neopets", localStorage);
+	db = new localStorageDB("neopets", localStorage),
+	_checkEvents = function (data, d, __listeners) {
+		if (xpath("boolean(.//div[@class = 'randomEvent']/div[@class = 'copy']|.//div[@class = 'inner_wrapper2']/img[@class = 'item']|.//table[@width = '400']/tbody[tr[1]/td[@colspan = '2']]/tr[2][td[1]/img and td[2]])", d)) {
+			_executeEvent(data, "events", __listeners);
+		}
+	};
 	if (db.isNew()) {
 		db.createTable("items", ["id", "name", "image", "rarity", "price"]);
 		db.commit();
@@ -125,15 +135,21 @@ var Neopets = function (doc) {
 					} else {
 						_this.document = _doc;
 					}
+
+					_checkEvents(data, _doc, _listeners);
 				} else {
 					var json = ("json" == format?_doc:parseText(_doc, format)),
 					err = (0 == json.success);
 
 					data = {
 						error	: err,
-						errmsg	: (err?json.msg:""),
+						errmsg	: (err?json.msg:undefined) || "",
 						body	: json,
 					};
+				}
+
+				if (data.error && / pin /i.test(data.errmsg.toLowerCase())) {
+					GM_deleteValue(_this.username + "-pinNumber");
 				}
 
 				obj.callback(data);
@@ -184,7 +200,7 @@ var Neopets = function (doc) {
 		}
 
 		if ("events" == type) {
-			this.document = doc;
+			_checkEvents(processDocument(doc), doc, {events:[callback]});
 		}
 	};
 	
@@ -219,32 +235,10 @@ var Neopets = function (doc) {
 				doc = value;
 
 				var np = _n("id('header')//td/a[contains(@href, 'inventory')]/text()"),
-				_refck = _s(".//*[(@name = '_ref_ck' or @name = 'ck') and string-length(@value) = 32]/@value") || (/_ref_ck=(\w{32})/.test(_s(".//*[contains(@href, '_ref_ck')]/@href"))?RegExp.$1:"") || (/_ref_ck\s*:\s*"(\w{32})"/.test(_s(".//script[contains(text(), '_ref_ck')]/text()"))?RegExp.$1:""),
-				listen = [
-					["events", _b(".//div[@class = 'randomEvent']/div[@class = 'copy']|.//div[@class = 'inner_wrapper2']/img[@class = 'item']|.//table[@width = '400']/tbody[tr[1]/td[@colspan = '2']]/tr[2][td[1]/img and td[2]]")],
-				],
-				data = {
-					error	: _b(".//img[@class = 'errorOops']|id('oops')"),
-					errmsg	: _s(".//div[@class = 'errorMessage']/text()"),
-					body	: doc,
-				};
+				_refck = _s(".//*[(@name = '_ref_ck' or @name = 'ck') and string-length(@value) = 32]/@value") || (/_ref_ck=(\w{32})/.test(_s(".//*[contains(@href, '_ref_ck')]/@href"))?RegExp.$1:"") || (/_ref_ck\s*:\s*"(\w{32})"/.test(_s(".//script[contains(text(), '_ref_ck')]/text()"))?RegExp.$1:"");
 
 				np && (this.np = np);
 				_refck && this.setUserData("ck", _refck);
-
-				if (data.error && / pin /i.test(data.errmsg.toLowerCase())) {
-					GM_deleteValue(this.username + "-pinNumber");
-				}
-
-				for (var ai in listen) {
-					var l = listen[ai];
-					if (l[1] && l[0] in _listeners) {
-						data.result = this[l[0]];
-						for (var bi = 0, bt = _listeners[l[0]].length;bi < bt;++bi) {
-							_listeners[l[0]][bi](data);
-						}
-					}
-				}
 			},
 		},
 		pin			: {
@@ -297,7 +291,7 @@ var Neopets = function (doc) {
 				_post("http://www.neopets.com/settings/set_theme.phtml", {
 					theme	: value,
 					_ref_ck	: this.ck,
-				}, "theme");
+				}, "theme", "json");
 			},
 		},
 		ck		: {
