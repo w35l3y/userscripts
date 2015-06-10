@@ -47,7 +47,7 @@ ShowMyCode.execute = function (params) {
 			"method"	: "post",
 			"url"		: "http://www.showmycode.com/",
 			"headers"	: {
-				"Referer" : "http://www.showmycode.com/",
+				"Referer" : "http://www.showmycode.com/"
 			},
 			"onsuccess"	: function (xhr) {
 				_params.response = xhr.response;
@@ -65,7 +65,7 @@ ShowMyCode.execute = function (params) {
 						"method"	: "get",
 						"url"		: "http://www.showmycode.com/?download",
 						"headers"	: {
-							"Referer" : "http://www.showmycode.com/",
+							"Referer" : "http://www.showmycode.com/"
 						},
 						"onsuccess"	: function (xhr) {
 							_params.response = xhr.response;
@@ -80,7 +80,7 @@ ShowMyCode.execute = function (params) {
 			"MAX_FILE_SIZE" : "2097152",
 			"decodingurl" : _params.url,
 			"upload"	: "",
-			"captcha" : _params.captcha,
+			"captcha" : _params.captcha
 			//"showmycodebutton" : "Show My Code!"
 		});
 	}

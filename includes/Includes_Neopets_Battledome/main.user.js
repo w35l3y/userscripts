@@ -48,7 +48,7 @@ var Battledome = function (page) {
 		ajaxData: {
 			step		: 0,
 			intro		: 0,
-			status		: 1,
+			status		: 1
 		}
 	},
 	_request = function (url, data, cb, delay) {
@@ -75,7 +75,7 @@ var Battledome = function (page) {
 				}
 
 				cb(ro);
-			},
+			}
 		});
 	};
 	
@@ -89,7 +89,7 @@ var Battledome = function (page) {
 				output.push({
 					id		: match[2],
 					name	: match[3],
-					image	: match[1],
+					image	: match[1]
 				});
 			}
 
@@ -106,7 +106,7 @@ var Battledome = function (page) {
 
 				output[k[ai]] = {
 					value	: (s.replace(/\D+/g, "") / (p?100:1)) || 0,
-					type	: (p?"%":"N"),
+					type	: (p?"%":"N")
 				};
 				if (!p) {
 					++sum;
@@ -150,7 +150,7 @@ var Battledome = function (page) {
 		},
 		strength = [
 			[0, 8, 13, 20, 35, 55, 85, 125, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750],
-			[0.5, 0.75, 1, 1.25, 1.5, 2, 2.5, 3, 4.5, 5.5, 6.5, 7.5, 8.5, 9.75, 11, 12, 13, 14, 15, 16],
+			[0.5, 0.75, 1, 1.25, 1.5, 2, 2.5, 3, 4.5, 5.5, 6.5, 7.5, 8.5, 9.75, 11, 12, 13, 14, 15, 16]
 		],
 		abilities = [
 			[0, "--", 0, 0],	// 0 Nothing
@@ -194,7 +194,7 @@ var Battledome = function (page) {
 
 				_bd.started = true;
 				ajax({
-					intro	: 1,
+					intro	: 1
 				}, function (ro) {
 					if (ro.error) {
 						cb(ro);
@@ -213,7 +213,7 @@ var Battledome = function (page) {
 					equipments = parseItems(o.p1.items),
 					itemsImage = equipments.map(function (item) {
 						equipsById[item.id] = {
-							equip	: item,
+							equip	: item
 						};
 
 						return item.image;
@@ -347,7 +347,7 @@ var Battledome = function (page) {
 							var output = {
 								item_ID	: item_ID,
 								icons	: serializeIcons(item.attack) + "|" + serializeIcons(item.defense) + "|",
-								rating	: item.rating,
+								rating	: item.rating
 							};
 							output.ID = page.database.insert("equipments", output);
 							
@@ -367,7 +367,7 @@ var Battledome = function (page) {
 								for (var ai = 0, at = res.list.length;ai < at;++ai) {
 									var item = res.list[ai],
 									ids = page.database.insertOrUpdate("items", {
-										image	: item.image,
+										image	: item.image
 									}, item);
 
 									insertEquipment(ids instanceof Array?ids[0]:ids, item);
@@ -392,13 +392,13 @@ var Battledome = function (page) {
 			type		: 2,
 			pet			: data.petName,
 			npcId		: data.opponentId,
-			toughness	: data.toughness,
+			toughness	: data.toughness
 		}, cb);
 	};
 
 	this.userPets = function (data, cb) {
 		_request("http://www.neopets.com/dome/ajax/getUserPets.php", {
-			username: data.username,
+			username: data.username
 		}, cb);
 	};
 };

@@ -57,11 +57,11 @@ var Shop = function (page) {
 						link	: (link.indexOf("http://")?"http://www.neopets.com" + ("/" == link[0]?"":"/"):"") + link,
 						stock	: n(texts[0].textContent),
 						price	: n(texts[1].textContent),
-						image	: cell.firstElementChild.firstElementChild.src.replace(/^http:\/\/images\.neopets\.com\/items\/|\.gif$/g, ""),
+						image	: cell.firstElementChild.firstElementChild.src.replace(/^http:\/\/images\.neopets\.com\/items\/|\.gif$/g, "")
 					};
 
 					if (!page.database.update("items", {
-						id	: output.id,
+						id	: output.id
 					}, function (row) {
 						row.image = output.image;
 
@@ -77,7 +77,7 @@ var Shop = function (page) {
 				page.database.commit();
 				
 				cb(obj);
-			},
+			}
 		});
 	};
 

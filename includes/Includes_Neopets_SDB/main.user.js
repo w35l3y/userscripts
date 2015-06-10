@@ -52,12 +52,12 @@ var SDB = function (page) {
 					categories: xpath(".//font", cells[1]).map(function (item) {
 						return {
 							type	: item.getAttribute("color"),
-							name	: strim(item),
+							name	: strim(item)
 						};
 					}),
 					description: strim(cells[2]),
 					type	: strim(cells[3]),
-					quantity: parseInt(strim(cells[4]).replace(/\D+/g, ""), 10),
+					quantity: parseInt(strim(cells[4]).replace(/\D+/g, ""), 10)
 				};
 			}
 			throw "Invalid 'id'";
@@ -74,7 +74,7 @@ var SDB = function (page) {
 			callback: function (o) {
 				parse(o);
 				cb(o);
-			},
+			}
 		});
 	},
 	_get = function (data, cb) {
@@ -87,7 +87,7 @@ var SDB = function (page) {
 			callback: function (o) {
 				parse(o);
 				cb(o);
-			},
+			}
 		});
 	};
 

@@ -51,7 +51,7 @@ var FEAgency = function (page) {
 			callback: function (o) {
 				console.log("FEA", o, cb);
 				parse(data, cb, o);
-			},
+			}
 		});
 	},
 	parse = function (data, cb, o) {
@@ -69,16 +69,16 @@ var FEAgency = function (page) {
 					quantity	: info[0],
 					item	: {
 						name	: info[1],
-						image	: row.cells[0].firstElementChild.getAttribute("src").replace(/^http:\/\/images\.neopets\.com\/items\/|\.gif$/g, ""),
+						image	: row.cells[0].firstElementChild.getAttribute("src").replace(/^http:\/\/images\.neopets\.com\/items\/|\.gif$/g, "")
 					},
 					time	: info[2] * 60000,	// milliseconds
-					reward	: info[3],
+					reward	: info[3]
 				},
 				oldItem = page.database.queryAll("items", {
 					query	: {
 						name	: output.item.name
 					},
-					limit	: 1,
+					limit	: 1
 				}),
 				newItem = (oldItem.length?oldItem[0]:undefined);
 				
@@ -91,7 +91,7 @@ var FEAgency = function (page) {
 				}
 				
 				if (!(page.database.insertOrUpdate("fea", {
-					id	: output.id,
+					id	: output.id
 				}, output) instanceof Array)) {
 					o.isNew = true;
 				}
@@ -102,7 +102,7 @@ var FEAgency = function (page) {
 			break;
 		case "apply":
 			page.database.deleteRows("fea", {
-				id	: data.job_id,
+				id	: data.job_id
 			});
 			page.database.commit();
 		case "desc":
@@ -143,10 +143,10 @@ var FEAgency = function (page) {
 							quantity	: n(texts[len - 4]),
 							item		: {
 								name	: s(texts[len - 3]),
-								image	: undefined,
+								image	: undefined
 							},
 							time		: t(texts[len - 2]),
-							reward		: reward,
+							reward		: reward
 						};
 						if (6 < len) {
 							if (7 < len) {
@@ -171,11 +171,11 @@ var FEAgency = function (page) {
 							quantity	: n(texts[1]),
 							item		: {
 								name	: s(texts[2]),
-								image	: undefined,
+								image	: undefined
 							},
 							time		: time,
 							reward		: n(texts[4]),
-							elapsedTime	: time - t(texts[5]),
+							elapsedTime	: time - t(texts[5])
 						};
 					}
 				}
@@ -285,7 +285,7 @@ var FEAgency = function (page) {
 		console.log("http://www.neopets.com/faerieland/employ/employment.phtml?type=desc&job_id=" + obj.id);
 		_get({
 			job_id	: obj.id,
-			type	: "apply",
+			type	: "apply"
 		}, obj.callback);
 	};
 
@@ -296,7 +296,7 @@ var FEAgency = function (page) {
 
 		_get({
 			job_id	: obj.id,
-			type	: "desc",
+			type	: "desc"
 		}, obj.callback);
 	};
 };

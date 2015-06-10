@@ -75,7 +75,7 @@ var Neopets = function (doc) {
 		return {
 			error	: xpath("boolean(.//img[@class = 'errorOops']|id('oops'))", d),
 			errmsg	: xpath("normalize-space(.//div[@class = 'errorMessage']/text())", d),
-			body	: d,
+			body	: d
 		};
 	},
 	parseText = function (text, format) {
@@ -115,7 +115,7 @@ var Neopets = function (doc) {
 			method		: obj.method || "post",
 			url			: obj.action,
 			headers		: {
-				Referer	: obj.referer || obj.action,
+				Referer	: obj.referer || obj.action
 			},
 			onsuccess	: function (xhr) {
 				var format = (obj.format || "xml").toLowerCase(),
@@ -129,7 +129,7 @@ var Neopets = function (doc) {
 							_this.request({
 								method	: "get",
 								action	: "http://www.neopets.com/space/strangelever.phtml",
-								callback: function () {},
+								callback: function () {}
 							});
 						}
 					} else {
@@ -144,7 +144,7 @@ var Neopets = function (doc) {
 					data = {
 						error	: err,
 						errmsg	: (err?json.msg:undefined) || "",
-						body	: json,
+						body	: json
 					};
 				}
 
@@ -214,18 +214,18 @@ var Neopets = function (doc) {
 
 	Object.defineProperties(this, {
 		staticTime	: {
-			value	: createdAt,
+			value	: createdAt
 		},
 		database	: {
-			value	: db,
+			value	: db
 		},
 		time		: {
-			get		: this.getTime,
+			get		: this.getTime
 		},
 		username	: {
 			get		: function () {
 				return (/([^=]+)$/.test(_s("id('header')//a[contains(@href, '?user=')]/@href")) && RegExp.$1 || "");
-			},
+			}
 		},
 		document	: {
 			get		: function () {
@@ -239,7 +239,7 @@ var Neopets = function (doc) {
 
 				np && (this.np = np);
 				_refck && this.setUserData("ck", _refck);
-			},
+			}
 		},
 		pin			: {
 			get		: function () {
@@ -256,12 +256,12 @@ var Neopets = function (doc) {
 				}
 
 				return pin;
-			},
+			}
 		},
 		loggedIn	: {
 			get		: function () {
 				return !_b("id('header')//a[contains(@href, '/login/index.phtml') or contains(@href, 'loginpage.phtml')]");
-			},
+			}
 		},
 		language	: {
 			get		: function () {
@@ -271,7 +271,7 @@ var Neopets = function (doc) {
 				_post("http://www.neopets.com/search.phtml", {
 					lang	: value,
 				}, "language");
-			},
+			}
 		},
 		search		: {
 			get		: function () {
@@ -279,7 +279,7 @@ var Neopets = function (doc) {
 			},
 			set		: function (value) {
 				_post("http://www.neopets.com/search.phtml", {
-					q	: value,
+					q	: value
 				}, "search");
 			}
 		},
@@ -290,27 +290,27 @@ var Neopets = function (doc) {
 			set		: function (value) {
 				_post("http://www.neopets.com/settings/set_theme.phtml", {
 					theme	: value,
-					_ref_ck	: this.ck,
+					_ref_ck	: this.ck
 				}, "theme", "json");
-			},
+			}
 		},
 		ck		: {
 			get		: function () {
 				return _userTmp.ck;
-			},
+			}
 		},
 		np			: {
 			writable: true,
-			value	: 0,
+			value	: 0
 		},
 		delay		: {
 			writable: true,
-			value	: [834, 363],
+			value	: [834, 363]
 		},
 		nc			: {
 			get		: function () {
 				return _n("id('header')//td/a[contains(@href, 'mall/index.phtml')]/text()");
-			},
+			}
 		},
 		activePet	: {
 			get		: function () {
@@ -320,17 +320,17 @@ var Neopets = function (doc) {
 					name	: {
 						get	: function () {
 							return _s(".//a[contains(@href, 'quickref.phtml')]/descendant::text()");
-						},
+						}
 					},
 					image	: {
 						get	: function () {
 							return _s(".//a[contains(@href, 'quickref.phtml')]/img/@src");
-						},
+						}
 					},
 					species	: {
 						get	: function () {
 							return _s(".//td[@class = 'activePetInfo']//tr[1]/td[2]/descendant::text()");
-						},
+						}
 					},
 					stats	: {
 						get : function () {
@@ -340,52 +340,52 @@ var Neopets = function (doc) {
 								level	: {
 									get	: function () {
 										return _n(".//td[@class = 'activePetInfo']//tr[6]/td[2]/descendant::text()");
-									},
+									}
 								},
 								endurance: {
 									get	: function () {
 										return parseInt(_s(".//td[@class = 'activePetInfo']//tr[2]/td[2]/descendant::text()").split(/\s+\/\s+/)[1].replace(/[,.]/g, ""), 10) || 0;
-									},
-								},
+									}
+								}
 							});
 
 							return o;
-						},
+						}
 					},
 					health	: {
 						get	: function () {
 							return _s(".//td[@class = 'activePetInfo']//tr[2]/td[2]/descendant::text()").split(/\s+\/\s+/).map(function (v) {
 								return parseInt(v.replace(/[,.]/g, ""), 10) || 0;
 							});
-						},
+						}
 					},
 					mood	: {
 						get	: function () {
 							return _s(".//td[@class = 'activePetInfo']//tr[3]/td[2]/descendant::text()");
-						},
+						}
 					},
 					hunger	: {
 						get	: function () {
 							return _s(".//td[@class = 'activePetInfo']//tr[4]/td[2]/descendant::text()");
-						},
+						}
 					},
 					age		: {
 						get	: function () {
 							return _n(".//td[@class = 'activePetInfo']//tr[5]/td[2]/descendant::text()");
-						},
-					},
+						}
+					}
 				});
 
 				return o;
 			},
 			set		: function (value) {
 				_post("http://www.neopets.com/process_changepet.phtml", {
-					new_active_pet	: value,
+					new_active_pet	: value
 				}, "activePet");
 				/*
 				addEventListener("activePet", function () {})
 				*/
-			},
+			}
 		},
 		event		: {
 			get		: function () {
@@ -395,7 +395,7 @@ var Neopets = function (doc) {
 					return {
 						icon		: RegExp.$1,
 						link		: event.parentNode.getAttribute("href"),
-						description	: event.getAttribute("title"),
+						description	: event.getAttribute("title")
 					};
 				}
 			}
@@ -418,27 +418,27 @@ var Neopets = function (doc) {
 						icon	: item.previousElementSibling.getAttribute("src"),
 						item	: {
 							name	: xpath("string(./b)", item.nextElementSibling),
-							image	: item.getAttribute("src"),
+							image	: item.getAttribute("src")
 						},
-						message	: item.nextElementSibling.textContent.trim(),
+						message	: item.nextElementSibling.textContent.trim()
 					};
 				}).concat(xpath(".//div[@class = 'randomEvent']/div[@class = 'copy']", doc).map(function (item) {
 					return {
 						icon	: undefined,
 						item	: {},
-						message	: item.textContent.trim(),
+						message	: item.textContent.trim()
 					};
 				})).concat(xpath(".//table[@width = '400']/tbody[tr[1]/td[@colspan = '2']]/tr[2][td[1]/img and td[2]]", doc).map(function (item) {
 					return {
 						icon	: item.previousElementSibling.cells[0].getAttribute("bgcolor"),
 						item	: {
 							name	: xpath("string(./b)", item.cells[1]),
-							image	: item.cells[0].firstElementChild.getAttribute("src"),
+							image	: item.cells[0].firstElementChild.getAttribute("src")
 						},
-						message	: item.cells[1].textContent.trim(),
+						message	: item.cells[1].textContent.trim()
 					};
 				}));
-			},
+			}
 		},
 		friends		: {
 			get		: function () {
@@ -447,13 +447,13 @@ var Neopets = function (doc) {
 				return [{
 					avatar	: "",
 					username: "",
-					avatar	: "",
+					avatar	: ""
 				}];
-			},
+			}
 		},
 		premium		: {
-			value	: _b("id('superfooter')"),
-		},
+			value	: _b("id('superfooter')")
+		}
 	});
 	
 	this.format = function (value) {

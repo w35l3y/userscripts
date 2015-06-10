@@ -53,7 +53,7 @@ var TrainingSchool = function (page, pet) {
 				i = {
 					name	: xpath("string(../following-sibling::td[1]/b/text())", img).trim(),
 					image	: img.getAttribute("src"),
-					quantity: 1,
+					quantity: 1
 				};
 
 				if (i.name in itemsIndexes) {
@@ -65,7 +65,7 @@ var TrainingSchool = function (page, pet) {
 			}
 
 			return output;
-		},
+		}
 	}, {	// The Mystery Island Training School
 		action: "http://www.neopets.com/island/process_training.phtml",
 		referer: "http://www.neopets.com/island/training.phtml",
@@ -79,7 +79,7 @@ var TrainingSchool = function (page, pet) {
 				i = {
 					name	: xpath("string(preceding-sibling::b[1]/text())", img).trim(),
 					image	: img.getAttribute("src"),
-					quantity: 1,
+					quantity: 1
 				};
 				
 				if (i.name in itemsIndexes) {
@@ -90,7 +90,7 @@ var TrainingSchool = function (page, pet) {
 			}
 
 			return output;
-		},
+		}
 	}, {	// Secret Ninja Training School
 		action: "http://www.neopets.com/island/process_fight_training.phtml",
 		referer: "http://www.neopets.com/island/fight_training.phtml",
@@ -104,7 +104,7 @@ var TrainingSchool = function (page, pet) {
 				i = {
 					name	: xpath("string(preceding-sibling::b[1]/text())", img).trim(),
 					image	: img.getAttribute("src"),
-					quantity: 1,
+					quantity: 1
 				};
 				
 				if (i.name in itemsIndexes) {
@@ -115,7 +115,7 @@ var TrainingSchool = function (page, pet) {
 			}
 
 			return output;
-		},
+		}
 	}][(250 < pet.stats.level?2:(40 >= pet.stats.level?0:1))],
 	_post = function (data, cb) {
 		data.pet_name = pet.name;
@@ -125,7 +125,7 @@ var TrainingSchool = function (page, pet) {
 			referer	: mode.referer + "?type=courses",
 			data	: data,
 			delay	: true,
-			callback: cb,
+			callback: cb
 		});
 	},
 	_get = function (data, cb) {
@@ -136,7 +136,7 @@ var TrainingSchool = function (page, pet) {
 			referer	: mode.referer + "?type=status",
 			data	: data,
 			delay	: true,
-			callback: cb,
+			callback: cb
 		});
 	},
 	parse = function (o, cb) {
@@ -167,7 +167,7 @@ var TrainingSchool = function (page, pet) {
 					strength: stats[1],
 					defence	: stats[2],
 					agility	: stats[3],
-					endurance: stats[4][1],
+					endurance: stats[4][1]
 				},
 				health	: stats[4][0]
 			};
@@ -219,7 +219,7 @@ var TrainingSchool = function (page, pet) {
 
 		_post({
 			type		: "start",
-			course_type	: courseType,
+			course_type	: courseType
 		}, function (o) {
 			parse(o, obj.callback);
 		})
@@ -227,7 +227,7 @@ var TrainingSchool = function (page, pet) {
 
 	this.pay = function (obj) {
 		_post({
-			type		: "pay",
+			type		: "pay"
 		}, function (o) {
 			parse(o, obj.callback);
 		});
@@ -235,7 +235,7 @@ var TrainingSchool = function (page, pet) {
 	
 	this.cancel = function (obj) {
 		_post({
-			type		: "cancel",
+			type		: "cancel"
 		}, function (o) {
 			parse(o, obj.callback);
 		});
@@ -243,13 +243,13 @@ var TrainingSchool = function (page, pet) {
 
 	this.complete = function (obj) {
 		_post({
-			type		: "complete",
+			type		: "complete"
 		}, obj.callback);
 	};
 
 	this.status = function (obj) {
 		_get({
-			type		: "status",
+			type		: "status"
 		}, function (o) {
 			parse(o, obj.callback);
 		});

@@ -56,12 +56,12 @@ var DiceARoo = function (page) {
 				obj.prize = xpath(".//td[@class = 'content']//div[@class = 'frame']/div/table/tbody/tr[2]/td[.//b and ./img]", obj.body).map(function (node) {
 					return {
 						name	: xpath("normalize-space(.//b/text())", node),
-						image	: xpath("normalize-space(./img/@src)", node).replace(/^http:\/\/images\.neopets\.com\/items\/|\.gif$/g, ""),
+						image	: xpath("normalize-space(./img/@src)", node).replace(/^http:\/\/images\.neopets\.com\/items\/|\.gif$/g, "")
 					};
 				})[0];
 
 				cb(obj);
-			},
+			}
 		});
 	},
 	_this = this;
@@ -78,7 +78,7 @@ var DiceARoo = function (page) {
 				o.value = parseInt(xpath("normalize-space(.//td[@class = 'content']//div[@class = 'frame']/div/center/p/b/text())", o.body).replace(/\D+/g, ""), 10);
 
 				obj.callback(o);
-			},
+			}
 		});
 	};
 
@@ -102,7 +102,7 @@ var DiceARoo = function (page) {
 
 				if (-1 == o.type && -1 != o.dice[0] && obj.continue(o)) {
 					_this.roll({
-						callback	: recursive,
+						callback	: recursive
 					});
 				} else {
 					obj.callback(o);
@@ -114,20 +114,20 @@ var DiceARoo = function (page) {
 	this.start = function (obj) {
 		_post({
 			raah	: "init",
-			type	: "start",
+			type	: "start"
 		}, obj.callback);
 	};
 	
 	this.roll = function (obj) {
 		_post({
-			raah	: "continue",
+			raah	: "continue"
 		}, obj.callback);
 	};
 
 	this.collect = function (obj) {
 		_post({
 			raah	: "continue",
-			type	: "collect",
+			type	: "collect"
 		}, obj.callback);
 	};
 };

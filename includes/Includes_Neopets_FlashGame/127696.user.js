@@ -81,7 +81,7 @@ FlashGame.convert = function (doc, type) {
 					return parseInt(v.textContent.replace(/\D+/g, ""), 10);
 				}).sort(function (a, b) {
 					return (b > a?1:-1);
-				}),
+				})
 			};
 		case "play_flash":
 			var msg = xpath(".//div[@class='errormess' and b]", doc)[0],
@@ -89,7 +89,7 @@ FlashGame.convert = function (doc, type) {
 				"error"		: (msg ? 1 : 0),
 				"err_msg"	: msg,
 				"list"		: {},
-				"name"		: xpath("string(.//title/text())", doc),
+				"name"		: xpath("string(.//title/text())", doc)
 			},
 			md = {};
 			try {
@@ -145,7 +145,7 @@ FlashGame.convert = function (doc, type) {
 					"featured"		: false,
 					"shockwave"		: false,
 					"highscores"	: [],
-					"name"			: md.gameName || obj.name,
+					"name"			: md.gameName || obj.name
 				};
 
 				for (var x in xobj) {
@@ -157,8 +157,8 @@ FlashGame.convert = function (doc, type) {
 		case "process_flash_score":
 			var obj = {
 				"list"	: {}
-			};
-			for each (var p in Array.prototype.map.apply((typeof(doc) == "string"?doc:doc.textContent).split("&"), [function(a) {
+			},
+			plist = Array.prototype.map.apply((typeof(doc) == "string"?doc:doc.textContent).split("&"), [function(a) {
 				var o = a.split("=", 2);
 				o[1] = decodeURIComponent(o[1]);
 				switch (o[0]) {
@@ -170,7 +170,9 @@ FlashGame.convert = function (doc, type) {
 						break;
 				}
 				return o;
-			}])) {
+			}]);
+			for (var pk in plist) {
+				var p = plist[pk];
 				obj.list[p[0]] = p[1];
 			}
 
@@ -197,11 +199,11 @@ FlashGame.open = function (obj) {
 		game_id	: obj.game,
 		size	: "large",
 		quality	: "best",
-		play	: "true",
+		play	: "true"
 	},
 	tmpx = {
 		game	: params.game_id,
-		tries	: GM_getValue("tries", 3),
+		tries	: GM_getValue("tries", 3)
 	};
 
 	if (!obj.url) {
@@ -224,7 +226,7 @@ FlashGame.open = function (obj) {
 			throw {
 				code	: 0x1002,
 				message	: "Missing parameter '" + v + "'",
-				data	: v,
+				data	: v
 			};
 		} else if (!/http:\/\//.test(obj[v])) {
 			if ("/" != obj[v][0]) {
@@ -238,7 +240,7 @@ FlashGame.open = function (obj) {
 		"method"	: "get",
 		"url"		: obj.url,
 		"headers"	: {
-			"Referer" : obj.referer,
+			"Referer" : obj.referer
 		},
 		"onsuccess"	: function (xhr) {
 			var tmp = obj.merge || obj,
@@ -301,7 +303,7 @@ FlashGame.open = function (obj) {
 			}
 
 			obj.onsuccess(tmp);
-		},
+		}
 	}).send();
 };
 
@@ -326,13 +328,13 @@ FlashGame.url = function (obj) {
 		throw {
 			code	: 0x2001,
 			message	: "Some numeric parameters aren't numbers",
-			data	: nan,
+			data	: nan
 		};
 	} else if (!obj.include) {
 		throw {
 			code	: 0x2002,
 			message	: "Missing parameter 'options.include_movie'",
-			data	: "options.include_movie",
+			data	: "options.include_movie"
 		};
 	} else {
 		//console.log(obj);
@@ -354,13 +356,13 @@ FlashGame.url = function (obj) {
 				throw {
 					code	: 0x2002,
 					message	: "Missing parameter '" + v + "'",
-					data	: v,
+					data	: v
 				};
 			} else if (!test_value(v)) {
 				throw {
 					code	: 0x2004,
 					message	: "Wrong parameter '" + v + "'",
-					data	: v,
+					data	: v
 				};
 			}
 		}
@@ -369,7 +371,7 @@ FlashGame.url = function (obj) {
 				throw {
 					code	: 0x2002,
 					message	: "Missing parameter 'options." + v + "'",
-					data	: "options." + v,
+					data	: "options." + v
 				};
 			}
 		}
@@ -388,8 +390,8 @@ FlashGame.url = function (obj) {
 						"method"	: "get",
 						"url"		: "http://www.neopets.com/games/session_keep_alive.phtml",
 						"headers"	: {
-							"Referer" : obj.referer,
-						},
+							"Referer" : obj.referer
+						}
 					}).send();
 				}, 900000, obj);
 			}
@@ -401,18 +403,18 @@ FlashGame.url = function (obj) {
 					return {
 						"fs_g" : "",
 						"r" : Math.random(),
-						"remove" : ["przlvl"],
+						"remove" : ["przlvl"]
 					};
 					case "np8_include_v20":
 					return {
 						"fs_g" : "0",
 						"r" : Math.random(),
-						"remove" : ["przlvl"],
+						"remove" : ["przlvl"]
 					};
 					default:
 					return {
 						"fs_g" : "-1",
-						"r" : 1000000 * Math.random(),
+						"r" : 1000000 * Math.random()
 					};
 				}
 			}(obj.include));
@@ -422,7 +424,7 @@ FlashGame.url = function (obj) {
 					throw {
 						code	: 0x2010,
 						message	: "'" + v + "' must be greater then zero",
-						data	: obj[v],
+						data	: obj[v]
 					};
 				}
 			}
@@ -436,7 +438,7 @@ FlashGame.url = function (obj) {
 					"przlvl" : "0",
 					"frmrt" : obj.options.f || (obj.options.f = (24 + Math.floor(12 * Math.random()))),
 					"chllng" : obj.options.chall || "",
-					"gmdrtn" : obj.time,
+					"gmdrtn" : obj.time
 				};
 				
 				for each (var xt in idv.remove) {
@@ -534,7 +536,7 @@ FlashGame.url = function (obj) {
 
 				obj.start = function (obj) {
 					obj.timer = new Timer({
-						target	: new Date().valueOf() + (obj.immediate?0:obj.time),
+						target	: new Date().valueOf() + (obj.immediate?0:obj.time)
 					});
 					obj.stop(obj);
 
@@ -562,7 +564,7 @@ FlashGame.url = function (obj) {
 				obj.onerror({
 					code	: 0x2004,
 					message	: "Wrong parameter 'movie'",
-					data	: "movie",
+					data	: "movie"
 				});
 			}
 		};
@@ -574,7 +576,7 @@ FlashGame.url = function (obj) {
 			throw {
 				code	: 0x2002,
 				message	: "Missing parameter 'captcha'",
-				data	: "captcha",
+				data	: "captcha"
 			};
 		} else {
 			try {
@@ -586,7 +588,7 @@ FlashGame.url = function (obj) {
 						include = {
 							"LastUpdate"	: new Date().toString(),
 							"Decimals"		: "",
-							"Vid"			: null,
+							"Vid"			: null
 						},
 						is_error = true,
 						decimals = [],
@@ -623,7 +625,7 @@ FlashGame.url = function (obj) {
 							obj.onerror({
 								code	: 0xA008,
 								message	: ["An error has occurred while requesting file.", "", "Possible reasons and responsibles:", err(4) + "Wrong captcha (you)", err(2) + "Decoding engine is died (showmycode)", err(1) + "File not found (neopets)"].join("\n"),
-								data	: xhr.error,
+								data	: xhr.error
 							});
 							return;
 						}
@@ -657,11 +659,11 @@ FlashGame.url = function (obj) {
 					throw {
 						code	: 0x2002,
 						message	: "Missing parameter 'captcha'",
-						data	: "captcha",
+						data	: "captcha"
 					};
 				} else {
 					throw {
-						message	: e,
+						message	: e
 					};
 				}
 			}
@@ -681,7 +683,7 @@ FlashGame.send = function (obj) {
 			throw {
 				code	: 0x4002,
 				message	: "Missing parameter '" + v + "'",
-				data	: v,
+				data	: v
 			};
 		}
 	}
@@ -690,7 +692,7 @@ FlashGame.send = function (obj) {
 		"method"	: "post",
 		"url"		: obj.url,
 		"headers"	: {
-			"Referer" : obj.referer,
+			"Referer" : obj.referer
 		},
 		"onsuccess"	: function (xhr) {
 			//console.log(xhr.response.text);
@@ -914,7 +916,7 @@ FlashGame.execute = function (obj) {
 			obj.params = {
 				"score" : obj.score,
 				"time" : new Timer({
-					target	: new Date().valueOf() + obj.time,
+					target	: new Date().valueOf() + obj.time
 				}).toString(),
 				"game" : obj.options.id,
 				"username" : obj.options.username,

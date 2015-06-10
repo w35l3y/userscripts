@@ -95,7 +95,7 @@ Timer = function (obj) {
 Timer.type = {
 	AUTO	: 0,
 	FUTURE	: 1,
-	PAST	: 2,
+	PAST	: 2
 };
 
 Timer.convert = function (obj) {
@@ -109,12 +109,12 @@ Timer.convert = function (obj) {
 		
 		return new Timer({
 			target	: new Date().valueOf() - interval * (RegExp.$1 ? 1 : -1),
-			type	: /^[0-2]$/.test(obj.type) ? obj.type : Timer.type.FUTURE,
+			type	: /^[0-2]$/.test(obj.type) ? obj.type : Timer.type.FUTURE
 		});
 	} else {
 		return new Timer({
 			target	: Date.parse(obj.value),
-			type	: obj.type,
+			type	: obj.type
 		});
 	}
 };

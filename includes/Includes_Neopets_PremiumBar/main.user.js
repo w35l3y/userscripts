@@ -92,7 +92,7 @@ var _const = {
 	READY	: 1,
 	WAITING	: 2,
 	SUCCESS	: 3,
-	ERROR	: 4,
+	ERROR	: 4
 },
 colors = ["grey", "cyan", "orange", "lime", "magenta"],
 PremiumBar = function (activities) {
@@ -144,11 +144,11 @@ PremiumBar = function (activities) {
 				value	: activities.map(function (v, i) {
 					return {
 						value	: i,
-						label	: v.title,
+						label	: v.title
 					};
 				}).sort(function (a, b) {
 					return a.label > b.label;
-				}),
+				})
 			}, {
 				name	: "values",
 				label	: "Settings",
@@ -170,11 +170,11 @@ PremiumBar = function (activities) {
 					},
 					value	: [{
 						value	: 0x0,
-						label	: "Tab",
+						label	: "Tab"
 					}, {
 						value	: 0x1,
-						label	: "Bg",
-					}],
+						label	: "Bg"
+					}]
 				}, {
 					name	: "auto",
 					label	: "Execute",
@@ -191,11 +191,11 @@ PremiumBar = function (activities) {
 					},
 					value	: [{
 						value	: 0x0,
-						label	: "Manual",
+						label	: "Manual"
 					}, {
 						value	: 0x1,
-						label	: "Auto",
-					}],
+						label	: "Auto"
+					}]
 				}, {
 					name	: "display",
 					label	: "Display",
@@ -212,11 +212,11 @@ PremiumBar = function (activities) {
 					},
 					value	: [{
 						value	: 0x0,
-						label	: "Hide",
+						label	: "Hide"
 					}, {
 						value	: 0x1,
-						label	: "Show",
-					}],
+						label	: "Show"
+					}]
 				}, {
 					name	: "log",
 					label	: "Log",
@@ -233,13 +233,13 @@ PremiumBar = function (activities) {
 					},
 					value	: [{
 						value	: 0x0,
-						label	: "Attach",
+						label	: "Attach"
 					}, {
 						value	: 0x1,
-						label	: "Detach",
-					}],
-				}],
-			}],
+						label	: "Detach"
+					}]
+				}]
+			}]
 		};
 
 		for (var ai in tmp) {
@@ -269,7 +269,7 @@ PremiumBar = function (activities) {
 			key : "hotkey",
 			callback	: function (event, win) {
 				win.open();
-			},
+			}
 		}, {
 			default	: (function (v) {
 				var out = {};
@@ -280,7 +280,7 @@ PremiumBar = function (activities) {
 					out[act.id] = {
 						type	: act.values[0],
 						auto	: act.values[1],
-						display	: act.values[2],
+						display	: act.values[2]
 					};
 				}
 
@@ -288,8 +288,8 @@ PremiumBar = function (activities) {
 			}(activities)),
 			name	: "actions",
 			label	: "Actions",
-			key		: customField,
-		}],
+			key		: customField
+		}]
 	}),
 	myCron = new Cron("neopets", myPage.time),
 	storeKey = "storeKey-" + myPage.username,
@@ -298,7 +298,7 @@ PremiumBar = function (activities) {
 		var gistIdKey = "gistId-" + obj.id;
 		Object.defineProperties(this, {
 			id	: {
-				value	: obj.id,
+				value	: obj.id
 			},
 			gistId	: {
 				get	: function () {
@@ -311,13 +311,13 @@ PremiumBar = function (activities) {
 						}
 					}
 					return id;
-				},
+				}
 			},
 			bar		: {
-				value	: _myBar,
+				value	: _myBar
 			},
 			price	: {
-				value	: obj.price,
+				value	: obj.price
 			},
 			url	: {
 				get : function () {
@@ -325,8 +325,8 @@ PremiumBar = function (activities) {
 					var url = obj.url || "https://gist.github.com/" + this.gistId;
 					delete obj.bar;
 					return url;
-				},
-			},
+				}
+			}
 		});
 		
 		var cfg = myWin.get("actions." + this.id),
@@ -339,7 +339,7 @@ PremiumBar = function (activities) {
 			if (!this.bar.page.loggedIn) {
 				this.update({
 					color	: _const.ERROR,
-					message	: "You are logged out.",
+					message	: "You are logged out."
 				});
 
 				console.log("SKIP", "logged out");
@@ -347,7 +347,7 @@ PremiumBar = function (activities) {
 			} else if (0 < myPage.np && myPage.np < obj.price) {
 				this.update({
 					color	: _const.ERROR,
-					message	: "No neopoints",
+					message	: "No neopoints"
 				});
 				output = true;
 			} else if (auto && -2 == obj.price || -1 != obj.price && (cfg && _const.BG == cfg.type || !cfg && _const.BG == obj.values[_const.OPEN])) {
@@ -355,7 +355,7 @@ PremiumBar = function (activities) {
 				if (obj.execute) {
 					this.update({
 						color	: _const.WAITING,
-						message	: "Processing...",
+						message	: "Processing..."
 					});
 
 					obj.execute.apply(this, [function (o) {
@@ -391,13 +391,13 @@ PremiumBar = function (activities) {
 				} else {
 					this.update({
 						color	: _const.SUCCESS,
-						message	: "Success!",
+						message	: "Success!"
 					});
 				}
 			} else {
 				this.update({
 					color	: _const.SUCCESS,
-					message	: "Tab was opened.",
+					message	: "Tab was opened."
 				});
 
 				GM_openInTab(this.url);
@@ -425,7 +425,7 @@ PremiumBar = function (activities) {
 			_idKey = storeKey + this.id,
 			curr = this.id + " " + storeKey.substr(9) + " " + this.bar.page.time.toISOString();
 			files[curr] = {
-				content	: GM_getValue(_idKey, null),
+				content	: GM_getValue(_idKey, null)
 			};
 			console.log(files);
 
@@ -441,10 +441,10 @@ PremiumBar = function (activities) {
 					}
 
 					return id;
-				},
+				}
 			})).getGist(this.gistId).update({
 				description	: obj.title,
-				files		: files,
+				files		: files
 			}, function (err, res) {
 				if (!err) {
 					GM_deleteValue(_idKey);
@@ -452,7 +452,7 @@ PremiumBar = function (activities) {
 				console.log(err, res, arguments);
 				cb({
 					error	: err,
-					body	: res,
+					body	: res
 				});
 			});
 		};
@@ -463,7 +463,7 @@ PremiumBar = function (activities) {
 			if (data.error) {
 				this.update({
 					color	: _const.ERROR,
-					message	: data.message || data.errmsg,
+					message	: data.message || data.errmsg
 				});
 			} else {
 				try {
@@ -481,7 +481,7 @@ PremiumBar = function (activities) {
 
 					this.update({
 						color	: _const.SUCCESS,
-						message	: _data[this.id].message,
+						message	: _data[this.id].message
 					});
 					obj.update && obj.update.apply(this, [_data[this.id]]);
 
@@ -568,7 +568,7 @@ PremiumBar = function (activities) {
 						} else {
 							_activity.update({
 								color	: _const.READY,
-								message	: "Ready to run.",
+								message	: "Ready to run."
 							});
 
 							output = true;
@@ -579,7 +579,7 @@ PremiumBar = function (activities) {
 						}
 						
 						return output;
-					},
+					}
 				}));
 			}
 		}
@@ -592,10 +592,10 @@ PremiumBar = function (activities) {
 			value	: myPage.format(data.value || 0),
 			collected	: (data.collected?{
 				title	: "Interest collected today!",
-				class	: "collected",
+				class	: "collected"
 			}:{
 				title	: "Interest not yet collected.",
-				class	: "",
+				class	: ""
 			}),
 		};
 	},
@@ -606,7 +606,7 @@ PremiumBar = function (activities) {
 		"featuredGame-handler",
 		"stockMarket-handler",
 		"bankInterest-handler",
-		"shopTill-handler",
+		"shopTill-handler"
 	];
 	
 	this.get = function (key, defaultValue) {
@@ -616,11 +616,11 @@ PremiumBar = function (activities) {
 	
 	Object.defineProperties(this, {
 		page	: {
-			value	: myPage,
+			value	: myPage
 		},
 		cron	: {
-			value	: myCron,
-		},
+			value	: myCron
+		}
 	});
 
 	this.update = function (key, data) {
@@ -652,7 +652,7 @@ PremiumBar = function (activities) {
 
 				bankOrTill = {
 					bank	: data2.value,
-					till	: myPage.format(this.get("shopTill", {}).value || 0),
+					till	: myPage.format(this.get("shopTill", {}).value || 0)
 				};
 
 				content.previousElementSibling.setAttribute("title", data2.collected.title);
@@ -665,7 +665,7 @@ PremiumBar = function (activities) {
 
 				bankOrTill = {
 					bank	: myPage.format(this.get("bankInterest", {}).value || 0),
-					till	: myPage.format(data.value),
+					till	: myPage.format(data.value)
 				};
 
 				if (content) {
@@ -714,7 +714,7 @@ PremiumBar = function (activities) {
 			if (tries) {
 				_this.update({
 					color	: _const.WAITING,
-					message	: "Searching " + obj.items[index][0] + "... (" + tries + ")",
+					message	: "Searching " + obj.items[index][0] + "... (" + tries + ")"
 				});
 				wizard.search({
 					text	: obj.items[index][0],
@@ -778,7 +778,7 @@ PremiumBar = function (activities) {
 
 						console.log("Updating price...", item);
 						_this.page.database.insertOrUpdate("items", {
-							id	: item.id,
+							id	: item.id
 						}, item);
 					}
 				}
@@ -786,7 +786,7 @@ PremiumBar = function (activities) {
 
 				obj.callback({
 					cost	: cost,
-					items	: items,
+					items	: items
 				});
 			}
 		}(obj.tries, 0));
@@ -806,7 +806,7 @@ PremiumBar = function (activities) {
 					return iremoved.concat(obj.items.map(function (item) {
 						return {
 							name	: item[0],
-							bought	: true,
+							bought	: true
 						};
 					}));
 				};
@@ -816,7 +816,7 @@ PremiumBar = function (activities) {
 					obj.callback({
 						error	: 1,
 						errmsg	: "NP limit exceeded [" + cost + " > " + obj.limit + "]",
-						items	: getListItems(),
+						items	: getListItems()
 					});
 				} else {
 					var shop = new Shop(_this.page),
@@ -824,7 +824,7 @@ PremiumBar = function (activities) {
 					recursive3 = function (nBuys, index, again) {
 						_this.update({
 							color	: _const.WAITING,
-							message	: "Buying " + obj.items[index][0] + "... (" + nBuys + ") " + again,
+							message	: "Buying " + obj.items[index][0] + "... (" + nBuys + ") " + again
 						});
 						console.log(index, items[index]);
 						shop.buy({
@@ -885,7 +885,7 @@ PremiumBar = function (activities) {
 												console.log("Skipping from buying...", removed);
 												iremoved.push({
 													name	: removed.name,
-													bought	: false,
+													bought	: false
 												});
 												obj.items.splice(ai, 1);
 												items.splice(ai, 1);
@@ -932,7 +932,7 @@ PremiumBar = function (activities) {
 			time	: d.time || "-",
 			next	: d.next || "-",
 			color	: colors[d.color || _const.DEFAULT] || d.color,
-			message	: ("" + d.message).replace(/"/g, "&quot;"),
+			message	: ("" + d.message).replace(/"/g, "&quot;")
 		};
 
 		_activities[act.id] = new Activity(act);
@@ -957,8 +957,8 @@ PremiumBar = function (activities) {
 				result	: {
 					color	: colors[_const.DEFAULT],
 					time	: "Custom link",
-					message	: u,
-				},
+					message	: u
+				}
 			};
 		}),
 		dailies = activities.filter(function (value) {
@@ -985,7 +985,7 @@ PremiumBar = function (activities) {
 			dailies		: dailies,
 			featuredGame	: this.get("featuredGame", {}).game || {
 				id	: 1042,
-				name: "Mutant Graveyard of Doom II",
+				name: "Mutant Graveyard of Doom II"
 			},
 			bankRoll	: {
 				balance		: updateBalance(this.get("bankInterest", {})),
@@ -994,10 +994,10 @@ PremiumBar = function (activities) {
 				get total () {
 					return updateTotal({
 						bank	: this.balance.value,
-						till	: this.till,
+						till	: this.till
 					});
-				},
-			},
+				}
+			}
 		}));
 		
 		xpath("id('settings_anchor')")[0].addEventListener("click", function (e) {

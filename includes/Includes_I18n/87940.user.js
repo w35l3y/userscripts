@@ -54,7 +54,7 @@ var I18n = {
 		i18n = JSON.parse(GM_getValue("i18n") || '{"version" : -1, "languages" : {}}'),
 		res = {
 			"version"	: 0,
-			"languages"	: {},
+			"languages"	: {}
 		};
 		
 		if (!("languages" in i18n)) {
@@ -117,7 +117,8 @@ var I18n = {
 		}
 
 		if (section.length) {
-			for each (var lang in section) {
+			for (var lk in section) {
+				var lang = section[lk];
 				if (lang in res.languages && item in res.languages[lang]) {
 					return cb(res.languages[lang][item]);
 				} else if (lang in i18n.languages && item in i18n.languages[lang]) {
@@ -177,7 +178,7 @@ var I18n = {
 		}
 
 		return cb(item_str);
-	},
+	}
 };
 
 function __ () {

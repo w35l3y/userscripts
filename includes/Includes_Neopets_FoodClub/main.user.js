@@ -44,7 +44,7 @@ var FoodClub = function (page) {
 			action	: "http://www.neopets.com/pirates/foodclub.phtml",
 			data	: data,
 			delay	: true,
-			callback: cb,
+			callback: cb
 		});
 	},
 	json = JSON.parse(GM_getResourceText("foodclubJson")),
@@ -66,7 +66,7 @@ var FoodClub = function (page) {
 			fa	: [
 				contains(foods, json.pirates[id - 1][1]),
 				contains(foods, json.pirates[id - 1][2])
-			],
+			]
 		};
 	},
 	IterateArena = function (type) {
@@ -75,7 +75,7 @@ var FoodClub = function (page) {
 			convert = function (id, body) {
 				return {
 					id		: id,
-					pirate	: parseInt(xpath("string(.//img[contains(@src, '/fc/fc_')]/@src)", body).match(/pirate_(\d+)/)[1], 10),
+					pirate	: parseInt(xpath("string(.//img[contains(@src, '/fc/fc_')]/@src)", body).match(/pirate_(\d+)/)[1], 10)
 				}
 			};
 		} else if ("current" == type) {
@@ -91,7 +91,7 @@ var FoodClub = function (page) {
 					}).sort(function (a, b) {
 						return (a.id > b.id?1:-1);
 					}),
-					courses	: courses,
+					courses	: courses
 				};
 			};
 		} else {
@@ -102,7 +102,7 @@ var FoodClub = function (page) {
 			(function recursive (arena) {
 				_get({
 					type	: type,
-					id		: arena,
+					id		: arena
 				}, function (obj) {
 					results.push(convert(arena, obj.body));
 
@@ -119,7 +119,7 @@ var FoodClub = function (page) {
 
 	this.odds = function (cb) {
 		_get({
-			type	: "bet",
+			type	: "bet"
 		}, function (obj) {
 			var pIndex = [],
 			arenas = [],
@@ -135,7 +135,7 @@ var FoodClub = function (page) {
 					arenas[arena] = {
 						id			: 1 + arena,
 						arbitrage	: 100,
-						pirates		: [],
+						pirates		: []
 					};
 				}
 
@@ -143,7 +143,7 @@ var FoodClub = function (page) {
 
 				arenas[arena].pirates.push({
 					id		: parseInt(match[1], 10),
-					odds	: odds,
+					odds	: odds
 				});
 
 				++sum;				
@@ -155,7 +155,7 @@ var FoodClub = function (page) {
 				});
 			}
 			obj.results = [{
-				arenas	: arenas,
+				arenas	: arenas
 			}];
 			cb.call(_this, obj);
 		});
@@ -163,7 +163,7 @@ var FoodClub = function (page) {
 
 	this.pirates = function (cb) {
 		_get({
-			type	: "pirates",
+			type	: "pirates"
 		}, function (obj) {
 			var stats = xpath(".//td[@class = 'content']/center/table/tbody/tr[td[6][contains(., '%')]]/td[1]/a", obj.body),
 			bets = [],
@@ -177,11 +177,11 @@ var FoodClub = function (page) {
 
 				pirates.push({
 					id		: pi,
-					stats	: s,
+					stats	: s
 				});
 			}
 			obj.results = [{
-				pirates	: pirates,
+				pirates	: pirates
 			}];
 			cb.call(_this, obj);
 		});

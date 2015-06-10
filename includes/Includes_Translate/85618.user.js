@@ -60,7 +60,7 @@ var Translate = {
 						};
 					case 1:	// v1
 						return {
-							"translation" : (from == to ? text : text2),
+							"translation" : (from == to ? text : text2)
 						};
 					default:
 						break;
@@ -97,7 +97,7 @@ var Translate = {
 					"tl"		: to,
 					"ie"		: "UTF-8",
 					"oe"		: "UTF-8",
-					"q"			: text,
+					"q"			: text
 				});
 			}
 		} else if (!from) {
@@ -145,5 +145,5 @@ var Translate = {
 				"q" : text
 			});
 		}
-	},
+	}
 };

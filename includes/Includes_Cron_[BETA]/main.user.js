@@ -65,7 +65,7 @@ var Cron = function (id, current) {
 		QUESTION: 2,
 
 		HASH	: 1,
-		SLASH	: 2,
+		SLASH	: 2
 	},
 	intervals = [
 		[0, 59, 60, "UTCSeconds"],	// second
@@ -74,7 +74,7 @@ var Cron = function (id, current) {
 		[1, 31, 0, "UTCDate"],	// day
 		[1, 12, 12, "UTCMonth"],	// month
 		[0, 6, 7, "UTCDay"],		// weekday
-		[0, 0, 0, "UTCFullYear"],		// year
+		[0, 0, 0, "UTCFullYear"]		// year
 	],
 	unLoad = function (e) {
 		e.returnValue = "Cron is being executed...";
@@ -89,7 +89,7 @@ var Cron = function (id, current) {
 			weekly	: "*#0 *#0 *#0 * * *#0 *",		// "0 0 0 * * 0 *",
 			daily	: "*#0 *#0 *#0 * * * *",		// "0 0 0 * * * *",
 			midnight: "0 0 0 * * * *",				// unchanged
-			hourly	: "*#0 *#0 * * * * *",			// "0 0 * * * * *",
+			hourly	: "*#0 *#0 * * * * *"			// "0 0 * * * * *",
 		},
 		_listeners = [],
 		_execute = function (mode, cb) {
@@ -127,13 +127,13 @@ var Cron = function (id, current) {
 		Object.defineProperties(this, {
 			id	: {
 				enumerable	: true,
-				value	: obj.id,
+				value	: obj.id
 			},
 			priority	: {
-				value	: obj.priority,
+				value	: obj.priority
 			},
 			delay		: {
-				value	: obj.delay,
+				value	: obj.delay
 			},
 			interval	: {
 				enumerable	: true,
@@ -176,7 +176,7 @@ var Cron = function (id, current) {
 					}
 
 					throw "Malformed or not supported parameter: " + data + " " + index;
-				}),
+				})
 			}
 		});
 		

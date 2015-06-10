@@ -43,7 +43,7 @@ Template = {
 		} catch (e) {}
 
 		return retorno;
-	},
+	}
 };
 Template.get = function (template, context) {
 	if (/^\w+(?:\.\w+)*$/.test(template)) {

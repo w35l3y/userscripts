@@ -93,7 +93,7 @@ var WinConfig = function (params) {
 	if (WinConfig.WindowType.PROMPT == this.type) {
 		this.fields = [{
 			focused	: true,
-			name	: "text",
+			name	: "text"
 		}];
 	} else if (WinConfig.WindowType.CUSTOM == this.type) {
 		this.store = true;
@@ -342,8 +342,8 @@ var WinConfig = function (params) {
 				value	: btn[0],
 				focused	: !!(params.focus?params.focus == p2ai:btn[2]),
 				events	: {
-					click	: b[1],
-				},
+					click	: b[1]
+				}
 			};
 
 			buttons.push(t);
@@ -508,7 +508,7 @@ var WinConfig = function (params) {
 			tmp = {
 				class	: "default",
 				type	: WinConfig.FieldType.TEXT,
-				format	: WinConfig.FieldFormat.STRING,
+				format	: WinConfig.FieldFormat.STRING
 			};
 			
 			if (fld.key instanceof Function || fld.key in WinConfig.CustomField) {
@@ -585,7 +585,7 @@ var WinConfig = function (params) {
 								type		: WinConfig.WindowType.EXPLANATION,
 								title		: ("title" in field?field.title:field.label),
 								description	: text.join("<br /><br />"),
-								parent	: _this,
+								parent	: _this
 							});
 						};
 					}(fld)), false);
@@ -726,7 +726,9 @@ var WinConfig = function (params) {
 							}
 
 							input.events.change.push(function (e, field) {
-								for each (var f in document.querySelectorAll("div.fieldParent_" + this.parent.name + " input[name = '" + e.target.name + "']")) {
+								var flist = document.querySelectorAll("div.fieldParent_" + this.parent.name + " input[name = '" + e.target.name + "']");
+								for (var fk in flist) {
+									var f = flist[fk];
 									if (f != e.target) {
 										var value = (field.value & f.value);
 
@@ -786,7 +788,7 @@ var WinConfig = function (params) {
 									WinConfig.init({
 										type		: WinConfig.WindowType.EXPLANATION,
 										title		: ("title" in field?field.title:field.label),
-										description	: text.join("<br /><br />"),
+										description	: text.join("<br /><br />")
 									});
 								};
 							}(input)), false);
@@ -950,7 +952,7 @@ WinConfig.WindowButton = {
 	SUBMIT	: 0x08,
 	CANCEL	: 0x10,
 	NO		: 0x20,
-	RESET	: 0x40,
+	RESET	: 0x40
 };
 
 WinConfig.WindowType = {
@@ -960,14 +962,14 @@ WinConfig.WindowType = {
 	QUESTION	: 0x3,
 	PROMPT		: 0x4,
 	WARNING		: 0x5,
-	SUCCESS		: 0x6,
+	SUCCESS		: 0x6
 };
 
 WinConfig.FieldFormat = {
 	STRING		: 0x01,
 	BOOLEAN		: 0x02,
 	NUMBER		: 0x04,
-	ARRAY		: 0x08,
+	ARRAY		: 0x08
 };
 
 WinConfig.FieldType = {
@@ -978,7 +980,7 @@ WinConfig.FieldType = {
 	CHECK		: 0x4,
 	SELECT		: 0x5,
 	GROUP		: 0x6,
-	CUSTOM		: 0x7,
+	CUSTOM		: 0x7
 };
 WinConfig.CustomField = {};
 WinConfig.CustomField.hotkey = function (_window) {
@@ -997,16 +999,16 @@ WinConfig.CustomField.hotkey = function (_window) {
 			nogroup	: true,
 			value	: [{
 				value	: 0x1,
-				label	: "Alt",
+				label	: "Alt"
 			},{
 				value	: 0x2,
 				label	: "Ctrl",
 			},{
 				value	: 0x4,
-				label	: "Shift",
+				label	: "Shift"
 			},{
 				value	: 0x8,
-				label	: "Meta",
+				label	: "Meta"
 			}]
 		},{
 			name	: "keyCode",
@@ -1021,13 +1023,13 @@ WinConfig.CustomField.hotkey = function (_window) {
 				for (var ai = 0;ai < opts.length;++ai) {
 					output.push({
 						value	: opts.charCodeAt(ai),
-						label	: lopts[opts[ai]] || opts[ai],
+						label	: lopts[opts[ai]] || opts[ai]
 					});
 				}
 
 				return output;
-			}()),
-		}],
+			}())
+		}]
 	};
 
 	for (var ai in tmp) {
@@ -1040,7 +1042,7 @@ WinConfig.CustomField.hotkey = function (_window) {
 		}(_field.parent)) + _field.name,
 		cfg = _window.get(name) || {
 			keyCode	: 0x53,
-			keys	: 0x7,
+			keys	: 0x7
 		};
 
 		if (cfg.keyCode == e.keyCode) {

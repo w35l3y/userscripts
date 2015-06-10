@@ -54,12 +54,12 @@ HttpRequest.open = function (params) {
 					raw : {
 						get	: function () {
 							return e;
-						},
+						}
 					},
 					text: {
 						get	: function () {
 							return e.responseText;
-						},
+						}
 					},
 					xml	: {
 						get	: function () {
@@ -82,7 +82,7 @@ HttpRequest.open = function (params) {
 									return doc;
 								}
 							}
-						},
+						}
 					},
 					json: {
 						get	: function () {
@@ -97,11 +97,11 @@ HttpRequest.open = function (params) {
 									return {};
 								}
 							}
-						},
+						}
 					}
 				});
 				Object.defineProperty(obj, "response", {
-					value	: _resp,
+					value	: _resp
 				});
 
 				if (typeof params.onsuccess == "function") {
@@ -124,7 +124,8 @@ HttpRequest.open = function (params) {
 				
 				var data = {};
 				if (content instanceof Array) {
-					for each (var e in content) {
+					for (var ek in content) {
+						var e = content[ek];
 						if (!/^(?:radio|checkbox)$/i.test(e.type) || e.checked) {
 							if (e.checked && /^checkbox$/i.test(e.type)) {
 								if (e.name in data) {

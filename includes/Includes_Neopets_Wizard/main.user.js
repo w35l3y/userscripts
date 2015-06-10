@@ -64,17 +64,17 @@ var Wizard = function (page) {
 						stock	: n(row[2].textContent),
 						price	: n(row[3].textContent),
 						owner	: owner,
-						group	: getGroup(owner),
+						group	: getGroup(owner)
 					};
 				});
 
 				obj.item = {
 					name	: xpath("string(.//td[@class = 'content']/div//td[a/img]/b/span/text())", obj.body),
-					group	: (obj.items.length?obj.items[0].group:undefined),
+					group	: (obj.items.length?obj.items[0].group:undefined)
 				};
 
 				cb(obj);
-			},
+			}
 		});
 	};
 
@@ -83,7 +83,7 @@ var Wizard = function (page) {
 			table		: "shop",
 			criteria	: "exact",
 			min_price	: "0",
-			max_price	: "99999",
+			max_price	: "99999"
 		};
 
 		if ("data" in obj) {

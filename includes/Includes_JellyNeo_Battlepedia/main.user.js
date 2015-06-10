@@ -50,7 +50,7 @@ var Battlepedia = function () {
 				output[k] = {
 					value	: 0,
 					random	: 0,
-					type	: "%",
+					type	: "%"
 				};
 
 				output[k][tValue] = (isNaN(type)?1:type/100);
@@ -76,13 +76,13 @@ var Battlepedia = function () {
 			hpmin		: "",
 			hpmax		: "",
 			sortorder	: "desc",
-			sorttype	: "rating",
+			sorttype	: "rating"
 		},
 		output = {
 			start	: 25 * obj.page || 0,
 			end		: 0,
 			total	: 0,
-			list	: [],
+			list	: []
 		};
 		if ("data" in obj) {
 			for (var k in obj.data) {
@@ -98,7 +98,7 @@ var Battlepedia = function () {
 				method		: "get",
 				url			: "http://battlepedia.jellyneo.net/index.php",
 				headers		: {
-					Referer	: "http://battlepedia.jellyneo.net/index.php",
+					Referer	: "http://battlepedia.jellyneo.net/index.php"
 				},
 				onsuccess	: function (xhr) {
 					var num = xpath("string(id('content')/h3/text()[starts-with(., 'Showing results')])", xhr.response.xml).split(/\D+/g).map(parseFloat);
@@ -117,7 +117,7 @@ var Battlepedia = function () {
 							reflect	: count(xpath("./td[5]", row)),	// TODO ser mais específico
 							effects	: count(xpath("./td[5]", row)),	// TODO ser mais específico
 							*/
-							rating	: parseFloat(xpath("string(.//div[contains(@class, 'rating')]/text())", row)),
+							rating	: parseFloat(xpath("string(.//div[contains(@class, 'rating')]/text())", row))
 						};
 					}));
 
@@ -137,7 +137,7 @@ var Battlepedia = function () {
 		res = {
 			start	: 0,
 			total	: 0,
-			list	: [],
+			list	: []
 		};
 
 		if (obj.items.length) {
@@ -155,7 +155,7 @@ var Battlepedia = function () {
 						} else {
 							obj.callback(res);
 						}
-					},
+					}
 				});
 			}(0));
 		} else {

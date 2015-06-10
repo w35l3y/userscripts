@@ -44,7 +44,7 @@ var Bank = function (page) {
 			referer	: "http://www.neopets.com/bank.phtml",
 			data	: data,
 			delay	: true,
-			callback: cb,
+			callback: cb
 		});
 	};
 
@@ -52,7 +52,7 @@ var Bank = function (page) {
 		_post({
 			type	: "withdraw",
 			amount	: obj.value,
-			pin		: page.pin,
+			pin		: page.pin
 		}, obj.callback);
 	};
 };
