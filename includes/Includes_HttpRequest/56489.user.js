@@ -151,8 +151,8 @@ HttpRequest.open = function (params) {
 								keyarr += "[]";
 							}
 
-							for each (var v in content[key]) {
-								x += "&" + encodeURIComponent(keyarr) + "=" + encodeURIComponent(v);
+							for (var vk in content[key]) {
+								x += "&" + encodeURIComponent(keyarr) + "=" + encodeURIComponent(content[key][vk]);
 							}
 						} else {
 							x += "&" + encodeURIComponent(key) + "=" + encodeURIComponent(content[key]);
