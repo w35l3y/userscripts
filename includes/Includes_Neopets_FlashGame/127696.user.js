@@ -189,7 +189,8 @@ FlashGame.cached_includes = JSON.parse(GM_getValue("includes", "{}"));
 FlashGame.open = function (obj) {
 	if (obj.elements instanceof Array) {
 		var list = {};
-		for each (var f in obj.elements) {
+		for (var fk in obj.elements) {
+			var f = obj.elements[fk];
 			list[f.name] = f.value;
 		}
 		obj.elements = list;
