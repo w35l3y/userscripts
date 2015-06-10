@@ -222,7 +222,7 @@ FlashGame.open = function (obj) {
 		obj.referer = "http://www.neopets.com/games/game.phtml?" + x.substr(1);
 	}
 	
-	for each (var v in ["url", "referer"]) {
+	["url", "referer"].forEach(function (v) {
 		if (!obj[v]) {
 			throw {
 				code	: 0x1002,
@@ -235,7 +235,7 @@ FlashGame.open = function (obj) {
 			}
 			obj[v] = "http://www.neopets.com" + obj[v];
 		}
-	}
+	});
 
 	HttpRequest.open({
 		"method"	: "get",
@@ -351,8 +351,7 @@ FlashGame.url = function (obj) {
 					return obj[v] instanceof Function;
 			}
 		};
-
-		for each (var v in ["game", "score", "time", "username", "onsuccess"]) {
+		["game", "score", "time", "username", "onsuccess"].forEach(function (v) {
 			if (!obj[v]) {
 				throw {
 					code	: 0x2002,
@@ -366,8 +365,8 @@ FlashGame.url = function (obj) {
 					data	: v
 				};
 			}
-		}
-		for each (var v in ["sh", "sk"]) {
+		});
+		["sh", "sk"].forEach(function(v) {
 			if (!obj.options[v]) {
 				throw {
 					code	: 0x2002,
@@ -375,7 +374,7 @@ FlashGame.url = function (obj) {
 					data	: "options." + v
 				};
 			}
-		}
+		});
 		
 		if (obj.include in FlashGame.cached_includes && FlashGame.cached_includes[obj.include].Decimals in decimals_arr) {
 			FlashGame.includes[obj.include] = FlashGame.cached_includes[obj.include];
@@ -420,7 +419,7 @@ FlashGame.url = function (obj) {
 				}
 			}(obj.include));
 
-			for each (var v in ["score", "time"]) {
+			["score", "time"].forEach(function(v) {
 				if (0 >= obj[v]) {
 					throw {
 						code	: 0x2010,
@@ -428,7 +427,7 @@ FlashGame.url = function (obj) {
 						data	: obj[v]
 					};
 				}
-			}
+			});
 
 			if (i && i.Decimals in decimals_arr && decimals_arr[i.Decimals].length) {
 				var encode = {
@@ -442,8 +441,8 @@ FlashGame.url = function (obj) {
 					"gmdrtn" : obj.time
 				};
 				
-				for each (var xt in idv.remove) {
-					delete encode[xt];
+				for (var xtk in idv.remove) {
+					delete encode[idv.remove[xtk]];
 				}
 				
 				if (obj.extrafn instanceof Function) {
@@ -679,7 +678,7 @@ FlashGame.send = function (obj) {
 		console.log("1 FlashGame.send", e);
 	}
 
-	for each (var v in ["url", "referer"]) {
+	["url", "referer"].forEach(function(v) {
 		if (!obj[v]) {
 			throw {
 				code	: 0x4002,
@@ -687,7 +686,7 @@ FlashGame.send = function (obj) {
 				data	: v
 			};
 		}
-	}
+	});
 
 	HttpRequest.open({
 		"method"	: "post",
@@ -787,7 +786,8 @@ FlashGame.send = function (obj) {
 				try {
 					var data = JSON.parse(decodeURIComponent(result.list.call_external_params).substr(5)) || [];
 
-					for each (var d in data) {
+					for (var dk in data) {
+						var d = data[dk];
 						switch (d.fn) {
 							case "setnp":
 								document.getElementById("npanchor").textContent = d.args;
@@ -987,10 +987,10 @@ FlashGame.test = function(querystring, crypt) {
 		}
 	}
 
-	for each (var value in querystring.split("&")) {
+	querystring.split("&").forEach(function (value) {
 		var x = value.split("=", 2);
 		qs[x[0]] = x[1];
-	}
+	});
 
 	for (var ai = 0, at = qs.gmdt_g.length;ai < at;ai += 3) {
 		str += String.fromCharCode(qs.gmdt_g.substr(ai, 3));
