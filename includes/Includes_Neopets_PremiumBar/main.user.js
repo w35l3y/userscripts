@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.2.1
+// @version     1.2.2
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -87,6 +87,7 @@ var _const = {
 	
 	ATTACHED: 0,
 	DETACHED: 1,
+	OFF		: 2,
 
 	DEFAULT	: 0,
 	READY	: 1,
@@ -139,6 +140,7 @@ PremiumBar = function (activities) {
 						this.parent.fields[1].fields[0].elements[Math.pow(2, o.type || 0)].checked = true;
 						this.parent.fields[1].fields[1].elements[Math.pow(2, o.auto || 0)].checked = true;
 						this.parent.fields[1].fields[2].elements[Math.pow(2, o.display || 0)].checked = true;
+						this.parent.fields[1].fields[3].elements[Math.pow(2, o.log || 0)].checked = true;
 					}
 				},
 				value	: activities.map(function (v, i) {
@@ -237,6 +239,9 @@ PremiumBar = function (activities) {
 					}, {
 						value	: 0x1,
 						label	: "Detach"
+					}, {
+						value	: 0x2,
+						label	: "Off"
 					}]
 				}]
 			}]
@@ -466,33 +471,42 @@ PremiumBar = function (activities) {
 					message	: data.message || data.errmsg
 				});
 			} else {
+				var tnext = (_data[this.id] || {}).next,
+				logger = _activities.gistLogger,
+				addLog = true;
 				try {
-					var tnext = (_data[this.id] || {}).next,
-					logger = _activities.gistLogger;
 					_data[this.id] = (obj.data?obj.data.apply(this, [data]):data);
+					addLog = (data.log === undefined || data.log);
+
+					this.update({
+						color	: _const.SUCCESS,
+						message	: _data[this.id].message
+					});
+				} catch (e) {
+					// TODO TRY-CATCH block should be removed in production mode
+					console.error(e);
+					_data[this.id] = {
+						error	: 1,
+						message	: e.toString()
+					};
+				}
+				if (addLog) {
 					if (cfg && _const.ATTACHED == cfg.log) {
 						logger && logger.log(this.id + " " + JSON.stringify(_data[this.id]));
 					} else if (cfg && _const.DETACHED == cfg.log) {
 						this.log(_data[this.id]);
 						this.store(function () {});
 					}
-					_data[this.id].time = nst(this.bar.page.time);
-					_data[this.id].next = (data.next?nst(data.next):tnext);
+				}
+				_data[this.id].time = nst(this.bar.page.time);
+				_data[this.id].next = (data.next?nst(data.next):tnext);
 
-					this.update({
-						color	: _const.SUCCESS,
-						message	: _data[this.id].message
-					});
-					obj.update && obj.update.apply(this, [_data[this.id]]);
+				obj.update && obj.update.apply(this, [_data[this.id]]);
 
-					console.log(this.id, _data[this.id]);
-					var key = this.id + "-handler";
-					if (this.bar.update(key, _data[this.id])) {
-						window.localStorage.setItem(key, JSON.stringify(_data[this.id]));
-					}
-				} catch (e) {
-					// TODO TRY-CATCH block should be removed in production mode
-					console.error(e);
+				console.log(this.id, _data[this.id]);
+				var key = this.id + "-handler";
+				if (this.bar.update(key, _data[this.id])) {
+					window.localStorage.setItem(key, JSON.stringify(_data[this.id]));
 				}
 			}
 
@@ -596,7 +610,7 @@ PremiumBar = function (activities) {
 			}:{
 				title	: "Interest not yet collected.",
 				class	: ""
-			}),
+			})
 		};
 	},
 	updateTotal = function (data) {
