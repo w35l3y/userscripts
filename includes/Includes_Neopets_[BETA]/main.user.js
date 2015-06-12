@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.4.6
+// @version     1.4.7
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -235,21 +235,20 @@ var Neopets = function (doc) {
 				doc = value;
 
 				var np = _n("id('header')//td/a[contains(@href, 'inventory')]/text()"),
-				_refck = _s(".//*[(@name = '_ref_ck' or @name = 'ck') and string-length(@value) = 32]/@value") || (/_ref_ck=(\w{32})/.test(_s(".//*[contains(@href, '_ref_ck')]/@href"))?RegExp.$1:"") || (/_ref_ck\s*:\s*"(\w{32})"/.test(_s(".//script[contains(text(), '_ref_ck')]/text()"))?RegExp.$1:"");
+				_refck = _s(".//*[(@name = '_ref_ck' or @name = 'ck') and string-length(@value) = 32]/@value") || (/_ref_ck=(\w{32})/.test(_s(".//*[contains(@href, '_ref_ck')]/@href"))?RegExp.$1:"") || (/_ref_ck(?:\s*:\s*"|=)(\w{32})['"]/.test(_s(".//script[contains(text(), '_ref_ck')]/text()"))?RegExp.$1:"");
 
 				np && (this.np = np);
-				_refck && this.setUserData("ck", _refck);
+				_refck && (this.ck = _refck);
 			}
 		},
 		pin			: {
 			get		: function () {
-				var pinUserKey = this.username + "-pinNumber",
-				pin = GM_getValue(pinUserKey, undefined);
+				var pin = this.getUserData("pinNumber") || undefined;
 
 				if (typeof pin != "string") {
 					var pinTmp;
 					if (typeof (pinTmp = prompt("Pin Number:")) == "string") {
-						GM_setValue(pinUserKey, pin = pinTmp);
+						this.setUserData("pinNumber", pin = pinTmp);
 					} else {
 						throw "pin_number is required.";
 					}
@@ -297,6 +296,10 @@ var Neopets = function (doc) {
 		ck		: {
 			get		: function () {
 				return _userTmp.ck;
+			},
+			set	: function (value) {
+				console.debug("CK");
+				this.setUserData("ck", value);
 			}
 		},
 		np			: {
