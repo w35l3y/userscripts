@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.2.2
+// @version     1.2.4
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -137,10 +137,10 @@ PremiumBar = function (activities) {
 						var id = activities[e.target.value].id,
 						o = _opts[id] || this.parent.default[id];
 
-						this.parent.fields[1].fields[0].elements[Math.pow(2, o.type || 0)].checked = true;
-						this.parent.fields[1].fields[1].elements[Math.pow(2, o.auto || 0)].checked = true;
-						this.parent.fields[1].fields[2].elements[Math.pow(2, o.display || 0)].checked = true;
-						this.parent.fields[1].fields[3].elements[Math.pow(2, o.log || 0)].checked = true;
+						this.parent.fields[1].fields[0].elements[1 + (o.type || 0)].checked = true;
+						this.parent.fields[1].fields[1].elements[1 + (o.auto || 0)].checked = true;
+						this.parent.fields[1].fields[2].elements[1 + (o.display || 0)].checked = true;
+						this.parent.fields[1].fields[3].elements[1 + (o.log || 0)].checked = true;
 					}
 				},
 				value	: activities.map(function (v, i) {
