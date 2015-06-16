@@ -7,7 +7,7 @@
 // @copyright      2013+, w35l3y (http://gm.wesley.eti.br/includes)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br/includes
-// @version        1.8.6
+// @version        1.8.7
 // @language       en
 // @include        nowhere
 // @exclude        *
@@ -37,8 +37,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 **************************************************************************/
-
-GM_addStyle(GM_getResourceText("winConfigCss"));
 
 var WinConfig = function (params) {
 	this.name = ("title" in params) && params.title.replace(/[^\w]+/g, "") || "default";
@@ -395,6 +393,10 @@ var WinConfig = function (params) {
 	}
 
 	this.open = function () {
+		if (!Array.prototype.some.apply(document.querySelectorAll("style"), [function(a){return ~a.textContent.indexOf(".winconfig {")}])) {
+			GM_addStyle(GM_getResourceText("winConfigCss") + WinConfig.__customStyle);
+		}
+
 		WinConfig.__openedWindows.push(this);
 
 		if (this.parent) {
@@ -914,6 +916,7 @@ var WinConfig = function (params) {
 };
 
 WinConfig.__openedWindows = [];
+WinConfig.__customStyle = "";
 window.addEventListener("keyup", function (e) {
 	var oWin = WinConfig.__openedWindows;
 	if (!e.altKey && !e.ctrlKey && !e.metaKey && 27 == e.keyCode && oWin.length) {
@@ -921,6 +924,9 @@ window.addEventListener("keyup", function (e) {
 	}
 }, false);
 
+WinConfig.addStyle = function (style) {
+	WinConfig.__customStyle += style;
+};
 WinConfig.init = function (params) {
 	if ("condition" in params) {
 		var cfg = JSON.parse(GM_getValue("config-" + params.name, "{}")),
