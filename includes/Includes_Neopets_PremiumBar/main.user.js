@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.2.4
+// @version     1.2.5
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -370,18 +370,29 @@ PremiumBar = function (activities) {
 						}
 						if ("counter" in o) {
 							var ct = [].concat(o.counter),
-							counterKey = "counter-" + _activity.id,
+							counterKey = "counter-" + ct[4] + "-" + _activity.id,
 							dd = __page.time,
 							counter = __page.getUserData(counterKey) || 0;
 
+							console.log(counter, ct);
 							if (ct[0] > ++counter) {
+								console.log(counterKey, ct[0] - counter);
 								__page.setUserData(counterKey, counter, ct[1] || 86400000);
 
-								dd.setUTCMilliseconds(ct[2] || 10000);
+								if (typeof ct[2] == "function") {
+									ct[2](dd, counter);
+								} else {
+									dd.setUTCMilliseconds(ct[2] || 10000);
+								}
 								o.next = dd;
 							} else {
 								if (ct[3]) {
-									o.next = ct[3](dd);
+									if (typeof ct[3] == "function") {
+										ct[3](dd);
+									} else {
+										dd.setUTCMilliseconds(ct[3]);
+									}
+									o.next = dd;
 								}
 								__page.deleteUserData(counterKey);
 							}							
