@@ -102,7 +102,8 @@ var WinConfig = function (params) {
 	}
 	
 	var _close = function () {
-		if (!this.children.length) {
+		var pos = WinConfig.__openedWindows.indexOf(this);
+		if (!this.children.length && -1 < pos) {
 			if (this.parent) {
 				this.parent.children.splice(this.parent.children.indexOf(this), 1);
 			}
@@ -110,7 +111,7 @@ var WinConfig = function (params) {
 			main.parentNode.removeChild(main);
 			opaque.parentNode.removeChild(opaque);
 
-			WinConfig.__openedWindows.splice(WinConfig.__openedWindows.indexOf(this), 1);
+			WinConfig.__openedWindows.splice(pos, 1);
 		}
 	}.bind(this),
 	main = this.form = document.createElement("form"),
