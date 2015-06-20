@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.2.6
+// @version     1.2.7
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -907,22 +907,43 @@ PremiumBar = function (activities) {
 							items	: obj.items,
 							callback: function (o) {
 								if (1 == obj.sdb && o.removed.length) {
+									var sortingNeeded = false;
 									for (var ai = obj.items.length;0 <= --ai;) {
 										for (var bi = 0,bt = o.removed.length;bi < bt;++bi) {
 											var removed = o.removed[bi];
 
-											if (removed.name == obj.items[ai][0] && removed.quantity >= obj.items[ai][1]) {
-												console.log("Skipping from buying...", removed);
-												iremoved.push({
-													name	: removed.name,
-													bought	: false
-												});
-												obj.items.splice(ai, 1);
-												items.splice(ai, 1);
-												// known issue: can't update the number of items to buy because 'obj.items' and 'items' are 2 separate lists and sorting is required
+											if (removed.name == obj.items[ai][0]) {
+												if (removed.quantity >= obj.items[ai][1]) {
+													console.log("Skipping from buying...", removed);
+													iremoved.push({
+														name	: removed.name,
+														bought	: false
+													});
+													obj.items.splice(ai, 1);
+													items.splice(ai, 1);
+												} else if (!obj.keep) {
+													obj.items[ai][1] -= removed.quantity;
+													sortingNeeded = true;
+												}
+
 												break;
 											}
 										}
+									}
+
+									if (sortingNeeded) {
+										obj.items.map(function (v, i) {
+											return {
+												comp	: v[1],
+												value1	: v,
+												value2	: list[i]
+											};
+										}).sort(function (a, b) {
+											return -(a.comp > b.comp) || 1-(a.comp == b.comp); // quantity DESC
+										}).forEach(function (v, i) {
+											obj.items[i] = v.value1;
+											list[i] = v.value2;
+										});
 									}
 								}
 
