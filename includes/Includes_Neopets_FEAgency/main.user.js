@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.0.0
+// @version     1.0.1
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -251,23 +251,21 @@ var FEAgency = function (page) {
 
 						o.jobs = jobs.filter(function (job) {
 							return job.reward >= job.quantity * job.item.price;
+						}).map(function (v, i) {
+							return {
+								profit1	: v.reward - v.quantity * v.item.price,
+								profit2	: v.reward * Math.max(0, 1.25 - 12000 * v.quantity / v.time) - v.quantity * v.item.price,
+								quantity: v.quantity,
+								time	: v.time,
+								value	: v
+							};
 						}).sort(function (a, b) {
-							var profitA = a.reward - a.quantity * a.item.price,
-							profitB = b.reward - b.quantity * b.item.price;
-							
-							if (profitA == profitB) {
-								if (a.quantity == b.quantity) {
-									if (a.time == b.time) {
-										return 0;
-									}
-
-									return (a.time > b.time?-1:1);	// DESC
-								}
-
-								return (a.quantity < b.quantity?-1:1);	// ASC
-							}
-							
-							return (profitA > profitB?-1:1);	// DESC
+							return -(a.profit2 > b.profit2) || +(a.profit2 != b.profit2)	// profit2 DESC
+							|| -(a.profit1 > b.profit1) || +(a.profit1 != b.profit1)	// profit1 DESC
+							|| -(a.quantity < b.quantity) || +(a.quantity != b.quantity)	// quantity ASC
+							|| -(a.time > b.time) || +(a.time != b.time); // time DESC
+						}).map(function (v) {
+							return v.value;
 						});
 
 						cb(o);
