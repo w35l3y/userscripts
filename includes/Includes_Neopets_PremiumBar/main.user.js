@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.2.7
+// @version     1.2.8
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -729,15 +729,8 @@ PremiumBar = function (activities) {
 		items = [];
 
 		obj.items.sort(function (a, b) {
-			if (a[1] == b[1]) {
-				if (a[0] == b[0]) {
-					return 0;
-				}
-
-				return (a[0] < b[0]?-1:1);	// name ASC
-			}
-
-			return (a[1] > b[1]?-1:1);	// quantity DESC
+			return -(a[1] > b[1]) || +(a[1] != b[1])	// quantity DESC
+				|| -(a[0] < b[0]) || +(a[0] != b[0]);	// name ASC
 		});
 
 		(function recursive1 (tries, index) {
@@ -786,19 +779,10 @@ PremiumBar = function (activities) {
 
 				for (var ai = 0, at = items.length;ai < at;++ai) {
 					items[ai].sort(function (a, b) {
-						if (a.price == b.price) {
-							if (a.stock == b.stock) {
-								if (a.index == b.index) {
-									if (a.owner == b.owner) {
-										return 0;
-									}
-									return (a.owner > b.owner?-1:1);	// owner DESC
-								}
-								return (a.index > b.index?-1:1);	// index DESC
-							}
-							return (a.stock > b.stock?-1:1);	// stock DESC
-						}
-						return (a.price < b.price?-1:1);	// price ASC
+						return -(a.price < b.price) || +(a.price != b.price)
+							|| -(a.stock > b.stock) || +(a.stock != b.stock)
+							|| -(a.index > b.index) || +(a.index != b.index)
+							|| -(a.owner > b.owner) || +(a.owner != b.owner);
 					});
 					
 					// multiplica pela quantidade a ser comprada
@@ -939,7 +923,7 @@ PremiumBar = function (activities) {
 												value2	: items[i]
 											};
 										}).sort(function (a, b) {
-											return -(a.comp > b.comp) || 1-(a.comp == b.comp); // quantity DESC
+											return -(a.comp > b.comp) || +(a.comp != b.comp); // quantity DESC
 										}).forEach(function (v, i) {
 											obj.items[i] = v.value1;
 											items[i] = v.value2;
@@ -1018,10 +1002,7 @@ PremiumBar = function (activities) {
 			var ai = orders.indexOf(a.id),
 			bi = orders.indexOf(b.id);
 
-			if (ai == bi) {
-				return 0;
-			}
-			return (ai > bi?1:-1);
+			return -(ai < bi) || +(ai != bi);	// ASC
 		}),
 		addClickEvent = function (d) {
 			xpath("id('" + d.id + "')/a")[0].addEventListener("click", function (e) {
