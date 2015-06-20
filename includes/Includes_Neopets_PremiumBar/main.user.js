@@ -936,13 +936,13 @@ PremiumBar = function (activities) {
 											return {
 												comp	: v[1],
 												value1	: v,
-												value2	: list[i]
+												value2	: items[i]
 											};
 										}).sort(function (a, b) {
 											return -(a.comp > b.comp) || 1-(a.comp == b.comp); // quantity DESC
 										}).forEach(function (v, i) {
 											obj.items[i] = v.value1;
-											list[i] = v.value2;
+											items[i] = v.value2;
 										});
 									}
 								}
