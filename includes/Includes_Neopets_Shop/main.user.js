@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.0.1
+// @version     1.0.2
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -95,7 +95,15 @@ var Shop = function (page) {
 						throw "'referer' is required";
 					}
 				}
-				_get(obj.url, {}, obj.callback, obj.referer);
+				_get(obj.url, {}, function (o) {
+					var errmsg = xpath("normalize-space(/html/body/center[img[contains(@src, '/pets/sad/')]]/i)", p.body);
+					if (errmsg) {
+						o.error = 1;
+						o.errmsg = errmsg;
+					}
+
+					obj.callback(o);
+				}, obj.referer);
 			} else {
 				var buy_item = RegExp["$&"],
 				_this = this;
