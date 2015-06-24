@@ -96,7 +96,7 @@ var Shop = function (page) {
 					}
 				}
 				_get(obj.url, {}, function (o) {
-					var errmsg = xpath("normalize-space(/html/body/center[img[contains(@src, '/pets/sad/')]]/i)", p.body);
+					var errmsg = xpath("normalize-space(/html/body/center[img[contains(@src, '/pets/sad/')]]/i)", o.body);
 					if (errmsg) {
 						o.error = 1;
 						o.errmsg = errmsg;
