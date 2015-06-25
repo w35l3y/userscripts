@@ -7,7 +7,7 @@
 // @copyright      2013+, w35l3y (http://gm.wesley.eti.br/includes)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br/includes
-// @version        1.8.7
+// @version        1.8.8
 // @language       en
 // @include        nowhere
 // @exclude        *
@@ -868,6 +868,9 @@ var WinConfig = function (params) {
 				}
 				if (fld.focused) {
 					focusedInput = ff;
+				}
+				for (var ci in fld.events) {
+					addEvent(ff, ci, fld.events[ci], fld);
 				}
 				field.appendChild(ff);
 			}
