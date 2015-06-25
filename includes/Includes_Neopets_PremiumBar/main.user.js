@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.2.8
+// @version     1.2.9
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -109,7 +109,7 @@ PremiumBar = function (activities) {
 	var customCounter = 0,
 	customField = function (_win) {
 		var _opts = {},
-		changeRadio = function (e) {
+		changeData = function (e, cb) {
 			var t = this.parent.parent.fields[0].elements[0].options;
 
 			for (var ai = 0, at = t.length;ai < at;++ai) {
@@ -118,9 +118,19 @@ PremiumBar = function (activities) {
 					if (!(act.id in _opts)) {
 						_opts[act.id] = {};
 					}
-					_opts[act.id][e.target.name] = parseInt(e.target.value, 10);
+					_opts[act.id][e.target.name] = cb(e.target.value);
 				}
 			}
+		},
+		changeText = function (e) {
+			changeData.apply(this, [e, function (v) {
+				return v;
+			}]);
+		},
+		changeRadio = function (e) {
+			changeData.apply(this, [e, function (v) {
+				return parseInt(v, 10);
+			}]);
 		},
 		tmp = {
 			class	: "actions",
@@ -141,6 +151,7 @@ PremiumBar = function (activities) {
 						this.parent.fields[1].fields[1].elements[1 + (o.auto || 0)].checked = true;
 						this.parent.fields[1].fields[2].elements[1 + (o.display || 0)].checked = true;
 						this.parent.fields[1].fields[3].elements[1 + (o.log || 0)].checked = true;
+						this.parent.fields[1].fields[4].elements[0].value = o.custom || "";
 					}
 				},
 				value	: activities.map(function (v, i) {
@@ -243,6 +254,19 @@ PremiumBar = function (activities) {
 						value	: 0x2,
 						label	: "Off"
 					}]
+				}, {
+					name	: "custom",
+					label	: "Custom",
+					help	: true,
+					description: "Use it at your own risk",
+					type	: WinConfig.FieldType.TEXT,
+					format	: WinConfig.FieldFormat.STRING,
+					//disabled: true,
+					multiple: false,
+					nogroup	: true,
+					events	: {
+						keyup	: changeText
+					},
 				}]
 			}]
 		};
@@ -285,7 +309,9 @@ PremiumBar = function (activities) {
 					out[act.id] = {
 						type	: act.values[0],
 						auto	: act.values[1],
-						display	: act.values[2]
+						display	: act.values[2],
+						log		: act.values[3],
+						custom	: ""
 					};
 				}
 
