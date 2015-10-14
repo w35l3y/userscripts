@@ -18,18 +18,18 @@
 // @grant          GM_xmlhttpRequest
 // @grant          GM_getResourceText
 // @icon           http://gm.wesley.eti.br/icon.php?desc=76450
-// @resource       includes http://pastebin.com/download.php?i=eArANXdm
+// @resource       includes http://pastebin.com/raw.php?i=eArANXdm
 // @resource       meta https://github.com/w35l3y/userscripts/raw/master/scripts/Neopets_Faerie_Crossword/76450.user.js
-// @resource       i18n http://pastebin.com/download.php?i=ULrVTsSg
-// @resource       updaterWindowHtml http://pastebin.com/download.php?i=3gr9tRAT
-// @resource       updaterWindowCss http://pastebin.com/download.php?i=C1qAvAed
-// @require        ../../includes/Includes_XPath/63808.user.js
-// @require        ../../includes/Includes_Neopets/63810.user.js
-// @require        ../../includes/Includes_HttpRequest/56489.user.js
-// @require        ../../includes/Includes_Translate/85618.user.js
-// @require        ../../includes/Includes_I18n/87940.user.js
-// @require        ../../includes/Includes_Updater/87942.user.js
-// @require        http://pastebin.com/download.php?i=P6VTBRRK
+// @resource       i18n http://pastebin.com/raw.php?i=ULrVTsSg
+// @resource       updaterWindowHtml http://pastebin.com/raw.php?i=3gr9tRAT
+// @resource       updaterWindowCss http://pastebin.com/raw.php?i=C1qAvAed
+// @require     https://github.com/w35l3y/userscripts/raw/master/scripts/X/../../includes/Includes_XPath/63808.user.js
+// @require     https://github.com/w35l3y/userscripts/raw/master/scripts/../../../raw/master/includes/Includes_Neopets/63810.user.js
+// @require     https://github.com/w35l3y/userscripts/raw/master/scripts/X/../../includes/Includes_HttpRequest/56489.user.js
+// @require     https://github.com/w35l3y/userscripts/raw/master/scripts/X/../../includes/Includes_Translate/85618.user.js
+// @require     https://github.com/w35l3y/userscripts/raw/master/scripts/../../../raw/master/includes/Includes_I18n/87940.user.js
+// @require     https://github.com/w35l3y/userscripts/raw/master/scripts/../../../raw/master/includes/Includes_Updater/87942.user.js
+// @require        http://pastebin.com/raw.php?i=P6VTBRRK
 // @contributor    cluesandanswers (http://cluesandanswers.blogspot.com/)
 // @contributor    jellyneo (http://www.jellyneo.net/?go=fcrossword)
 // @history        3.0.0 Added <a href="http://userscripts.org/scripts/show/87942">Updater</a>
@@ -93,7 +93,7 @@ if ("/games/crossword/crossword.phtml" == location.pathname) {
 				
 				window.setTimeout(function() {
 					GM_setValue("crossword", JSON.stringify(crossword));
-
+					
 					word.form.submit();
 				}, 4000 + Math.floor(3000 * Math.random()));
 			} else {
