@@ -2,7 +2,7 @@
 // @name           Includes : Neopets Stock Market [BETA]
 // @description    Stock Function
 // @grant		   GM_xmlhttpRequest
-// @include        http://www.neopets.com/pool/
+// @include        nowhere
 // @require 	   https://github.com/w35l3y/userscripts/raw/master/scripts/X/../../includes/Includes_XPath/63808.user.js
 // @require 	   https://github.com/w35l3y/userscripts/raw/master/scripts/../../../raw/master/includes/Includes_HttpRequest/56489.user.js
 // ==/UserScript==
