@@ -70,12 +70,14 @@ if ("/games/crossword/crossword.phtml" == location.pathname) {
 
 		(function recursive (crossword) {
 			var status = GM_getValue("status", 0);
-			
+						
 			if (crossword.length) {
 				var x = crossword.shift(),
-				word = xpath("id('content')//form/input[@name = 'x_word']")[0];
+				word = xpath("id('content')//form/input[@name = 'x_word']")[0],
+				element = document.evaluate(".//a[contains(@onclick, '"+x[0].replace(/,/g,", ")+"')]", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null ).singleNodeValue;
 
-				location.href = "javascript:void(" + x[0] + ")";
+				element.click();
+
 				if (x[1] instanceof Array) {
 					var m = JSON.parse(GM_getValue("multiple", "{}"));
 					if (x[0] in m) {
@@ -211,7 +213,7 @@ if ("/games/crossword/crossword.phtml" == location.pathname) {
 					recursive(crossword);
 				}
 			}
-		})(JSON.parse(GM_getValue("crossword", "[]")));
+		})(JSON.parse(GM_getValue("crossword","[]")));
 	}
 } else {
 	GM_deleteValue("status");
