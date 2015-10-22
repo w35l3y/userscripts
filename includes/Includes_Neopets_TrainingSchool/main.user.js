@@ -118,7 +118,9 @@ var TrainingSchool = function (page, pet) {
 		}
 	}][(250 < pet.stats.level?2:(40 >= pet.stats.level?0:1))],
 	_post = function (data, cb) {
-		data.pet_name = pet.name;
+		if(!data.pet_name){
+			data.pet_name = pet.name;
+		}
 		page.request({
 			method	: "post",
 			action	: mode.action,
@@ -129,7 +131,9 @@ var TrainingSchool = function (page, pet) {
 		});
 	},
 	_get = function (data, cb) {
-		data.pet_name = pet.name;
+		if(!data.pet_name){
+			data.pet_name = pet.name;
+		}
 		page.request({
 			method	: "get",
 			action	: mode.referer,
