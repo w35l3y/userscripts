@@ -191,7 +191,8 @@ var TrainingSchool = function (page, pet) {
 	};
 
 	this.start = function (obj) {
-		var courseType = obj.course_type || (function (stats) {
+		var petName = obj.pet_name || pet.name,
+		courseType = obj.course_type || (function (stats) {
 			// Endurance must be first
 			// Agility must be last
 			var s = ["Endurance", "Strength", "Defence", "Agility"];
@@ -220,6 +221,8 @@ var TrainingSchool = function (page, pet) {
 		if (!courseType) {
 			throw "course_type is required."
 		}
+
+		console.log(petName);		
 
 		_post({
 			type		: "start",
