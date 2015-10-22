@@ -182,7 +182,7 @@ var TrainingSchool = function (page, pet) {
 
 		o.activePet = pet;
 
-		console.log(o, pet);
+// 		console.log(o, pet);
 		cb(o);
 	};
 
