@@ -226,7 +226,8 @@ var TrainingSchool = function (page, pet) {
 
 		_post({
 			type		: "start",
-			course_type	: courseType
+			course_type	: courseType,
+			pet_name	: petName
 		}, function (o) {
 			parse(o, obj.callback);
 		})
