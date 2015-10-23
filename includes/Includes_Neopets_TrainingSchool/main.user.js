@@ -222,8 +222,6 @@ var TrainingSchool = function (page, pet) {
 			throw "course_type is required."
 		}
 
-		console.log(petName);		
-
 		_post({
 			type		: "start",
 			course_type	: courseType,
@@ -234,30 +232,42 @@ var TrainingSchool = function (page, pet) {
 	};
 
 	this.pay = function (obj) {
+		var petName = obj.pet_name || pet.name;
+				
 		_post({
-			type		: "pay"
+			type		: "pay",
+			pet_name	: petName
 		}, function (o) {
 			parse(o, obj.callback);
 		});
 	};
 	
 	this.cancel = function (obj) {
+		var petName = obj.pet_name || pet.name;
+
 		_post({
-			type		: "cancel"
+			type		: "cancel",
+			pet_name	: petName
 		}, function (o) {
 			parse(o, obj.callback);
 		});
 	};
 
 	this.complete = function (obj) {
+		var petName = obj.pet_name || pet.name;
+
 		_post({
-			type		: "complete"
+			type		: "complete",
+			pet_name	: petName
 		}, obj.callback);
 	};
 
 	this.status = function (obj) {
+		var petName = obj.pet_name || pet.name;
+
 		_get({
-			type		: "status"
+			type		: "status",
+			pet_name	: petName
 		}, function (o) {
 			parse(o, obj.callback);
 		});
