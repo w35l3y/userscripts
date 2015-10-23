@@ -243,6 +243,7 @@ var FoodClub = function (page) {
 			}
 		});
 	};
+	
 	this.getWinnings = function(params){
 		var data = {
 			"type" : "collect"	
@@ -253,35 +254,40 @@ var FoodClub = function (page) {
 			"method"	: "get",
 			"url"		: "http://www.neopets.com/pirates/foodclub.phtml",
 			"onsuccess"	: function(xhr){
-				var wins = xpath(".//form[@action='process_foodclub.phtml']/table/tbody/tr[@bgcolor='white'][position() < last()]",xhr.response.xml).map(function(win){
-					var curOdds = parseInt(xpath("string(.//td[4]/text())",win).split(":")[0],10),
-					curWin = parseInt(xpath("string(.//td[5]/text())",win).replace(" NP",""),10);
-
-					totalOdds += curOdds;
-					totalWin += curWin;
-					
-					return {
-						"bet" : xpath("./td[2]//b",win).map(function(item){
-							var arena = xpath("string(.//text())",item);
-							var pirate = xpath("string(.//text()/..//following-sibling::text()[1])",item).replace(": ","");
-							return {
-								"arena"		: arena,
-								"pirate"	: pirate
-							}
-						}),
-						"odds" : curOdds,
-						"total" : curWin
-					}
-				});
-				
-				if(wins.length == 0){
-					params.onsuccess({ "winnings" : false });					
+				if(xpath(".//td[@class='content']//img[@src='http://images.neopets.com/pirates/fc/foodclub_closed.gif']",xhr.response.xml).length > 0){
+					params.onsuccess({ "closed" : "true" });
 				}else{
-					params.onsuccess({ "winnings" : true, "round" : parseInt(xpath("string(.//form[@action='process_foodclub.phtml']/table/tbody/tr[@bgcolor='white'][position() < last()]/td[1]//text())",xhr.response.xml),10), "bets" : wins, "odds" : totalOdds, "total" : totalWin });
+					var wins = xpath(".//form[@action='process_foodclub.phtml']/table/tbody/tr[@bgcolor='white'][position() < last()]",xhr.response.xml).map(function(win){
+						var curOdds = parseInt(xpath("string(.//td[4]/text())",win).split(":")[0],10),
+						curWin = parseInt(xpath("string(.//td[5]/text())",win).replace(" NP",""),10);
+	
+						totalOdds += curOdds;
+						totalWin += curWin;
+						
+						return {
+							"bet" : xpath("./td[2]//b",win).map(function(item){
+								var arena = xpath("string(.//text())",item);
+								var pirate = xpath("string(.//text()/..//following-sibling::text()[1])",item).replace(": ","");
+								return {
+									"arena"		: arena,
+									"pirate"	: pirate
+								}
+							}),
+							"odds" : curOdds,
+							"total" : curWin
+						}
+					});
+					
+					if(wins.length == 0){
+						params.onsuccess({ "winnings" : false });					
+					}else{
+						params.onsuccess({ "winnings" : true, "round" : parseInt(xpath("string(.//form[@action='process_foodclub.phtml']/table/tbody/tr[@bgcolor='white'][position() < last()]/td[1]//text())",xhr.response.xml),10), "bets" : wins, "odds" : totalOdds, "total" : totalWin });
+					}
 				}
 			}
 		}).send(data);
 	};
+	
 	this.collectWinnings = function(params){
 		var data = {
 			"type" : "collect"
