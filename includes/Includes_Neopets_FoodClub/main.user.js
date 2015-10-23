@@ -202,4 +202,113 @@ var FoodClub = function (page) {
 	this.currentRound = function (cb) {
 		new IterateArena("current").execute(cb);
 	};
+	this.betAmount = function(params){
+		_get({ "type" : "bet" },function(xhr){
+			var amount = parseInt(xpath("string(.//td[@class='content']//p[text()[contains(.,'You can only place up to ')]]/b/text())",xhr.body),10);
+			params.onsuccess(amount);
+		});
+	};
+	this.currentBets = function(params){
+		var data = {
+			"type" : "current_bets"	
+		};
+
+		_get(data,function(xhr){
+			var curbets = xhr.body,
+			allBets = xpath(".//td[@class='content']//table/tbody/tr[@bgcolor='white']",curbets),
+			winnings = parseInt(xpath("string(.//td[2]/b/text())",allBets.pop()).replace(" NP",""),10) || undefined,
+			odds = 0,
+			bets = xpath(".//td[@class='content']//table/tbody/tr[@bgcolor='white'][position() < last()]",curbets).map(function(item){
+				var curOdds = parseInt(xpath("string(./td[4]/text())",item).split(":")[0],10);
+				odds += curOdds;
+				return {
+					"bet" : xpath("./td[2]//b",item).map(function(item){
+						var arena = xpath("string(.//text())",item);
+						var pirate = xpath("string(.//text()/..//following-sibling::text()[1])",item).replace(": ","");
+						return {
+							"arena"		: arena,
+							"pirate"	: pirate
+						}
+					}),
+					"bet_amount" : parseInt(xpath("string(./td[3]/text())",item).replace(" NP",""),10),
+					"odds" : curOdds,
+					"winnings" : parseInt(xpath("string(./td[5]/text())",item).replace(" NP",""),10)
+				}
+			});
+
+			if(allBets.length <= 1 || typeof winnings == 'undefined'){
+				params.onsuccess({ "current_bets" : false });
+			}else{
+				params.onsuccess({ "current_bets" : true, "bets" : bets, "possible_winnings" : { "total" : winnings, "odds" : odds } });
+			}
+		});
+	};
+	this.getWinnings = function(params){
+		var data = {
+			"type" : "collect"	
+		},
+		totalOdds = totalWin = 0;
+		
+		HttpRequest.open({
+			"method"	: "get",
+			"url"		: "http://www.neopets.com/pirates/foodclub.phtml",
+			"onsuccess"	: function(xhr){
+				var wins = xpath(".//form[@action='process_foodclub.phtml']/table/tbody/tr[@bgcolor='white'][position() < last()]",xhr.response.xml).map(function(win){
+					var curOdds = parseInt(xpath("string(.//td[4]/text())",win).split(":")[0],10),
+					curWin = parseInt(xpath("string(.//td[5]/text())",win).replace(" NP",""),10);
+
+					totalOdds += curOdds;
+					totalWin += curWin;
+					
+					return {
+						"bet" : xpath("./td[2]//b",win).map(function(item){
+							var arena = xpath("string(.//text())",item);
+							var pirate = xpath("string(.//text()/..//following-sibling::text()[1])",item).replace(": ","");
+							return {
+								"arena"		: arena,
+								"pirate"	: pirate
+							}
+						}),
+						"odds" : curOdds,
+						"total" : curWin
+					}
+				});
+				
+				if(wins.length == 0){
+					params.onsuccess({ "winnings" : false });					
+				}else{
+					params.onsuccess({ "winnings" : true, "round" : parseInt(xpath("string(.//form[@action='process_foodclub.phtml']/table/tbody/tr[@bgcolor='white'][position() < last()]/td[1]//text())",xhr.response.xml),10), "bets" : wins, "odds" : totalOdds, "total" : totalWin });
+				}
+			}
+		}).send(data);
+	};
+	this.collectWinnings = function(params){
+		var data = {
+			"type" : "collect"
+		},winnings;
+		
+		this.getWinnings({
+			"onsuccess" : function(obj){
+// 				if(obj.winnings){
+					HttpRequest.open({
+						"method"	: "post",
+						"url"		: "http://www.neopets.com/pirates/process_foodclub.phtml",
+						"headers"	: { "referer" : "http://www.neopets.com/pirates/foodclub.phtml?type=current_bets" },
+						"onsuccess"	: function(xhr){
+							var xhr = xhr.response.xml,
+							error = xpath(".//div[@class='errorMessage']//text()",xhr),
+							errorMsg = error.length ? xpath("string(.)",error[1]) : undefined;
+							if(errorMsg){
+								params.onsuccess({ "winnings" : false, "response" : xhr, "error" : errorMsg });								
+							}else{
+								params.onsuccess({ "winnings" : true, "response" : xhr });
+							}
+						}
+					}).send(data);
+// 				}else{
+// 					params.onsuccess({ "winnings" : false, "response" : xhr.response.xml });
+// 				}
+			}
+		})
+	};
 };
