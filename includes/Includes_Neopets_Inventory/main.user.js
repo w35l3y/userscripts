@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Includes : Neopets : Inventory
 // @namespace   http://gm.wesley.eti.br
-// @description TrainingSchool Function
+// @description Inventory Function
 // @author      w35l3y
 // @email       w35l3y@brasnet.org
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
@@ -53,6 +53,7 @@ var Inventory = function(page){
 			method	 : "post",
 			action	 : "http://www.neopets.com/useobject.phtml",
 			referer  : "http://www.neopets.com/iteminfo.phtml?obj_id=" + data.obj_id,
+			delay    : true,
 			data	 : data,
 			callback : cb
 		});
