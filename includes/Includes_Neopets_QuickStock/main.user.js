@@ -41,13 +41,18 @@ var QuickStock = function(page){
 
     this.items = function(params){
         _get(function(obj){
-            if(xpath(".//form[@name='quickstock']/table/tbody/tr//input[@type='hidden']",obj.body).length > 1){
-                var items = xpath(".//form[@name='quickstock']/table/tbody/tr//input[@type='hidden']",obj.body).map(function(input){
+            var inputs = xpath(".//form[@name='quickstock']/table/tbody/tr//input[@type='hidden']",obj.body);
+            if(inputs.length > 1){
+                var items = inputs.map(function(input){
+                    var options = xpath("../td/input/@value",input).map(function(option){
+                        return xpath("string(.)",option);
+                    });
                     return {
-                        "value" : parseInt(xpath("string(@value)",input),10),
-                        "order"  : xpath("string(@name)",input).split("[")[1].replace("]",""),
-                        "item"  : xpath("string(.//preceding-sibling::td/text())",input)
-                    }
+                        "value"   : parseInt(xpath("string(@value)",input),10),
+                        "order"   : xpath("string(@name)",input).split("[")[1].replace("]",""),
+                        "item"    : xpath("string(.//preceding-sibling::td/text())",input),
+                        "options" : options
+                    };
                 });
                 params.onsuccess({ "available" : true, "items" : items });
             }else{
@@ -63,9 +68,12 @@ var QuickStock = function(page){
         
                 if(obj.available){
                     obj["items"].forEach(function(curItem){
-                       dataTmp["id_arr["+curItem.order+"]"] = curItem.value;
-                       dataTmp["radio_arr[" + curItem.order + "]"] = "deposit";
+                        if(test){
+                            dataTmp["id_arr["+curItem.order+"]"] = curItem.value;
+                            dataTmp["radio_arr[" + curItem.order + "]"] = "deposit";
+                        }
                     });
+                    
                     dataTmp.buyitem = 0;
                     _post(dataTmp,function(obj){
                         params.onsuccess(obj);
