@@ -68,10 +68,8 @@ var QuickStock = function(page){
         
                 if(obj.available){
                     obj["items"].forEach(function(curItem){
-                        if(test){
-                            dataTmp["id_arr["+curItem.order+"]"] = curItem.value;
-                            dataTmp["radio_arr[" + curItem.order + "]"] = "deposit";
-                        }
+                        dataTmp["id_arr["+curItem.order+"]"] = curItem.value;
+                        dataTmp["radio_arr[" + curItem.order + "]"] = "deposit";
                     });
                     
                     dataTmp.buyitem = 0;
