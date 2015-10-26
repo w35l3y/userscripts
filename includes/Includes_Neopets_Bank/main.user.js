@@ -71,4 +71,8 @@ var Bank = function (page) {
             amount  : obj.value
         }, obj.callback);
     };
+    
+    this.interest = function (obj) {
+        _post({ type : "interest" },obj.callback);
+    };
 };
