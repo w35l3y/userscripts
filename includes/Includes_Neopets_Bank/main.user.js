@@ -46,6 +46,15 @@ var Bank = function (page) {
 			delay	: true,
 			callback: cb
 		});
+	},
+	_get = function (cb) {
+		page.request({
+			method	: "get",
+			action	: "http://www.neopets.com/bank.phtml",
+			data	: {},
+			delay	: true,
+			callback: cb
+		});
 	};
 
 	this.withdraw = function (obj) {
@@ -55,4 +64,11 @@ var Bank = function (page) {
 			pin		: page.pin
 		}, obj.callback);
 	};
+	
+	this.deposit = function (obj) {
+        _post({
+            type    : "deposit",
+            amount  : obj.value
+        }, obj.callback);
+    };
 };
