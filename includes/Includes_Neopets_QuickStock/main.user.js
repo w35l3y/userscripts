@@ -67,15 +67,24 @@ var QuickStock = function(page){
                 dataTmp = {};
         
                 if(obj.available){
-                    obj["items"].forEach(function(curItem){
+                    var items = obj.items;
+                    items.forEach(function(curItem){
                         dataTmp["id_arr["+curItem.order+"]"] = curItem.value;
                         dataTmp["radio_arr[" + curItem.order + "]"] = "deposit";
                     });
                     
                     dataTmp.buyitem = 0;
-                    _post(dataTmp,function(obj){
-                        params.onsuccess(obj);
+
+                    _post(dataTmp,function(deposit){
+                        if(deposit.error){
+                            alert(deposit.errmsg);
+                        }else{
+                            alert(items.length + " items deposited.");
+                        }
                     });
+
+                }else{
+                    alert("No items available to deposit");
                 }
             }
         });
