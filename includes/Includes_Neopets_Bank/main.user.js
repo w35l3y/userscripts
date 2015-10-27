@@ -37,35 +37,35 @@
 **************************************************************************/
 
 var Bank = function (page) {
-	var _post = function (data, cb) {
-		page.request({
-			method	: "post",
-			action	: "http://www.neopets.com/process_bank.phtml",
-			referer	: "http://www.neopets.com/bank.phtml",
-			data	: data,
-			delay	: true,
-			callback: cb
-		});
-	},
-	_get = function (cb) {
-		page.request({
-			method	: "get",
-			action	: "http://www.neopets.com/bank.phtml",
-			data	: {},
-			delay	: true,
-			callback: cb
-		});
-	};
+    var _post = function (data, cb) {
+        page.request({
+            method	: "post",
+            action	: "http://www.neopets.com/process_bank.phtml",
+            referer	: "http://www.neopets.com/bank.phtml",
+            data	: data,
+            delay	: true,
+            callback: cb
+        });
+    },
+    _get = function (cb) {
+        page.request({
+            method	: "get",
+            action	: "http://www.neopets.com/bank.phtml",
+            data	: {},
+            delay	: true,
+            callback: cb
+        });
+    };
 
-	this.withdraw = function (obj) {
-		_post({
-			type	: "withdraw",
-			amount	: obj.value,
-			pin		: page.pin
-		}, obj.callback);
-	};
-	
-	this.deposit = function (obj) {
+    this.withdraw = function (obj) {
+        _post({
+            type	: "withdraw",
+            amount	: obj.value,
+            pin		: page.pin
+        }, obj.callback);
+    };
+
+    this.deposit = function (obj) {
         _post({
             type    : "deposit",
             amount  : obj.value
