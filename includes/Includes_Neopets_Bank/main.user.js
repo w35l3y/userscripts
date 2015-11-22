@@ -46,7 +46,7 @@ var Bank = function (page) {
 			delay	: true,
 			callback: function (xhr) {
 				var _n = function (v) {
-					return parseInt(xpath("string(" + v + ")", xhr.body).replace(/\D+/g), 10);
+					return parseInt(xpath("string(" + v + ")", xhr.body).replace(/\D+/g, ""), 10);
 				};
 
 				Object.defineProperties(xhr, {
@@ -82,7 +82,7 @@ var Bank = function (page) {
         }, obj.callback);
     };
     
-    this.interest = function (obj) {
+    this.collect = function (obj) {
         _post({
 			type	: "interest"
 		}, obj.callback);

@@ -31,12 +31,22 @@ var Inventory = function (page) {
     	cb(xhr);
     },
     _get = function (data, p, cb) {
-    	page.request({
+        if (!data || !data.obj_id) {
+        	throw "data.obj_id is required";
+        }
+
+        page.request({
         	method   : "get",
-        	action   : "http://www.neopets.com/iteminfo.phtml",
+        	action   : "http://www.neopets.com/" + (data.is_giftbox?"ncmall/box":"item") + "info.phtml",
         	referer  : "http://www.neopets.com/inventory.phtml",
         	delay    : true,
-        	data     : data,
+        	data     : (data.gucid?{
+        		cash_obj_id	: data.obj_id,
+        		gucid		: data.gucid,
+        		habitat		: (data.is_habitat?1:0)
+        	}:{
+        		obj_id	: data.obj_id
+        	}),
         	callback : function (xhr) {
         		_response(xhr, p, cb);
         	}
@@ -95,7 +105,9 @@ var Inventory = function (page) {
 			obj_id	: obj.obj_id || "",
 			action	: ""
 		}), function (xhr) {
-			throw "Not implemented yet";
+			return {
+				result	: xpath("string(/html/body/center)", xhr.body) || xpath("string(/html/body)", xhr.body)
+			};
 		}, obj.callback);
 	};
 	
@@ -110,11 +122,11 @@ var Inventory = function (page) {
 			referer  : "http://www.neopets.com/useobject.phtml",
 			delay    : true,
 			data	 : _merge(obj.data || {}, {
-							obj_id			: obj.obj_id || "",
-							start_price		: 1,
-							min_increment	: 1,
-							duration		: 1
-						}),
+				obj_id			: obj.obj_id || "",
+				start_price		: 1,
+				min_increment	: 1,
+				duration		: 1
+			}),
 			callback : function (xhr) {
         		_response(xhr, function (xhr) {
 					throw "Not implemented yet";
@@ -128,19 +140,33 @@ var Inventory = function (page) {
     		throw "obj.obj_id is required";
     	}
 
-    	_get(_merge(obj.data || {}, {
+    	var data = _merge(obj.data || {}, {
 			obj_id	: obj.obj_id || "",
-    	}), function (xhr) {
-    		throw "Not implemented yet";
-			return {
-	 			item	: {
-	 				is_nc		: false,
-					obj_id		: "",
-	 				name		: "",
-	 				image		: "",
-	 				description	: "",
-	 				info		: {}
-	 			}
+    	}); 
+    	_get(data, function (xhr) {
+    		data.infos = xpath(".//table[2]/tbody/tr/td[2]", xhr.body).map(function (o) {
+				return {
+					key		: o.parentNode.cells[0].textContent,
+					value	: o.textContent
+				};
+			});
+    		data.actions = xpath(".//form/select/option[@value]", xhr.body).map(function (o) {
+    			return {
+    				key		: o.textContent,
+    				value	: o.value
+    			};
+    		});
+
+    		return {
+	 			item	: _merge(data, {
+	 				is_nc		: xpath("boolean(.//table[1]/tbody/tr/td[2]/b[@style])", xhr.body),
+					obj_id		: xpath("string(.//form/input[@type = 'hidden' and contains(@name, 'obj_id')]/@value)", xhr.body),
+	 				name		: xpath("string(.//table[1]/tbody/tr/td[2]/text()[contains(., ':')][1])", xhr.body).slice(2).trim(),
+	 				image		: xpath("string(.//table[1]/tbody/tr/td/img/@src)", xhr.body),
+	 				description	: xpath("string(.//div[2]/span/i)", xhr.body),
+	 				actions		: [],
+	 				infos		: []
+	 			})
 	 		};
 		}, obj.callback);
     };
@@ -175,7 +201,7 @@ var Inventory = function (page) {
 									description	: item.title,
 									categories	: categories
 								};
-							} else if (/cash_win\((\d+), "(\w+)", "", (\w+), (\w+)\)/.test(onclick)) {
+							} else if (/cash_win\((\d+), "([A-F\d-]+)", "", (\w+), (\w+)\)/.test(onclick)) {
 								return {
 									is_nc		: true,
 									obj_id		: RegExp.$1,

@@ -152,7 +152,7 @@ var FoodClub = function (page) {
 		};
 	},
 	Bets = function (type) {
-		if (type != "collect" || type != "current_bets") {
+		if (type != "collect" && type != "current_bets") {
 			throw "Unknown 'type'";
 		}
 		var _thisBet = this;
@@ -189,7 +189,7 @@ var FoodClub = function (page) {
 			_get({
 				type : type
 			}, function (xhr) {
-				_thisBet.parse(xhr);
+				return _thisBet.parse(xhr);
 			}, cb);
 		};
 	};
@@ -247,7 +247,7 @@ var FoodClub = function (page) {
 			bets = [],
 			pirates = [];
 			for (var ai = 0, at = stats.length;ai < at;++ai) {
-				var pi = /&id=(\d+)/.test(stats[ai].href) && RegExp.$1,
+				var pi = /&id=(\d+)/.test(stats[ai].href) && parseInt(RegExp.$1, 10),
 				s = Array.prototype.slice.apply(stats[ai].parentNode.parentNode.cells, [1, 5]).map(function (item) {
 					return parseInt(item.textContent, 10);
 				});
