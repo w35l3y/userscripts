@@ -58,7 +58,7 @@ var StockMarket = function (page) {
 		});
 	},
 	_n = function (v) {
-		return parseInt(v.textContent, 10);
+		return parseInt(v.textContent.replace(/\D+/g, ""), 10);
 	},
 	Portfolio = function () {
 		var _thisPortfolio = this;
