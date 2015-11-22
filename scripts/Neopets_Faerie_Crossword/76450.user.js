@@ -18,18 +18,16 @@
 // @grant          GM_xmlhttpRequest
 // @grant          GM_getResourceText
 // @icon           http://gm.wesley.eti.br/icon.php?desc=76450
-// @resource       includes http://pastebin.com/download.php?i=eArANXdm
 // @resource       meta https://github.com/w35l3y/userscripts/raw/master/scripts/Neopets_Faerie_Crossword/76450.user.js
-// @resource       i18n http://pastebin.com/download.php?i=ULrVTsSg
-// @resource       updaterWindowHtml http://pastebin.com/download.php?i=3gr9tRAT
-// @resource       updaterWindowCss http://pastebin.com/download.php?i=C1qAvAed
+// @resource       i18n ../../includes/Includes_I18n/resources/default.json
+// @resource       updaterWindowHtml ../../includes/Includes_Updater/resources/default.html
+// @resource       updaterWindowCss ../../includes/Includes_Updater/resources/default.css
 // @require        ../../includes/Includes_XPath/63808.user.js
 // @require        ../../includes/Includes_Neopets/63810.user.js
 // @require        ../../includes/Includes_HttpRequest/56489.user.js
 // @require        ../../includes/Includes_Translate/85618.user.js
 // @require        ../../includes/Includes_I18n/87940.user.js
 // @require        ../../includes/Includes_Updater/87942.user.js
-// @require        http://pastebin.com/download.php?i=P6VTBRRK
 // @contributor    cluesandanswers (http://cluesandanswers.blogspot.com/)
 // @contributor    jellyneo (http://www.jellyneo.net/?go=fcrossword)
 // @history        3.0.0 Added <a href="http://userscripts.org/scripts/show/87942">Updater</a>
@@ -75,7 +73,8 @@ if ("/games/crossword/crossword.phtml" == location.pathname) {
 				var x = crossword.shift(),
 				word = xpath("id('content')//form/input[@name = 'x_word']")[0];
 
-				location.href = "javascript:void(" + x[0] + ")";
+				xpath(".//a[starts-with(@onclick, '" + x[0] + "')]")[0].click();
+
 				if (x[1] instanceof Array) {
 					var m = JSON.parse(GM_getValue("multiple", "{}"));
 					if (x[0] in m) {

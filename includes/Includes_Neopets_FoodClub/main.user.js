@@ -13,10 +13,11 @@
 // @exclude     *
 // @grant       GM_xmlhttpRequest
 // @grant       GM_getResourceText
+// @resource    foodclubJson https://gist.github.com/w35l3y/fab231758eb0991f36a0/raw/foodclub.json
 // @require     https://github.com/knadh/localStorageDB/raw/master/localstoragedb.min.js
 // @require     https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
 // @require     https://github.com/w35l3y/userscripts/raw/master/includes/Includes_HttpRequest/56489.user.js
-// @require     https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Neopets_[BETA]/main.user.js
+// @require     https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Neopets_%5BBETA%5D/main.user.js
 // ==/UserScript==
 
 /**************************************************************************
@@ -38,13 +39,37 @@
 
 var FoodClub = function (page) {
 	var _this = this,
-	_get = function (data, cb) {
+	_response = function (xhr, p) {
+		Object.defineProperties(xhr, {
+			response	: {
+				get	: function () {
+					return p(xhr)
+				}
+			}
+		});
+	},
+	_get = function (data, p, cb) {
 		page.request({
 			method	: "get",
 			action	: "http://www.neopets.com/pirates/foodclub.phtml",
 			data	: data,
 			delay	: true,
-			callback: cb
+			callback: function (xhr) {
+				p && _response(xhr, p);
+				cb(xhr);
+			}
+		});
+	},
+	_post = function (data, p, cb) {
+		page.request({
+			method	 : "post",
+			action	 : "http://www.neopets.com/pirates/process_foodclub.phtml",
+			data	 : data,
+			delay	 : true,
+			callback: function (xhr) {
+				p && _response(xhr, p);
+				cb(xhr);
+			}
 		});
 	},
 	json = JSON.parse(GM_getResourceText("foodclubJson")),
@@ -70,23 +95,20 @@ var FoodClub = function (page) {
 		};
 	},
 	IterateArena = function (type) {
-		var convert;
 		if ("previous" == type) {
-			convert = function (id, body) {
+			this.parse = function (xhr) {
 				return {
-					id		: id,
-					pirate	: parseInt(xpath("string(.//img[contains(@src, '/fc/fc_')]/@src)", body).match(/pirate_(\d+)/)[1], 10)
-				}
+					pirate	: parseInt(xpath("string(.//img[contains(@src, '/fc/fc_')]/@src)", xhr.body).match(/pirate_(\d+)/)[1], 10)
+				};
 			};
 		} else if ("current" == type) {
-			convert = function (id, body) {
-				var courses = xpath(".//a[contains(@href, '=foods&id=')]/@href", body).map(function (o) {
+			this.parse = function (xhr) {
+				var courses = xpath(".//a[contains(@href, '=foods&id=')]/@href", xhr.body).map(function (o) {
 					return parseInt(o.value.match(/id=(\d+)/)[1], 10);
 				});
 
 				return {
-					id		: id,
-					pirates	: xpath(".//a[contains(@href, '=pirates&id=')]/@href", body).map(function (o) {
+					pirates	: xpath(".//a[contains(@href, '=pirates&id=')]/@href", xhr.body).map(function (o) {
 						return _pirate(parseInt(o.value.match(/id=(\d+)/)[1], 10), courses);
 					}).sort(function (a, b) {
 						return (a.id > b.id?1:-1);
@@ -97,33 +119,88 @@ var FoodClub = function (page) {
 		} else {
 			throw "Unknown 'type'";
 		}
+		var _thisArena = this;
+
+
 		this.execute = function (cb) {
 			var results = [];
 			(function recursive (arena) {
 				_get({
 					type	: type,
 					id		: arena
-				}, function (obj) {
-					results.push(convert(arena, obj.body));
+				}, false, function (xhr) {
+					results.push([arena, xhr]);
 
-					if (!obj.error && 5 > arena) {
+					if (!xhr.error && 5 > arena) {
 						recursive(++arena);
 					} else {
-						obj.results = results;
-						cb.call(_this, obj);
+						_response(xhr, function () {
+							return {
+								arenas	: results.map(function (result) {
+									var _parse = _thisArena.parse(result[1]);
+									_parse.id = result[0];
+
+									return _parse;
+								})
+							};
+						});
+
+						cb(xhr);
 					}
 				});
 			}(1));
+		};
+	},
+	Bets = function (type) {
+		if (type != "collect" || type != "current_bets") {
+			throw "Unknown 'type'";
+		}
+		var _thisBet = this;
+
+		this.parse = function (xhr) {
+			var _n = function (v) {
+				return parseInt(v.trim().replace(/\D+/g), 10);
+			},
+			totalWinnings = 0;
+
+			return {
+				list	: xpath(".//td[@class = 'content']//tr[2 < position() and td[5]]", xhr.body).map(function (bet) {
+					var winnings = _n(bet.cells[4].textContent);
+					totalWinnings += winnings;
+
+					return {
+						round	: _n(bet.cells[0].textContent),
+						info	: xpath("./b", bet.cells[1]).map(function (arena) {
+							return {
+								arena	: arena.textContent.trim(),
+								pirate	: arena.nextSibling.textContent.trim().slice(1).trim()
+							}
+						}),
+						amount	: _n(bet.cells[2].textContent),
+						odds	: _n(bet.cells[3].textContent.trim().slice(0, -2)),
+						winnings: winnings
+					};
+				}),
+				winnings: totalWinnings 
+			};
+		};
+
+		this.execute = function (cb) {
+			_get({
+				type : type
+			}, function (xhr) {
+				_thisBet.parse(xhr);
+			}, cb);
 		};
 	};
 
 	this.odds = function (cb) {
 		_get({
 			type	: "bet"
-		}, function (obj) {
+		}, function (xhr) {
 			var pIndex = [],
 			arenas = [],
-			rawData = xpath("string(.//form[@name = 'bet_form'])", obj.body),
+			rawData = xpath("string(.//form[@name = 'bet_form'])", xhr.body),
 			maxbet = /max_bet\s*=\s*(\d+)/.test(rawData) && parseInt(RegExp.$1, 10),
 			re = /pirate_odds\[(\d+)\]\s*=\s*(\d+)/g,
 			match,
@@ -154,18 +231,19 @@ var FoodClub = function (page) {
 					return (a.id > b.id?1:-1);
 				});
 			}
-			obj.results = [{
+
+			return {
+				max_bet	: maxbet,
 				arenas	: arenas
-			}];
-			cb.call(_this, obj);
-		});
+			};
+		}, cb);
 	};
 
 	this.pirates = function (cb) {
 		_get({
 			type	: "pirates"
-		}, function (obj) {
-			var stats = xpath(".//td[@class = 'content']/center/table/tbody/tr[td[6][contains(., '%')]]/td[1]/a", obj.body),
+		}, function (xhr) {
+			var stats = xpath(".//td[@class = 'content']/center/table/tbody/tr[td[6][contains(., '%')]]/td[1]/a", xhr.body),
 			bets = [],
 			pirates = [];
 			for (var ai = 0, at = stats.length;ai < at;++ai) {
@@ -180,16 +258,29 @@ var FoodClub = function (page) {
 					stats	: s
 				});
 			}
-			obj.results = [{
+
+			return {
 				pirates	: pirates
-			}];
-			cb.call(_this, obj);
-		});
+			};
+		}, cb);
 	};
 	this.previousRound = function (cb) {
 		new IterateArena("previous").execute(cb);
 	};
 	this.currentRound = function (cb) {
 		new IterateArena("current").execute(cb);
+	};
+	this.currentBets = function (cb) {
+		new Bets("current_bets").execute(cb);
+	};
+	this.winningBets = function (cb) {
+		new Bets("collect").execute(cb);
+	};
+	this.collect = function (cb) {
+		_post({
+			type	: "collect"
+		}, function (xhr) {
+			return new Bets("collect").parse(xhr);
+		}, cb);
 	};
 };

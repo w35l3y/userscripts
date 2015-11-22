@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.0.1
+// @version     1.1.0
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -44,7 +44,26 @@ var Bank = function (page) {
 			referer	: "http://www.neopets.com/bank.phtml",
 			data	: data,
 			delay	: true,
-			callback: cb
+			callback: function (xhr) {
+				var _n = function (v) {
+					return parseInt(xpath("string(" + v + ")", xhr.body).replace(/\D+/g), 10);
+				};
+
+				Object.defineProperties(xhr, {
+					response	: {
+						get	: function () {
+							return {
+								type		: _n(".//option[starts-with(text(), //td[@class = 'content']//td//td[starts-with(@style, 'background-color:')]/text())]/@value"),
+								balance		: _n(".//td[@class = 'content']/div/table//td//tr[2]/td[2]/text()"),
+								daily		: _n(".//td[@class = 'content']//div/table/tbody/tr[2]/td/b/text()"),
+								is_collected: !xpath("boolean(.//td[@class = 'content']//input[@value = 'interest'])", xhr.body),
+							};
+						}
+					}
+				});
+
+				cb(xhr);
+			}
 		});
 	};
 
@@ -53,6 +72,19 @@ var Bank = function (page) {
 			type	: "withdraw",
 			amount	: obj.value,
 			pin		: page.pin
+		}, obj.callback);
+	};
+
+    this.deposit = function (obj) {
+        _post({
+            type    : "deposit",
+            amount  : obj.value
+        }, obj.callback);
+    };
+    
+    this.interest = function (obj) {
+        _post({
+			type	: "interest"
 		}, obj.callback);
 	};
 };
