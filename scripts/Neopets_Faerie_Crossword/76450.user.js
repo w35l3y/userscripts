@@ -73,7 +73,7 @@ if ("/games/crossword/crossword.phtml" == location.pathname) {
 				var x = crossword.shift(),
 				word = xpath("id('content')//form/input[@name = 'x_word']")[0];
 
-				xpath(".//a[starts-with(@onclick, '" + x[0] + "')]")[0].click();
+				xpath(".//a[starts-with(@onclick, '" + x[0].replace(/,/g, ", ") + "')]")[0].click();
 
 				if (x[1] instanceof Array) {
 					var m = JSON.parse(GM_getValue("multiple", "{}"));
