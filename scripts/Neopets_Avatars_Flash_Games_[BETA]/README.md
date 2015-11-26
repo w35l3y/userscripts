@@ -17,7 +17,6 @@ State|Topic|Replies|Author|Updated
 :---:|:---|:---:|:---:|---:
 closed|#16: [File not Found (neopets)](https://github.com/w35l3y/userscripts/issues/16)|2|[Misterybe](https://github.com/Misterybe)|2015-02-10T14:45:17Z
 closed|#13: [Missing File Issues?](https://github.com/w35l3y/userscripts/issues/13)|6|[Pixymal](https://github.com/Pixymal)|2014-06-05T21:41:10Z
-closed|#9: [404 errors in 2 scripts for 63808.user.js](https://github.com/w35l3y/userscripts/issues/9)|9|[iBubbless](https://github.com/iBubbless)|2014-05-22T13:55:21Z
 
 ### Installs
 ![Daily installs](http://gm.wesley.eti.br/count.php?id=scripts/Neopets_Avatars_Flash_Games_[BETA]/127882.user.js&type=image)
