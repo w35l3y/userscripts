@@ -72,7 +72,7 @@ var Translate = {
 			} else {
 				HttpRequest.open({
 					"method" : "GET",
-					"url" : "http://translate.google.com.br/translate_a/t",
+					"url" : "https://translate.google.com.br/translate_a/single",
 					"onsuccess" : function (xhr) {
 						var r = [[[""]],,from];
 
