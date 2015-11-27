@@ -21,9 +21,9 @@
 // @grant          GM_xmlhttpRequest
 // @grant          GM_getResourceText
 // @resource       meta https://github.com/w35l3y/userscripts/raw/master/scripts/Neopets_Avatars_Flash_Games_%5BBETA%5D/127882.user.js
-// @resource       i18n ../../Includes_I18n/resources/default.json
-// @resource       updaterWindowHtml ../../Includes_Updater/resources/default.html
-// @resource       updaterWindowCss ../../Includes_Updater/resources/default.css
+// @resource       i18n ../../includes/Includes_I18n/resources/default.json
+// @resource       updaterWindowHtml ../../includes/Includes_Updater/resources/default.html
+// @resource       updaterWindowCss ../../includes/Includes_Updater/resources/default.css
 // @resource       css_colorbox http://www.neopets.com/games/css/colorbox.css?v=1
 // @resource       avatarPopupHtml resources/default.html
 // @resource       avatarPopupCss resources/default.css
