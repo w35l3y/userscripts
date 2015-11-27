@@ -1,0 +1,40 @@
+#gr-ctp-avatar-btn {
+  background: url("http://i39.tinypic.com/24wyjrq.png") no-repeat scroll 0 0 transparent;
+  bottom: 120px;
+  height: 38px;
+  position: absolute;
+  right: 80px;
+  width: 38px;
+  z-index: 11;
+}
+#gr-ctp-avatar-btn:hover {
+    background-position: 0 -38px;
+	cursor: pointer;
+}
+#ctp-title-avatar {
+  background-image: url("http://images.neopets.com/games/pages/popups/headers/settings.png");
+}
+.ctp-avatar-save {
+  background-image: url("http://images.neopets.com/games/pages/popups/buttons/bg.png");
+  background-position: -184px 0;
+  background-repeat: no-repeat;
+  display: block;
+  left: 150px;
+  margin-top: 5px;
+  width: 108px;
+}
+.ctp-avatar-save:hover {
+  background-position: -184px -26px;
+}
+#gr-ctp-avatar th, #gr-ctp-avatar td.aleft {
+	text-align: left;
+}
+#gr-ctp-avatar th.acenter {
+	text-align: center;
+}
+.confirmation, #ctp-message {
+	display: none;
+}
+#field_score, #field_time {
+	width: 86px;
+}
