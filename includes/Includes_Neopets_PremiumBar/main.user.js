@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.2.9
+// @version     1.3.0
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -366,7 +366,7 @@ PremiumBar = function (activities) {
 		nst = function (v) {
 			return (v?v.toISOString().replace("T", " ").replace("Z", " NST"):"");
 		},
-		_execute = function (auto, cb) {
+		_execute = function (auto, cb, event) {
 			if (!this.bar.page.loggedIn) {
 				this.update({
 					color	: _const.ERROR,
@@ -381,7 +381,7 @@ PremiumBar = function (activities) {
 					message	: "No neopoints"
 				});
 				output = true;
-			} else if (auto && -2 == obj.price || -1 != obj.price && (cfg && _const.BG == cfg.type || !cfg && _const.BG == obj.values[_const.OPEN])) {
+			} else if (auto && -2 == obj.price || !event.ctrlKey && -1 != obj.price && (cfg && _const.BG == cfg.type || !cfg && _const.BG == obj.values[_const.OPEN])) {
 				console.log("EXEC", _activity.id);
 				if (obj.execute) {
 					this.update({
@@ -453,13 +453,13 @@ PremiumBar = function (activities) {
 			return true;
 		};
 		
-		this.execute = function (cb) {
+		this.execute = function (cb, e) {
 			if (_tasks.length) {
 				for (var ai = 0, at = _tasks.length;ai < at;++ai) {
-					_tasks[ai].execute(cb);
+					_tasks[ai].execute(cb, e);
 				}
 			} else {
-				_execute.apply(_activity, [false, cb]);
+				_execute.apply(_activity, [false, cb, e]);
 			}
 		};
 		
@@ -1031,10 +1031,20 @@ PremiumBar = function (activities) {
 			return -(ai < bi) || +(ai != bi);	// ASC
 		}),
 		addClickEvent = function (d) {
-			xpath("id('" + d.id + "')/a")[0].addEventListener("click", function (e) {
-				e.preventDefault();
-				_activities[d.id].execute(function () {
-				});
+			// http://stackoverflow.com/a/31080629
+			var node = xpath("id('" + d.id + "')/a")[0],
+			moved; 
+			node.addEventListener("mousemove", function handler (e) {
+				moved = [e.pageX, e.pageY];
+				node.removeEventListener("mousemove", handler);
+			}, false);
+			node.addEventListener("mouseup", function (e) {
+				if (!moved || e.pageX == moved[0] && e.pageY == moved[1]) {
+					moved = undefined;
+					e.preventDefault();
+					_activities[d.id].execute(function () {
+					}, e);
+				}
 			}, false);
 		};
 
