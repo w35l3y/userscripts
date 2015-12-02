@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.4.4
+// @version     1.4.5
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -92,7 +92,7 @@ var Cron = function (id, current) {
 			hourly	: "*#0 *#0 * * * * *"			// "0 0 * * * * *",
 		},
 		_listeners = [],
-		_execute = function (mode, cb) {
+		_execute = function (mode, cb, e) {
 			window.addEventListener("beforeunload", unLoad, false);
 
 			var _this = this,
@@ -111,7 +111,7 @@ var Cron = function (id, current) {
 
 			if (this.ready(c)) {
 				console.log("2 READY", obj.id, c);
-				if (obj.command.apply(obj, [mode, pUpdate])) {
+				if (obj.command.apply(obj, [mode, pUpdate, e])) {
 					pUpdate(true);
 				} else {
 					_debug("No synchronous response (possibly asynchronous)");
@@ -274,15 +274,15 @@ var Cron = function (id, current) {
 				console.debug("2 DELAY", obj.id, c);
 				cb(this);
 			} else {
-				_execute.apply(this, [true, cb]);
+				_execute.apply(this, [true, cb, {}]);
 			}
 
 			return this;
 		},
 
 		
-		this.execute = function (cb) {
-			_execute.apply(this, [false, cb]);
+		this.execute = function (cb, e) {
+			_execute.apply(this, [false, cb, e]);
 		};
 
 		this.next = function () {
