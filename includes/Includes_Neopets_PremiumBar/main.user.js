@@ -1033,14 +1033,17 @@ PremiumBar = function (activities) {
 		addClickEvent = function (d) {
 			// http://stackoverflow.com/a/31080629
 			var node = xpath("id('" + d.id + "')/a")[0],
-			moved; 
-			node.addEventListener("mousemove", function handler (e) {
-				moved = [e.pageX, e.pageY];
-				node.removeEventListener("mousemove", handler);
+			moved;
+			node.addEventListener("click", function (e) {
+				e.preventDefault();
+			}, false);
+			node.addEventListener("mousedown", function (e) {
+				if (1 == e.which) {
+					moved = [e.pageX, e.pageY];
+				}
 			}, false);
 			node.addEventListener("mouseup", function (e) {
-				if (!moved || e.pageX == moved[0] && e.pageY == moved[1]) {
-					moved = undefined;
+				if (1 == e.which && moved[0] == e.pageX && moved[1] == e.pageY) {
 					e.preventDefault();
 					_activities[d.id].execute(function () {
 					}, e);
