@@ -19,21 +19,21 @@
 // @grant          GM_xmlhttpRequest
 // @grant          GM_getResourceText
 // @icon           http://gm.wesley.eti.br/icon.php?desc=28760
-// @resource       includes http://pastebin.com/download.php?i=eArANXdm
-// @resource       random_events http://pastebin.com/download.php?i=839tCaQh
-// @resource       randomEventsHtml http://pastebin.com/download.php?i=nPMWZeHY
+// @resource       includes http://pastebin.com/raw/eArANXdm
+// @resource       random_events http://pastebin.com/raw/839tCaQh
+// @resource       randomEventsHtml http://pastebin.com/raw/nPMWZeHY
 // @resource       meta https://github.com/w35l3y/userscripts/raw/master/scripts/Neopets_Cliffhanger/28760.user.js
-// @resource       i18n http://pastebin.com/download.php?i=ULrVTsSg
-// @resource       updaterWindowHtml http://pastebin.com/download.php?i=3gr9tRAT
-// @resource       updaterWindowCss http://pastebin.com/download.php?i=C1qAvAed
-// @require        ../../includes/Includes_XPath/63808.user.js
-// @require        ../../includes/Includes_HttpRequest/56489.user.js
-// @require        ../../includes/Includes_Translate/85618.user.js
-// @require        ../../includes/Includes_I18n/87940.user.js
-// @require        ../../includes/Includes_Updater/87942.user.js
-// @require        ../../includes/Includes_Persist_%5BBETA%5D/154322.user.js
-// @require        ../../includes/Includes_Neopets_Random_Events/154363.user.js
-// @require        http://pastebin.com/download.php?i=P6VTBRRK
+// @resource       i18n http://pastebin.com/raw/ULrVTsSg
+// @resource       updaterWindowHtml http://pastebin.com/raw/3gr9tRAT
+// @resource       updaterWindowCss http://pastebin.com/raw/C1qAvAed
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_HttpRequest/56489.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Translate/85618.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_I18n/87940.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Updater/87942.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Persist_%5BBETA%5D/154322.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Neopets_Random_Events/154363.user.js
+// @require        http://pastebin.com/raw/P6VTBRRK
 // @contributor    cnwcentral (http://www.cnwcentral.com/neopets/cliffhanger.shtml)
 // @cfu:version    version
 // @history        5.0.0 Added <a href="http://userscripts.org/guides/773">Includes Checker</a>
@@ -69,11 +69,14 @@
 	get_answers = function (obj) {
 		if (obj.source.length) {
 			var s = obj.source.shift();
+            
+            console.log(s[0]);
 
 			HttpRequest.open({
 				method		: "get",
 				url			: s[0],
 				onsuccess	: function (xhr) {
+    				console.log(s[1]);
 					var answers = xpath(s[1], xhr.response.xml).map(function (v) {
 						return v.textContent.replace(/^\s+|\s+$/g, "");
 					});
@@ -203,7 +206,7 @@
 	}({
 		referer : location.href,
 		source	: [
-			["http://www.cnwcentral.com/neopets/cliffhanger.shtml", "id('main')/ul/li/text()"],
+			["http://www.cnwcentral.com/neopets/neopets-cliffhanger-answers/", "id('content')/article/div/ul/li/text()"],
 		],
 	}));
 }());
