@@ -1,0 +1,215 @@
+#gr-innernav-search form button { background-image:url('http://images.neopets.com/games/pages/buttons/sml-bg.png'); }
+.innernav-world .icon 			{ background-image:url("http://images.neopets.com/games/pages/nav/ctp-icons.png"); }
+.innernav-world .name 			{ background-image:url("http://images.neopets.com/games/pages/nav/ctp-worlds-names.png"); }
+.nav-dd .left, .nav-dd .right, 
+.nav-dd .ftr, .nav-dd .ftr-right 
+								{ background-image:url('http://images.neopets.com/games/pages/nav/ctp-dropdown-bg.png'); }
+.innernav-cats .icon 			{ background-image:url("http://images.neopets.com/games/pages/nav/ctp-icons.png"); }
+.innernav-cats .name 			{ background-image:url("http://images.neopets.com/games/pages/nav/ctp-categories-names.png"); }
+#gr-header .boards 				{ background:url('http://images.neopets.com/games/pages/buttons/board.png') no-repeat 0px 0px; }
+#gr-header .faq 				{ background:url('http://images.neopets.com/games/pages/buttons/help.png') no-repeat 0px 0px; }
+.gr-innernav-cont 				{ background-image:url('http://images.neopets.com/games/pages/nav/ctp-sides.png'); }
+.gr-innernav-inner 				{ background-image:url('http://images.neopets.com/games/pages/nav/ctp-bg.png'); }
+
+#gr-innernav-all 				{ background-image:url('http://images.neopets.com/games/pages/nav/ctp-all-games-bg.png'); }
+#gr-innernav-all .label 		{ background-image:url('http://images.neopets.com/games/pages/nav/ctp-all-games.png'); }
+#gr-innernav-categories 		{ background-image:url('http://images.neopets.com/games/pages/nav/ctp-categories-bg.png'); }
+#gr-innernav-categories .label 	{ background-image:url('http://images.neopets.com/games/pages/nav/ctp-categories.png'); }
+#gr-innernav-worlds 			{ background-image:url('http://images.neopets.com/games/pages/nav/ctp-worlds-bg.png'); }
+#gr-innernav-worlds .label 		{ background-image:url('http://images.neopets.com/games/pages/nav/ctp-worlds.png'); }
+#gr-innernav-popular 			{ background-image:url('http://images.neopets.com/games/pages/nav/ctp-popular-bg.png'); }
+#gr-innernav-popular .label 	{ background-image:url('http://images.neopets.com/games/pages/nav/ctp-popular.png'); }
+#gr-innernav-featured 			{ background-image:url('http://images.neopets.com/games/pages/nav/ctp-featured-game-bg.png'); }
+#gr-innernav-featured .label 	{ background-image:url('http://images.neopets.com/games/pages/nav/ctp-featured-game.png'); }
+#gr-innernav-random 			{ background-image:url('http://images.neopets.com/games/pages/nav/ctp-random-game-bg.png'); }
+#gr-innernav-random .label 		{ background-image:url('http://images.neopets.com/games/pages/nav/ctp-random-game.png'); }
+#gr-innernav-search 			{ background-image:url('http://images.neopets.com/games/pages/nav/ctp-search-bg.png'); }
+
+#gr-showcase .header .title { background:url('http://images.neopets.com/games/pages/headers/showcase-games.png') no-repeat; height:37px; width:200px; text-indent:-4000px; }
+#gr-categories .header .title { background:url('http://images.neopets.com/games/pages/headers/categories.png') no-repeat; height:37px; width:175px; text-indent:-4000px; }
+#gr-hiscores .header .title { background:url('http://images.neopets.com/games/pages/headers/high-scores.png') no-repeat; height:37px; width:175px; text-indent:-4000px; }
+#gr-favorites .header .title { background:url('http://images.neopets.com/games/pages/headers/favourites.png') no-repeat; height:32px; width:175px; text-indent:-4000px; }
+#gr-content .title-count {  background-image:url('http://images.neopets.com/games/pages/headers/numbers.png'); background-repeat:no-repeat; }
+#gr-premium-featured .header .title, #gr-category-list #gr-category-ad .ctp-premium-featured .title { background:url('http://images.neopets.com/games/pages/headers/premium-featured-game.png') no-repeat; height:32px; width:275px; text-indent:-4000px; }
+
+.sml-button { background:url('http://images.neopets.com/games/pages/buttons/sml-bg.png') no-repeat 0px 0px; border:0px none; outline:0px none; }
+#gr-header .boards { background:url('http://images.neopets.com/games/pages/buttons/board.png') no-repeat 0px 0px; }
+#gr-header .faq { background:url('http://images.neopets.com/games/pages/buttons/help.png') no-repeat 0px 0px; }
+
+.container { background:url('http://images.neopets.com/games/pages/frame-hdr.png') no-repeat -55px 0px; }
+.left { background:url('http://images.neopets.com/games/pages/frame-hdr.png') no-repeat -10px 0px; }
+.right { background:url('http://images.neopets.com/games/pages/frame-hdr.png') no-repeat -49px 0px; }
+.footer-left { background:url('http://images.neopets.com/games/pages/frame-ftr.png') no-repeat -10px 0px; }
+.footer-right { background:url('http://images.neopets.com/games/pages/frame-ftr.png') no-repeat -77px 0px; }
+
+#gr-main .pager a.buttons.prev div { background:url('http://images.neopets.com/games/pages/buttons/showcase.png') no-repeat 0px 0px; }
+#gr-main .pager a.buttons.next div { background:url('http://images.neopets.com/games/pages/buttons/showcase.png') no-repeat 0px 0px; }
+
+#gr-showcase .previous_next_button { background-image:url('http://images.neopets.com/games/pages/buttons/showcase.png'); }
+#gr-showcase .numbered_button { background-image:url('http://images.neopets.com/games/pages/buttons/showcase.png'); }
+
+#gr-hiscores .hiscore-top { background:url('http://images.neopets.com/games/pages/hiscore-hdr.png') no-repeat; } 
+#gr-hiscores .hiscore-footer { background:url('http://images.neopets.com/games/pages/hiscore-ftr.png') no-repeat; }
+
+#gr-content .ctp-large, #gr-content .ctp-large-event { background:url('http://images.neopets.com/games/pages/icons/lrg.png') no-repeat 0px 0px; }
+#gr-content .ctp-med { background:url('http://images.neopets.com/games/pages/icons/med.png') no-repeat 0px 0px; }
+#gr-content .ctp-large-featured { background:url('http://images.neopets.com/games/pages/icons/fg.png') no-repeat 0px 0px; }
+#gr-premium-featured .ctp-premium-featured, #gr-category-list-main .ctp-premium-featured { background:url('http://images.neopets.com/games/pages/icons/pfg.png') no-repeat 0px 0px; }
+#gr-categories .ctp-med { background:url('http://images.neopets.com/games/pages/icons/med.png') no-repeat 0px 0px; }
+
+#gr-content-featured-main .burst.featuredgame { background:url('http://images.neopets.com/games/pages/icons/badges/featured-game.png') no-repeat 0px 0px; }
+#gr-premium-featured .burst.featuredgame, #gr-category-list #gr-category-ad .burst, .burst.medpremiumfeaturedgame { background:url('http://images.neopets.com/games/pages/icons/badges/sml-premium-featured-game.png') no-repeat 0px 0px; }
+.burst.medpremiumfeaturedgame { background:url('http://images.neopets.com/games/pages/icons/badges/favourite-premium-featured-game.png') no-repeat 0px 0px; }
+#gr-categories .featuredgame { background:url('http://images.neopets.com/games/pages/icons/badges/favourite-featured-game.png') no-repeat 0px 0px; }
+
+#comastar { background-image:url('http://images.neopets.com/games/pages/icons/staff/comastar-bg.png'); }
+#dragona { background-image:url('http://images.neopets.com/games/pages/icons/staff/dragona-bg.png'); }
+#jimmyjames { background-image:url('http://images.neopets.com/games/pages/icons/staff/jimmyjames-bg.png'); }
+#lawyerbot { background-image:url('http://images.neopets.com/games/pages/icons/staff/lawyerbot-bg.png'); }
+#snarkie { background-image:url('http://images.neopets.com/games/pages/icons/staff/snarkie-bg.png'); }
+#viola { background-image:url('http://images.neopets.com/games/pages/icons/staff/viola-bg.png'); }
+
+#gr-categories .slide_number_1 {	background:url('http://images.neopets.com/games/pages/nav/action-bg.png') no-repeat; }
+#gr-categories .slide_number_2 {	background:url('http://images.neopets.com/games/pages/nav/adventure-bg.png') no-repeat; }
+#gr-categories .slide_number_3 { 	background:url('http://images.neopets.com/games/pages/nav/card-board-bg.png') no-repeat; }
+#gr-categories .slide_number_4 { 	background:url('http://images.neopets.com/games/pages/nav/luck-chance-bg.png') no-repeat; }
+#gr-categories .slide_number_5 { 	background:url('http://images.neopets.com/games/pages/nav/ncmall-bg.png') no-repeat; }
+#gr-categories .slide_number_6 { 	background:url('http://images.neopets.com/games/pages/nav/puzzles-bg.png') no-repeat; }
+#gr-categories .slide_number_7 {	background:url('http://images.neopets.com/games/pages/nav/brain-busters-bg.png') no-repeat; }
+#gr-categories .slide_number_8 { 	background:url('http://images.neopets.com/games/pages/nav/worlds-bg.png') no-repeat; }
+#gr-categories .slide_number_9 { 	background:url('http://images.neopets.com/games/pages/nav/all-games-bg.png') no-repeat; }
+
+#gr-categories .slide_number_1 .content_button_inner { 	background-image:url('http://images.neopets.com/games/pages/nav/action-icon.png'); }
+#gr-categories .slide_number_2 .content_button_inner {	background-image:url('http://images.neopets.com/games/pages/nav/adventure-icon.png'); }
+#gr-categories .slide_number_3 .content_button_inner {	background-image:url('http://images.neopets.com/games/pages/nav/card-board-icon.png'); }
+#gr-categories .slide_number_4 .content_button_inner {	background-image:url('http://images.neopets.com/games/pages/nav/luck-chance-icon.png'); }
+#gr-categories .slide_number_5 .content_button_inner { 	background-image:url('http://images.neopets.com/games/pages/nav/ncmall-icon.png'); }
+#gr-categories .slide_number_6 .content_button_inner { 	background-image:url('http://images.neopets.com/games/pages/nav/puzzles-icon.png'); }
+#gr-categories .slide_number_7 .content_button_inner { 	background-image:url('http://images.neopets.com/games/pages/nav/brain-busters-icon.png'); }
+#gr-categories .slide_number_8 .content_button_inner { 	background-image:url('http://images.neopets.com/games/pages/nav/worlds-icon.png'); }
+#gr-categories .slide_number_9 .content_button_inner {	background-image:url('http://images.neopets.com/games/pages/nav/all-games-icon.png'); }
+
+#gr-category-nav-action { 		background:url('http://images.neopets.com/games/pages/nav/action.png') no-repeat; }
+#gr-category-nav-adventure {	background:url('http://images.neopets.com/games/pages/nav/adventure.png') no-repeat; }
+#gr-category-nav-strategy { 	background:url('http://images.neopets.com/games/pages/nav/strategy.png') no-repeat; }
+#gr-category-nav-cardboard {	background:url('http://images.neopets.com/games/pages/nav/card-board.png') no-repeat; }
+#gr-category-nav-luck { 		background:url('http://images.neopets.com/games/pages/nav/luck-chance.png') no-repeat; }
+#gr-category-nav-mall {			background:url('http://images.neopets.com/games/pages/nav/ncmall.png') no-repeat; }
+#gr-category-nav-puzzles {	 	background:url('http://images.neopets.com/games/pages/nav/puzzles.png') no-repeat; }
+#gr-category-nav-sponsors {	 	background:url('http://images.neopets.com/games/pages/nav/sponsors.png') no-repeat; }
+#gr-category-nav-worlds {	 	background:url('http://images.neopets.com/games/pages/nav/worlds.png') no-repeat; }
+#gr-category-nav-all {			background:url('http://images.neopets.com/games/pages/nav/all-games.png') no-repeat; }
+
+#gr-content .content_button { background:url('http://images.neopets.com/games/pages/frame-hdr-loops.png') no-repeat 0px -30px; }
+#gr-content .content_button_inner { background:url('http://images.neopets.com/games/pages/nav/games-room-bg.png') no-repeat 0px 0px; }
+
+#gr-content .content_button_1 .content-nav { background:url('http://images.neopets.com/games/pages/nav/new-now.png') no-repeat 0px 0px; }
+#gr-content .content_button_2 .content-nav { background:url('http://images.neopets.com/games/pages/nav/popular.png') no-repeat 0px 0px; }
+#gr-content .content_button_3 .content-nav { background:url('http://images.neopets.com/games/pages/nav/featured-game.png') no-repeat 0px 0px; }
+#gr-content .content_button_4 .content-nav { background:url('http://images.neopets.com/games/pages/nav/staff-picks.png') no-repeat 0px 0px; }
+
+#gr-top-search { background-image:url('http://images.neopets.com/games/pages/nav/search.png'); }
+#gr-content-search button { background-image:url('http://images.neopets.com/games/pages/buttons/sml-bg.png'); }
+
+.staff-count { background-image:url('http://images.neopets.com/games/pages/headers/numbers.png'); }
+.ctp-large-featured .ctp { background-image:url('http://images.neopets.com/games/pages/buttons/med-bg.png'); }
+#gr-categories-nav { background-image:url('http://images.neopets.com/games/pages/nav/category-sides.png'); }
+
+.world-cont { background-image:url('http://images.neopets.com/games/pages/icons/world/bg.png'); }
+
+#gr-main .pager a.buttons.prev div { background:url('http://images.neopets.com/games/pages/buttons/showcase.png') no-repeat 0px 0px; }
+#gr-main .pager a.buttons.next div { background:url('http://images.neopets.com/games/pages/buttons/showcase.png') no-repeat 0px 0px; }
+
+.ctp-med { background:url('http://images.neopets.com/games/pages/icons/med.png') no-repeat 0px 0px; }
+
+.gr-group-header { background-image:url('http://images.neopets.com/games/pages/headers/alphabetical-bg.png'); }
+.gr-group-header h2 { background-image:url('http://images.neopets.com/games/pages/headers/alphabetical.png'); }
+
+#gr-category-list-main .container { background:url('http://images.neopets.com/games/pages/frame-hdr.png') no-repeat -55px 0px; }
+#gr-category-list-main .left { background:url('http://images.neopets.com/games/pages/frame-hdr.png') no-repeat -10px 0px; }
+#gr-category-list-main .right { background:url('http://images.neopets.com/games/pages/frame-hdr.png') no-repeat -49px 0px; }
+#gr-category-list-main .footer-left { background:url('http://images.neopets.com/games/pages/frame-ftr.png') no-repeat -10px 0px; }
+#gr-category-list-main .footer-right { background:url('http://images.neopets.com/games/pages/frame-ftr.png') no-repeat -77px 0px; }
+
+#gr-category-list-main .game-nav { background-image:url('http://images.neopets.com/games/pages/nav/games-room-bg.png'); }
+#gr-category-list-main .scallop { background:url('http://images.neopets.com/games/pages/frame-hdr-loops.png') no-repeat 0px 0px; }
+
+#gr-category-list-pagination a { background-image:url('http://images.neopets.com/games/pages/buttons/showcase.png'); }
+#gr-category-list-pagination div.inactive { background-image:url('http://images.neopets.com/games/pages/buttons/showcase.png'); }
+#gr-category-list .navigation ul li { background-image:url('http://images.neopets.com/games/pages/frame-hdr-loops.png'); }
+#gr-cat-nav-name { background-image:url('http://images.neopets.com/games/pages/nav/a-z.png'); } 
+#gr-cat-nav-new { background-image:url('http://images.neopets.com/games/pages/nav/newest.png'); }
+#gr-cat-nav-diff { background-image:url('http://images.neopets.com/games/pages/nav/difficulty.png'); }
+#gr-cat-nav-pop { background-image:url('http://images.neopets.com/games/pages/nav/popularity.png'); }
+#gr-category-list .burst.featuredgame { background:url('http://images.neopets.com/games/pages/icons/badges/favourite-featured-game.png') no-repeat 0px 0px; }
+
+#gr-ctp-gameinfo .header .title { background:url('http://images.neopets.com/games/pages/headers/game-information.png') no-repeat; height:37px; width:200px; text-indent:-4000px; }
+#gr-ctp-hiscores .header .title { background:url('http://images.neopets.com/games/pages/headers/high-scores.png') no-repeat; height:37px; width:200px; text-indent:-4000px; }
+#gr-ctp-recomendations .header .title { background:url('http://images.neopets.com/games/pages/headers/you-may-also-like.png') no-repeat; height:37px; width:300px; text-indent:-4000px; }
+#gr-ctp-premium-featured .header .title { background:url('http://images.neopets.com/games/pages/headers/premium-featured-game.png') no-repeat; height:37px; width:275px; text-indent:-4000px; }
+
+
+#gr-ctp-hiscore-friend { background:url('http://images.neopets.com/games/pages/buttons/friend-challenge.png'); }
+#gr-ctp-hiscore-world { background:url('http://images.neopets.com/games/pages/buttons/world-challenge.png'); }
+#gr-ctp-hiscore-scores { background:url('http://images.neopets.com/games/pages/buttons/high-scores.png'); }
+#gr-ctp-main .burst { background:url('http://images.neopets.com/games/pages/icons/badges/featured-game.png') no-repeat 0px 0px; }
+#gr-ctp-main .burst-premium-featured-game { background:url('http://images.neopets.com/games/pages/icons/badges/premium-featured-game.png') no-repeat 0px 0px; cursor: pointer; }
+#gr-ctp-main .burst-betatest-game { background:url('http://images.neopets.com/games/pages/icons/badges/premium-beta-testing.png') no-repeat; }
+#gr-ctp-main .play-btn { background:url('http://images.neopets.com/games/pages/buttons/ctp-bg.png') no-repeat -3px -2px; }
+#gr-ctp-main .play-text { background:url('http://images.neopets.com/games/pages/buttons/click-to-play.png') no-repeat 0px -4px; }
+#gr-ctp-premium-featured .burst { background:url('http://images.neopets.com/games/pages/icons/badges/sml-premium-featured-game.png') no-repeat 0px 0px; }
+#gr-ctp-main .burst-daily-dare { background:url('http://images.neopets.com/games/aaa/dailydare/2012/ctp/daily-dare.png') no-repeat; cursor: pointer; }
+#gr-ctp-main .burst-daily-dare:hover { background-position: 0 -144px; }
+#gr-ctp-main .burst-gmc2012-qfg { background:url('http://images.neopets.com/games/gmc/2012/games/gmc_pirate_vs_ninja.png') no-repeat; }
+#gr-ctp-settings-btn { background:url('http://images.neopets.com/games/pages/buttons/settings.png') no-repeat 0px 0px; }
+
+#gr-ctp-medal { background-image:url('http://images.neopets.com/games/pages/icons/medals.png'); }
+#gr-ctp-fav-game { background-image:url('http://images.neopets.com/games/pages/buttons/favourite.png'); }
+#gr-ctp-main .header .navigation ul li { background-image:url('http://images.neopets.com/games/pages/frame-ctp-hdr-loops.png'); }
+#gr-ctp-difficulty-img { background-image:url('http://images.neopets.com/games/pages/icons/difficulty.png'); }
+#gr-ctp-neopoints-img { background-image:url('http://images.neopets.com/games/pages/icons/np.png'); }
+#gr-ctp .game-nav { background-image:url('http://images.neopets.com/games/pages/icons/category.png'); }
+#ctp-game-size-demo { background-image:url('http://images.neopets.com/games/pages/popups/settings/size.png'); }
+#ctp-game-quality-demo { background-image:url('http://images.neopets.com/games/pages/popups/settings/quality.png'); }
+#ctp-settings-save { background-image:url('http://images.neopets.com/games/pages/popups/buttons/bg.png'); }
+#ctp-diff-save { background-image:url('http://images.neopets.com/games/pages/popups/buttons/bg.png'); }
+#ctp-close-button { background-image:url('http://images.neopets.com/games/pages/popups/buttons/bg.png'); }
+
+#ctp-title-npratio { background-image:url('http://images.neopets.com/games/pages/popups/headers/np-ratio.png'); }
+#ctp-title-difficulty { background-image:url('http://images.neopets.com/games/pages/popups/headers/difficulty.png'); }
+#ctp-title-awards { background-image:url('http://images.neopets.com/games/pages/popups/headers/award-ribbons.png'); }
+#ctp-title-settings { background-image:url('http://images.neopets.com/games/pages/popups/headers/settings.png'); }
+#ctp-title-feedback { background-image:url('http://images.neopets.com/games/pages/popups/headers/send-feedback.png'); }
+#ctp-title-feedback-response { background-image:url('http://images.neopets.com/games/pages/popups/headers/thanks.png'); }
+.award-ribbon { background-image:url('http://images.neopets.com/games/pages/popups/medals/medals.png'); }
+
+#gr-hiscores-list-main .container { background:url('http://images.neopets.com/games/pages/frame-hdr.png') no-repeat -55px 0px; }
+#gr-hiscores-list-main .left { background:url('http://images.neopets.com/games/pages/frame-hdr.png') no-repeat -10px 0px; }
+#gr-hiscores-list-main .right { background:url('http://images.neopets.com/games/pages/frame-hdr.png') no-repeat -49px 0px; }
+#gr-hiscores-list-main .footer-left { background:url('http://images.neopets.com/games/pages/frame-ftr.png') no-repeat -10px 0px; }
+#gr-hiscores-list-main .footer-right { background:url('http://images.neopets.com/games/pages/frame-ftr.png') no-repeat -77px 0px; }
+
+#gr-hiscores-list-main .hiscorecount { background-image:url('http://images.neopets.com/games/pages/hiscore/numbers.png'); }
+#gold .trophy-box-inner 	{ background-image:url('http://images.neopets.com/games/pages/hiscore/gold-hdr-bg.png'); }
+#gold .trophy-box-ftr 		{ background-image:url('http://images.neopets.com/games/pages/hiscore/gold-ftr-bg.png'); }
+#silver .trophy-box-inner 	{ background-image:url('http://images.neopets.com/games/pages/hiscore/silver-hdr-bg.png'); }
+#silver .trophy-box-ftr 	{ background-image:url('http://images.neopets.com/games/pages/hiscore/silver-ftr-bg.png'); }
+#bronze .trophy-box-inner 	{ background-image:url('http://images.neopets.com/games/pages/hiscore/bronze-hdr-bg.png'); }
+#bronze .trophy-box-ftr 	{ background-image:url('http://images.neopets.com/games/pages/hiscore/bronze-ftr-bg.png'); }
+
+#gr-hiscores-list-main .everybodyelse-box 		{ background-image:url('http://images.neopets.com/games/pages/hiscore/table-bg-mid.png'); }
+#gr-hiscores-list-main .everybodyelse-box-top 	{ background-image:url('http://images.neopets.com/games/pages/hiscore/table-bg.png'); }
+#gr-hiscores-list-main .everybodyelse-box-ftr 	{ background-image:url('http://images.neopets.com/games/pages/hiscore/table-bg.png'); }
+
+.gr-ctp-small-burst { background: url('http://images.neopets.com/games/pages/icons/badges/favourite-premium-beta-testing.png') no-repeat; }
+#cboxPrevious 		{ background:url('http://images.neopets.com/games/pages/popups/buttons/arrows.png') 0px 0px no-repeat; }
+#cboxNext 			{ background:url('http://images.neopets.com/games/pages/popups/buttons/arrows.png') -54px 0px no-repeat; } 
+#cboxClose 			{ background:url('http://images.neopets.com/games/pages/popups/buttons/close-x.png') -2px -5px no-repeat; }
+#cboxTopLeft 		{ background:url('http://images.neopets.com/games/pages/popups/frame.png') -24px -5px no-repeat; }
+#cboxTopRight 		{ background:url('http://images.neopets.com/games/pages/popups/frame.png') -990px -4px no-repeat; }
+#cboxBottomLeft 	{ background:url('http://images.neopets.com/games/pages/popups/frame.png') -24px -17px no-repeat; }
+#cboxBottomRight 	{ background:url('http://images.neopets.com/games/pages/popups/frame.png') -992px -17px no-repeat; }
+#cboxMiddleLeft 	{ background:url('http://images.neopets.com/games/pages/popups/frame.png') -14px -4px; }
+#cboxMiddleRight 	{ background:url('http://images.neopets.com/games/pages/popups/frame.png') -1px -4px; }
+#cboxTopCenter 		{ background:url('http://images.neopets.com/games/pages/popups/frame.png') -35px -4px no-repeat; }
+#cboxBottomCenter 	{ background:url('http://images.neopets.com/games/pages/popups/frame.png') -35px -17px no-repeat; }

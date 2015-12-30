@@ -7,7 +7,7 @@
 // @copyright      2012+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        3.0.1
+// @version        3.0.2
 // @language       en
 // @include        http://www.neopets.com/games/*#gmc
 // @include        http://www.neopets.com/games/game.phtml?game_id=*
@@ -20,19 +20,17 @@
 // @grant          GM_deleteValue
 // @grant          GM_xmlhttpRequest
 // @grant          GM_getResourceText
-// @resource       includes http://pastebin.com/download.php?i=eArANXdm
 // @resource       meta https://github.com/w35l3y/userscripts/raw/master/scripts/Neopets_Avatars_Flash_Games_%5BBETA%5D/127882.user.js
-// @resource       i18n http://pastebin.com/download.php?i=ULrVTsSg
-// @resource       updaterWindowHtml ../../resources/html/updaterWindowHtml
-// @resource       updaterWindowCss http://pastebin.com/download.php?i=C1qAvAed
+// @resource       i18n ../../includes/Includes_I18n/resources/default.json
+// @resource       updaterWindowHtml ../../includes/Includes_Updater/resources/default.html
+// @resource       updaterWindowCss ../../includes/Includes_Updater/resources/default.css
 // @resource       css_colorbox http://www.neopets.com/games/css/colorbox.css?v=1
-// @resource       avatarPopupHtml http://pastebin.com/download.php?i=RG4TiCqD
-// @resource       avatarPopupCss http://pastebin.com/download.php?i=LHt0DtZG
-// @resource       avatarPopup2Css http://pastebin.com/download.php?i=CYb7aJHK
-// @resource       gamesSettingsCss http://pastebin.com/download.php?i=wPx0uaEY
+// @resource       avatarPopupHtml resources/default.html
+// @resource       avatarPopupCss resources/default.css
+// @resource       avatarPopup2Css resources/default1.css
+// @resource       gamesSettingsCss resources/default2.css
 // @resource       css_gamesroom http://www.neopets.com/games/css/gamesroom_redux.css?v=2
-// @require        http://pastebin.com/download.php?i=sin7DHJi
-// @require        http://pastebin.com/download.php?i=BjjHSA30
+// @require        http://www.onicos.com/staff/iz/amuse/javascript/expert/md5.txt
 // @require        ../../includes/Includes_XPath/63808.user.js
 // @require        ../../includes/Includes_HttpRequest/56489.user.js
 // @require        ../../includes/Includes_ShowMyCode/69584.user.js
@@ -43,7 +41,6 @@
 // @require        ../../includes/Includes_Neopets_FlashGame/127696.user.js
 // @require        http://images.neopets.com/js/jquery-1.7.1.min.js?v=1
 // @require        http://images.neopets.com/js/jquery.colorbox.min.js?v=1
-// @require        http://pastebin.com/download.php?i=P6VTBRRK
 // @history        3.0.0 Fixed some bugs
 // @history        2.0.0.0 Updated @require#87942
 // @history        1.0.2.1 Added game #1347

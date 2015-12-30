@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.0.1
+// @version     1.1.0
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -37,33 +37,43 @@
 **************************************************************************/
 
 var Bank = function (page) {
-    var _post = function (data, cb) {
-        page.request({
-            method	: "post",
-            action	: "http://www.neopets.com/process_bank.phtml",
-            referer	: "http://www.neopets.com/bank.phtml",
-            data	: data,
-            delay	: true,
-            callback: cb
-        });
-    },
-    _get = function (cb) {
-        page.request({
-            method	: "get",
-            action	: "http://www.neopets.com/bank.phtml",
-            data	: {},
-            delay	: true,
-            callback: cb
-        });
-    };
+	var _post = function (data, cb) {
+		page.request({
+			method	: "post",
+			action	: "http://www.neopets.com/process_bank.phtml",
+			referer	: "http://www.neopets.com/bank.phtml",
+			data	: data,
+			delay	: true,
+			callback: function (xhr) {
+				var _n = function (v) {
+					return parseInt(xpath("string(" + v + ")", xhr.body).replace(/\D+/g, ""), 10);
+				};
 
-    this.withdraw = function (obj) {
-        _post({
-            type	: "withdraw",
-            amount	: obj.value,
-            pin		: page.pin
-        }, obj.callback);
-    };
+				Object.defineProperties(xhr, {
+					response	: {
+						get	: function () {
+							return {
+								type		: _n(".//option[starts-with(text(), //td[@class = 'content']//td//td[starts-with(@style, 'background-color:')]/text())]/@value"),
+								balance		: _n(".//td[@class = 'content']/div/table//td//tr[2]/td[2]/text()"),
+								daily		: _n(".//td[@class = 'content']//div/table/tbody/tr[2]/td/b/text()"),
+								is_collected: !xpath("boolean(.//td[@class = 'content']//input[@value = 'interest'])", xhr.body),
+							};
+						}
+					}
+				});
+
+				cb(xhr);
+			}
+		});
+	};
+
+	this.withdraw = function (obj) {
+		_post({
+			type	: "withdraw",
+			amount	: obj.value,
+			pin		: page.pin
+		}, obj.callback);
+	};
 
     this.deposit = function (obj) {
         _post({
@@ -72,7 +82,9 @@ var Bank = function (page) {
         }, obj.callback);
     };
     
-    this.interest = function (obj) {
-        _post({ type : "interest" },obj.callback);
-    };
+    this.collect = function (obj) {
+        _post({
+			type	: "interest"
+		}, obj.callback);
+	};
 };

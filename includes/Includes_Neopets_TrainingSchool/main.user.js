@@ -118,9 +118,7 @@ var TrainingSchool = function (page, pet) {
 		}
 	}][(250 < pet.stats.level?2:(40 >= pet.stats.level?0:1))],
 	_post = function (data, cb) {
-		if(!data.pet_name){
-			data.pet_name = pet.name;
-		}
+		data.pet_name = pet.name;
 		page.request({
 			method	: "post",
 			action	: mode.action,
@@ -131,9 +129,7 @@ var TrainingSchool = function (page, pet) {
 		});
 	},
 	_get = function (data, cb) {
-		if(!data.pet_name){
-			data.pet_name = pet.name;
-		}
+		data.pet_name = pet.name;
 		page.request({
 			method	: "get",
 			action	: mode.referer,
@@ -191,8 +187,7 @@ var TrainingSchool = function (page, pet) {
 	};
 
 	this.start = function (obj) {
-		var petName = obj.pet_name || pet.name,
-		courseType = obj.course_type || (function (stats) {
+		var courseType = obj.course_type || (function (stats) {
 			// Endurance must be first
 			// Agility must be last
 			var s = ["Endurance", "Strength", "Defence", "Agility"];
@@ -224,50 +219,37 @@ var TrainingSchool = function (page, pet) {
 
 		_post({
 			type		: "start",
-			course_type	: courseType,
-			pet_name	: petName
+			course_type	: courseType
 		}, function (o) {
 			parse(o, obj.callback);
 		})
 	};
 
 	this.pay = function (obj) {
-		var petName = obj.pet_name || pet.name;
-				
 		_post({
-			type		: "pay",
-			pet_name	: petName
+			type		: "pay"
 		}, function (o) {
 			parse(o, obj.callback);
 		});
 	};
 	
 	this.cancel = function (obj) {
-		var petName = obj.pet_name || pet.name;
-
 		_post({
-			type		: "cancel",
-			pet_name	: petName
+			type		: "cancel"
 		}, function (o) {
 			parse(o, obj.callback);
 		});
 	};
 
 	this.complete = function (obj) {
-		var petName = obj.pet_name || pet.name;
-
 		_post({
-			type		: "complete",
-			pet_name	: petName
+			type		: "complete"
 		}, obj.callback);
 	};
 
 	this.status = function (obj) {
-		var petName = obj.pet_name || pet.name;
-
 		_get({
-			type		: "status",
-			pet_name	: petName
+			type		: "status"
 		}, function (o) {
 			parse(o, obj.callback);
 		});

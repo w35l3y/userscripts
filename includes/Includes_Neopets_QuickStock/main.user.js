@@ -18,8 +18,33 @@
 // @require     https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Neopets_%5BBETA%5D/main.user.js
 // ==/UserScript==
 
-var QuickStock = function(page){
-    var _get = function(cb){
+var QuickStock = function (page) {
+    var _parse = function (xhr, obj) {
+    	Object.defineProperties(xhr, {
+    		response: {
+    			get	: function () {
+					return {
+			    		items	: xpath(".//td[@class = 'content']//tr[.//input[contains(@name, 'radio_arr')]]", xhr.body).map(function (item) {
+			    			var inputs = xpath(".//input[@type = 'radio']", item),
+			    			id = xpath(".//input[starts-with(@name, 'id_arr[')]", item)[0];
+
+			    			return {
+			    				is_nc	: !id,
+			    				obj_id	: id && id.value || /\[(\d+)\]/.test(inputs[0].name) && RegExp.$1 || undefined,
+			    				name	: item.cells[0].textContent.trim(),
+			    				options	: inputs.map(function (radio) {
+			    					return radio.value;
+			    				})
+			    			};
+			    		})
+			    	};
+    			}
+    		}
+    	});
+
+    	obj.callback(xhr);
+    },
+	_get = function (cb) {
 		page.request({
             method   : "get",
             action   : "http://www.neopets.com/quickstock.phtml",
@@ -28,65 +53,66 @@ var QuickStock = function(page){
             callback : cb
         });
     },
-    _post = function(data,cb){
+    _post = function (data, cb) {
         page.request({
            method   : "post",
            action   : "http://www.neopets.com/process_quickstock.phtml",
            referer  : "http://www.neopets.com/quickstock.phtml",
            delay    : true,
            data     : data,
-           callback : cb 
+           callback : cb
         });
+    },
+    _this = this;
+
+    this.list = function (obj) {
+    	_get(function (xhr) {
+    		_parse(xhr, obj);
+    	});
     };
 
-    this.items = function(params){
-        _get(function(obj){
-            var inputs = xpath(".//form[@name='quickstock']/table/tbody/tr//input[@type='hidden']",obj.body);
-            if(inputs.length > 1){
-                var items = inputs.map(function(input){
-                    var options = xpath("../td/input/@value",input).map(function(option){
-                        return xpath("string(.)",option);
-                    });
-                    return {
-                        "value"   : parseInt(xpath("string(@value)",input),10),
-                        "order"   : xpath("string(@name)",input).split("[")[1].replace("]",""),
-                        "item"    : xpath("string(.//preceding-sibling::td/text())",input),
-                        "options" : options
-                    };
-                });
-                params.onsuccess({ "available" : true, "items" : items });
-            }else{
-                params.onsuccess({ "available" : false });
-            }
-        });
-    };
-    
-    this.depositAll = function(params){
-        this.items({
-            "onsuccess" : function(obj){
-                dataTmp = {};
-        
-                if(obj.available){
-                    var items = obj.items;
-                    items.forEach(function(curItem){
-                        dataTmp["id_arr["+curItem.order+"]"] = curItem.value;
-                        dataTmp["radio_arr[" + curItem.order + "]"] = "deposit";
-                    });
-                    
-                    dataTmp.buyitem = 0;
+    this.process = function (obj) {
+    	if (!obj.action) {
+    		throw "obj.action is required";
+    	} else if (!obj.items || !obj.items.length) {
+    		_this.list({
+    			callback	: function (xhr) {
+    				obj.items = xhr.response.items;
 
-                    _post(dataTmp,function(deposit){
-                        if(deposit.error){
-                            alert(deposit.errmsg);
-                        }else{
-                            alert(items.length + " items deposited.");
-                        }
-                    });
+    				if (obj.items.length) {
+        				_this.process(obj);
+    				} else {
+    					_parse(xhr, obj);
+    				}
+    			}
+    		});
+    	} else {
+    		(function recursive (xhr, items) {
+    			if (items.length) {
+    				var data = {},
+    				count = 0,
+    				limitedList = items.slice(0, 70);
 
-                }else{
-                    alert("No items available to deposit");
-                }
-            }
-        });
+    				for (var item of limitedList) {
+    					var action = item.action || obj.action;
+
+    					if (item.is_nc) {
+    						data["cash_radio_arr[" + item.obj_id + "]"] = action;
+    					} else {
+    						data["id_arr[" + (++count) + "]"] = item.obj_id;
+    						data["radio_arr[" + (count) + "]"] = action;
+    					}
+    				}
+
+    				_post(data, function (xhr) {
+                		recursive(xhr, items.slice(70));
+                	});
+    			} else {
+    				_parse(xhr, obj);
+    			}
+    		}({}, obj.items.filter(function (item) {
+    			return (!item.options || item.options.indexOf(obj.action));
+    		})));
+    	}
     };
 };

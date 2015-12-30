@@ -18,18 +18,16 @@
 // @grant          GM_xmlhttpRequest
 // @grant          GM_getResourceText
 // @icon           http://gm.wesley.eti.br/icon.php?desc=76450
-// @resource       includes http://pastebin.com/raw.php?i=eArANXdm
 // @resource       meta https://github.com/w35l3y/userscripts/raw/master/scripts/Neopets_Faerie_Crossword/76450.user.js
-// @resource       i18n http://pastebin.com/raw.php?i=ULrVTsSg
-// @resource       updaterWindowHtml http://pastebin.com/raw.php?i=3gr9tRAT
-// @resource       updaterWindowCss http://pastebin.com/raw.php?i=C1qAvAed
-// @require     https://github.com/w35l3y/userscripts/raw/master/scripts/X/../../includes/Includes_XPath/63808.user.js
-// @require     https://github.com/w35l3y/userscripts/raw/master/scripts/../../../raw/master/includes/Includes_Neopets/63810.user.js
-// @require     https://github.com/w35l3y/userscripts/raw/master/scripts/X/../../includes/Includes_HttpRequest/56489.user.js
-// @require     https://github.com/w35l3y/userscripts/raw/master/scripts/X/../../includes/Includes_Translate/85618.user.js
-// @require     https://github.com/w35l3y/userscripts/raw/master/scripts/../../../raw/master/includes/Includes_I18n/87940.user.js
-// @require     https://github.com/w35l3y/userscripts/raw/master/scripts/../../../raw/master/includes/Includes_Updater/87942.user.js
-// @require        http://pastebin.com/raw.php?i=P6VTBRRK
+// @resource       i18n ../../includes/Includes_I18n/resources/default.json
+// @resource       updaterWindowHtml ../../includes/Includes_Updater/resources/default.html
+// @resource       updaterWindowCss ../../includes/Includes_Updater/resources/default.css
+// @require        ../../includes/Includes_XPath/63808.user.js
+// @require        ../../includes/Includes_Neopets/63810.user.js
+// @require        ../../includes/Includes_HttpRequest/56489.user.js
+// @require        ../../includes/Includes_Translate/85618.user.js
+// @require        ../../includes/Includes_I18n/87940.user.js
+// @require        ../../includes/Includes_Updater/87942.user.js
 // @contributor    cluesandanswers (http://cluesandanswers.blogspot.com/)
 // @contributor    jellyneo (http://www.jellyneo.net/?go=fcrossword)
 // @history        3.0.0 Added <a href="http://userscripts.org/scripts/show/87942">Updater</a>
@@ -70,13 +68,12 @@ if ("/games/crossword/crossword.phtml" == location.pathname) {
 
 		(function recursive (crossword) {
 			var status = GM_getValue("status", 0);
-						
+			
 			if (crossword.length) {
 				var x = crossword.shift(),
-				word = xpath("id('content')//form/input[@name = 'x_word']")[0],
-				element = document.evaluate(".//a[contains(@onclick, '"+x[0].replace(/,/g,", ")+"')]", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null ).singleNodeValue;
+				word = xpath("id('content')//form/input[@name = 'x_word']")[0];
 
-				element.click();
+				xpath(".//a[starts-with(@onclick, '" + x[0].replace(/,/g, ", ") + "')]")[0].click();
 
 				if (x[1] instanceof Array) {
 					var m = JSON.parse(GM_getValue("multiple", "{}"));
@@ -95,7 +92,7 @@ if ("/games/crossword/crossword.phtml" == location.pathname) {
 				
 				window.setTimeout(function() {
 					GM_setValue("crossword", JSON.stringify(crossword));
-					
+
 					word.form.submit();
 				}, 4000 + Math.floor(3000 * Math.random()));
 			} else {
@@ -213,7 +210,7 @@ if ("/games/crossword/crossword.phtml" == location.pathname) {
 					recursive(crossword);
 				}
 			}
-		})(JSON.parse(GM_getValue("crossword","[]")));
+		})(JSON.parse(GM_getValue("crossword", "[]")));
 	}
 } else {
 	GM_deleteValue("status");
