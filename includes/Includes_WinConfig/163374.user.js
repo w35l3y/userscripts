@@ -7,7 +7,7 @@
 // @copyright      2013+, w35l3y (http://gm.wesley.eti.br/includes)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br/includes
-// @version        1.8.8
+// @version        1.8.9
 // @language       en
 // @include        nowhere
 // @exclude        *
@@ -375,6 +375,7 @@ var WinConfig = function (params) {
 		head.appendChild(desc);
 	}
 	
+	this.actions = [];
 	for (var ai in buttons) {
 		var button = buttons[ai],
 		input = document.createElement("input");
@@ -391,6 +392,8 @@ var WinConfig = function (params) {
 		}
 		
 		foot.appendChild(input);
+		button.input = input;
+		this.actions.push(button);
 	}
 
 	this.open = function () {
@@ -616,6 +619,9 @@ var WinConfig = function (params) {
 				ff.setAttribute("name", fld.name);
 				if ("default" in fld) {
 					ff.appendChild(document.createTextNode((WinConfig.FieldFormat.ARRAY & fld.format) && fld.default instanceof Array?fld.default.join("\n"):fld.default));
+				}
+				for (var ci in fld.events) {
+					addEvent(ff, ci, fld.events[ci], fld);
 				}
 
 				field.appendChild(ff);
