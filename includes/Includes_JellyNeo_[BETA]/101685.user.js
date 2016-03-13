@@ -73,6 +73,27 @@ JellyNeo.shops = function (params) {
 
 JellyNeo.ItemDatabase = function () {};
 
+JellyNeo.ItemDatabase.byid = function (params) {
+    if (typeof params.id != "number") {
+		throw "ItemDatabase.byid() : Parameter 'id' is wrong/missing.";
+	}else{
+    	var data = {
+    		"go"        : "item",
+    		"showitem"  : params.id
+    	},
+    	total = 0,
+    	ai;
+
+    	HttpRequest.open({
+    		"method"	: "get",
+    		"url"		: "http://items.jellyneo.net/index.php",
+    		"onsuccess"	: function (xhr) {
+        		var rarity = parseInt(xpath("string(id('itemname')/following-sibling::b[1]/text())",xhr.response.xml).replace("r",""), 10);
+        		console.log(rarity);
+    	}).send(data);
+    }
+};
+
 JellyNeo.ItemDatabase.find = function (params) {
 	var data = {
 		"go"			: "show_items",
@@ -106,10 +127,10 @@ JellyNeo.ItemDatabase.find = function (params) {
 					var img = xpath(".//img", item)[0];
 
 					return {
-						"id"	: /\bshowitem=(\d+)/.test(img.parentNode.href) && RegExp.$1,
-						"name"	: img.getAttribute("title"),
-						"image"	: img.getAttribute("src"),
-						"price"	: parseInt(xpath("string(.//a[contains(@href, '=price_history&')]/text())", item).replace(/[,.]/g, ""), 10)
+						"id"	 : /\bshowitem=(\d+)/.test(img.parentNode.href) && RegExp.$1,
+						"name"	 : img.getAttribute("title"),
+						"image"	 : img.getAttribute("src"),
+						"price"	 : parseInt(xpath("string(.//a[contains(@href, '=price_history&')]/text())", item).replace(/[,.]/g, ""), 10)
 					};
 				});
 
