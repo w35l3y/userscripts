@@ -75,7 +75,7 @@ JellyNeo.ItemDatabase = function () {};
 
 JellyNeo.ItemDatabase.byid = function (params) {
     if (typeof params.id != "number") {
-		throw "ItemDatabase.byid() : Parameter 'id' is wrong/missing.";
+		alert("id is missing");
 	}else{
     	var data = {
     		"go"        : "item",
