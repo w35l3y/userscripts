@@ -19,14 +19,13 @@
 // @grant          GM_xmlhttpRequest
 // @grant          GM_getResourceURL
 // @grant          GM_getResourceText
-// @resource       includes http://pastebin.com/download.php?i=eArANXdm
 // @resource       hpBar resources/image/hpbar.png
 // @resource       meta https://github.com/w35l3y/userscripts/raw/master/scripts/Neopets_Battledome_Fight!/161251.user.js
-// @resource       i18n http://pastebin.com/download.php?i=ULrVTsSg
-// @resource       updaterWindowHtml ../../resources/html/updaterWindowHtml
-// @resource       updaterWindowCss http://pastebin.com/download.php?i=C1qAvAed
-// @resource       winConfigCss http://pastebin.com/download.php?i=Ldk4J4bi
-// @resource       winConfigBattledomeCss http://pastebin.com/download.php?i=pRhS97Zg
+// @resource       i18n ../../includes/Includes_I18n/resources/default.json
+// @resource       updaterWindowHtml ../../includes/Includes_Updater/resources/default.html
+// @resource       updaterWindowCss ../../includes/Includes_Updater/resources/default.css
+// @resource       winConfigCss ../../includes/Includes_WinConfig/resources/default.css
+// @resource       winConfigBattledomeCss resources/default.css
 // @require        http://images.neopets.com/js/jquery-1.7.1.min.js
 // @require        ../../includes/Includes_XPath/63808.user.js
 // @require        ../../includes/Includes_HttpRequest/56489.user.js
@@ -34,7 +33,6 @@
 // @require        ../../includes/Includes_Translate/85618.user.js
 // @require        ../../includes/Includes_I18n/87940.user.js
 // @require        ../../includes/Includes_Updater/87942.user.js
-// @require        http://pastebin.com/download.php?i=P6VTBRRK
 // @history        2.1.1 Added <a href="http://userscripts.org/guides/773">Includes Checker</a>
 // @history        2.1.0 Fixed SecurityError (Firefox 23+)
 // @history        2.0.0 Added Battledome Settings
