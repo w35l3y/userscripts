@@ -19,13 +19,12 @@
 // @grant          GM_xmlhttpRequest
 // @grant          GM_getResourceText
 // @icon           http://gm.wesley.eti.br/icon.php?desc=28760
-// @resource       includes http://pastebin.com/download.php?i=eArANXdm
-// @resource       random_events http://pastebin.com/download.php?i=839tCaQh
-// @resource       randomEventsHtml http://pastebin.com/download.php?i=nPMWZeHY
+// @resource       random_events http://pastebin.com/raw/839tCaQh
+// @resource       randomEventsHtml http://pastebin.com/raw/nPMWZeHY
 // @resource       meta https://github.com/w35l3y/userscripts/raw/master/scripts/Neopets_Cliffhanger/28760.user.js
-// @resource       i18n http://pastebin.com/download.php?i=ULrVTsSg
-// @resource       updaterWindowHtml http://pastebin.com/download.php?i=3gr9tRAT
-// @resource       updaterWindowCss http://pastebin.com/download.php?i=C1qAvAed
+// @resource       i18n ../../includes/Includes_I18n/resources/default.json
+// @resource       updaterWindowHtml ../../includes/Includes_Updater/resources/default.html
+// @resource       updaterWindowCss ../../includes/Includes_Updater/resources/default.css
 // @require        ../../includes/Includes_XPath/63808.user.js
 // @require        ../../includes/Includes_HttpRequest/56489.user.js
 // @require        ../../includes/Includes_Translate/85618.user.js
@@ -33,8 +32,7 @@
 // @require        ../../includes/Includes_Updater/87942.user.js
 // @require        ../../includes/Includes_Persist_%5BBETA%5D/154322.user.js
 // @require        ../../includes/Includes_Neopets_Random_Events/154363.user.js
-// @require        http://pastebin.com/download.php?i=P6VTBRRK
-// @contributor    cnwcentral (http://www.cnwcentral.com/neopets/cliffhanger.shtml)
+// @contributor    cnwcentral (http://www.cnwcentral.com/neopets/neopets-cliffhanger-answers/)
 // @cfu:version    version
 // @history        5.0.0 Added <a href="http://userscripts.org/guides/773">Includes Checker</a>
 // @history        4.1.0 Changed the order of @require#56489
@@ -203,7 +201,7 @@
 	}({
 		referer : location.href,
 		source	: [
-			["http://www.cnwcentral.com/neopets/cliffhanger.shtml", "id('main')/ul/li/text()"],
+			["http://www.cnwcentral.com/neopets/neopets-cliffhanger-answers/", "id('content')/article/div/ul/li/text()"],
 		],
 	}));
 }());
