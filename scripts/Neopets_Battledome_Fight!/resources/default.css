@@ -1,0 +1,19 @@
+.winConfig_BattledomeSettings input[type="text"] {
+	width: 40px;
+}
+
+.winConfig_BattledomeSettings .body > div.fieldClass_default, .winConfig_BattledomeSettings .body > .fieldName_group div.fieldClass_default {
+	float: left;
+	width: 33%;
+	clear: none;
+}
+
+.winConfig_BattledomeSettings .body .field > label, .winConfig_BattledomeSettings .body .fieldName_group .field > label {
+	width: 45%;
+}
+
+.winConfig_BattledomeSettings .body > div.fieldName_group {
+	clear: both;
+	float: none;
+	width: auto;
+}
