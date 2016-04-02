@@ -1,0 +1,21 @@
+.winConfig_QuickPriceCheckerSettings .fieldName_group .fieldType_0,
+.winConfig_QuickPriceCheckerSettings .fieldName_group .fieldType_2,
+.winConfig_QuickPriceCheckerSettings .fieldName_group .fieldType_4,
+.winConfig_QuickPriceCheckerSettings .fieldName_group .fieldType_5 {
+	width: 50%;
+	float: left;
+}
+.winConfig_QuickPriceCheckerSettings > .body > .fieldName_group .fieldType_0 label,
+.winConfig_QuickPriceCheckerSettings > .body > .fieldName_group .fieldType_2 label,
+.winConfig_QuickPriceCheckerSettings > .body > .fieldName_group .fieldType_4 label,
+.winConfig_QuickPriceCheckerSettings > .body > .fieldName_group .fieldType_5 label {
+	width: 40%;
+	float: left;
+}
+.winConfig_QuickPriceCheckerSettings .fieldName_group .fieldType_0 input,
+.winConfig_QuickPriceCheckerSettings .fieldName_group .fieldType_2 input {
+	width: 40%;
+}
+.winConfig_QuickPriceCheckerSettings .fieldName_group .fieldType_5 select {
+	width: 43%;
+}
