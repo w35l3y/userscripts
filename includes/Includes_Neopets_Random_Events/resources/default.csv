@@ -1,0 +1,205 @@
+1;2;/events/grarrg.gif;Grarrg stomps in and says 'You look like a you could help us in our army! I have upgraded your rank!';;;Increases your Tyrannian Army points, which are viewable on your user lookup if you have them.
+2;2;/events/omelette.gif;You find a piece of tasty # lying on the floor!;Omelette;;
+3;2;/events/fungusball.gif;A fungus ball is sitting on this page... and it #. You get confused and drop # Neopoints.;EXPLODES!,+;;
+4;2;/events/jarbjarb.gif;JarbJarb says 'Ugga ugg <a href="http://www.neopets.com/games/tyranuevavu.phtml">Tyranu Evavu</a>';;;
+5;2;/events/uggsul.gif;Uggsul says 'Ugga ugg <a href="http://www.neopets.com/games/tyranuevavu.phtml">Tyranu Evavu</a>';;;
+6;2;/events/grarrg.gif;Grarrg the Battle Master stomps past you, muttering something about war;;;
+7;2;/events/plesio.gif;Plesio says 'Fancy spinning the <a href="http://www.neopets.com/prehistoric/mediocrity.phtml">Wheel of Mediocrity</a>?';;;
+8;2;/events/crazed_fans.gif;A group of excited fans rush past you shouting '#' are playing tonight!!!;+;;
+9;1;/items/ice_negg.gif;You pick an Ice Negg from a nearby bush;;;
+10;1;/events/ice_treasure.gif;You have stumbled upon the great Ice Treasure of # Neopoints!!!;+;;
+11;1;/items/xmaspaintbrush.gif;Wow! You have found a Christmas Paint Brush!;;;
+12;1;;Somebody from high up throws a # at you! You pick it up!;+;;
+13;4;;<i>You win a #!</i>;+;;
+14;4;/events/lotteryman.gif;<i>You win a lottery ticket!!!</i>;;;
+15;4;/events/evil_pantdevil.gif;<i>The pant devil attacks!!! He steals '#'</i>;+;;
+16;4;/events/evil_pantdevil.gif;<i>Oops! You don't have any items. The Pant Devil runs away.</i>;;;
+22;1;/items/negg_super.gif;You pick an Super Ice Negg from a nearby bush!;;;
+23;1;/events/ice_devil.gif;The ice devil attacks!!! He steals '#';+;;
+24;1;/events/snow_ball.gif;^# - (\w+) gets hit by a snowball from above and takes # damage!$;-,SNOWBALL ATTACK!,+;;
+25;1;/events/cold_wind.gif;A gust of icy cold wind blows past you, chilling you to the bone.;;;
+26;1;/events/snow_faerie.gif;The Snow Faerie says '#';Hey%2C did you know its Donna's Birthday on the 10th December! :);;
+27;1;/events/snow_faerie.gif;The Snow Faerie says '#';I wonder whats at the top of the mountain...;;
+28;1;/events/snow_faerie.gif;The Snow Faerie says '#';I must get some more Ice Neggs for tea!;;
+29;1;/events/snow_faerie.gif;The Snow Faerie says '#';They say an evil old man lives in a castle at the top of the mountain... I dont believe them!;;
+30;1;/events/snow_faerie.gif;The Snow Faerie says '#';Brrr... im glad I have this warm coat on!;;
+31;1;/events/snow_faerie.gif;The Snow Faerie says '#';I wish I could play <a href="http://www.neopets.com/games/snowwars.phtml">Snow Wars</a> as well as you :(;;
+32;1;/events/snow_faerie.gif;The Snow Faerie says '#';Have you looked at the Advent Calendar lately?;;
+33;1;/events/snow_faerie.gif;The Snow Faerie says '#';I hope your pets wrap up warm;;
+34;1;/events/snow_faerie.gif;The Snow Faerie says '#';It's toasty warm in this coat!;;
+35;1;/events/snow_faerie.gif;The Snow Faerie says '#';All my sisters hate the Ice World%2C they say its too cold. I love it here.;;
+36;1;/pets/80by80/bruce_green_happy.gif;A passing Bruce says '#';Who is throwing snowballs at me?!?!;;
+37;1;/pets/80by80/bruce_red_happy.gif;A passing Bruce says '#';Apparently there is something going on at the top of the mountain!;;
+38;1;/pets/80by80/bruce_green_happy.gif;A passing Bruce says '#';I used to be a game show host once;;
+39;1;/pets/80by80/bruce_yellow_happy.gif;A passing Bruce says '#';You must be freezing!;;
+40;1;/pets/80by80/bruce_red_happy.gif;A passing Bruce says '#';Brrr! Im freezing! Im going home!;;
+41;1;/pets/80by80/bruce_red_happy.gif;A passing Bruce says '#';Have you tried the slushies? I hear they are awfully good!;;
+42;1;/pets/80by80/bruce_yellow_happy.gif;A passing Bruce says '#';Tally ho!;;
+43;1;/pets/80by80/bruce_blue_happy.gif;A passing Bruce says '#';The Ice Caves are great... but watch out for the Frost Beast;;
+44;1;/pets/80by80/bruce_red_happy.gif;A passing Bruce says '#';Hi there!;;
+45;1;/pets/80by80/bruce_green_happy.gif;A passing Bruce says '#';Fancy a snowball fight??;;
+46;0;/events/df_hrmph.gif;The Darkest Faerie appears to be deep in thought and doesn't notice you. You'd better run before she finds you and... well, you don't want to know what will happen.;;;
+47;0;/events/capt_scarblade.gif;You hear the cackling of a MAD PIRATE CAPTAIN.;;;
+48;0;/events/blackpteri.gif;The Black Pteri sits on a fence post howling doom and misery for all to hear...;;;
+49;0;/items/pet_mortog.gif;It's raining... Mortogs?;;;Mortogs float down the page.
+50;0;/events/goldenpteri.gif;The # flies overhead, but none of your Neopets are Pteris so he just flies away.;Golden Pteri;;Occurs when you don't have a Pteri for a pet.
+51;0;/space/wheels.gif;A robot flies past you on fire! Help! Help! Dr. Sloth is after me!;;;
+52;0;/events/bronzescamander.gif;A slimy scamander slithers over this page and hisses at you!;;;
+53;0;/events/ghoul.gif;The Swamp Ghoul says 'I will eat your Neopets for breakfast...';;;
+54;0;/events/ghoul.gif;The Swamp Ghoul says 'You're never safe... not from the Swamp Ghoul!';;;
+55;0;/events/nightmare.gif;All your Neopoints have been stolen, and all your items, and all your pets are sick, and your stocks have ... oh wait, it was just a horrible, horrible dream.;;;
+56;0;/battledome/opponent_pics/103.gif;An ominous looking Red Pteri flies by. "I hope you didn't want to actually do anything on the site today." *BRAAWWKK*;;;
+57;0;/events/lavaghoul.gif;The Lava Ghoul floats on this page and looks at you menacingly! <i>I think you were lucky this time...</i>;;;
+58;0;/items/med_booby_5.gif;You feel really dizzy... and faint. When you come back 'round to consciousness, you are... Uggh! What's that smell?;;;Takes you to the Rubbish Dump.
+59;0;/events/fyora_faerieland.gif;Motes of light surround you. You have been summoned to # by Queen Fyora.;FAERIELAND;;You are automatically taken to Faerieland.
+60;0;/events/bugfeast.gif;An ugly bug sits here eating a Scabu. He says '#';Im going to eat all your Neopets food when you arent looking!!!;;
+61;0;/events/vira.gif;Vira laughs maniacally at you... '<i>Fancy a fight in the Battledome?</i>';;;
+62;0;/events/earthquake.gif;An Earthquake! Quick! Hide under your Desk! (You do have one in your NeoHome, don't you?);;;Your browser shakes like mad!
+63;0;/events/flyingshoyru.gif;A Blue Shoyru zooms down from the sky and whizzes past your head!;;;
+64;0;/events/sssidney.gif;Sssidney whispersss 'Sssoo... have you been to the <a href="/halloween/index_fair.phtml">#</a> lately???';Deserted Fairground;;
+65;0;/space/lilgrundo.gif;#;GRUNDO MUST EAT NEOPETS!!! GRUNDO FETCH NEOPETS FOR MASTER!;;
+66;0;/events/moncer.gif;The Monocerous growls 'Over the last month I have eaten # Wockys';+;;
+67;0;;Your Neopets stomach is rumbling.... I think they would like a #! You better buy one for them :);+;;
+68;0;/events/moncer.gif;The Monocerous roars 'Once I ate 16 Jub Jubs in a week!';;;
+69;0;/events/babyray.gif;Boochi fires his ray gun at #, but thankfully he misses!;-;;
+70;0;/events/evil_ghost.gif;A Ghost comes out of the ground and stares evilly at you...;;;
+71;0;/events/evil_ghost.gif;A Ghost comes out of the ground and says '#';BOO;;
+72;0;/events/alter.gif;You hear mysterious chanting coming from far away!;;;
+73;0;/events/frozen_bori.gif;Brrrrrr, it's cold in here!;;;
+74;0;/images/nigel_small.gif;^Nigel the Stockbroker Chia says 'Have you considered investing in <a href="http://www\.neopets\.com/stockmarket\.phtml">#</a> \(([\w -]+)\)\?\?'$;+,+;;
+75;0;/events/evil_spider.gif;A huge spider crawls all over the page...;;;
+76;0;/events/evil_spider.gif;A huge spider spins her web on this page...;;;
+77;0;/events/mark_ta_kutep.gif;The Mark of Ta-Kutep burns into this page. You flee in fear!;;;You are automatically taken back a page.
+78;0;/events/crankyjhudora.gif;Jhudora appears in a flash of purple and green smoke and says, "Have you completed one of my quests, today?";;;
+79;0;/events/ghostlupe.gif;The Ghost Lupe growls '#';Did you know that Mystery Island is haunted?;;
+80;0;/events/ghostlupe.gif;The Ghost Lupe growls '#';BEWARE!!!;;
+81;0;/events/ghostlupe.gif;The Ghost Lupe growls '#';If you have a Chia%2C Ill be your best friend... they are so tasty;;
+82;0;/events/ghostlupe.gif;The Ghost Lupe growls '#';Begone! Leave this page!;;
+83;0;/events/ghostlupe.gif;The Ghost Lupe growls '#';Oh an Aisha... that would be great for a mid morning snack;;
+84;0;/events/ghostlupe.gif;The Ghost Lupe growls '#';My what tasty Neopets you have!;;
+85;0;/events/ghostlupe.gif;The Ghost Lupe growls '#';Its rumoured that neopets that go to Mystery Island never return!!;;
+86;0;/events/ghostlupe.gif;The Ghost Lupe growls '#';Dont go to the Mystery Island!!!;;
+87;0;/items/scarypet_sunshine_monk.gif;A Ghostkerchief says 'BOO';;;
+88;0;;# says 'I just wanted to say that you are the coolest owner!';-;;
+89;0;;# says '*sigh* I want to play Meerca Chase!';-;;
+90;0;;# says 'Im scared, there are so many horrible monsters out there';-;;
+91;0;;# says 'Im starving :(';-;;
+92;0;;# says 'I want some more faeries! Find me some!';-;;
+93;0;;# says 'Ice Cream! Buy me some Ice Cream!';-;;
+94;0;;# says 'Protect me from the evil Swamp Ghoul, please!';-;;
+95;0;;# says 'You havent been working on my homepage enough!';-;;
+96;0;;# says 'You dont play with me enough :(';-;;
+97;0;;# says 'You're the best :)';-;;
+98;0;;# says 'Im so happy that you are my owner!';-;;
+99;0;;# says 'Mmmmmm I love Neopoints, I want to be the richest pet in Neopia!';-;;
+100;0;;# says 'Can we play hide and seek?!';-;;
+101;0;;# says 'I think its time you fed me!!!';-;;
+102;0;;# says 'You will buy me lots of presents from the Grooming Parlour wont you?';-;;
+103;0;/events/lildragon.gif;A dragon flies past overhead, he is headed to the <a href="http://www.neopets.com/island/mysterymap.phtml">#</a>.;Mystery Island;;;
+104;0;/pets/80by80/poogle_red_happy.gif;A <font color="red">#</font> poogle hops past and says '#';red,Hi!;;
+105;0;/pets/80by80/scorchio_green_happy.gif;A green scorchio flies past and says '#';Hope you are having fun!;;
+106;0;/pets/80by80/blumaroo_yellow_happy.gif;A blumaroo bounces past and says '#';Never ever give out your password!;;
+107;0;/pets/80by80/poogle_pink_happy.gif;A pink poogle hops past and says '#';Hi!;;
+108;0;/neopedia/joinothers.gif;Adee the Chia says 'Did you know you can send postcards to friends?? Check them out by clicking <a href="/sendgreeting.phtml">#</a>';here;;
+109;0;/neopedia/joinothers.gif;Adee the Chia says 'Have you seen the cool <a href="/worldevents.phtml">#</a>??';World Events;;
+110;0;/neopedia/joinothers.gif;Adee the Chia says 'You can now get a <a href="/neobadge.phtml">#</a> for your web site!';NeoBadge;;
+111;0;/neopedia/joinothers.gif;Adee the Chia says 'Did you know you can send neopets to friends?? Fill in a simple form <a href="/sendfriend.phtml">#</a>';here;;
+112;0;;We were going to give you the Collectable Card '#', but it looks like you already have that card in your NeoDeck!;+;;
+113;0;;Oh no! We were about to add the Collectable Card # to your <a href="http://www.neopets.com/games/neodeck.phtml?type=cards">NeoDeck</a>, but you don't have enough room!;'+';;
+114;0;/games/games_trading.gif;You might have found a shiny new Collectable Card... if only you had a Neodeck. :(;;;
+115;0;/space/wings.gif;The Grundo Leader attacks!!! He steals #;+;;
+116;0;/events/evil_pantdevil.gif;The pant devil attacks!!! He steals '#';+;;
+117;0;/events/meuka.gif;Meuka slimes up and eats your '#', but the good news is that he left you a lovely lump of #!;+,<font color="green">Snot</font>;;
+118;0;/evil/shadow_usul80.gif;What was that sound? Your # is nowhere to be seen! Who could have taken it?;+;;
+119;0;/events/lazerhand.gif;# Your # is turned into a mound of sludge!;<font color="red">SLOTH FIRES HIS RAY GUN AT YOU!!!</font>,+;;
+120;0;;Hmmmm, # is feeling a bit funny. You should have him looked at.;-;;
+121;0;/;The Darkest Faerie appears and decides to give one of your pets a disease. What did you ever do to her?! You'd better go <a href="http://www.neopets.com/quickref.phtml">check on your pets</a> to see what happened.;;;
+122;0;;# doesn't look very happy. In fact, (s)he looks downright <font color="blue">#</font>. Maybe a toy would help.;-,Blue;;Changes your pet's colour to Blue
+123;0;;Erm... # looks a little... angry. Don't you think you should keep her happy?;-;;Changes your pet's colour to Red
+124;0;/events/hubrid.gif;Hubrid Nox stares at you, and his eyes glow. All your Neopets have come down with a bad case of '#'!!!;+;;
+125;0;;# has suddenly come down with a bad case of '#'!!!;-,+;;
+126;0;/evil/vonroo.gif;<font color="orange">#</font> appears in a puff of smoke and bites # on the neck! Ouch!;Count Von Roo,-;;Your pet loses some hit points.
+127;0;;# It's been so long since I read # I totally forgot what happens at the end. Can I read it again?;- says:,+;;Your pet must re-read the book.
+128;0;/events/bugbros.gif;The Bug Brothers jump up and steal # Neopoints!!;+;;
+129;0;;Oh look, a delicious biscuit is on the floor. You bend down to pick it up, and spin around - somebody has stolen # from you while you were distracted!;+ NP;;However, the biscuit is usually worth more than what was stolen.
+130;0;/events/evil_ghost.gif;^A Ghost takes (\d+) Neopoints from you and puts it on the money tree!$;+;;
+131;0;/events/evil_ghost.gif;^A Ghost cackles insanely and steals (\d+) Neopoints from you\.\.\.$;+;;
+132;0;/events/evil_ghost.gif;^A Ghost grins evilly and steals (\d+) Neopoints from you\.\.\.$;+;;
+133;0;/items/kadoatie_mutant.gif;The incessant mewing of a Mutant Kadoatie drives you completely mad, and you give its owner # Neopoints to take it away!;5%2C000;;
+134;0;/events/taxman.gif;Not been paying your bills eh? The # arrives and takes # of your Neopoints away!;Tax Beast,10%;;
+135;0;/events/angrytaxman.gif;Not been paying your bills, eh? The # # arrives and takes # of your Neopoints away... because he is #.;ANGRY,Tax Beast,25%,ANGRY;;
+136;0;/events/icy_skeleton.gif;Icy Skeletons surround you and steal # Neopoints!;+;;
+137;0;/events/bullies.gif;Uh oh! Some mean-looking bullies approach you, hold you upside-down, and steal the # NP that falls out of your pockets!;+;;If you have 0 NP on hand already, they actually end up giving you Neopoints!
+138;0;/events/skarl_tax.gif;King Skarl appears and orders his guards to collect # Neopoints from you. Who knew there was such a thing as Marrow Tax?;+ ;;5% of your on-hand Neopoints are taken 
+139;0;/events/slothAvatar.gif;Dr. Sloth has his "associates" take 20%25 of your Neopoints away to support his next Neopian invasion effort.;;;
+140;0;/events/illusen.gif;Illusen appears in a puff of smoke and says 'Oh, I was going to give you some money, but you have too much!';;;
+141;0;/items/toy_springgiftbasket.gif;You stumble upon a hidden Spring Gift Basket filled with all sorts of goodies!;;;
+142;0;/items/gro_makeup_giftset.gif;A pushy saleswoman runs up to you, spritzes you with perfume, and hands you a free giftset with a retail value of #. You'll probably enjoy it once you stop coughing from the smell.;500 NP;;Only appears at the <a href="http://www.jellyneo.net/index.php?go=guidetoneopia&amp;shop=5">Grooming Parlour</a>.
+143;0;;You spot something shiny on the ground and you pick it up. It looks like a bead of some sort. Wonder what it's for...;;;You receive a bead for your Lutari Talisman!
+144;0;/events/hatchia.gif;A rather dashing Chia drops by and hands you: #. What a nice fellow! You should put it on to show your thanks.;+;;He used to only give out hats.
+145;0;;You find a piece of the Secret Petpet Laboratory Map!;;;
+146;0;/events/jhudoracandy.gif;Oh look. Jhudora appears and hands you a gift. Wait... Jhudora!? A gift?! Umm... are you sure you should have taken it?;;;You get an item with 'poison' in its name.
+147;0;/events/mar_war_maraquan.gif;Ah, you're a Maraquan soldier aren't you? Great. I was told to give this to you. Please go give it to our friends at the <a href="http://www.neopets.com/water/com_support.phtml">Support Center</a>. They'll know what to do with it.;;;
+148;0;/events/mar_war_pirate.gif;Yarr! It's the swabby. Here, have this token-ma-jig. I bet it'd fetch ya a nice reward from that Scalawag at the <a href="http://www.neopets.com/water/com_support.phtml">Support Center</a>. *shifty eyes*;;;
+149;0;/items/gif_bday2004_bag.gif;A # suddenly falls from the sky and lands in your lap. You should see what's inside!;Neopets 5th Birthday Goodie Bag;;
+150;0;/items/bak_bday2004_slice1.gif;A # suddenly falls from the sky and lands in your lap. Lucky you!;Small Slice of Neopets 5th Birthday Cake;;
+151;0;/items/bak_bday2004_slice2.gif;A # suddenly falls from the sky and lands in your lap. Hope you like frosting!;Large Slice of Neopets 5th Birthday Cake;;
+152;0;/items/gif_bday2005_bag.gif;A # suddenly falls from the sky and lands in your lap. You should see what's inside!;Neopets 6th Birthday Goodie Bag;;
+153;0;/items/bak_bday2006_slice.gif;A # suddenly falls from the sky and lands in your lap. Hope you like frosting!;Slice of Neopets 7th Birthday Cake;;
+154;0;/items/bak_giantannivcakeslice6.gif;A # suddenly falls from the sky and lands in your lap. Hope you like frosting!;Giant Slice of Neopets Birthday Cake;;
+155;0;/items/toy_bday2006_bag.gif;A # suddenly falls from the sky and lands in your lap. You should see what's inside!;Neopets 7th Birthday Goodie Bag;;
+156;0;/events/tc_7.gif;# appears and gives you a #!;Peophey,+;;She used to give out special crystals.
+157;0;/events/tc_3.gif;# appears and gives you a #!;Asper Gen,+;;He used to give out special darts.
+158;0;/events/tc_8.gif;# appears and gives you a #!;Commando Jub,+;;He used to give out special arrows.
+159;0;/events/tc_31.gif;# appears and gives you a #!;Luperus,+;;He used to give out special Luperus themed items.
+160;0;/events/tc_49.gif;# appears and gives you a #!;An Old Wizard,+;;He used to give out Burning/Fire/Earth/Darkness Potions.
+161;0;;Ohhh how cute. It seems # has got a # in its mouth. Have you been feeding it lately?;-,-;;
+162;0;/events/travellibrary.gif;You happen upon a traveling library and are given a free copy of <i>#</i>!;+;;
+163;0;/events/slothpotion.gif;# appears and hands you a # Transmogrification Potion!!!;<font color="green">Dr. Sloth</font>,+;;
+164;0;;An Alien Aisha gives you a #!!!;+;;
+165;0;;You find a # on the floor!;+;;
+166;0;;You find a mystical codestone on the floor!;;;
+167;0;/events/lotteryman.gif;A mysterious man gives you a lottery ticket. Why not click <a href="http://neopets.com/games/lottery.phtml">here</a> to play!;;;
+168;0;/items/bottlefaerie_fire.gif;Your pet has found a captured faerie!!!;;;
+169;0;;Jacko the Phantom Painter gives you a #!!!;+;;
+170;0;;A beautiful Fire Faerie floats down and gives you a #!!!;+;;
+171;0;;You find a piece of the secret laboratory map!;;;
+172;0;;An old sea captain gives you a piece of a treasure map! Keep hold of it, its very valuable!;;;
+173;0;;A passing zombie groans, and hands you a piece of a long lost treasure map!!;;;
+174;0;;Wow! The Collectable Card '#' has magically found its way into your <a href="http://www.neopets.com/games/neodeck.phtml?type=cards">NeoDeck</a>!;+;;
+175;0;;A Scorchio in a pointy, purple hat hands you a Trading Card and says, "This will be a nice addition to your album!";;;
+176;0;/items/scarypet_sunshine_monk.gif;A Ghostkerchief goes up to # and gives them a big hug. Looks like you have found a new friend!;-;;You now have a Ghostkerchief petpet.
+177;0;;A passing Chia hands you a # and says 'Happy Christmas'!!!;+;;
+178;0;/events/tc_33.gif;# appears and gives you a #!;Sir Cheekalot,+;;Currently he seems to be giving out a number off other random low-rarity items as well.
+179;0;/events/easter_bunny.gif;The Easter Cybunny gives you an Easter Negg!! Cool!;;;
+180;0;/events/ghostlupe.gif;The Ghost Lupe growls and suddenly all your Neopets are healed back to max hit points!;;;
+181;0;/events/gainlevel.gif;# has suddenly gained a level!!!;-;;
+182;0;/events/gainlevel.gif;# has got stronger!!!;-;;
+183;0;/events/babyray.gif;0;/events/babyray.gif;Oh no! Boochi fires his ray gun and turns # into a <font color="pink">#</font>!!!;-,+;;
+184;0;/events/drench.gif;A torrent of multi-coloured water falls from the sky and # #!!! You hear evil cackling from the sky...;DRENCHES,-;;Turns your pet a random colour.
+185;0;;Oh no! Where on earth is #, you cant find him anywhere!!! Where on Neopia could he be?;-;;Changes the colour of your pet to Invisible.
+186;0;/events/10neopoints.gif;Congratulations, #, you just found 10 Neopoints on the floor!;-;;
+187;0;/events/10neopoints.gif;Some messy person has spilled 10 Neopoints on the floor on this page. You hastily pick them up!;;;
+188;0;/events/20neopoints.gif;Congratulations, #, you just found 20 Neopoints on the floor!;-;;
+189;0;/events/50neopoints.gif;Congratulations, #, you just found 50 Neopoints on the floor!;-;;
+190;0;/events/100neopoints.gif;Congratulations, #, you just found 100 Neopoints on the floor!;-;;
+191;0;/events/200neopoints.gif;Congratulations, #, you just found 200 Neopoints on the floor!!!;-;;
+192;0;/events/500neopoints.gif;Congratulations, #, you just found 500 Neopoints on the floor!!!;-;;
+193;0;/events/750neopoints.gif;Congratulations, #, you just found 750 Neopoints on the floor!!!;-;;
+194;0;/events/1000neopoints.gif;Congratulations, #, you just found 1000 Neopoints on the floor!!!;-;;
+195;0;/events/5000neopoints.gif;Congratulations, #, you just found 5000 Neopoints on the floor!!!;-;;
+196;0;/events/toothfaerie.gif;^For a lost tooth, the tooth faerie gives you (\d+) Neopoints!!!$;+;;
+197;0;/events/illusen.gif;Illusen appears in a puff of smoke and says '<i>I had some spare Neopoints lying around, so I thought you may like to have them!</i>';;;
+198;0;/events/goldenpteri.gif;The Golden Pteri flies overhead and suddenly its raining Neopoints! # NP to be exact! He must like you.;+;;
+199;0;/events/treasure.gif;Congratulations, #, you found the Secret Mystery Island Treasure of # Neopoints!!!!!!!;-,+;;
+200;0;/games/games_mp.gif;Since you have been so nice, you may now play # three more times today! Hoorah!;+;;
+201;0;/events/shop.gif;Your shop has suddenly increased in size! Wonder how that happened.;;;
+202;0;/events/toothfaerie.gif;The tooth faerie arrives for your lost tooth, and gives you an # in return!;avatar;;
+203;0;/events/slothAvatar.gif;Dr. Sloth has deemed you worthy of using his image on the NeoBoards!;;;
+204;3;/items/hall_petpet1.gif;You have received # from what seems to be a very rich Slorg. That was nice of him. Anyway, thanks for visiting the Shop of Offers today! *triumphant music*;+ Neopoints;;
+205;0;;You are now eligible to use '#' as an avatar on the <a href="http://www.neopets.com/neoboards/">#</a>!;+,NeoBoards;;
+206;0;;Oh no! The avatar '#' has been removed from your collection! You are no longer eligible to use it on the the <a href="http://www.neopets.com/neoboards/">#</a>!;+,NeoBoards;;
+207;0;/items/mmat_scrap.gif;#;What's this? You stumbled across a pile of scrap metal! Honestly%2C were Moltarans raised in a barn? They ought to clean up once in a while...;;
+208;0;/events/lotteryman.gif;A mysterious Neopet gives you a lottery ticket. Why not click <a href="/games/lottery.phtml">#</a> to play!;here;;
+209;5;/games/games_mp.gif;^You are now eligible to use the '#' theme when browsing the Neopets\.com website! Check out your <a href="/preferences\.phtml">#</a> to change your theme\. Or, click <a href="javascript: void\(0\)" onclick="setTheme\((\d+)\)">#</a> to apply it automatically\.$;+,+,User Preferences,here;;
+210;0;/events/100neopoints.gif;Some messy person has spilled 100 Neopoints on the floor on this page. You hastily pick them up!;;;
