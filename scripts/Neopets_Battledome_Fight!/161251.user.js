@@ -7,9 +7,10 @@
 // @copyright      2013+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        2.2.0
+// @version        2.2.1
 // @language       en
 // @include        http://www.neopets.com/dome/arena.phtml
+// @include        http://www.neopets.com/dome/arena.phtml#
 // @icon           http://gm.wesley.eti.br/icon.php?desc=161251
 // @grant          GM_log
 // @grant          GM_addStyle
@@ -81,7 +82,7 @@ setTimeout(function () {
 		description : "<b>Opponent Name:</b> " + key,
 		size	: ["400px", 0],
 		load	: function () {
-			location.replace("http://www.neopets.com/dome/arena.phtml");
+			unsafeWindow.location.replace("http://www.neopets.com/dome/arena.phtml");
 		},
 		default	: players["@"] || {
 			weapons		: ["/items/bd_ring_scarab.gif", "/items/bd_ring_scarab.gif"],
@@ -110,7 +111,7 @@ setTimeout(function () {
 		store		: true,
 		size		: ["420px", 0],
 		load		: function () {
-			location.replace("http://www.neopets.com/dome/arena.phtml");
+			unsafeWindow.location.replace("http://www.neopets.com/dome/arena.phtml");
 		},
 		default		: {
 			group	: {
@@ -387,7 +388,7 @@ setTimeout(function () {
 					if (!p[2] || p[2](l, x, p[3])) {
 						if (1 == x.length) {
 							console.log("Clicking " + p[0]);
-							location.assign('javascript:void($("' + p[0] + '").click());');
+							unsafeWindow.location.assign('javascript:void($("' + p[0] + '").click());');
 						} else {
 							GM_log(p[0] + " is too generic.");
 						}
@@ -398,7 +399,7 @@ setTimeout(function () {
 				if (c < Math.ceil(config.wait / t)) {
 					window.setTimeout(recursive, t + (Math.ceil(p[1] * Math.random()) || 0), l, ++c);
 				} else {
-					location.assign("http://www.neopets.com/dome/arena.phtml");
+					unsafeWindow.location.assign("http://www.neopets.com/dome/arena.phtml");
 				}
 			}
 		}(list, 0));
