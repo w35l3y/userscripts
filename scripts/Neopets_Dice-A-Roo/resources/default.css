@@ -1,0 +1,27 @@
+.winConfig_DiceARooSettings .fieldName_dice {
+	clear: both;
+	padding-top: 5px;
+}
+
+.winConfig_DiceARooSettings .fieldName_dice .subfield {
+	width: 33%;
+}
+
+.winConfig_DiceARooSettings .fieldName_stop .fieldType_0 {
+	float: left;
+	width: 33%;
+}
+
+.winConfig_DiceARooSettings .fieldName_interval .fieldType_0 {
+	float: left;
+	width: 50%;
+}
+
+.winConfig_DiceARooSettings .field .fieldType_0 input,
+.winConfig_DiceARooSettings > .body > .field .fieldType_0 > label {
+	width: 40%;
+}
+
+.winConfig_DiceARooSettings .fieldName_reset .subfield {
+	width: 25%;
+}
