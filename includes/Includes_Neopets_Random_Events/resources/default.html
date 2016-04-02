@@ -1,0 +1,22 @@
+<html>
+	<head>
+	<title>Random Events - {script.name/}</title>
+	<style type="text/css">
+	th, td {
+		font-family:verdana, arial, sans-serif;
+		font-size:13px
+	}
+	</style>
+	</head>
+	<body>
+	<table cellspacing="0" cellpadding="1" border="1" width="400">
+	<thead>
+		<tr><th colspan="2">{script.name/}</th></tr>
+		<tr><td colspan="2">Total of distinct entries: {row.length/}</td></tr>
+	</thead>
+	<tbody>
+		{row}<tr><td><table cellspacing="0" cellpadding="3"><tr bgcolor="{3/}"><td colspan="2">{0}<a href="http://www.neopets.com{index/}">{index/}</a><br />{value/}<br />{/0}</td></tr><tr><td width="80"><img width="80" height="80" border="1" src="http://images.neopets.com{1/}" /></td><td width="320">{2/}</td></tr></table></td></tr>{/row}
+	<tbody>
+	</table>
+	</body>
+</html>
