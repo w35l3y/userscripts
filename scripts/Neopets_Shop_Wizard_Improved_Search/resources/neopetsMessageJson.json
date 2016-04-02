@@ -1,0 +1,46 @@
+{
+	"en":{
+		"itemNotFound"	: "Item not found!",
+		"shopIsEmpty"	: "There are no items for sale in this shop!"
+	},
+	"nl":{
+		"itemNotFound"	: "Item niet gevonden!",
+		"shopIsEmpty"	: "Er zijn geen items te koop in deze winkel!"
+	},
+	"pt":{
+		"itemNotFound"	: "Artigo não encontrado!",
+		"shopIsEmpty"	: "Esta loja não tem artigos à venda!"
+	},
+	"de":{
+		"itemNotFound"	: "Gegenstand nicht gefunden!",
+		"shopIsEmpty"	: "In diesem Geschäft gibt es keine Gegenstände zu kaufen!"
+	},
+	"fr":{
+		"itemNotFound"	: "Objet non trouvé!",
+		"shopIsEmpty"	: "Il n'y a pas d'objets à vendre dans cette boutique!"
+	},
+	"it":{
+		"itemNotFound"	: "Oggetto non trovato!",
+		"shopIsEmpty"	: "In questo negozio non ci sono oggetti in vendita!"
+	},
+	"es":{
+		"itemNotFound"	: "¡No se encontró ese objeto!",
+		"shopIsEmpty"	: "En esta tienda no hay objetos a la venta."
+	},
+	"ch":{
+		"itemNotFound"	: "无法找到这件物品！",
+		"shopIsEmpty"	: "这间商店没有物品出售！"
+	},
+	"zh":{
+		"itemNotFound"	: "無法找到這件物品﹗",
+		"shopIsEmpty"	: "這間商店沒有物品出售！"
+	},
+	"ja":{
+		"itemNotFound"	: "アイテムが見つかりませんでした!",
+		"shopIsEmpty"	: "当店の商品は、すべて品切れ中です！"
+	},
+	"ko":{
+		"itemNotFound"	: "아이템이 발견되지 않았습니다!",
+		"shopIsEmpty"	: "이 가게의 상품은 모두 다 팔렸답니다!"
+	}
+}
