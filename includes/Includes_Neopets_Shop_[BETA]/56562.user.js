@@ -37,9 +37,9 @@
 Shop = function () {};
 
 Shop.convert = function (doc) {
-	var msg = xpath(".//div[contains(@class, 'errormess')]/div[b] | .//td[@class = 'content']/p[5]/b | .//td[@class = 'content']/span[1]/b | .//td[@class = 'content']/center/p[1] | .//td[@class = 'content']/hr[1]/preceding-sibling::div[1]/b", doc)[0],
+	var msg = xpath(".//div[contains(@class, 'errormess')]/div[b] | .//td[@class = 'content']/p[5]/b | .//td[@class = 'content']/span[1]/b | .//td[@class = 'content']/center/p[1] | .//td[@class = 'content']/hr[1]/preceding-sibling::div[1]/b | ./html/body/center/i[preceding-sibling::img[1][contains(@src, '/pets/sad/')]]", doc)[0],
 	obj = {
-		"error" : (msg && msg.tagName.toUpperCase() == "DIV"?1:0),
+		"error" : (msg && ~["DIV", "I"].indexOf(msg.tagName.toUpperCase())?1:0),
 		"message" : msg,
 		"list" : []
 	},
