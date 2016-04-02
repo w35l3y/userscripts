@@ -11,7 +11,7 @@
 // @language       en
 // @include        nowhere
 // @exclude        *
-// @resource       i18n http://i18n.pastebin.com/download.php?i=ULrVTsSg
+// @resource       i18n ../../includes/Includes_I18n/resources/default.json
 // @require        http://www.onicos.com/staff/iz/amuse/javascript/expert/md5.txt
 // @require        http://userscripts.org/scripts/source/63808.user.js
 // @require        http://userscripts.org/scripts/source/85618.user.js

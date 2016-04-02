@@ -17,8 +17,8 @@
 // @grant          GM_xmlhttpRequest
 // @grant          GM_getResourceText
 // @icon           http://gm.wesley.eti.br/icon.php?desc=61379
-// @resource       winConfigCss http://pastebin.com/download.php?i=Ldk4J4bi
-// @resource       winConfigQuickPriceCheckerCss http://pastebin.com/download.php?i=mkruS5YA
+// @resource       winConfigCss ../../includes/Includes_WinConfig/resources/default.css
+// @resource       winConfigQuickPriceCheckerCss resources/default.css
 // @require        ../../includes/Includes_XPath/63808.user.js
 // @require        ../../includes/Includes_HttpRequest/56489.user.js
 // @require        ../../includes/Includes_Neopets_Shop_Wizard/56503.user.js

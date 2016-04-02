@@ -14,7 +14,7 @@
 // @grant          GM_getResourceText
 // @resource       core https://d78fikflryjgj.cloudfront.net/css/76ead370f4805199a6d67aca7c014143/core.css
 // @resource       normalize http://fiddle.jshell.net/css/normalize.css
-// @resource       print-boardCss http://pastebin.com/download.php?i=gpNrTUkh
+// @resource       print-boardCss http://pastebin.com/raw/gpNrTUkh
 // @require        http://code.jquery.com/jquery-2.1.3.js
 // @require        http://api.trello.com/1/client.js?key=05e1b25a9057bb2aecbc99363285a8c2&dummy=.js
 // ==/UserScript==

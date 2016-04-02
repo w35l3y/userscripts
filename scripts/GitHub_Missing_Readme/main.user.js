@@ -13,7 +13,7 @@
 // @icon        http://gm.wesley.eti.br/icon.php?desc=scripts/GitHub_Missing_Readme/main.user.js#
 // @resource    template ./README-template.md
 // @resource    templateList ./README-templateList.md
-// @require     http://pastebin.com/raw.php?i=FY7MDpMa
+// @require     https://gist.github.com/w35l3y/f824897032ae38af9595/raw/main.js
 // @require     https://github.com/w35l3y/github-js/raw/master/lib/underscore-min.js
 // @require     https://github.com/w35l3y/github-js/raw/master/github.js
 // @require     ../../includes/Includes_Notify/292725.user.js

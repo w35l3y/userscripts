@@ -14,13 +14,12 @@
 // @grant          GM_getResourceText
 // @icon           http://gm.wesley.eti.br/icon.php?desc=178643
 // @resource       meta https://github.com/w35l3y/userscripts/raw/master/scripts/Hudson_Integracao_com_Mantis/178643.user.js
-// @resource       i18n http://pastebin.com/download.php?i=ULrVTsSg
-// @resource       updaterWindowHtml ../../resources/html/updaterWindowHtml
-// @resource       updaterWindowCss http://pastebin.com/download.php?i=C1qAvAed
-// @resource       winConfigCss http://pastebin.com/download.php?i=Ldk4J4bi
-// @resource       jobs http://pastebin.com/download.php?i=xzKNyumC
-// @resource       includes http://pastebin.com/download.php?i=eArANXdm
-// @resource       templates http://pastebin.com/download.php?i=btV4urde
+// @resource       i18n ../../includes/Includes_I18n/resources/default.json
+// @resource       updaterWindowHtml ../../includes/Includes_Updater/resources/default.html
+// @resource       updaterWindowCss ../../includes/Includes_Updater/resources/default.css
+// @resource       winConfigCss ../../includes/Includes_WinConfig/resources/default.css
+// @resource       jobs resources/jobs.json
+// @resource       templates resources/templates.json
 // @require        ../../includes/Includes_XPath/63808.user.js
 // @require        ../../includes/Includes_HttpRequest/56489.user.js
 // @require        ../../includes/Includes_Translate/85618.user.js
@@ -29,9 +28,8 @@
 // @require        ../../includes/Includes_Notify/292725.user.js
 // @require        ../../includes/Includes_Assert/288385.user.js
 // @require        ../../includes/Includes_Template_%5BBETA%5D/176400.user.js
-// @require        http://pastebin.com/download.php?i=5Ji72UdS
+// @require        http://pastebin.com/raw/5Ji72UdS
 // @require        ../../includes/Includes_WinConfig/163374.user.js
-// @require        http://pastebin.com/download.php?i=P6VTBRRK
 // @history        2.3.0 Resolvido problema ao abrir certas urls com caracteres especiais
 // @history        2.2.0 Adicionada possibilidade de funcionar em diversos sistemas do hudson e mantis ao mesmo tempo
 // @history        2.1.1 Ajustado para funcionar também quando a url possuir caractere de espaço

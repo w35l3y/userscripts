@@ -23,12 +23,12 @@
 // @grant          GM_getResourceText
 // @grant          GM_xmlhttpRequest
 // @icon           http://gm.wesley.eti.br/icon.php?desc=129369
-// @resource       includes http://pastebin.com/download.php?i=eArANXdm
+
 // @require        http://userscripts.org/scripts/source/63808.user.js
 // @require        http://userscripts.org/scripts/source/56489.user.js
 // @require        http://userscripts.org/scripts/source/56533.user.js
 // @require        http://userscripts.org/scripts/source/64182.user.js
-// @require        http://pastebin.com/download.php?i=P6VTBRRK
+
 // @history        2.0.0 Added <a href="http://userscripts.org/guides/773">Includes Checker</a>
 // @history        2.0.0 Added missing @icon
 // ==/UserScript==

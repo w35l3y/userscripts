@@ -16,7 +16,7 @@
 // @include        http://www.neopets.com/games/hidenseek/*.phtml?xfn=
 // @include        http://www.neopets.com/games/hidenseek/*.phtml
 // @icon           http://gm.wesley.eti.br/icon.php?desc=34085
-// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
+// @require        ../../includes/Includes_XPath/63808.user.js
 // ==/UserScript==
 
 /**************************************************************************

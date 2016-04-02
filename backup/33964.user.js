@@ -20,11 +20,11 @@
 // @grant          GM_xmlhttpRequest
 // @grant          GM_getResourceText
 // @resource       meta http://userscripts.org/scripts/source/33964.meta.js
-// @resource       i18n http://pastebin.com/download.php?i=ULrVTsSg
-// @resource       updaterWindowHtml http://pastebin.com/download.php?i=3gr9tRAT
-// @resource       updaterWindowCss http://pastebin.com/download.php?i=C1qAvAed
-// @resource       winConfigCss http://pastebin.com/download.php?i=Ldk4J4bi
-// @resource       includes http://pastebin.com/download.php?i=eArANXdm
+// @resource       i18n ../../includes/Includes_I18n/resources/default.json
+// @resource       updaterWindowHtml ../../includes/Includes_Updater/resources/default.html
+// @resource       updaterWindowCss ../../includes/Includes_Updater/resources/default.css
+// @resource       winConfigCss ../../includes/Includes_WinConfig/resources/default.css
+
 // @require        http://userscripts.org/scripts/source/63808.user.js
 // @require        http://userscripts.org/scripts/source/56489.user.js
 // @require        http://userscripts.org/scripts/source/85618.user.js
@@ -32,7 +32,7 @@
 // @require        http://userscripts.org/scripts/source/87942.user.js
 // @require        http://userscripts.org/scripts/source/144996.user.js
 // @require        http://userscripts.org/scripts/source/163374.user.js
-// @require        http://pastebin.com/download.php?i=P6VTBRRK
+
 // @cfu:version    version
 // @history        4.2.6 Added <a href="http://userscripts.org/guides/773">Includes Checker</a>
 // @history        4.2.5 Fixed language Korean

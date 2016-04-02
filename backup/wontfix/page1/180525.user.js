@@ -15,10 +15,10 @@
 // @grant          GM_xmlhttpRequest
 // @grant          GM_getResourceText
 // @resource       meta http://userscripts.org/scripts/source/180525.meta.js
-// @resource       i18n http://pastebin.com/download.php?i=ULrVTsSg
-// @resource       winConfigCss http://pastebin.com/download.php?i=Ldk4J4bi
-// @resource       updaterWindowHtml http://pastebin.com/download.php?i=3gr9tRAT
-// @resource       updaterWindowCss http://pastebin.com/download.php?i=C1qAvAed
+// @resource       i18n ../../includes/Includes_I18n/resources/default.json
+// @resource       winConfigCss ../../includes/Includes_WinConfig/resources/default.css
+// @resource       updaterWindowHtml ../../includes/Includes_Updater/resources/default.html
+// @resource       updaterWindowCss ../../includes/Includes_Updater/resources/default.css
 // @require        http://userscripts.org/scripts/source/63808.user.js
 // @require        http://userscripts.org/scripts/source/56489.user.js
 // @require        http://userscripts.org/scripts/source/85618.user.js

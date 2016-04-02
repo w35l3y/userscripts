@@ -23,13 +23,13 @@
 // @grant          GM_getResourceText
 // @grant          GM_xmlhttpRequest
 // @icon           http://gm.wesley.eti.br/icon.php?desc=154364
-// @resource       includes http://pastebin.com/download.php?i=eArANXdm
-// @resource       random_events http://pastebin.com/download.php?i=839tCaQh
-// @resource       randomEventsHtml http://pastebin.com/download.php?i=nPMWZeHY
+
+// @resource       random_events ../../includes/Includes_Neopets_Random_Events/resources/default.csv
+// @resource       randomEventsHtml ../../includes/Includes_Neopets_Random_Events/resources/default.html
 // @require        http://userscripts.org/scripts/source/63808.user.js
 // @require        http://userscripts.org/scripts/source/154322.user.js
 // @require        http://userscripts.org/scripts/source/154363.user.js
-// @require        http://pastebin.com/download.php?i=P6VTBRRK
+
 // @history        1.1.1 Added missing @icon
 // @history        1.1.0 Added Includes Checker (due to the recent problems with userscripts.org)
 // ==/UserScript==

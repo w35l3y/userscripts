@@ -23,18 +23,18 @@
 // @grant          GM_xmlhttpRequest
 // @grant          GM_getResourceText
 // @icon           http://gm.wesley.eti.br/icon.php?desc=54095
-// @resource       includes http://pastebin.com/download.php?i=eArANXdm
-// @resource       i18n http://pastebin.com/download.php?i=ULrVTsSg
+
+// @resource       i18n ../../includes/Includes_I18n/resources/default.json
 // @resource       meta http://userscripts.org/scripts/source/54095.meta.js
-// @resource       updaterWindowHtml http://pastebin.com/download.php?i=3gr9tRAT
-// @resource       updaterWindowCss http://pastebin.com/download.php?i=C1qAvAed
+// @resource       updaterWindowHtml ../../includes/Includes_Updater/resources/default.html
+// @resource       updaterWindowCss ../../includes/Includes_Updater/resources/default.css
 // @require        http://userscripts.org/scripts/source/63808.user.js
 // @require        http://userscripts.org/scripts/source/56489.user.js
 // @require        http://userscripts.org/scripts/source/85618.user.js
 // @require        http://userscripts.org/scripts/source/87940.user.js
 // @require        http://userscripts.org/scripts/source/87942.user.js
 // @require        http://userscripts.org/scripts/source/54000.user.js
-// @require        http://pastebin.com/download.php?i=P6VTBRRK
+
 // @cfu:version    version
 // @history        3.2.0 Added missing @icon
 // @history        3.1.0 Added Includes Checker (due to the recent problems with userscripts.org)

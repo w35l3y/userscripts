@@ -17,14 +17,12 @@
 // @grant          GM_xmlhttpRequest
 // @grant          GM_getResourceText
 // @icon           http://gm.wesley.eti.br/icon.php?desc=61435
-// @resource       includes http://pastebin.com/download.php?i=eArANXdm
-// @resource       winConfigCss http://pastebin.com/download.php?i=Ldk4J4bi
-// @resource       winConfigQuickSDBCheckerCss http://pastebin.com/download.php?i=LaAWV4nU
+// @resource       winConfigCss ../../includes/Includes_WinConfig/resources/default.css
+// @resource       winConfigQuickSDBCheckerCss http://pastebin.com/raw/LaAWV4nU
 // @require        http://userscripts.org/scripts/source/63808.user.js
 // @require        http://userscripts.org/scripts/source/56489.user.js
 // @require        http://userscripts.org/scripts/source/56528.user.js
 // @require        http://userscripts.org/scripts/source/163374.user.js
-// @require        http://pastebin.com/download.php?i=P6VTBRRK
 // @history        3.1.1 Added missing @icon
 // @history        3.1.0 Added Includes Checker (due to the recent problems with userscripts.org)
 // @history        3.0.0 Added WinConfig Settings

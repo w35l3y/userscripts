@@ -11,8 +11,8 @@
 // @language       en
 // @include        http://www.neopets.com/games/play.phtml?game_id=*
 // @resource       meta http://userscripts.org/scripts/source/66139.meta.js
-// @resource       i18n http://pastebin.com/download.php?i=ULrVTsSg
-// @require        http://pastebin.com/download.php?i=BjjHSA30
+// @resource       i18n ../../includes/Includes_I18n/resources/default.json
+// @require        http://pastebin.com/raw/BjjHSA30
 // @require        http://userscripts.org/scripts/source/85450.user.js
 // @require        http://userscripts.org/scripts/source/56489.user.js
 // @require        http://userscripts.org/scripts/source/54389.user.js
@@ -23,7 +23,7 @@
 // @require        http://userscripts.org/scripts/source/63808.user.js
 // @require        http://userscripts.org/scripts/source/66138.user.js
 // @require        http://userscripts.org/scripts/source/87942.user.js
-// @require        http://pastebin.com/download.php?i=56rbREE3
+// @require        http://pastebin.com/raw/56rbREE3
 // @history        2.0.5.6 Updated @require#66138,#85450,#69584
 // @history        2.0.5.5 Updated @require#66138,#87940
 // @history        2.0.5.4 Updated @require#66138

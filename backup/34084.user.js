@@ -11,7 +11,7 @@
 // @language       en
 // @include        http://www.neopets.com/*
 // @resource       meta http://userscripts.org/scripts/source/34084.meta.js
-// @resource       i18n http://pastebin.com/download.php?i=1F0jQb5L
+// @resource       i18n ../../includes/Includes_I18n/resources/default.json
 // @require        http://userscripts.org/scripts/source/63808.user.js
 // @require        http://userscripts.org/scripts/source/85618.user.js
 // @require        http://userscripts.org/scripts/source/87940.user.js

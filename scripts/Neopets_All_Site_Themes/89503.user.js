@@ -17,14 +17,14 @@
 // @grant          GM_deleteValue
 // @grant          GM_xmlhttpRequest
 // @grant          GM_getResourceText
-// @resource       i18n http://pastebin.com/download.php?i=ULrVTsSg
-// @resource       updaterWindowCss http://pastebin.com/download.php?i=C1qAvAed
-// @resource       updaterWindowHtml http://pastebin.com/download.php?i=3gr9tRAT
-// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
-// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_HttpRequest/56489.user.js
-// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Translate/85618.user.js
-// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_I18n/87940.user.js
-// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Updater/87942.user.js
+// @resource       i18n ../../includes/Includes_I18n/resources/default.json
+// @resource       updaterWindowCss ../../includes/Includes_Updater/resources/default.css
+// @resource       updaterWindowHtml ../../includes/Includes_Updater/resources/default.html
+// @require        ../../includes/Includes_XPath/63808.user.js
+// @require        ../../includes/Includes_HttpRequest/56489.user.js
+// @require        ../../includes/Includes_Translate/85618.user.js
+// @require        ../../includes/Includes_I18n/87940.user.js
+// @require        ../../includes/Includes_Updater/87942.user.js
 // @history        3.2.0 Added "JumpStart" Theme
 // @history        3.1.0 Added 4 more themes (Battleground: Seekers, Daily Dare: Chadley, Monster Hunting and Habitarium)
 // @history        3.0.0 Fixed some bugs

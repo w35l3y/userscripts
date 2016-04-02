@@ -2,7 +2,7 @@
 // @name           Examples : Self Reference
 // @namespace      http://gm.wesley.eti.br/examples
 // @include        http://userscripts.org/scripts/review/87693
-// @resource       i18n http://i18n.pastebin.com/download.php?i=U5SnFgKz
+// @resource       i18n ../../includes/Includes_I18n/resources/default.json
 // @resource       meta http://userscripts.org/scripts/source/87693.meta.js
 // @require        http://userscripts.org/scripts/source/63808.user.js
 // @require        http://userscripts.org/scripts/source/85618.user.js

@@ -2,7 +2,7 @@
 // @name           Neopets : Wheels
 // @namespace      http://gm.wesley.eti.br
 // @include        http://www.neopets.com/inventory.phtml
-// @require        http://pastebin.com/raw.php?i=FY7MDpMa
+// @require     https://gist.github.com/w35l3y/f824897032ae38af9595/raw/main.js
 // @require        https://github.com/w35l3y/JSAMF/raw/master/web/web/amf.js
 // @grant          GM_getValue
 // @grant          GM_setValue

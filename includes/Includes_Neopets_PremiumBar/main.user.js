@@ -20,14 +20,14 @@
 // @grant       GM_xmlhttpRequest
 // @grant       GM_getResourceURL
 // @grant       GM_getResourceText
-// @resource    winConfigCss http://pastebin.com/raw.php?i=Ldk4J4bi
+// @resource    winConfigCss ../../includes/Includes_WinConfig/resources/default.css
 // @resource    toolbarCss https://gist.github.com/w35l3y/252ea029821a8b8109fa/raw/toolbar.css
 // @resource    toolbarHtml https://gist.github.com/w35l3y/252ea029821a8b8109fa/raw/toolbar.html
 // @resource    toolbarStocks https://gist.github.com/w35l3y/252ea029821a8b8109fa/raw/stocks.html
 // @resource    cliffhangerAnswers https://gist.github.com/w35l3y/fab231758eb0991f36a0/raw/cliffhanger.txt
 // @resource    crosswordAnswers https://gist.github.com/w35l3y/fab231758eb0991f36a0/raw/crossword.json
 // @resource    foodclubJson https://gist.github.com/w35l3y/fab231758eb0991f36a0/raw/foodclub.json
-// @require     http://pastebin.com/raw.php?i=FY7MDpMa
+// @require     https://gist.github.com/w35l3y/f824897032ae38af9595/raw/main.js
 // @require     https://github.com/knadh/localStorageDB/raw/master/localstoragedb.min.js
 // @require     https://github.com/w35l3y/github-js/raw/master/lib/underscore-min.js
 // @require     https://github.com/w35l3y/github-js/raw/master/github.js

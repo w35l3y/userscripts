@@ -13,10 +13,10 @@
 // @include        http://www.neopets.com/market.phtml
 // @icon           http://www.gravatar.com/avatar.php?gravatar_id=81269f79d21e612f9f307d16b09ee82b&r=PG&s=92&default=identicon
 // @resource       meta http://userscripts.org/scripts/source/33958.meta.js
-// @resource       i18n http://pastebin.com/download.php?i=ULrVTsSg
-// @resource       shopWizardHtml http://pastebin.com/download.php?i=J3Se4KkK
-// @resource       winConfigCss http://pastebin.com/download.php?i=Ldk4J4bi
-// @require        http://pastebin.com/download.php?i=sin7DHJi
+// @resource       i18n ../../includes/Includes_I18n/resources/default.json
+// @resource       shopWizardHtml http://pastebin.com/raw/J3Se4KkK
+// @resource       winConfigCss ../../includes/Includes_WinConfig/resources/default.css
+// @require        http://pastebin.com/raw/sin7DHJi
 // @require        http://userscripts.org/scripts/source/63808.user.js
 // @require        http://userscripts.org/scripts/source/85618.user.js
 // @require        http://userscripts.org/scripts/source/87940.user.js

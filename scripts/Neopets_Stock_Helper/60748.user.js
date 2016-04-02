@@ -20,17 +20,15 @@
 // @grant          GM_deleteValue
 // @grant          GM_xmlhttpRequest
 // @grant          GM_getResourceText
-// @resource       includes http://pastebin.com/download.php?i=eArANXdm
 // @resource       meta https://github.com/w35l3y/userscripts/raw/master/scripts/Neopets_Stock_Helper/60748.user.js
-// @resource       i18n http://pastebin.com/download.php?i=ULrVTsSg
-// @resource       updaterWindowHtml ../../resources/html/updaterWindowHtml
-// @resource       updaterWindowCss http://pastebin.com/download.php?i=C1qAvAed
+// @resource       i18n ../../includes/Includes_I18n/resources/default.json
+// @resource       updaterWindowHtml ../../includes/Includes_Updater/resources/default.html
+// @resource       updaterWindowCss ../../includes/Includes_Updater/resources/default.css
 // @require        ../../includes/Includes_XPath/63808.user.js
 // @require        ../../includes/Includes_HttpRequest/56489.user.js
 // @require        ../../includes/Includes_Translate/85618.user.js
 // @require        ../../includes/Includes_I18n/87940.user.js
 // @require        ../../includes/Includes_Updater/87942.user.js
-// @require        http://pastebin.com/download.php?i=P6VTBRRK
 // @history        2.0.0 Fixed some bugs
 // @history        1.0.3.0 Firefox 4 bug fixes
 // ==/UserScript==

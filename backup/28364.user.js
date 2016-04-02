@@ -17,17 +17,17 @@
 // @grant          GM_xmlhttpRequest
 // @grant          GM_getResourceText
 // @icon           http://gm.wesley.eti.br/icon.php?desc=28364
-// @resource       includes http://pastebin.com/download.php?i=eArANXdm
+
 // @resource       meta http://userscripts.org/scripts/source/28364.meta.js
-// @resource       i18n http://pastebin.com/download.php?i=ULrVTsSg
-// @resource       updaterWindowHtml http://pastebin.com/download.php?i=3gr9tRAT
-// @resource       updaterWindowCss http://pastebin.com/download.php?i=C1qAvAed
+// @resource       i18n ../../includes/Includes_I18n/resources/default.json
+// @resource       updaterWindowHtml ../../includes/Includes_Updater/resources/default.html
+// @resource       updaterWindowCss ../../includes/Includes_Updater/resources/default.css
 // @require        http://userscripts.org/scripts/source/63808.user.js
 // @require        http://userscripts.org/scripts/source/56489.user.js
 // @require        http://userscripts.org/scripts/source/85618.user.js
 // @require        http://userscripts.org/scripts/source/87940.user.js
 // @require        http://userscripts.org/scripts/source/87942.user.js
-// @require        http://pastebin.com/download.php?i=P6VTBRRK
+
 // @cfu:version    version
 // @history        3.2.0 Added <a href="http://userscripts.org/guides/773">Includes Checker</a>
 // @history        3.1.0.0 Added limit to 80 potatoes

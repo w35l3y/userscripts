@@ -15,9 +15,7 @@
 // @grant          GM_getValue
 // @grant          GM_getResourceText
 // @icon           http://gm.wesley.eti.bt/icon.php?desc=89499
-// @resource       includes http://pastebin.com/download.php?i=eArANXdm
 // @require        ../../includes/Includes_XPath/63808.user.js
-// @require        http://pastebin.com/download.php?i=P6VTBRRK
 // @history        2.1.2 Added missing @icon
 // @history        2.1.0 Added Includes Checker (due to the recent problems with userscripts.org)
 // ==/UserScript==

@@ -23,10 +23,10 @@
 // @grant          GM_deleteValue
 // @grant          GM_xmlhttpRequest
 // @grant          GM_getResourceText
-// @resource       i18n http://pastebin.com/download.php?i=ULrVTsSg
+// @resource       i18n ../../includes/Includes_I18n/resources/default.json
 // @resource       meta https://github.com/w35l3y/userscripts/raw/master/scripts/Neopets_The_Snowager_%5BSilent_version%5D/54076.user.js
-// @resource       updaterWindowHtml http://pastebin.com/download.php?i=3gr9tRAT
-// @resource       updaterWindowCss http://pastebin.com/download.php?i=C1qAvAed
+// @resource       updaterWindowHtml ../../includes/Includes_Updater/resources/default.html
+// @resource       updaterWindowCss ../../includes/Includes_Updater/resources/default.css
 // @resource       messageContainerCss ../../includes/Includes_Message/resources/css/messageContainer.css
 // @require        ../../includes/Includes_XPath/63808.user.js
 // @require        ../../includes/Includes_Message/main.user.js

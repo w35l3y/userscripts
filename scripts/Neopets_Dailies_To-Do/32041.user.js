@@ -41,11 +41,11 @@
 // @grant          GM_xmlhttpRequest
 // @grant          GM_getResourceText
 // @icon           http://gm.wesley.eti.br/icon.php?desc=32041
-// @resource       i18n http://pastebin.com/raw.php?i=ULrVTsSg
+// @resource       i18n ../../includes/Includes_I18n/resources/default.json
 // @resource       meta https://github.com/w35l3y/userscripts/raw/master/scripts/Neopets_Dailies_To-Do/32041.user.js
-// @resource       updaterWindowHtml http://pastebin.com/raw.php?i=3gr9tRAT
-// @resource       updaterWindowCss http://pastebin.com/raw.php?i=C1qAvAed
-// @resource       winConfigCss http://pastebin.com/raw.php?i=Ldk4J4bi
+// @resource       updaterWindowHtml ../../includes/Includes_Updater/resources/default.html
+// @resource       updaterWindowCss ../../includes/Includes_Updater/resources/default.css
+// @resource       winConfigCss ../../includes/Includes_WinConfig/resources/default.css
 // @require        ../../includes/Includes_XPath/63808.user.js
 // @require        ../../includes/Includes_HttpRequest/56489.user.js
 // @require        ../../includes/Includes_Translate/85618.user.js

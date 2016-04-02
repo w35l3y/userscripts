@@ -19,9 +19,9 @@
 // @grant          GM_getResourceText
 // @icon           http://gm.wesley.eti.br/icon.php?desc=117677
 // @resource       meta https://github.com/w35l3y/userscripts/raw/master/scripts/Neopets_Fetch_Helper/117677.user.js
-// @resource       i18n http://pastebin.com/raw.php?i=ULrVTsSg
-// @resource       updaterWindowCss http://pastebin.com/raw.php?i=C1qAvAed
-// @resource       updaterWindowHtml http://pastebin.com/raw.php?i=3gr9tRAT
+// @resource       i18n ../../includes/Includes_I18n/resources/default.json
+// @resource       updaterWindowCss ../../includes/Includes_Updater/resources/default.css
+// @resource       updaterWindowHtml ../../includes/Includes_Updater/resources/default.html
 // @require        ../../includes/Includes_XPath/63808.user.js
 // @require        ../../includes/Includes_HttpRequest/56489.user.js
 // @require        ../../includes/Includes_Translate/85618.user.js

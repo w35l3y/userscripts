@@ -19,8 +19,8 @@
 // @grant          GM_xmlhttpRequest
 // @grant          GM_getResourceText
 // @icon           http://gm.wesley.eti.br/icon.php?desc=28760
-// @resource       random_events http://pastebin.com/raw/839tCaQh
-// @resource       randomEventsHtml http://pastebin.com/raw/nPMWZeHY
+// @resource       random_events ../../includes/Includes_Neopets_Random_Events/resources/default.csv
+// @resource       randomEventsHtml ../../includes/Includes_Neopets_Random_Events/resources/default.html
 // @resource       meta https://github.com/w35l3y/userscripts/raw/master/scripts/Neopets_Cliffhanger/28760.user.js
 // @resource       i18n ../../includes/Includes_I18n/resources/default.json
 // @resource       updaterWindowHtml ../../includes/Includes_Updater/resources/default.html

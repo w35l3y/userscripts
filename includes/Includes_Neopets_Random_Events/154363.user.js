@@ -19,8 +19,8 @@
 // @grant          GM_deleteValue
 // @grant          GM_xmlhttpRequest
 // @grant          GM_getResourceText
-// @resource       random_events http://pastebin.com/download.php?i=839tCaQh
-// @resource       randomEventsHtml http://pastebin.com/download.php?i=nPMWZeHY
+// @resource       random_events ../../includes/Includes_Neopets_Random_Events/resources/default.csv
+// @resource       randomEventsHtml ../../includes/Includes_Neopets_Random_Events/resources/default.html
 // @require        ../../includes/Includes_XPath/63808.user.js
 // @require        ../../includes/Includes_Persist_%5BBETA%5D/154322.user.js
 // @contributor     jellyneo (http://www.jellyneo.net/?go=rereg)

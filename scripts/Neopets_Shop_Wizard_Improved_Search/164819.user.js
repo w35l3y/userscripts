@@ -20,11 +20,11 @@
 // @grant          GM_xmlhttpRequest
 // @grant          GM_getResourceText
 // @resource       meta https://github.com/w35l3y/userscripts/raw/master/scripts/Neopets_Shop_Wizard_Improved_Search/164819.user.js
-// @resource       i18n http://pastebin.com/download.php?i=ULrVTsSg
-// @resource       winConfigCss http://pastebin.com/download.php?i=Ldk4J4bi
-// @resource       neopetsMessageJson http://pastebin.com/download.php?i=yFSPiWT7
-// @resource       updaterWindowHtml http://pastebin.com/download.php?i=3gr9tRAT
-// @resource       updaterWindowCss http://pastebin.com/download.php?i=C1qAvAed
+// @resource       i18n ../../includes/Includes_I18n/resources/default.json
+// @resource       winConfigCss ../../includes/Includes_WinConfig/resources/default.css
+// @resource       neopetsMessageJson resources/neopetsMessageJson.json
+// @resource       updaterWindowHtml ../../includes/Includes_Updater/resources/default.html
+// @resource       updaterWindowCss ../../includes/Includes_Updater/resources/default.css
 // @require        ../../includes/Includes_XPath/63808.user.js
 // @require        ../../includes/Includes_HttpRequest/56489.user.js
 // @require        ../../includes/Includes_Neopets_Shop_Wizard/56503.user.js
