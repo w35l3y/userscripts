@@ -7,7 +7,7 @@
 // @copyright      2013+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        3.2.0
+// @version        3.3.0
 // @language       en
 // @include        http://www.neopets.com/*
 // @icon           http://gm.wesley.eti.br/icon.php?desc=89503
@@ -25,6 +25,7 @@
 // @require        ../../includes/Includes_Translate/85618.user.js
 // @require        ../../includes/Includes_I18n/87940.user.js
 // @require        ../../includes/Includes_Updater/87942.user.js
+// @history        3.3.0 Added 5 more themes (Grey Day, Kiko Lake, Mystery Island, Roo Island, Tyrannia)
 // @history        3.2.0 Added "JumpStart" Theme
 // @history        3.1.0 Added 4 more themes (Battleground: Seekers, Daily Dare: Chadley, Monster Hunting and Habitarium)
 // @history        3.0.0 Fixed some bugs
@@ -82,12 +83,15 @@
 			"23"	: ["023_dyd_c470b", "Daily Dare", 10],
 			"36"	: ["036_ddc_je4z0", "Daily Dare: Chadley", 2],
 			"26"	: ["026_fon_f2c70", "Festival of Neggs", 7],
+			"39"	: ["039_gry_2j9b4", "Grey Day", 5],
 			"38"	: ["038_hab_ig53k", "Habitarium", 12],
 			"4"		: ["004_bir_a2e60", "Happy Birthday", 7],
 			"3"		: ["003_hws_9bde9", "Haunted Woods", 11],
 			"45"	: ["045_jmp_af2015", "JumpStart", 1],
+			"40"	: ["040_klk_z0j87", "Kiko Lake", 4],
 			"28"	: ["028_kri_306cb", "Krawk Island", 7],
 			"37"	: ["037_hmh_f7k8s", "Monster Hunting", 14],
+			"41"	: ["041_myi_d3u7l", "Mystery Island", 7],
 			"0"		: ["000_def_f65b1", "Neopets Basic", 15],
 			"16"	: ["016_blu_e56fc", "Neopets Blue", 15],
 			"17"	: ["017_grn_f0c1a", "Neopets Green", 15],
@@ -98,11 +102,13 @@
 			"21"	: ["021_cpa_5ce03", "Puzzle Adventure", 19],
 			"9"		: ["009_qas_93707", "Qasalan", 9],
 			"22"	: ["022_lqc_d2d1a", "Quizara's Curse", 9],
+			"42"	: ["042_roo_2s6am", "Roo Island", 8],
 			"7"		: ["007_sfp_273a8", "Space Faerie Premium", 4],
 			"13"	: ["013_tow_4b54b", "Tale of Woe", 10],
 			"25"	: ["025_tfr_5ce03", "The Faeries' Ruin", 8],
 			"19"	: ["019_sloth1_7f914", "The Return of Dr. Sloth", 13],
 			"27"	: ["027_tkg_69097", "Treasure Keepers", 11],
+			"43"	: ["043_tyr_e4uc5", "Tyrannia", 7],
 			"35"	: ["035_tmo_we6g3", "Tyrannia: Mysterious Obelisk", 14],
 			"6"		: ["006_val_d85a0", "Valentine's Day", 9],
 			"5"		: ["005_win_57061", "Winter Holiday", 11]
