@@ -7,7 +7,7 @@
 // @copyright      2011+, w35l3y (http://www.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        6.0.0
+// @version        6.1.0
 // @language       en
 // @include        http://www.neopets.com/games/dicearoo.phtml
 // @include        http://www.neopets.com/games/play_dicearoo.phtml
@@ -20,15 +20,14 @@
 // @grant          GM_xmlhttpRequest
 // @grant          GM_getResourceText
 // @icon           http://gm.wesley.eti.br/icon.php?desc=28461
-// @resource       includes http://pastebin.com/download.php?i=eArANXdm
-// @resource       random_events http://pastebin.com/download.php?i=839tCaQh
-// @resource       randomEventsHtml http://pastebin.com/download.php?i=nPMWZeHY
+// @resource       random_events ../../includes/Includes_Neopets_Random_Events/resources/default.csv
+// @resource       randomEventsHtml ../../includes/Includes_Neopets_Random_Events/resources/default.html
 // @resource       meta https://github.com/w35l3y/userscripts/raw/master/scripts/Neopets_Dice-A-Roo/28461.user.js
-// @resource       i18n http://pastebin.com/download.php?i=ULrVTsSg
-// @resource       updaterWindowHtml ../../resources/html/updaterWindowHtml
-// @resource       updaterWindowCss http://pastebin.com/download.php?i=C1qAvAed
-// @resource       winConfigCss http://pastebin.com/download.php?i=Ldk4J4bi
-// @resource       winConfigDiceARooCss http://pastebin.com/download.php?i=67LnUSrC
+// @resource       i18n ../../includes/Includes_I18n/resources/default.json
+// @resource       updaterWindowHtml ../../includes/Includes_Updater/resources/default.html
+// @resource       updaterWindowCss ../../includes/Includes_Updater/resources/default.css
+// @resource       winConfigCss ../../includes/Includes_WinConfig/resources/default.css
+// @resource       winConfigDiceARooCss resources/default.css
 // @require        ../../includes/Includes_XPath/63808.user.js
 // @require        ../../includes/Includes_HttpRequest/56489.user.js
 // @require        ../../includes/Includes_Persist_%5BBETA%5D/154322.user.js
@@ -37,7 +36,6 @@
 // @require        ../../includes/Includes_I18n/87940.user.js
 // @require        ../../includes/Includes_Updater/87942.user.js
 // @require        ../../includes/Includes_Neopets_Random_Events/154363.user.js
-// @require        http://pastebin.com/download.php?i=P6VTBRRK
 // @cfu:version    version
 // @history        6.0.0 Added <a href="http://userscripts.org/guides/773">Includes Checker</a>
 // @history        5.0.0 Added Dice-A-Roo Settings
