@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.4.7
+// @version     1.5.0
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -102,7 +102,67 @@ var Neopets = function (doc) {
 		db.createTable("items", ["id", "name", "image", "rarity", "price"]);
 		db.commit();
 	}
-	
+
+	this.messages = function () {
+		var msgs = [],
+		top = 5,
+		moveMsgs = function (node) {
+			var found = 0;
+			for (var ai = 0;ai < msgs.length;++ai) {
+				if (found) {
+					msgs[ai][0].style.bottom = (parseFloat(msgs[ai][0].style.bottom) - found) + "px";
+				} else if (msgs[ai][0] === node) {
+					msgs.splice(ai--, 1);
+					found = 5 + node.clientHeight;
+					node.parentNode.removeChild(node);
+					top -= found;
+				}
+			}
+		},
+		f = function (a) {
+			return a[0].replace(/\$(\d+)/g, function ($0, $1) {
+				return a[$1] || "";
+			}).replace(/\r?\n/g, "<br />");
+		},
+		pmsg = function (fn, a) {
+			var d = document.createElement("div");
+			d.setAttribute("class", "neopets-messages");
+			d.innerHTML = f(a);
+
+			for (var ai = 0, at = msgs.length;ai < at;++ai) {
+				if (msgs[ai][1] == fn && msgs[ai][2][0] == a[0]) {
+					clearTimeout(msgs[ai][3]);
+					moveMsgs(msgs[ai][0]);
+					break;
+				}
+			}
+
+			msgs.push([d, fn, a, setTimeout(moveMsgs, 10000, d)]);
+			d.setAttribute("style", f(["position: absolute;padding: 5px;opacity: 0.6;width: 300px;text-align: left;right: 5px;bottom: $1px;background-color: $2;color: #FFFFFF", top, {"log":"#000000","error":"#990000","warn":"#777700","info":"#000099"}[fn]]));
+			document.body.appendChild(d);
+			//alert([d.clientHeight, d.offsetHeight]);
+			top += 5 + d.clientHeight;
+
+			console[fn](Array.prototype.slice.apply(a));
+		};
+
+		this.log = function () {
+			pmsg("log", arguments);
+		};
+
+		this.warn = function (msg) {
+			pmsg("warn", arguments);
+		};
+
+		this.error = function (msg) {
+			pmsg("error", arguments);
+		};
+
+		this.info = function (msg) {
+			pmsg("info", arguments);
+		};
+	};
+
 	this.request = function (obj) {
 		if (obj.ck) {
 			if (!obj.data) {
@@ -191,7 +251,7 @@ var Neopets = function (doc) {
 	} else {
 		createdAt.setUTCMilliseconds(createdAt.getUTCMilliseconds() - diff);
 	}
-	
+
 	this.addListener = function (type, callback) {
 		if (type in _listeners) {
 			_listeners[type].push(callback);
@@ -203,7 +263,7 @@ var Neopets = function (doc) {
 			_checkEvents(processDocument(doc), doc, {events:[callback]});
 		}
 	};
-	
+
 	this.getTime = function () {
 		return new Date(Date.now() - diff);
 	};
