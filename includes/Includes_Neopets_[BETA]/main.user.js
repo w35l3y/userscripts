@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.5.0
+// @version     1.6.0
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -103,21 +103,22 @@ var Neopets = function (doc) {
 		db.commit();
 	}
 
-	this.messages = function () {
+	this.console = new function () {
 		var msgs = [],
-		top = 5,
-		moveMsgs = function (node) {
-			var found = 0;
-			for (var ai = 0;ai < msgs.length;++ai) {
+		moveMsgs = function (node, ind) {
+			var found = 0,
+			allmsgs = document.body.querySelectorAll(".neopets-messages");
+
+			for (var ai = 0;ai < allmsgs.length;++ai) {
 				if (found) {
-					msgs[ai][0].style.bottom = (parseFloat(msgs[ai][0].style.bottom) - found) + "px";
-				} else if (msgs[ai][0] === node) {
-					msgs.splice(ai--, 1);
+					allmsgs[ai].style.top = (parseFloat(allmsgs[ai].style.top) - found) + "px";
+				} else if (allmsgs[ai] === node) {
 					found = 5 + node.clientHeight;
-					node.parentNode.removeChild(node);
-					top -= found;
 				}
 			}
+
+			node.parentNode.removeChild(node);
+			msgs.splice(ind, 1);
 		},
 		f = function (a) {
 			return a[0].replace(/\$(\d+)/g, function ($0, $1) {
@@ -132,16 +133,24 @@ var Neopets = function (doc) {
 			for (var ai = 0, at = msgs.length;ai < at;++ai) {
 				if (msgs[ai][1] == fn && msgs[ai][2][0] == a[0]) {
 					clearTimeout(msgs[ai][3]);
-					moveMsgs(msgs[ai][0]);
+					moveMsgs(msgs[ai][0], ai);
 					break;
 				}
 			}
 
-			msgs.push([d, fn, a, setTimeout(moveMsgs, 10000, d)]);
-			d.setAttribute("style", f(["position: absolute;padding: 5px;opacity: 0.6;width: 300px;text-align: left;right: 5px;bottom: $1px;background-color: $2;color: #FFFFFF", top, {"log":"#000000","error":"#990000","warn":"#777700","info":"#000099"}[fn]]));
+			msgs.push([d, fn, a, setTimeout(function (x) {
+				for (var ai = 0, at = msgs.length;ai < at;++ai) {
+					if (msgs[ai][0] === x) {
+						moveMsgs(x, ai);
+						break;
+					}
+				}
+			}, 10000, d)]);
+
+			var last = document.body.querySelector(".neopets-messages:last-child"),
+			top = 5 + parseFloat((last||{style:{top:"175px"}}).style.top) + parseFloat((last||{clientHeight:"0px"}).clientHeight);
+			d.setAttribute("style", f(["position: fixed;padding: 5px;opacity: 0.6;width: 300px;text-align: left;right: 5px;top: $1px;background-color: $2;color: #FFFFFF", top, {"log":"#000000","error":"#990000","warn":"#777700","info":"#000099"}[fn]]));
 			document.body.appendChild(d);
-			//alert([d.clientHeight, d.offsetHeight]);
-			top += 5 + d.clientHeight;
 
 			console[fn](Array.prototype.slice.apply(a));
 		};
