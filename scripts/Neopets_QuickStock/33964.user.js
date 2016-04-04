@@ -7,7 +7,7 @@
 // @copyright      2016+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        1.0.0
+// @version        1.1.0
 // @language       en
 // @include        http://www.neopets.com/quickstock.phtml
 // @include        http://www.neopets.com/quickstock.phtml?r=*
@@ -64,6 +64,7 @@
 	Neodeck		0x020000	(disabled by default)
 	Bless		0x040000	(disabled by default)
 	Album		0x080000	(disabled by default)
+	Use			0x100000	(disabled by default)
 	
 	Normal		0x000FFF
 	Show all	0xFFFFFF
@@ -73,7 +74,6 @@
 	var normal = xpath(".//td[@class = 'content']//form//tr[1]/th[position() > 1]/b/text()").map(function (node, index) {
 		return [Math.pow(2, index), node.nodeValue, -1];
 	});
-
 	if (normal.length > 12) {
 		alert("[Neopets : QuickStock]\n\nWoah! There are too many options.");
 	} else if (normal.length) {
@@ -82,9 +82,10 @@
 			[0x002000, "Read", 1, "Read to"],
 			[0x004000, "Play", 1, "Play with"],
 			[0x008000, "Equip", 1, "Equip"],
+			[0x100000, "Use", 1, "Use on"],
+			[0x040000, "Bless", 1, "Bless"],
 			[0x010000, "Give", 2, "Give to"],
 			[0x020000, "Neodeck", 0, "neodeck"],
-			[0x040000, "Bless", 1, "Bless"],
 			[0x080000, "Album", 0, "stamp"],
 		],
 		win = new WinConfig({
