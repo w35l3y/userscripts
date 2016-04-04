@@ -7,7 +7,7 @@
 // @copyright	2015+, w35l3y (http://gm.wesley.eti.br)
 // @license		GNU GPL
 // @homepage	http://gm.wesley.eti.br
-// @version		1.1.1
+// @version		1.1.2
 // @language	en
 // @include		nowhere
 // @exclude		*
@@ -19,7 +19,7 @@
 // ==/UserScript==
 
 var QuickStock = function (page) {
-	var _msg = new page.messages(),
+	var _msg = page.console,
 	_parse = function (xhr, obj) {
 		Object.defineProperties(xhr, {
 			response: {
@@ -123,17 +123,17 @@ var QuickStock = function (page) {
 						}
 					}
 
-					_msg.log("QuickStock 1/2 $1%", (100 * (1 - items.length / processedItems.length)).toPrecision(3), data);
+					_msg.log("[1/2] QuickStock... $1%", (100 * (1 - items.length / processedItems.length)).toPrecision(3), data);
 					_post(data, function (xhr) {
 						recursive1(xhr, items.slice(70));
 					});
 				} else {
-					_msg.log("QuickStock 1/2 $1%", "100.0");
+					_msg.log("[1/2] QuickStock... $1%", "100.0");
 					(function recursive2 (index, items) {
 						if (index < items.length) {
 							var item = items[index];
 
-							_msg.log("QuickStock 2/2 $1%", (100 * (index / items.length)).toPrecision(3), item);
+							_msg.log("[2/2] QuickStock... $1%", (100 * (index / items.length)).toPrecision(3), item);
 							_actions[item.action](item, function (xhr2) {
 								if (xhr2.error) {
 									console.error("Error while processing QuickStock:", xhr2.message);
@@ -143,7 +143,7 @@ var QuickStock = function (page) {
 								}
 							});
 						} else {
-							_msg.log("QuickStock 2/2 $1%", "100.0");
+							_msg.log("[2/2] QuickStock... $1%", "100.0");
 							_parse(xhr, obj);
 						}
 					}(0, obj.items.filter(function (item) {
