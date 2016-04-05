@@ -3,7 +3,7 @@
 %{description}
 **Summary:** %{value/}<br />%{/description}%{license}
 **License:** %{value/}<br />%{/license}
-[![PayPal - The safer, easier way to pay online!](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif "PayPal - The safer, easier way to pay online!")](http://goo.gl/Fv19S)
+[![PayPal - The safer, easier way to pay online!](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif "PayPal - The safer, easier way to pay online!")](https://goo.gl/DNfg2w)
 ### Usage
 ```
 %{grant}// @grant		%{value/}
