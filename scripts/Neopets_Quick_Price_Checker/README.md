@@ -4,7 +4,7 @@
 
 **Summary:** Enables Alt+W to quickly check the price of the selected text and converts it into a link<br />
 **License:** GNU GPL<br />
-[![PayPal - The safer, easier way to pay online!](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif "PayPal - The safer, easier way to pay online!")](http://goo.gl/Fv19S)
+[![PayPal - The safer, easier way to pay online!](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif "PayPal - The safer, easier way to pay online!")](https://goo.gl/DNfg2w)
 
 
 ### Installs
