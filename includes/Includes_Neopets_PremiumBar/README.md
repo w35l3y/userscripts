@@ -3,7 +3,7 @@
 
 **Summary:** PremiumBar Function<br />
 **License:** GNU GPL<br />
-[![PayPal - The safer, easier way to pay online!](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif "PayPal - The safer, easier way to pay online!")](http://goo.gl/Fv19S)
+[![PayPal - The safer, easier way to pay online!](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif "PayPal - The safer, easier way to pay online!")](https://goo.gl/DNfg2w)
 ### Usage
 ```
 // @grant		GM_log
@@ -21,9 +21,9 @@
 // @resource	toolbarCss https://gist.github.com/w35l3y/252ea029821a8b8109fa/raw/toolbar.css
 // @resource	toolbarHtml https://gist.github.com/w35l3y/252ea029821a8b8109fa/raw/toolbar.html
 // @resource	toolbarStocks https://gist.github.com/w35l3y/252ea029821a8b8109fa/raw/stocks.html
-// @resource	winConfigCss http://pastebin.com/raw.php?i=Ldk4J4bi
-// @require		http://pastebin.com/raw.php?i=FY7MDpMa
-// @require		https://github.com/knadh/localStorageDB/raw/master/localstoragedb.min.js
+// @resource	winConfigCss https://github.com/w35l3y/userscripts/raw/master/scripts/X/../../includes/Includes_WinConfig/resources/default.css
+// @require		https://gist.github.com/w35l3y/f824897032ae38af9595/raw/main.js
+// @require		https://github.com/w35l3y/localStorageDB/raw/master/localstoragedb.js
 // @require		https://github.com/w35l3y/github-js/raw/master/lib/underscore-min.js
 // @require		https://github.com/w35l3y/github-js/raw/master/github.js
 // @require		https://github.com/w35l3y/JSAMF/raw/master/web/web/amf.js
