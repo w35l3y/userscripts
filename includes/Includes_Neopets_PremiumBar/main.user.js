@@ -28,7 +28,7 @@
 // @resource    crosswordAnswers https://gist.github.com/w35l3y/fab231758eb0991f36a0/raw/crossword.json
 // @resource    foodclubJson https://gist.github.com/w35l3y/fab231758eb0991f36a0/raw/foodclub.json
 // @require     https://gist.github.com/w35l3y/f824897032ae38af9595/raw/main.js
-// @require     https://github.com/knadh/localStorageDB/raw/master/localstoragedb.min.js
+// @require     https://github.com/w35l3y/localStorageDB/raw/master/localstoragedb.js
 // @require     https://github.com/w35l3y/github-js/raw/master/lib/underscore-min.js
 // @require     https://github.com/w35l3y/github-js/raw/master/github.js
 // @require     https://github.com/w35l3y/JSAMF/raw/master/web/web/amf.js

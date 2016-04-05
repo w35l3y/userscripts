@@ -13,7 +13,7 @@
 // @exclude     *
 // @grant       GM_xmlhttpRequest
 // @grant       GM_getResourceText
-// @require     https://github.com/knadh/localStorageDB/raw/master/localstoragedb.min.js
+// @require     https://github.com/w35l3y/localStorageDB/raw/master/localstoragedb.js
 // @require     https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
 // @require     https://github.com/w35l3y/userscripts/raw/master/includes/Includes_HttpRequest/56489.user.js
 // @require     https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Neopets_%5BBETA%5D/main.user.js
