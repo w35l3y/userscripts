@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.0.1
+// @version     1.1.0
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -88,11 +88,36 @@ var FoodClub = function (page) {
 	_pirate = function (id, foods) {
 		return {
 			id	: id,
+			name	: json.pirates[id - 1][0],
 			fa	: [
 				contains(foods, json.pirates[id - 1][1]),
 				contains(foods, json.pirates[id - 1][2])
 			]
 		};
+	},
+	findPirate = function (name) {
+		for (var ai in json.pirates) {
+			if (name == json.pirates[ai][0]) {
+				return {
+					id	: 1 + ai,
+					name	: name
+				};
+			}
+		}
+		console.error("Pirate not found", name);
+		return null;
+	},
+	findArena = function (name) {
+		for (var ai in json.arenas) {
+			if (name == json.arenas[ai][0]) {
+				return {
+					id	: 1 + ai,
+					name	: name
+				};
+			}
+		}
+		console.error("Arena not found", name);
+		return null;
 	},
 	IterateArena = function (type) {
 		if ("previous" == type) {
@@ -151,7 +176,7 @@ var FoodClub = function (page) {
 			}(1));
 		};
 	},
-	Bets = function (type) {
+	Bets = function (type, is_post) {
 		if (type != "collect" && type != "current_bets") {
 			throw "Unknown 'type'";
 		}
@@ -164,16 +189,19 @@ var FoodClub = function (page) {
 			totalWinnings = 0;
 
 			return {
-				list	: xpath(".//td[@class = 'content']//tr[2 < position() and td[5]]", xhr.body).map(function (bet) {
+				list	: xpath(".//tr[2 < position() and td[5] and not(ancestor::table[1]/tbody/tr[position() = last()]/td[3])]", xhr.body).map(function (bet) {
 					var winnings = _n(bet.cells[4].textContent);
 					totalWinnings += winnings;
 
 					return {
 						round	: _n(bet.cells[0].textContent),
 						info	: xpath("./b", bet.cells[1]).map(function (arena) {
+							var _an = arena.textContent.trim(),
+							_pn = arena.nextSibling.textContent.trim().slice(1).trim();
+
 							return {
-								arena	: arena.textContent.trim(),
-								pirate	: arena.nextSibling.textContent.trim().slice(1).trim()
+								arena	: findArena(_an),
+								pirate	: findPirate(_pn)
 							}
 						}),
 						amount	: _n(bet.cells[2].textContent),
@@ -186,7 +214,7 @@ var FoodClub = function (page) {
 		};
 
 		this.execute = function (cb) {
-			_get({
+			(is_post?_post:_get)({
 				type : type
 			}, function (xhr) {
 				return _thisBet.parse(xhr);
@@ -254,7 +282,7 @@ var FoodClub = function (page) {
 				s.push(1 / (1 + s[3] / s[2]), s[2] / s[3]);
 
 				pirates.push({
-					id		: pi,
+					id	: pi,
 					stats	: s
 				});
 			}
@@ -264,6 +292,54 @@ var FoodClub = function (page) {
 			};
 		}, cb);
 	};
+
+	this.bet = function (cb, data) {
+		if (!data || !(data.pirates instanceof Array)) {
+			throw "Missing 'pirates'";
+		}
+
+		var _t = 1,
+		_d = {
+			type		: "bet",
+			bet_amount	: 0 < data.value?Number(data.value):50,
+			matches		: []
+		};
+		data.pirates.concat([,,,,,]).slice(0, 5).forEach(function (pirate, arena) {
+			if (pirate) {
+				_d.matches[arena] = 1 + arena;
+				if (0 < pirate.odds) {
+					_t *= pirate.odds;
+				}
+			}
+			_d["winner" + (1 + arena)] = (pirate && pirate.id?pirate.id:pirate) || "";
+		});
+		_d.total_odds = _t + ":1";
+		_d.winnings = Math.min(_t * _d.bet_amount, 1000000);
+
+		_post(_d, function (xhr) {
+			return new Bets("current_bets").parse(xhr);
+		}, cb);
+	};
+
+	this.parse = function (cb, data) {
+		if (!data || !data.url) {
+			throw "Missing 'url'";
+		}
+
+		page.request({
+			method	: "get",
+			action	: data.url,
+			data	: {},
+			delay	: true,
+			callback: function (xhr) {
+				_response(xhr, function (x) {
+					return new Bets("current_bets").parse(x);
+				});
+				cb(xhr);
+			}
+		});
+	};
+
 	this.previousRound = function (cb) {
 		new IterateArena("previous").execute(cb);
 	};
@@ -277,10 +353,6 @@ var FoodClub = function (page) {
 		new Bets("collect").execute(cb);
 	};
 	this.collect = function (cb) {
-		_post({
-			type	: "collect"
-		}, function (xhr) {
-			return new Bets("collect").parse(xhr);
-		}, cb);
+		new Bets("collect", true).execute(cb);
 	};
 };
