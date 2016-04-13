@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.1.0
+// @version     1.1.1
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -99,7 +99,7 @@ var FoodClub = function (page) {
 		for (var ai in json.pirates) {
 			if (name == json.pirates[ai][0]) {
 				return {
-					id	: 1 + ai,
+					id	: 1 + parseInt(ai, 10),
 					name	: name
 				};
 			}
@@ -111,7 +111,7 @@ var FoodClub = function (page) {
 		for (var ai in json.arenas) {
 			if (name == json.arenas[ai][0]) {
 				return {
-					id	: 1 + ai,
+					id	: 1 + parseInt(ai, 10),
 					name	: name
 				};
 			}
