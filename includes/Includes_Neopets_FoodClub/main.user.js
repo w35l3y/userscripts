@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.1.2
+// @version     1.2.0
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -120,32 +120,9 @@ var FoodClub = function (page) {
 		return null;
 	},
 	IterateArena = function (type) {
-		if ("previous" == type) {
-			this.parse = function (xhr) {
-				return {
-					pirate	: parseInt(xpath("string(.//img[contains(@src, '/fc/fc_')]/@src)", xhr.body).match(/pirate_(\d+)/)[1], 10)
-				};
-			};
-		} else if ("current" == type) {
-			this.parse = function (xhr) {
-				var courses = xpath(".//a[contains(@href, '=foods&id=')]/@href", xhr.body).map(function (o) {
-					return parseInt(o.value.match(/id=(\d+)/)[1], 10);
-				});
-
-				return {
-					pirates	: xpath(".//a[contains(@href, '=pirates&id=')]/@href", xhr.body).map(function (o) {
-						return _pirate(parseInt(o.value.match(/id=(\d+)/)[1], 10), courses);
-					}).sort(function (a, b) {
-						return (a.id > b.id?1:-1);
-					}),
-					courses	: courses
-				};
-			};
-		} else {
+		if ("previous" != type && "current" != type) {
 			throw "Unknown 'type'";
 		}
-		var _thisArena = this;
-
 
 		this.execute = function (cb) {
 			var results = [];
@@ -162,10 +139,10 @@ var FoodClub = function (page) {
 						_response(xhr, function () {
 							return {
 								arenas	: results.map(function (result) {
-									var _parse = _thisArena.parse(result[1]);
-									_parse.id = result[0];
+									var _res = _this.parse(type, result[1].body);
+									_res.id = result[0];
 
-									return _parse;
+									return _res;
 								})
 							};
 						});
@@ -177,120 +154,148 @@ var FoodClub = function (page) {
 		};
 	},
 	Bets = function (type, is_post) {
-		if (type != "collect" && type != "current_bets") {
-			throw "Unknown 'type'";
-		}
-		var _thisBet = this;
-
-		this.parse = function (xhr) {
-			var _n = function (v) {
-				return parseInt(v.trim().replace(/\D+/g), 10);
-			},
-			totalWinnings = 0;
-
-			return {
-				list	: xpath(".//tr[2 < position() and td[5] and not(ancestor::table[1]/tbody/tr[position() = last()]/td[3])]", xhr.body).map(function (bet) {
-					var winnings = _n(bet.cells[4].textContent);
-					totalWinnings += winnings;
-
-					return {
-						round	: _n(bet.cells[0].textContent),
-						info	: xpath("./b", bet.cells[1]).map(function (arena) {
-							var _an = arena.textContent.trim(),
-							_pn = arena.nextSibling.textContent.trim().slice(1).trim();
-
-							return {
-								arena	: findArena(_an),
-								pirate	: findPirate(_pn)
-							}
-						}),
-						amount	: _n(bet.cells[2].textContent),
-						odds	: _n(bet.cells[3].textContent.trim().slice(0, -2)),
-						winnings: winnings
-					};
-				}),
-				winnings: totalWinnings 
-			};
-		};
-
 		this.execute = function (cb) {
 			(is_post?_post:_get)({
 				type : type
 			}, function (xhr) {
-				return _thisBet.parse(xhr);
+				return _this.parse(type, xhr.body);
 			}, cb);
 		};
 	};
 
-	this.odds = function (cb) {
-		_get({
-			type	: "bet"
-		}, function (xhr) {
-			var pIndex = [],
-			arenas = [],
-			rawData = xpath("string(.//form[@name = 'bet_form'])", xhr.body),
-			maxbet = /max_bet\s*=\s*(\d+)/.test(rawData) && parseInt(RegExp.$1, 10),
-			re = /pirate_odds\[(\d+)\]\s*=\s*(\d+)/g,
-			match,
-			sum = 0;
-			while (match = re.exec(rawData)) {
-				var arena = Math.floor(sum / 4),
-				odds = parseInt(match[2], 10);
-				if (!(sum % 4)) {
-					arenas[arena] = {
-						id			: 1 + arena,
-						arbitrage	: 100,
-						pirates		: []
+	this.parse = function (type, xhr) {
+		if (type instanceof Function) {
+			return HttpRequest.open({
+				method	: "GET",
+				url		: xhr.url,
+				onsuccess	: function (xx) {
+					var _data = {
+						error	: false,
+						errmsg	: "",
+						body	: xx.response.xml
 					};
+					_response(_data, function (x) {
+						return _this.parse("current_bets", x.body);
+					});
+					type(_data);
+				}
+			}).send({});
+		}
+
+		if (!xhr) {
+			xhr = page.document;
+		}
+
+		switch (type) {
+			case "collect":
+			case "current_bets":
+				var _n = function (v) {
+					return parseInt(v.trim().replace(/\D+/g), 10);
+				},
+				totalWinnings = 0;
+
+				return {
+					list	: xpath(".//tr[2 < position() and td[5] and not(ancestor::table[1]/tbody/tr[position() = last()]/td[3])]", xhr).map(function (bet) {
+						var winnings = _n(bet.cells[4].textContent);
+						totalWinnings += winnings;
+
+						return {
+							round	: _n(bet.cells[0].textContent),
+							info	: xpath("./b", bet.cells[1]).map(function (arena) {
+								var _an = arena.textContent.trim(),
+								_pn = arena.nextSibling.textContent.trim().slice(1).trim();
+
+								return {
+									arena	: findArena(_an),
+									pirate	: findPirate(_pn)
+								}
+							}),
+							amount	: _n(bet.cells[2].textContent),
+							odds	: _n(bet.cells[3].textContent.trim().slice(0, -2)),
+							winnings: winnings
+						};
+					}),
+					winnings: totalWinnings 
+				};
+			case "current":
+				var courses = xpath(".//a[contains(@href, '=foods&id=')]/@href", xhr).map(function (o) {
+					return parseInt(o.value.match(/id=(\d+)/)[1], 10);
+				});
+
+				return {
+					pirates	: xpath(".//a[contains(@href, '=pirates&id=')]/@href", xhr).map(function (o) {
+						return _pirate(parseInt(o.value.match(/id=(\d+)/)[1], 10), courses);
+					}).sort(function (a, b) {
+						return (a.id > b.id?1:-1);
+					}),
+					courses	: courses
+				};
+			case "previous":
+				return {
+					pirate	: parseInt(xpath("string(.//img[contains(@src, '/fc/fc_')]/@src)", xhr).match(/pirate_(\d+)/)[1], 10)
+				};
+			case "bet":
+				var pIndex = [],
+				arenas = [],
+				rawData = xpath("string(.//form[@name = 'bet_form'])", xhr.body),
+				maxbet = /max_bet\s*=\s*(\d+)/.test(rawData) && parseInt(RegExp.$1, 10),
+				re = /pirate_odds\[(\d+)\]\s*=\s*(\d+)/g,
+				match,
+				sum = 0;
+				while (match = re.exec(rawData)) {
+					var arena = Math.floor(sum / 4),
+					odds = parseInt(match[2], 10);
+					if (!(sum % 4)) {
+						arenas[arena] = {
+							id			: 1 + arena,
+							arbitrage	: 100,
+							pirates		: []
+						};
+					}
+
+					arenas[arena].arbitrage -= 100 / odds;
+
+					arenas[arena].pirates.push({
+						id		: parseInt(match[1], 10),
+						odds	: odds
+					});
+
+					++sum;
 				}
 
-				arenas[arena].arbitrage -= 100 / odds;
+				for (var ai = 0,at = arenas.length;ai < at;++ai) {
+					arenas[ai].pirates.sort(function (a, b) {
+						return (a.id > b.id?1:-1);
+					});
+				}
 
-				arenas[arena].pirates.push({
-					id		: parseInt(match[1], 10),
-					odds	: odds
-				});
+				return {
+					max_bet	: maxbet,
+					arenas	: arenas
+				};
+			case "pirates":
+				var stats = xpath(".//td[@class = 'content']/center/table/tbody/tr[td[6][contains(., '%')]]/td[1]/a", xhr),
+				bets = [],
+				pirates = [];
+				for (var ai = 0, at = stats.length;ai < at;++ai) {
+					var pi = /&id=(\d+)/.test(stats[ai].href) && parseInt(RegExp.$1, 10),
+					s = Array.prototype.slice.apply(stats[ai].parentNode.parentNode.cells, [1, 5]).map(function (item) {
+						return parseInt(item.textContent, 10);
+					});
+					s.push(1 / (1 + s[3] / s[2]), s[2] / s[3]);
 
-				++sum;
-			}
+					pirates.push({
+						id	: pi,
+						stats	: s
+					});
+				}
 
-			for (var ai = 0,at = arenas.length;ai < at;++ai) {
-				arenas[ai].pirates.sort(function (a, b) {
-					return (a.id > b.id?1:-1);
-				});
-			}
-
-			return {
-				max_bet	: maxbet,
-				arenas	: arenas
-			};
-		}, cb);
-	};
-
-	this.pirates = function (cb) {
-		_get({
-			type	: "pirates"
-		}, function (xhr) {
-			var stats = xpath(".//td[@class = 'content']/center/table/tbody/tr[td[6][contains(., '%')]]/td[1]/a", xhr.body),
-			bets = [],
-			pirates = [];
-			for (var ai = 0, at = stats.length;ai < at;++ai) {
-				var pi = /&id=(\d+)/.test(stats[ai].href) && parseInt(RegExp.$1, 10),
-				s = Array.prototype.slice.apply(stats[ai].parentNode.parentNode.cells, [1, 5]).map(function (item) {
-					return parseInt(item.textContent, 10);
-				});
-				s.push(1 / (1 + s[3] / s[2]), s[2] / s[3]);
-
-				pirates.push({
-					id	: pi,
-					stats	: s
-				});
-			}
-
-			return {
-				pirates	: pirates
-			};
-		}, cb);
+				return {
+					pirates	: pirates
+				};
+			default:
+				throw "Unknown 'type'";
+		}
 	};
 
 	this.bet = function (cb, data) {
@@ -343,29 +348,13 @@ var FoodClub = function (page) {
 		}
 
 		_post(_d, function (xhr) {
-			return new Bets("current_bets").parse(xhr);
+			return _this.parse("current_bets", xhr.body);
 		}, cb);
 	};
 
-	this.parse = function (cb, data) {
-		if (!data || !data.url) {
-			throw "Missing 'url'";
-		}
-
-		page.request({
-			method	: "get",
-			action	: data.url,
-			data	: {},
-			delay	: true,
-			callback: function (xhr) {
-				_response(xhr, function (x) {
-					return new Bets("current_bets").parse(x);
-				});
-				cb(xhr);
-			}
-		});
+	this.collect = function (cb) {
+		new Bets("collect", true).execute(cb);
 	};
-
 	this.previousRound = function (cb) {
 		new IterateArena("previous").execute(cb);
 	};
@@ -378,7 +367,10 @@ var FoodClub = function (page) {
 	this.winningBets = function (cb) {
 		new Bets("collect").execute(cb);
 	};
-	this.collect = function (cb) {
-		new Bets("collect", true).execute(cb);
+	this.odds = function (cb) {
+		new Bets("bet").execute(cb);
+	};
+	this.pirates = function (cb) {
+		new Bets("pirates").execute(cb);
 	};
 };
