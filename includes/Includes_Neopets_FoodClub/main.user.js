@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.2.0
+// @version     1.2.1
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -241,14 +241,23 @@ var FoodClub = function (page) {
 				maxbet = /max_bet\s*=\s*(\d+)/.test(rawData) && parseInt(RegExp.$1, 10),
 				re = /pirate_odds\[(\d+)\]\s*=\s*(\d+)/g,
 				match,
-				sum = 0;
+				sum = 0,
+				pirateSelect;
 				while (match = re.exec(rawData)) {
 					var arena = Math.floor(sum / 4),
-					odds = parseInt(match[2], 10);
+					odds = parseInt(match[2], 10),
+					_pi = parseInt(match[1], 10);
+
 					if (!(sum % 4)) {
+						pirateSelect = xpath(".//select[@name = 'winner" + (1 + arena) + "']", xhr.body)[0];
+						pirateSelect = pirateSelect.options[pirateSelect.selectedIndex].value;
+
 						arenas[arena] = {
 							id			: 1 + arena,
+							name		: json.arenas[arena][0],
 							arbitrage	: 100,
+							checked		: xpath(".//input[@type = 'checkbox' and @name = 'matches[]' and @value = '" + (1 + arena) + "']", xhr.body)[0].checked,
+							pirate		: pirateSelect,	// selected pirate
 							pirates		: []
 						};
 					}
@@ -256,7 +265,9 @@ var FoodClub = function (page) {
 					arenas[arena].arbitrage -= 100 / odds;
 
 					arenas[arena].pirates.push({
-						id		: parseInt(match[1], 10),
+						id		: _pi,
+						name	: json.pirates[_pi - 1][0],
+						checked	: (_pi == pirateSelect),
 						odds	: odds
 					});
 
@@ -265,6 +276,9 @@ var FoodClub = function (page) {
 
 				for (var ai = 0,at = arenas.length;ai < at;++ai) {
 					arenas[ai].pirates.sort(function (a, b) {
+						if (a.id == b.id) {
+							return 0;
+						}
 						return (a.id > b.id?1:-1);
 					});
 				}
@@ -308,6 +322,11 @@ var FoodClub = function (page) {
 			type		: "bet",
 			bet_amount	: (0 < data.value?Number(data.value):50),
 			matches		: [],
+			winner1		: "",
+			winner2		: "",
+			winner3		: "",
+			winner4		: "",
+			winner5		: "",
 			total_odds	: (0 < data.odds?data.odds + ":1":0)
 		};
 		data.bets.forEach(function (b, i, a) {
@@ -325,20 +344,21 @@ var FoodClub = function (page) {
 				}
 			}
 
-			if (a.some(function (x, ii) {
+			if (!b.arena.id || a.some(function (x, ii) {
 				return ii < i && b.arena.id == x.arena.id;
 			})) {
-				console.error("Invalid arena id", x.arena.id, a);
+				console.error("Invalid arena id", b.arena.id, a);
 				throw "Invalid arena id";
 			}
 
-			if (b.pirate) {
+			if (b.pirate.id) {
 				_d.matches.push(b.arena.id);
+				_d["winner" + b.arena.id] = b.pirate.id;
+
 				if (0 < b.pirate.odds) {
 					_t *= b.pirate.odds;
 				}
 			}
-			_d["winner" + b.arena.id] = b.pirate.id || "";
 		});
 
 		_d.winnings = Math.min((_d.total_odds?data.odds:_t) * _d.bet_amount, 1000000);
