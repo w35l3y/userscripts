@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.6.0
+// @version     1.6.1
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -487,6 +487,7 @@ var Neopets = function (doc) {
 			*/
 				return xpath(".//div[@class = 'inner_wrapper2']/img[@class = 'item']", doc).map(function (item) {
 					return {
+						type	: 0,
 						icon	: item.previousElementSibling.getAttribute("src"),
 						item	: {
 							name	: xpath("string(./b)", item.nextElementSibling),
@@ -496,18 +497,30 @@ var Neopets = function (doc) {
 					};
 				}).concat(xpath(".//div[@class = 'randomEvent']/div[@class = 'copy']", doc).map(function (item) {
 					return {
+						type	: 1,
 						icon	: undefined,
 						item	: {},
 						message	: item.textContent.trim()
 					};
 				})).concat(xpath(".//table[@width = '400']/tbody[tr[1]/td[@colspan = '2']]/tr[2][td[1]/img and td[2]]", doc).map(function (item) {
 					return {
+						type	: 2,
 						icon	: item.previousElementSibling.cells[0].getAttribute("bgcolor"),
 						item	: {
 							name	: xpath("string(./b)", item.cells[1]),
 							image	: item.cells[0].firstElementChild.getAttribute("src")
 						},
 						message	: item.cells[1].textContent.trim()
+					};
+				})).concat(xpath(".//div[@class = 'shh_prem_frame']", doc).map(function (item) {
+					return {
+						type	: 3,
+						icon	: undefined,
+						item	: {
+							name	: xpath("string(.//b)", item),
+							image	: /'([^']+)'/.test(xpath("string(id('shh_prem_img')/@style)", item))?RegExp.$1:undefined
+						},
+						message	: xpath("string(.//div[@class = 'desc_middle'])", item).trim()
 					};
 				}));
 			}
