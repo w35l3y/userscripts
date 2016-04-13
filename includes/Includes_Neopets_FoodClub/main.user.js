@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.2.1
+// @version     1.3.0
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -99,8 +99,9 @@ var FoodClub = function (page) {
 		for (var ai in json.pirates) {
 			if (name == json.pirates[ai][0]) {
 				return {
-					id	: 1 + parseInt(ai, 10),
-					name	: name
+					id		: 1 + parseInt(ai, 10),
+					name	: name,
+					checked	: true,
 				};
 			}
 		}
@@ -111,8 +112,9 @@ var FoodClub = function (page) {
 		for (var ai in json.arenas) {
 			if (name == json.arenas[ai][0]) {
 				return {
-					id	: 1 + parseInt(ai, 10),
-					name	: name
+					id		: 1 + parseInt(ai, 10),
+					name	: name,
+					checked	: true,
 				};
 			}
 		}
@@ -201,14 +203,11 @@ var FoodClub = function (page) {
 
 						return {
 							round	: _n(bet.cells[0].textContent),
-							info	: xpath("./b", bet.cells[1]).map(function (arena) {
-								var _an = arena.textContent.trim(),
-								_pn = arena.nextSibling.textContent.trim().slice(1).trim();
+							arenas	: xpath("./b", bet.cells[1]).map(function (arena) {
+								var _an = findArena(arena.textContent.trim());
+								_an.pirate = findPirate(arena.nextSibling.textContent.trim().slice(1).trim());
 
-								return {
-									arena	: findArena(_an),
-									pirate	: findPirate(_pn)
-								}
+								return _an
 							}),
 							amount	: _n(bet.cells[2].textContent),
 							odds	: _n(bet.cells[3].textContent.trim().slice(0, -2)),
@@ -257,19 +256,22 @@ var FoodClub = function (page) {
 							name		: json.arenas[arena][0],
 							arbitrage	: 100,
 							checked		: xpath(".//input[@type = 'checkbox' and @name = 'matches[]' and @value = '" + (1 + arena) + "']", xhr.body)[0].checked,
-							pirate		: pirateSelect,	// selected pirate
 							pirates		: []
 						};
 					}
 
 					arenas[arena].arbitrage -= 100 / odds;
 
-					arenas[arena].pirates.push({
+					var pirate = {
 						id		: _pi,
 						name	: json.pirates[_pi - 1][0],
 						checked	: (_pi == pirateSelect),
 						odds	: odds
-					});
+					};
+					if (_pi == pirateSelect) {
+						arenas[arena].pirate = pirate;
+					}
+					arenas[arena].pirates.push(pirate);
 
 					++sum;
 				}
@@ -331,29 +333,21 @@ var FoodClub = function (page) {
 		};
 		data.bets.forEach(function (b, i, a) {
 			if (!b || 0 < b) {
-				a[i] = {
-					arena	: {id: 1 + i},
-					pirate	: {id: b}
-				};
-			} else if (b) {
-				if (!b.arena || 0 < b.arena) {
-					b.arena = {id: b.arena || 1 + i};
-				}
-				if (!b.pirate || 0 < b.pirate) {
-					b.pirate = {id: b.pirate};
-				}
+				a[i] = {id: 1 + i, pirate: {id: b}};
+			} else if (b && (!b.pirate || 0 < b.pirate)) {
+				b.pirate = {id: b.pirate};
 			}
 
-			if (!b.arena.id || a.some(function (x, ii) {
-				return ii < i && b.arena.id == x.arena.id;
+			if (!b.id || a.some(function (x, ii) {
+				return ii < i && b.id == x.id;
 			})) {
-				console.error("Invalid arena id", b.arena.id, a);
+				console.error("Invalid arena id", b.id, a);
 				throw "Invalid arena id";
 			}
 
 			if (b.pirate.id) {
-				_d.matches.push(b.arena.id);
-				_d["winner" + b.arena.id] = b.pirate.id;
+				_d.matches.push(b.id);
+				_d["winner" + b.id] = b.pirate.id;
 
 				if (0 < b.pirate.odds) {
 					_t *= b.pirate.odds;
