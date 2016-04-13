@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.1.1
+// @version     1.1.2
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -251,7 +251,7 @@ var FoodClub = function (page) {
 					odds	: odds
 				});
 
-				++sum;				
+				++sum;
 			}
 
 			for (var ai = 0,at = arenas.length;ai < at;++ai) {
@@ -294,27 +294,53 @@ var FoodClub = function (page) {
 	};
 
 	this.bet = function (cb, data) {
-		if (!data || !(data.pirates instanceof Array)) {
-			throw "Missing 'pirates'";
+		if (!data || !(data.bets instanceof Array) || 5 < data.bets.length) {
+			throw "Missing/Invalid 'bets'";
 		}
 
 		var _t = 1,
 		_d = {
 			type		: "bet",
-			bet_amount	: 0 < data.value?Number(data.value):50,
-			matches		: []
+			bet_amount	: (0 < data.value?Number(data.value):50),
+			matches		: [],
+			total_odds	: (0 < data.odds?data.odds + ":1":0)
 		};
-		data.pirates.concat([,,,,,]).slice(0, 5).forEach(function (pirate, arena) {
-			if (pirate) {
-				_d.matches[arena] = 1 + arena;
-				if (0 < pirate.odds) {
-					_t *= pirate.odds;
+		data.bets.forEach(function (b, i, a) {
+			if (!b || 0 < b) {
+				a[i] = {
+					arena	: {id: 1 + i},
+					pirate	: {id: b}
+				};
+			} else if (b) {
+				if (!b.arena || 0 < b.arena) {
+					b.arena = {id: b.arena || 1 + i};
+				}
+				if (!b.pirate || 0 < b.pirate) {
+					b.pirate = {id: b.pirate};
 				}
 			}
-			_d["winner" + (1 + arena)] = (pirate && pirate.id?pirate.id:pirate) || "";
+
+			if (a.some(function (x, ii) {
+				return ii < i && b.arena.id == x.arena.id;
+			})) {
+				console.error("Invalid arena id", x.arena.id, a);
+				throw "Invalid arena id";
+			}
+
+			if (b.pirate) {
+				_d.matches.push(b.arena.id);
+				if (0 < b.pirate.odds) {
+					_t *= b.pirate.odds;
+				}
+			}
+			_d["winner" + b.arena.id] = b.pirate.id || "";
 		});
-		_d.total_odds = _t + ":1";
-		_d.winnings = Math.min(_t * _d.bet_amount, 1000000);
+
+		_d.winnings = Math.min((_d.total_odds?data.odds:_t) * _d.bet_amount, 1000000);
+
+		if (1 < _t) {
+			_d.total_odds = _t + ":1";
+		}
 
 		_post(_d, function (xhr) {
 			return new Bets("current_bets").parse(xhr);
