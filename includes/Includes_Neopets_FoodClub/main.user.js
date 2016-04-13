@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.3.0
+// @version     1.4.0
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -315,8 +315,8 @@ var FoodClub = function (page) {
 	};
 
 	this.bet = function (cb, data) {
-		if (!data || !(data.bets instanceof Array) || 5 < data.bets.length) {
-			throw "Missing/Invalid 'bets'";
+		if (!data || !(data.arenas instanceof Array) || 5 < data.arenas.length) {
+			throw "Missing/Invalid 'arenas'";
 		}
 
 		var _t = 1,
@@ -331,9 +331,9 @@ var FoodClub = function (page) {
 			winner5		: "",
 			total_odds	: (0 < data.odds?data.odds + ":1":0)
 		};
-		data.bets.forEach(function (b, i, a) {
+		data.arenas.forEach(function (b, i, a) {
 			if (!b || 0 < b) {
-				a[i] = {id: 1 + i, pirate: {id: b}};
+				b = a[i] = {id: 1 + i, pirate: {id: b}};
 			} else if (b && (!b.pirate || 0 < b.pirate)) {
 				b.pirate = {id: b.pirate};
 			}
