@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.4.0
+// @version     1.4.1
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -105,8 +105,8 @@ var FoodClub = function (page) {
 				};
 			}
 		}
+
 		console.error("Pirate not found", name);
-		return null;
 	},
 	findArena = function (name) {
 		for (var ai in json.arenas) {
@@ -118,8 +118,8 @@ var FoodClub = function (page) {
 				};
 			}
 		}
+
 		console.error("Arena not found", name);
-		return null;
 	},
 	IterateArena = function (type) {
 		if ("previous" != type && "current" != type) {
@@ -336,6 +336,16 @@ var FoodClub = function (page) {
 				b = a[i] = {id: 1 + i, pirate: {id: b}};
 			} else if (b && (!b.pirate || 0 < b.pirate)) {
 				b.pirate = {id: b.pirate};
+
+				if (b.pirates) {
+					for (var ai in b.pirates) {
+						var bb = b.pirates[ai];
+						if (bb.id && (bb.checked || bb.id == b.pirate.id)) {
+							b.pirate = bb;
+							break;
+						}
+					}
+				}
 			}
 
 			if (!b.id || a.some(function (x, ii) {
@@ -345,9 +355,32 @@ var FoodClub = function (page) {
 				throw "Invalid arena id";
 			}
 
-			if (b.pirate.id) {
+			if (b.pirate.id || b.checked && b.id) {
+				if (data.check) {
+					for (var ai in data.check) {
+						var aa = data.check[ai];
+						if (aa.id == b.id) {
+							var found = false;
+							for (var bi in aa.pirates) {
+								var bb = aa.pirates[bi];
+								if (bb.id == b.pirate.id) {
+									b.pirate.odds = bb.odds;
+									found = true;
+									break;
+								}
+							}
+
+							if (!found) {
+								console.error("Pirate not found in the current arena", b.pirate.id, b.id, data.check);
+								throw "Pirate not found";
+							}
+							break;
+						}
+					}
+				}
+
 				_d.matches.push(b.id);
-				_d["winner" + b.id] = b.pirate.id;
+				_d["winner" + b.id] = b.pirate.id || "";
 
 				if (0 < b.pirate.odds) {
 					_t *= b.pirate.odds;
@@ -355,7 +388,7 @@ var FoodClub = function (page) {
 			}
 		});
 
-		_d.winnings = Math.min((_d.total_odds?data.odds:_t) * _d.bet_amount, 1000000);
+		_d.winnings = Math.min((1 < _t?_t:data.odds) * _d.bet_amount, 1000000);
 
 		if (1 < _t) {
 			_d.total_odds = _t + ":1";
