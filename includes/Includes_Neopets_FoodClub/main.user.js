@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.4.1
+// @version     1.5.0
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -166,24 +166,6 @@ var FoodClub = function (page) {
 	};
 
 	this.parse = function (type, xhr) {
-		if (type instanceof Function) {
-			return HttpRequest.open({
-				method	: "GET",
-				url		: xhr.url,
-				onsuccess	: function (xx) {
-					var _data = {
-						error	: false,
-						errmsg	: "",
-						body	: xx.response.xml
-					};
-					_response(_data, function (x) {
-						return _this.parse("current_bets", x.body);
-					});
-					type(_data);
-				}
-			}).send({});
-		}
-
 		if (!xhr) {
 			xhr = page.document;
 		}
@@ -312,6 +294,24 @@ var FoodClub = function (page) {
 			default:
 				throw "Unknown 'type'";
 		}
+	};
+
+	this.get = function (cb, data) {
+		return HttpRequest.open({
+			method	: "GET",
+			url		: data.url,
+			onsuccess	: function (xhr) {
+				var _data = {
+					error	: false,
+					errmsg	: "",
+					body	: xhr.response.xml
+				};
+				_response(_data, function (x) {
+					return _this.parse("current_bets", x.body);
+				});
+				cb(_data);
+			}
+		}).send({});
 	};
 
 	this.bet = function (cb, data) {
