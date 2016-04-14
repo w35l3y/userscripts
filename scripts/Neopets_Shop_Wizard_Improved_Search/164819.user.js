@@ -7,7 +7,7 @@
 // @copyright      2013+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        2.0.1
+// @version        2.0.2
 // @language       en
 // @include        http://www.neopets.com/market.phtml?type=wizard
 // @include        http://www.neopets.com/market.phtml
@@ -328,7 +328,7 @@ GM_addStyle(".winConfig_ShopWizardImprovedSearchSettings .body .fieldName_group 
 				}
 			}
 		},
-		table = xpath(".//td[@class = 'content']/div[2]/table[.//tr[1][td[@class = 'contentModuleHeaderAlt']]][position() = last()]")[0];
+		table = xpath(".//td[@class = 'content']/div/table[.//tr[1][td[@class = 'contentModuleHeaderAlt']]][position() = last()]")[0];
 		
 		if (0x04 & config.columns) {
 			for (var ai = 3;ai--;) {
@@ -338,7 +338,7 @@ GM_addStyle(".winConfig_ShopWizardImprovedSearchSettings .body .fieldName_group 
 
 		if (!table) {
 			var t = document.createElement("div"),
-			anchor = xpath(".//td[@class = 'content']/div[2]/table[1]/following-sibling::br[2]")[0];
+			anchor = xpath(".//td[@class = 'content']/div/table[1]/following-sibling::br[2]")[0];
 			t.innerHTML = '<table width="600" cellspacing="0" cellpadding="3" border="0" align="center"><tbody><tr><td class="contentModuleHeaderAlt"><b>Shop Owner</b></td><td class="contentModuleHeaderAlt"><b>Item</b></td><td width="40" class="contentModuleHeaderAlt"><b>Stock</b></td><td width="80" class="contentModuleHeaderAlt"><div align="right"><b>Price</b></div></td></tr></tbody></table>';
 
 			isWhite = false;
