@@ -7,7 +7,7 @@
 // @copyright      2013+, w35l3y (http://gm.wesley.eti.br/includes)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br/includes
-// @version        1.8.9
+// @version        1.9.0
 // @language       en
 // @include        nowhere
 // @exclude        *
@@ -1073,4 +1073,21 @@ WinConfig.CustomField.hotkey = function (_window) {
 			_field.callback(e, _window);
 		}
 	}, false);
+};
+
+prompt2 = function (description, defaultValue, onload, data) {
+	return WinConfig.init(Object.assign(data || {}, {
+		type		: WinConfig.WindowType.PROMPT,
+		description	: description,
+		default		:{text:defaultValue},
+		load		: onload
+	}));
+};
+
+confirm2 = function (description, onload, data) {
+	return WinConfig.init(Object.assign(data || {}, {
+		type		: WinConfig.WindowType.QUESTION,
+		description	: description,
+		load		: onload
+	}));
 };
