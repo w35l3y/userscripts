@@ -7,7 +7,7 @@
 // @copyright      2016+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        1.0.0
+// @version        1.0.1
 // @language       en
 // @include        http://www.neopets.com/pirates/foodclub.phtml?type=bet
 // @icon           http://gm.wesley.eti.br/icon.php?desc=Neopets_Food_Club/main.user.js
@@ -90,15 +90,14 @@ button.addEventListener("click", function (e) {
 								return parseInt(v.value, 10);
 							});
 
-							(function recursive (list) {	// recursively iterate through the list of bets
-								if (list.length) {
-									var bet = list[0];
-									list.shift();
+							(function recursive (list, index) {	// recursively iterate through the list of bets
+								if (index < list.length) {
+									var bet = list[index];
 
 									try {
 										fc.bet(function (o) {
 											console.log(o);
-											recursive(list);
+											recursive(list, ++index);
 										}, {
 											check	: r.arenas,	// check whether the bets are possible
 											value	: r.max_bet,	// value of the bets
@@ -106,15 +105,15 @@ button.addEventListener("click", function (e) {
 											odds	: bet.odds,	// odds - optional
 										});
 									} catch (e) {
-										np.console.error("Food Club : " + e);
-										recursive(list);
+										np.console.error("[$1 / $2] Food Club : " + e, 1 + index, list.length, e);
+										recursive(list, ++index);
 									}
 								} else {
-									np.console.info("Food Club : Complete");
+									np.console.info("[$1 / $2] Food Club : $3", index, list.length, "Complete");
 								}
 							}(bets.filter(function (b, i) {
 								return 0 < checked.indexOf(i);
-							})));
+							}), 0));
 						}
 					});
 
