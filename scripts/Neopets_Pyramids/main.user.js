@@ -6,7 +6,7 @@
 // @copyright      2015+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        1.2.0
+// @version        1.2.1
 // @language       en
 // @include        http://www.neopets.com/games/pyramids/*
 // @grant          GM_setValue
@@ -41,7 +41,7 @@ AjaxUpdate.init({
 	onsuccess	: function (obj) {
 		var x = xpath(".//a[contains(@href, 'action=collect')]|.//form[contains(@action, 'pyramids.phtml')]", obj.document)[0],
 		next = function (p) {
-			return window.setTimeout(obj.next, 1232 + Math.ceil(1567 * Math.random()), p);
+			return setTimeout(obj.next, 564 + Math.ceil(239 * Math.random()), p);
 		};
 
 		if (x) {
