@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.5.0
+// @version     1.5.1
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -388,11 +388,14 @@ var FoodClub = function (page) {
 			}
 		});
 
-		_d.winnings = Math.min((1 < _t?_t:data.odds) * _d.bet_amount, 1000000);
-
 		if (1 < _t) {
 			_d.total_odds = _t + ":1";
+		} else if (0 < data.odds) {
+			_t = data.odds;
 		}
+
+		_d.bet_amount = Math.min(_d.bet_amount, Math.ceil(1000000 / _t));
+		_d.winnings = Math.min(_t * _d.bet_amount, 1000000);
 
 		_post(_d, function (xhr) {
 			return _this.parse("current_bets", xhr.body);
