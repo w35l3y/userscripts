@@ -7,7 +7,7 @@
 // @copyright      2016+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        1.0.1
+// @version        1.0.2
 // @language       en
 // @include        http://www.neopets.com/pirates/foodclub.phtml?type=bet
 // @icon           http://gm.wesley.eti.br/icon.php?desc=Neopets_Food_Club/main.user.js
@@ -84,7 +84,7 @@ button.addEventListener("click", function (e) {
 						size	: ["650px", -1],
 						description	: '<table border="1" cellpadding="2" cellspacing="0" align="center"><tr><th><input type="checkbox" checked="checked" name="bet_checkall" value="0,5" /></th><th>Info</th><th>Odds</th><th><input type="checkbox" checked="checked" name="bet_checkall" value="5,10" /></th><th>Info</th><th>Odds</th></tr>' + [0,1,2,3,4].map(function (i) {
 							return "<tr>" + row(i) + row(5 + i)+ "</tr>";
-						}).join("") + "</table>",
+						}).join("") + '</table><a href="' + url + '" target="_blank">Source</a>',
 						load	: function (cfg) {
 							var checked = Array.prototype.slice.apply(this.form.querySelectorAll("input[name = 'bet_index']:checked")).map(function (v) {
 								return parseInt(v.value, 10);
@@ -97,6 +97,11 @@ button.addEventListener("click", function (e) {
 									try {
 										fc.bet(function (o) {
 											console.log(o);
+											if (o.error) {
+												np.console.error("[" + (1 + index) + " / $2] Food Club : $3", 1 + index, list.length, o.errmsg);
+											} else {
+												np.console.info("[$1 / $2] Food Club : $3", 1 + index, list.length, "Success");
+											}
 											recursive(list, ++index);
 										}, {
 											check	: r.arenas,	// check whether the bets are possible
@@ -105,11 +110,11 @@ button.addEventListener("click", function (e) {
 											odds	: bet.odds,	// odds - optional
 										});
 									} catch (e) {
-										np.console.error("[$1 / $2] Food Club : " + e, 1 + index, list.length, e);
+										np.console.error("[" + (1 + index) + " / $2] Food Club : $3", 1 + index, list.length, e);
 										recursive(list, ++index);
 									}
 								} else {
-									np.console.info("[$1 / $2] Food Club : $3", index, list.length, "Complete");
+									np.console.log("[$1 / $2] Food Club : $3", index, list.length, "Complete");
 								}
 							}(bets.filter(function (b, i) {
 								return 0 < checked.indexOf(i);
