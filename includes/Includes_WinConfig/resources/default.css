@@ -90,6 +90,11 @@
 	border: 1px solid #BBBBBB;
 }
 
+.winconfig.prompt input[type="text"],
+.winconfig.prompt input[type="password"] {
+	width: 97%;
+}
+
 .winconfig input[type="checkbox"],
 .winconfig input[type="radio"] {
 	margin: 3px;
