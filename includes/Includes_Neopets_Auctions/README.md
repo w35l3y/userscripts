@@ -1,7 +1,7 @@
 
 # [Includes : Neopets : Auctions](.)
 
-**Summary:** Bank Function<br />
+**Summary:** Auction Function<br />
 **License:** GNU GPL<br />
 [![PayPal - The safer, easier way to pay online!](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif "PayPal - The safer, easier way to pay online!")](https://goo.gl/DNfg2w)
 ### Usage
