@@ -5,7 +5,7 @@
 // @author      jacobkossman
 // @email       jacob.kossman@gmail.com
 // @copyright   2016+, jacobkossman
-// @version     1.0.0
+// @version     1.0.1
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -56,6 +56,11 @@
                     ck        : "_ref_ck",
                     delay    : true,
                     callback : function (xhr) {
+                        var errmsg = xpath("string(.//td[@class = 'content']/center[2]/p[b and not(img) and text()])", xhr.body);
+                        if (errmsg) {
+                            xhr.error = true;
+                            xhr.errmsg = errmsg;
+                        }
                         if (p) { _response(xhr, p); }
                         cb(xhr);
                     }
@@ -68,10 +73,10 @@
                     data     : data,
                     delay    : true,
                     callback : function (xhr) {
-                        var oops = xpath("string(.//td[@class = 'content']/center[2]/p[b and not(img) and text()])", xhr.body);
-                        if (oops) {
+                        var errmsg = xpath("string(.//td[@class = 'content']/center[2]/p[b and not(img) and text()])", xhr.body);
+                        if (errmsg) {
                             xhr.error = true;
-                            xhr.errmsg = oops;
+                            xhr.errmsg = errmsg;
                         }
                         if (p) { _response(xhr, p); }
                         cb(xhr);
@@ -110,13 +115,13 @@
                     })
                 };
             case "bids":
-                item = /([^\(]+).+?(\w+)\)/.test(xpath("string(.//td[@class = 'content']//p[1]/b)", doc)) ? [RegExp.$1, RegExp.$2] : [""];
+                item = /([^\(]+).+?(\w+)\)/.test(xpath("string(.//td[@class = 'content']//p[1]/b)", doc)) ? [RegExp.$1, RegExp.$2] : ["", ""];
 				o = {
 					id        : _n("string(.//td[@class ='content']/p[2]/b)", doc),
 					item    : {
 						name    : item[0].trim(),
 						image    : xpath("string(.//td[@class = 'content']//p[1]/img/@src)", doc),
-						description: xpath("string(.//td[@class = 'content']/center[2]/p[1]/text())", doc)
+						description: xpath("string(.//td[@class = 'content']/center[2]/p[1][img]/text())", doc)
 					},
 					owner    : item[1],
 					nf_only    : xpath("boolean(.//td[@class = 'content']/p/span/b)", doc),
@@ -158,7 +163,11 @@
                 auction_id    : obj.id || obj.auction.id,
                 amount        : obj.value || obj.auction.currentprice
             }, function (o) {
-                return _this.parse("placebid", o.body);
+				var r = _this.parse("placebid", o.body);
+				if (!r.success && !r.text && o.error) {
+					r.text = o.errmsg;
+				}
+                return r;
             }, obj.callback);
         };
 
