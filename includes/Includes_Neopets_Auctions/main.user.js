@@ -5,7 +5,7 @@
 // @author      jacobkossman
 // @email       jacob.kossman@gmail.com
 // @copyright   2016+, jacobkossman
-// @version     1.0.1
+// @version     1.1.0
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -27,8 +27,8 @@
         var _this = this,
             _response = function (xhr, p) {
                 Object.defineProperties(xhr, {
-                    response    : {
-                        get     : function () {
+                    response : {
+                        get    : function () {
                             return p(xhr);
                         }
                     }
@@ -36,12 +36,12 @@
             },
             _post_genie = function (data, p, cb) {
                 page.request({
-                    method    : "post",
-                    action    : "http://www.neopets.com/genie.phtml",
-                    referer   : "http://www.neopets.com/genie.phtml",
-                    data      : data,
-                    delay     : true,
-                    callback  : function (xhr) {
+                    method   : "post",
+                    action   : "http://www.neopets.com/genie.phtml",
+                    referer  : "http://www.neopets.com/genie.phtml",
+                    data     : data,
+                    delay    : true,
+                    callback : function (xhr) {
                         if (p) { _response(xhr, p); }
                         cb(xhr);
                     }
@@ -49,11 +49,11 @@
             },
             _post = function (data, p, cb) {
                 page.request({
-                    method    : "post",
-                    action    : "http://www.neopets.com/auctions.phtml",
-                    referer    : "http://www.neopets.com/auctions.phtml?type=bids&auction_id=" + data.auction_id,
-                    data    : data,
-                    ck        : "_ref_ck",
+                    method   : "post",
+                    action   : "http://www.neopets.com/auctions.phtml",
+                    referer  : "http://www.neopets.com/auctions.phtml?type=bids&auction_id=" + data.auction_id,
+                    data     : data,
+                    ck       : "_ref_ck",
                     delay    : true,
                     callback : function (xhr) {
                         var errmsg = xpath("string(.//td[@class = 'content']/center[2]/p[b and not(img) and text()])", xhr.body);
@@ -91,7 +91,7 @@
             if (!doc) {
                 doc = page.document;
             }
-			var item, msg, o;
+            var item, msg, o;
 
             switch (type) {
             case "auctions":
@@ -105,51 +105,51 @@
                                 name         : xpath("string(./td[3]/a/text())", row)
                             },
                             owner        : xpath("string(./td[4]/font/text())", row),
-                            nf_only         : xpath("boolean(./td[4]/b)", row),
-                            timeleft     : xpath("string(./td[5]/b/font/text())", row),
-                            currentprice : _n("string(./td[7]/b/text())", row),
+                            nfOnly       : xpath("boolean(./td[4]/b)", row),
+                            timeLeft     : xpath("string(./td[5]/b/font/text())", row),
+                            currentPrice : _n("string(./td[7]/b/text())", row),
                             closed       : false,
-                            lastbid      : _n("string(./td[6]/b/text())", row),
-                            lastbidder   : (xpath("boolean(./td[8]/a/img)", row) ? xpath("string(./td[8]/font/text())", row) : "")
+                            lastBid      : _n("string(./td[6]/b/text())", row),
+                            lastBidder   : (xpath("boolean(./td[8]/a/img)", row) ? xpath("string(./td[8]/font/text())", row) : "")
                         };
                     })
                 };
             case "bids":
                 item = /([^\(]+).+?(\w+)\)/.test(xpath("string(.//td[@class = 'content']//p[1]/b)", doc)) ? [RegExp.$1, RegExp.$2] : ["", ""];
-				o = {
-					id        : _n("string(.//td[@class ='content']/p[2]/b)", doc),
-					item    : {
-						name    : item[0].trim(),
-						image    : xpath("string(.//td[@class = 'content']//p[1]/img/@src)", doc),
-						description: xpath("string(.//td[@class = 'content']/center[2]/p[1][img]/text())", doc)
-					},
-					owner    : item[1],
-					nf_only    : xpath("boolean(.//td[@class = 'content']/p/span/b)", doc),
-					timeleft: xpath("string(.//td[@class = 'content']/center[2]/text())", doc).trim(),
-					increment: _n("string(.//td[@class = 'content']/p[3]/b[position() = last()])", doc),
-					currentprice    : _n("string(.//td[@class = 'content']//form//input[@name = 'amount']/@value)", doc),
-					list    : xpath(".//td[@class = 'content']//table/tbody/tr[td[1]/a/img]", doc).map(function (bid) {
-						return {
-							bidder : xpath("string(td[1])", bid).trim(),
-							amount : parseInt(xpath("string(td[2]/b)", bid).replace(/\D+/g, ""), 10),
-							when   : xpath("string(td[3])", bid).trim()
-						};
-					})
-				};
+                o = {
+                    id           : _n("string(.//td[@class ='content']/p[2]/b)", doc),
+                    item         : {
+                        name        : item[0].trim(),
+                        image       : xpath("string(.//td[@class = 'content']//p[1]/img/@src)", doc),
+                        description : xpath("string(.//td[@class = 'content']/center[2]/p[1][img]/text())", doc)
+                    },
+                    owner        : item[1],
+                    nfOnly       : xpath("boolean(.//td[@class = 'content']/p/span/b)", doc),
+                    timeLeft     : xpath("string(.//td[@class = 'content']/center[2]/text())", doc).trim(),
+                    increment    : _n("string(.//td[@class = 'content']/p[3]/b[position() = last()])", doc),
+                    currentPrice : _n("string(.//td[@class = 'content']//form//input[@name = 'amount']/@value)", doc),
+                    list         : xpath(".//td[@class = 'content']//table/tbody/tr[td[1]/a/img]", doc).map(function (bid) {
+                        return {
+                            bidder : xpath("string(td[1])", bid).trim(),
+                            amount : parseInt(xpath("string(td[2]/b)", bid).replace(/\D+/g, ""), 10),
+                            when   : xpath("string(td[3])", bid).trim()
+                        };
+                    })
+                };
 
-                o.closed = !o.currentprice;
-                o.lastbid = (o.list.length ? o.list[0].amount : (o.currentprice - o.increment));
-                o.lastbidder = (o.list.length ? o.list[0].bidder : "");
+                o.closed = !o.currentPrice;
+                o.lastBid = (o.list.length ? o.list[0].amount : (o.currentPrice - o.increment));
+                o.lastBidder = (o.list.length ? o.list[0].bidder : "");
 
                 return o;
             case "placebid":
                 msg = xpath(".//td[@class = 'content']/center[2]/p/font", doc)[0];
 
                 return (msg ? {
-                    success    : ("green" === msg.getAttribute("color")),
+                    success : ("green" === msg.getAttribute("color")),
                     text    : msg.textContent.trim()
                 } : {
-                    success    : false,
+                    success : false,
                     text    : ""
                 });
             default:
@@ -159,22 +159,22 @@
 
         this.bid = function (obj) {
             _post({
-                type        : "placebid",
-                auction_id    : obj.id || obj.auction.id,
-                amount        : obj.value || obj.auction.currentprice
+                type       : "placebid",
+                auction_id : obj.id || obj.auction.id,
+                amount     : obj.value || obj.auction.currentPrice
             }, function (o) {
-				var r = _this.parse("placebid", o.body);
-				if (!r.success && !r.text && o.error) {
-					r.text = o.errmsg;
-				}
+                var r = _this.parse("placebid", o.body);
+                if (!r.success && !r.text && o.error) {
+                    r.text = o.errmsg;
+                }
                 return r;
             }, obj.callback);
         };
 
         this.bids = function (obj) {
             _get({
-                "type"            : "bids",
-                "auction_id"    : obj.id || obj.auction.id
+                type       : "bids",
+                auction_id : obj.id || obj.auction.id
             }, function (o) {
                 return _this.parse("bids", o.body);
             }, obj.callback);
@@ -184,17 +184,18 @@
             var list = [];
             (function recursive(page) {
                 _get(Object.assign({
-                    "auction_counter"    : 20 * page
+                    "auction_counter"    : 20 * page++
                 }, obj.data), null, function (o) {
                     var result = _this.parse("auctions", o.body);
                     Array.prototype.push.apply(list, result.list);
 
                     if (obj.all && 20 === result.list.length) {
-                        recursive(++page);
+                        recursive(page);
                     } else {
                         _response(o, function () {
                             return {
-                                list    : list
+                                total : page,
+                                list  : list
                             };
                         });
 
@@ -206,33 +207,33 @@
 
         this.mine = function (obj) {
             _this.auctions({
-                all        : true,
-                data    : {
+                all      : true,
+                data     : {
                     show    : "mine"
                 },
-                callback    : obj.callback
+                callback : obj.callback
             });
         };
 
         this.leading = function (obj) {
             _this.auctions({
-                all        : true,
-                data    : {
+                all      : true,
+                data     : {
                     type    : "leading"
                 },
-                callback    : obj.callback
+                callback : obj.callback
             });
         };
 
         this.search = function (obj) {
             _post_genie(Object.assign(("username" === obj.type ? {
-                type    : "find_user",
-                auction_username: obj.value || page.username || ""
+                type             : "find_user",
+                auction_username : obj.value || page.username || ""
             } : {
-                type        : "process_genie",
-                auctiongenie: obj.value || "",
-                criteria    : "exact",
-                exclude_nf_only: "On"
+                type             : "process_genie",
+                auctiongenie     : obj.value || "",
+                criteria         : "exact",
+                exclude_nf_only  : "On"
             }), obj.data), function (o) {
                 return _this.parse("genie", o.body);
             }, obj.callback);
