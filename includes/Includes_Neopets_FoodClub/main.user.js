@@ -11,6 +11,8 @@
 // @language    en
 // @include     nowhere
 // @exclude     *
+// @grant       GM_getValue
+// @grant       GM_setValue
 // @grant       GM_xmlhttpRequest
 // @grant       GM_getResourceText
 // @resource    foodclubJson https://gist.github.com/w35l3y/fab231758eb0991f36a0/raw/foodclub.json
