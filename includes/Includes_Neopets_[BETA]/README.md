@@ -15,3 +15,8 @@
 // @require		https://github.com/w35l3y/userscripts/raw/master/scripts/../../../raw/master/includes/Includes_Neopets_[BETA]/main.user.js
 ```
 
+### Issues
+State|Topic|Replies|Author|Updated
+:---:|:---|:---:|:---:|---:
+closed|#45: [Premium Events](https://github.com/w35l3y/userscripts/issues/45)|7|[jkingaround](https://github.com/jkingaround)|2016-04-13T23:16:32Z
+
