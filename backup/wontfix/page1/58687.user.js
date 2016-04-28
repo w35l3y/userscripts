@@ -9,10 +9,10 @@
 // @homepage       http://gm.wesley.eti.br
 // @version        3.0.0
 // @language       en
-// @include        http://userscripts.org/scripts/review/*
-// @include        http://greasefire.userscripts.org/scripts/review/*
-// @include        http://userscripts.org/scripts/version/*.user.js?format=txt
-// @include        http://greasefire.userscripts.org/scripts/version/*.user.js?format=txt
+// @include        http://userscripts-mirror.org/scripts/review/*
+// @include        http://greasefire.userscripts-mirror.org/scripts/review/*
+// @include        http://userscripts-mirror.org/scripts/version/*.user.js?format=txt
+// @include        http://greasefire.userscripts-mirror.org/scripts/version/*.user.js?format=txt
 // @include        file://*.user.js
 // @icon           http://gm.wesley.eti.br/icon.php?desc=58687
 // @grant          GM_log
@@ -22,16 +22,16 @@
 // @grant          GM_deleteValue
 // @grant          GM_xmlhttpRequest
 // @grant          GM_getResourceText
-// @resource       meta http://userscripts.org/scripts/source/58687.meta.js
-// @resource       i18n ../../includes/Includes_I18n/resources/default.json
-// @resource       updaterWindowHtml ../../includes/Includes_Updater/resources/default.html
-// @resource       updaterWindowCss ../../includes/Includes_Updater/resources/default.css
-// @require        http://userscripts.org/scripts/source/63808.user.js
-// @require        http://userscripts.org/scripts/source/56489.user.js
-// @require        http://userscripts.org/scripts/source/85618.user.js
-// @require        http://userscripts.org/scripts/source/87940.user.js
-// @require        http://userscripts.org/scripts/source/87942.user.js
-// @require        http://userscripts.org/scripts/source/87269.user.js
+// @resource       meta https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page1/58687.user.js
+// @resource       i18n https://github.com/w35l3y/userscripts/raw/master/includes/Includes_I18n/resources/default.json
+// @resource       updaterWindowHtml https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Updater/resources/default.html
+// @resource       updaterWindowCss https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Updater/resources/default.css
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_HttpRequest/56489.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Translate/85618.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_I18n/87940.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Updater/87942.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_JsCode/87269.user.js
 // @require        https://raw.github.com/einars/js-beautify/master/js/lib/beautify.js
 // @history        3.0.0 Fixed some bugs
 // @history        2.1.1 Updated @require#beautify.js
@@ -44,7 +44,7 @@
 // @history        1.0.5.3 Updated @require #87269
 // @history        1.0.5.2 Changed github @require protocol (http->https)
 // @history        1.0.5.1 Added i18n, updater and support for "atob"
-// @contributor    LouCypher (http://userscripts.org/topics/112782#posts-445385)
+// @contributor    LouCypher (http://userscripts-mirror.org/topics/112782#posts-445385)
 // ==/UserScript==
 
 /**************************************************************************

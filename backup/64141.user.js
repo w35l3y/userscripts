@@ -12,14 +12,14 @@
 // @include        http://www.neopets.com/magma/
 // @include        http://www.neopets.com/magma/index.phtml
 // @include        http://www.neopets.com/magma/caves.phtml
-// @icon           http://www.gravatar.com/avatar.php?gravatar_id=81269f79d21e612f9f307d16b09ee82b&r=PG&s=92&default=identicon
-// @resource       meta http://userscripts.org/scripts/source/64141.meta.js
-// @resource       i18n ../../includes/Includes_I18n/resources/default.json
-// @require        http://userscripts.org/scripts/source/63808.user.js
-// @require        http://userscripts.org/scripts/source/85618.user.js
-// @require        http://userscripts.org/scripts/source/87940.user.js
-// @require        http://userscripts.org/scripts/source/87942.user.js
-// @require        http://userscripts.org/scripts/source/56489.user.js
+// @icon           http://gm.wesley.eti.br/icon.php?desc=64141
+// @resource       meta https://github.com/w35l3y/userscripts/raw/master/backup/64141.user.js
+// @resource       i18n https://github.com/w35l3y/userscripts/raw/master/includes/Includes_I18n/resources/default.json
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Translate/85618.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_I18n/87940.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Updater/87942.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_HttpRequest/56489.user.js
 // @history        2.0.0.1 Added search option
 // ==/UserScript==
 

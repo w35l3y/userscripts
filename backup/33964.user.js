@@ -19,24 +19,24 @@
 // @grant          GM_deleteValue
 // @grant          GM_xmlhttpRequest
 // @grant          GM_getResourceText
-// @resource       meta http://userscripts.org/scripts/source/33964.meta.js
-// @resource       i18n ../../includes/Includes_I18n/resources/default.json
-// @resource       updaterWindowHtml ../../includes/Includes_Updater/resources/default.html
-// @resource       updaterWindowCss ../../includes/Includes_Updater/resources/default.css
-// @resource       winConfigCss ../../includes/Includes_WinConfig/resources/default.css
+// @resource       meta https://github.com/w35l3y/userscripts/raw/master/backup/33964.user.js
+// @resource       i18n https://github.com/w35l3y/userscripts/raw/master/includes/Includes_I18n/resources/default.json
+// @resource       updaterWindowHtml https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Updater/resources/default.html
+// @resource       updaterWindowCss https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Updater/resources/default.css
+// @resource       winConfigCss https://github.com/w35l3y/userscripts/raw/master/includes/Includes_WinConfig/resources/default.css
 
-// @require        http://userscripts.org/scripts/source/63808.user.js
-// @require        http://userscripts.org/scripts/source/56489.user.js
-// @require        http://userscripts.org/scripts/source/85618.user.js
-// @require        http://userscripts.org/scripts/source/87940.user.js
-// @require        http://userscripts.org/scripts/source/87942.user.js
-// @require        http://userscripts.org/scripts/source/144996.user.js
-// @require        http://userscripts.org/scripts/source/163374.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_HttpRequest/56489.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Translate/85618.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_I18n/87940.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Updater/87942.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/backup/144996.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_WinConfig/163374.user.js
 
 // @cfu:version    version
-// @history        4.2.6 Added <a href="http://userscripts.org/guides/773">Includes Checker</a>
+// @history        4.2.6 Added <a href="http://userscripts-mirror.org/guides/773">Includes Checker</a>
 // @history        4.2.5 Fixed language Korean
-// @history        4.2.1 Fixed a major bug ( Thanks <a href="http://userscripts.org/topics/75987#posts-505912">Weasel</a> )
+// @history        4.2.1 Fixed a major bug ( Thanks <a href="http://userscripts-mirror.org/topics/75987#posts-505912">Weasel</a> )
 // @history        4.1.0 Added missing @require#56489
 // @history        4.0.0 Added Quickstock Settings
 // @history        3.1.0 Added Queued Events ( @require#144996 )

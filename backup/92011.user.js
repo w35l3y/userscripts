@@ -11,9 +11,9 @@
 // @language       en
 // @include        http://www.neopets.com/games/kadoatery/index.phtml
 // @include        http://www.neopets.com/neoboards/topic.phtml?topic=*
-// @require        http://userscripts.org/scripts/source/63808.user.js
-// @require        http://userscripts.org/scripts/source/56489.user.js
-// @require        http://userscripts.org/scripts/source/92009.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_HttpRequest/56489.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/backup/92009.user.js
 // ==/UserScript==
 
 /**************************************************************************

@@ -3,8 +3,8 @@
 // @namespace      http://gm.wesley.eti.br
 // @include        http://www.neopets.com/inventory.phtml
 // @version        1
-// @require        http://userscripts.org/scripts/source/56489.user.js
-// @icon           http://i40.tinypic.com/33oi6hz.png
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_HttpRequest/56489.user.js
+// @icon           http://gm.wesley.eti.br/icon.php?desc=36215
 // ==/UserScript==
 
 var params = {

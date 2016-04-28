@@ -14,16 +14,16 @@
 // @include        http://www.neopets.com/userlookup.phtml?*user=*
 // @include        http://www.neopets.com/userlookup.phtml?*randomfriend=*
 // @include        http://www.neopets.com/petlookup.phtml?*pet=*
-// @icon           http://www.gravatar.com/avatar.php?gravatar_id=81269f79d21e612f9f307d16b09ee82b&r=PG&s=92&default=identicon
+// @icon           http://gm.wesley.eti.br/icon.php?desc=126025
 // @grant          GM_log
 // @grant          GM_addStyle
 // @grant          GM_getValue
 // @grant          GM_setValue
 // @grant          GM_deleteValue
 // @grant          GM_getResourceText
-// @resource       winConfigCss ../../includes/Includes_WinConfig/resources/default.css
-// @require        http://userscripts.org/scripts/source/63808.user.js
-// @require        http://userscripts.org/scripts/source/163374.user.js
+// @resource       winConfigCss https://github.com/w35l3y/userscripts/raw/master/includes/Includes_WinConfig/resources/default.css
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_WinConfig/163374.user.js
 // ==/UserScript==
 
 /**************************************************************************

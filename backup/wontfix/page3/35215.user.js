@@ -2,7 +2,7 @@
 // @name           Userscripts : People Ranking
 // @namespace      http://gm.wesley.eti.br/userscripts
 // @description    Displays one's position since your last access
-// @include        http://userscripts.org/users?*
+// @include        http://userscripts-mirror.org/users?*
 // @require        http://www.wesley.eti.br/includes/js/php.js?v1
 // @require        http://www.wesley.eti.br/includes/js/php2js.js?v1
 // @require        http://gm.wesley.eti.br/gm_default.js?v1
@@ -33,7 +33,7 @@
 **************************************************************************/
 
 checkForUpdate({
-	'file':'http://userscripts.org/scripts/source/35215.user.js',
+	'file':'https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page3/35215.user.js',
 	'name':'Userscripts : People Ranking',
 	'namespace':'http://gm.wesley.eti.br/userscripts',
 	'version':'1.0.3'

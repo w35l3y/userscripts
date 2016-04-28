@@ -12,8 +12,8 @@
 // @include        http://www.neopets.com/island/training.phtml?type=status
 // @include        http://www.neopets.com/pirates/academy.phtml?type=status
 // @include        http://www.neopets.com/island/fight_training.phtml?type=status
-// @require        http://userscripts.org/scripts/source/63808.user.js
-// @require        http://userscripts.org/scripts/source/85450.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Timer/85450.user.js
 // ==/UserScript==
 
 /**************************************************************************

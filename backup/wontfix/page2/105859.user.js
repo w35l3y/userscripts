@@ -9,22 +9,22 @@
 // @homepage       http://gm.wesley.eti.br
 // @version        2.0.0.0
 // @language       en
-// @include        http://userscripts.org/users/*/groups*
-// @include        http://userscripts.org/users/*/scripts*
-// @include        http://userscripts.org/users/*/guides*
-// @include        http://userscripts.org/users/*/posts*
-// @include        http://userscripts.org/users/*/comments*
-// @include        http://userscripts.org/users/*/reviews*
-// @include        http://userscripts.org/users/*/favorites*
-// @icon           http://www.gravatar.com/avatar.php?gravatar_id=81269f79d21e612f9f307d16b09ee82b&r=PG&s=92&default=identicon
-// @resource       meta http://userscripts.org/scripts/source/105859.meta.js
-// @resource       i18n ../../includes/Includes_I18n/resources/default.json
-// @resource       updaterWindowHtml ../../includes/Includes_Updater/resources/default.html
-// @resource       updaterWindowCss ../../includes/Includes_Updater/resources/default.css
-// @require        http://userscripts.org/scripts/source/63808.user.js
-// @require        http://userscripts.org/scripts/source/85618.user.js
-// @require        http://userscripts.org/scripts/source/87940.user.js
-// @require        http://userscripts.org/scripts/source/87942.user.js
+// @include        http://userscripts-mirror.org/users/*/groups*
+// @include        http://userscripts-mirror.org/users/*/scripts*
+// @include        http://userscripts-mirror.org/users/*/guides*
+// @include        http://userscripts-mirror.org/users/*/posts*
+// @include        http://userscripts-mirror.org/users/*/comments*
+// @include        http://userscripts-mirror.org/users/*/reviews*
+// @include        http://userscripts-mirror.org/users/*/favorites*
+// @icon           http://gm.wesley.eti.br/icon.php?desc=105859
+// @resource       meta https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page2/105859.user.js
+// @resource       i18n https://github.com/w35l3y/userscripts/raw/master/includes/Includes_I18n/resources/default.json
+// @resource       updaterWindowHtml https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Updater/resources/default.html
+// @resource       updaterWindowCss https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Updater/resources/default.css
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Translate/85618.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_I18n/87940.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Updater/87942.user.js
 // @history        2.0.0.0 Updated @require#87942
 // @history        1.0.0.1 Some little bug fixes
 // ==/UserScript==

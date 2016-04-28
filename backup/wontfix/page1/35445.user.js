@@ -9,8 +9,8 @@
 // @homepage       http://gm.wesley.eti.br
 // @version        3.0.0
 // @language       en
-// @include        http*://userscripts.org/scripts/review/*
-// @include        http*://userscripts.org/scripts/versions/*
+// @include        http*://userscripts-mirror.org/scripts/review/*
+// @include        http*://userscripts-mirror.org/scripts/versions/*
 // @grant          GM_log
 // @grant          GM_addStyle
 // @grant          GM_getValue
@@ -20,17 +20,17 @@
 // @grant          GM_xmlhttpRequest
 // @grant          GM_getResourceText
 // @icon           http://gm.wesley.eti.br/icon.php?desc=35445
-// @resource       meta http://userscripts.org/scripts/source/35445.meta.js
-// @resource       i18n ../../includes/Includes_I18n/resources/default.json
-// @resource       updaterWindowHtml ../../includes/Includes_Updater/resources/default.html
-// @resource       updaterWindowCss ../../includes/Includes_Updater/resources/default.css
-// @require        http://userscripts.org/scripts/source/63808.user.js
-// @require        http://userscripts.org/scripts/source/85618.user.js
-// @require        http://userscripts.org/scripts/source/87940.user.js
-// @require        http://userscripts.org/scripts/source/87942.user.js
-// @require        http://userscripts.org/scripts/source/144996.user.js
+// @resource       meta https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page1/35445.user.js
+// @resource       i18n https://github.com/w35l3y/userscripts/raw/master/includes/Includes_I18n/resources/default.json
+// @resource       updaterWindowHtml https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Updater/resources/default.html
+// @resource       updaterWindowCss https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Updater/resources/default.css
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Translate/85618.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_I18n/87940.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Updater/87942.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/backup/144996.user.js
 // @cfu:version    version
-// @history        3.0.0 Added <a href="http://userscripts.org/guides/773">Includes Checker</a>
+// @history        3.0.0 Added <a href="http://userscripts-mirror.org/guides/773">Includes Checker</a>
 // @history        2.4.2 Updated "title" attribute
 // @history        2.4.1 Minor bug fixed
 // @history        2.4.0 Added functionality that allows resetting metadata for the current script (Press "Ctrl + Alt + R" at the Source Code tab)
@@ -48,7 +48,7 @@
 // @history        2.0.2.0 Fixed minor bug when having a single version or paginated versions (25+)
 // @history        2.0.1.1 Added ordering
 // @history        2.0.1.0 Added @grants and review counts
-// @contributor    jerone ( http://userscripts.org/topics/19030?page=1#posts-481988 )
+// @contributor    jerone ( http://userscripts-mirror.org/topics/19030?page=1#posts-481988 )
 // ==/UserScript==
 
 /**************************************************************************

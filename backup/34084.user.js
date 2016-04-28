@@ -10,12 +10,12 @@
 // @version        2.0.0.0
 // @language       en
 // @include        http://www.neopets.com/*
-// @resource       meta http://userscripts.org/scripts/source/34084.meta.js
-// @resource       i18n ../../includes/Includes_I18n/resources/default.json
-// @require        http://userscripts.org/scripts/source/63808.user.js
-// @require        http://userscripts.org/scripts/source/85618.user.js
-// @require        http://userscripts.org/scripts/source/87940.user.js
-// @require        http://userscripts.org/scripts/source/87942.user.js
+// @resource       meta https://github.com/w35l3y/userscripts/raw/master/backup/34084.user.js
+// @resource       i18n https://github.com/w35l3y/userscripts/raw/master/includes/Includes_I18n/resources/default.json
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Translate/85618.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_I18n/87940.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Updater/87942.user.js
 // @cfu:version    version
 // ==/UserScript==
 

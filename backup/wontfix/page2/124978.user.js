@@ -10,8 +10,8 @@
 // @version        1.0.0.3
 // @language       en
 // @include        http://explosm.net/comics/*
-// @require        http://userscripts.org/scripts/source/63808.user.js
-// @require        http://userscripts.org/scripts/source/56489.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_HttpRequest/56489.user.js
 // ==/UserScript==
 
 /**************************************************************************
@@ -20,7 +20,7 @@
 
     This script was made from scratch.
 
-    Based on http://userscripts.org/scripts/show/33692 (by avindra)
+    Based on http://userscripts-mirror.org/scripts/show/33692 (by avindra)
 
 ***************************************************************************
 

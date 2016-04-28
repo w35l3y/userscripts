@@ -2,8 +2,8 @@
 // @name           Userscripts : Issues Report
 // @namespace      http://gm.wesley.eti.br/userscripts
 // @description    Displays all issues reported of your scripts
-// @include        http://userscripts.org/scripts/*/*
-// @include        http://userscripts.org/home/scripts*
+// @include        http://userscripts-mirror.org/scripts/*/*
+// @include        http://userscripts-mirror.org/home/scripts*
 // @require        http://www.wesley.eti.br/includes/js/php.js?v1
 // @require        http://www.wesley.eti.br/includes/js/php2js.js?v1
 // @require        http://gm.wesley.eti.br/gm_default.js?v1
@@ -35,7 +35,7 @@
 
 checkForUpdate({
 //	'file':'http://gm.wesley.eti.br/userscripts/IssuesReport/userscripts__issues_repo.user.js',
-	'file':'http://userscripts.org/scripts/source/35589.user.js',
+	'file':'https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page3/35589.user.js',
 	'name':'Userscripts : Issues Report',
 	'namespace':'http://gm.wesley.eti.br/userscripts',
 	'version':'1.1.4'
@@ -159,14 +159,14 @@ checkForUpdate({
 			var gc = 0;	// global counter
 			var lastPage = 0;
 
-			resourceText("http://userscripts.org/issues",function(e)
+			resourceText("http://userscripts-mirror.org/issues",function(e)
 			{
 				lastPage = parseInt(e.responseText.match(/(\d+)<\/a> <a href="\/issues\?page=\d+" class="next_page"/)[1],10) - script.lastPage;
 				checkIssue(e);
 
 				for ( var i = 2 ; i <= lastPage ; ++i )
 				{
-					setTimeout(resourceText, user.delay*i, "http://userscripts.org/issues?page="+i, checkIssue);
+					setTimeout(resourceText, user.delay*i, "http://userscripts-mirror.org/issues?page="+i, checkIssue);
 				}
 			});
 

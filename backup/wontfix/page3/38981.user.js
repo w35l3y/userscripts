@@ -18,9 +18,9 @@ typeof(CheckForUpdate)!='undefined' && CheckForUpdate.init(<>
 // @resource       highlight http://shjs.sourceforge.net/sh_style.css?v1
 // @require        http://shjs.sourceforge.net/sh_main.min.js?v1
 // @require        http://shjs.sourceforge.net/lang/sh_php.min.js?v1
-// @require        http://userscripts.org/scripts/source/38788.user.js
-// @cfu:meta       http://userscripts.org/scripts/source/@cfu:id.meta.js
-// @cfu:url        http://userscripts.org/scripts/source/@cfu:id.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page1/38788.user.js
+// @cfu:meta       https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page3/@cfu:id.user.js
+// @cfu:url        https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page3/@cfu:id.user.js
 // @cfu:id         uso:script
 // @cfu:version    version
 // @cfu:timestamp  modified

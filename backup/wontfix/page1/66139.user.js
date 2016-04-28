@@ -10,21 +10,20 @@
 // @version        2.0.5.6
 // @language       en
 // @include        http://www.neopets.com/games/play.phtml?game_id=*
-// @resource       meta http://userscripts.org/scripts/source/66139.meta.js
-// @resource       i18n ../../includes/Includes_I18n/resources/default.json
-// @require        http://pastebin.com/raw/BjjHSA30
-// @require        http://userscripts.org/scripts/source/85450.user.js
-// @require        http://userscripts.org/scripts/source/56489.user.js
-// @require        http://userscripts.org/scripts/source/54389.user.js
-// @require        http://userscripts.org/scripts/source/54987.user.js
-// @require        http://userscripts.org/scripts/source/69584.user.js
-// @require        http://userscripts.org/scripts/source/85618.user.js
-// @require        http://userscripts.org/scripts/source/87940.user.js
-// @require        http://userscripts.org/scripts/source/63808.user.js
-// @require        http://userscripts.org/scripts/source/66138.user.js
-// @require        http://userscripts.org/scripts/source/87942.user.js
-// @require        http://pastebin.com/raw/56rbREE3
-// @history        2.0.5.6 Updated @require#66138,#85450,#69584
+// @resource       meta https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page1/66139.user.js
+// @resource       i18n https://github.com/w35l3y/userscripts/raw/master/includes/Includes_I18n/resources/default.json
+// @require        http://www.onicos.com/staff/iz/amuse/javascript/expert/md5.txt
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Timer/85450.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_HttpRequest/56489.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page3/54389.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page1/54987.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_ShowMyCode/69584.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Translate/85618.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_I18n/87940.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page3/66138.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Updater/87942.user.js
+// @require        // @history        2.0.5.6 Updated @require#66138,#85450,#69584
 // @history        2.0.5.5 Updated @require#66138,#87940
 // @history        2.0.5.4 Updated @require#66138
 // @history        2.0.5.3 Updated @require#66138

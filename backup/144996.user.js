@@ -10,7 +10,7 @@
 // @version        1.0.0.1
 // @include        nowhere
 // @exclude        *
-// @icon           http://www.gravatar.com/avatar.php?gravatar_id=81269f79d21e612f9f307d16b09ee82b&r=PG&s=92&default=identicon
+// @icon           http://gm.wesley.eti.br/icon.php?desc=144996
 // ==/UserScript==
 
 /**************************************************************************

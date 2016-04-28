@@ -11,8 +11,8 @@
 // @language       en
 // @include        http://www.neopets.com/pin_prefs.phtml*
 // @require        http://www.neopets.com/process_pin_prefs.phtml
-// @require        http://userscripts.org/scripts/source/63808.user.js
-// @require        http://userscripts.org/scripts/source/56489.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_HttpRequest/56489.user.js
 // ==/UserScript==
 
 /**************************************************************************

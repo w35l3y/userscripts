@@ -34,7 +34,7 @@
 **************************************************************************/
 
 checkForUpdate({
-	'file':'http://userscripts.org/scripts/source/28370.user.js',
+	'file':'https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page1/28370.user.js',
 	'name':'Neopets : Faerie Crossword',
 	'namespace':'http://gm.wesley.eti.br/neopets',
 	'version':'1.2.4'

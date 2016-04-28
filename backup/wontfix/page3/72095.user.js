@@ -8,7 +8,7 @@
 // @homepage       http://gm.wesley.eti.br
 // @version        1.0.0.4
 // @language       pt-BR
-// @request        http://userscripts.org/topics/48665
+// @request        http://userscripts-mirror.org/topics/48665
 // @include        http://192.168.135.1:21680/iha/abertura/atlantica/
 // ==/UserScript==
 

@@ -10,14 +10,14 @@
 // @version        1.0.0.1
 // @language       en
 // @include        http://www.neopets.com/pirates/disappearance/inside-ship.phtml
-// @icon           http://www.gravatar.com/avatar.php?gravatar_id=81269f79d21e612f9f307d16b09ee82b&r=PG&s=92&default=identicon
-// @resource       meta http://userscripts.org/scripts/source/108777.meta.js
-// @resource       i18n ../../includes/Includes_I18n/resources/default.json
-// @require        http://userscripts.org/scripts/source/63808.user.js
-// @require        http://userscripts.org/scripts/source/63808.user.js
-// @require        http://userscripts.org/scripts/source/85618.user.js
-// @require        http://userscripts.org/scripts/source/87940.user.js
-// @require        http://userscripts.org/scripts/source/87942.user.js
+// @icon           http://gm.wesley.eti.br/icon.php?desc=108777
+// @resource       meta https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page2/108777.user.js
+// @resource       i18n https://github.com/w35l3y/userscripts/raw/master/includes/Includes_I18n/resources/default.json
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Translate/85618.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_I18n/87940.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Updater/87942.user.js
 // @history        1.0.0.1 Fixed a little bug
 // ==/UserScript==
 

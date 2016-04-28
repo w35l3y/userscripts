@@ -11,7 +11,7 @@
 // @language       en
 // @include        http://www.neopets.com/objects.phtml?type=inventory#alert
 // @include        http://www.neopets.com/objects.phtml?type=inventory#console
-// @require        http://userscripts.org/scripts/source/63808.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
 // ==/UserScript==
 
 /**************************************************************************

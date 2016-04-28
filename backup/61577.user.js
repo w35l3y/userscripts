@@ -10,9 +10,9 @@
 // @version        1.0.0.2
 // @language       en
 // @include        nowhere
-// @require        http://userscripts.org/scripts/source/54389.user.js
-// @require        http://userscripts.org/scripts/source/54987.user.js
-// @require        http://userscripts.org/scripts/source/56489.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page3/54389.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page1/54987.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_HttpRequest/56489.user.js
 // ==/UserScript==
 
 /**************************************************************************

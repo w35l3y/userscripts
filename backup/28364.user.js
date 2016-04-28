@@ -18,18 +18,18 @@
 // @grant          GM_getResourceText
 // @icon           http://gm.wesley.eti.br/icon.php?desc=28364
 
-// @resource       meta http://userscripts.org/scripts/source/28364.meta.js
-// @resource       i18n ../../includes/Includes_I18n/resources/default.json
-// @resource       updaterWindowHtml ../../includes/Includes_Updater/resources/default.html
-// @resource       updaterWindowCss ../../includes/Includes_Updater/resources/default.css
-// @require        http://userscripts.org/scripts/source/63808.user.js
-// @require        http://userscripts.org/scripts/source/56489.user.js
-// @require        http://userscripts.org/scripts/source/85618.user.js
-// @require        http://userscripts.org/scripts/source/87940.user.js
-// @require        http://userscripts.org/scripts/source/87942.user.js
+// @resource       meta https://github.com/w35l3y/userscripts/raw/master/backup/28364.user.js
+// @resource       i18n https://github.com/w35l3y/userscripts/raw/master/includes/Includes_I18n/resources/default.json
+// @resource       updaterWindowHtml https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Updater/resources/default.html
+// @resource       updaterWindowCss https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Updater/resources/default.css
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_HttpRequest/56489.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Translate/85618.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_I18n/87940.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Updater/87942.user.js
 
 // @cfu:version    version
-// @history        3.2.0 Added <a href="http://userscripts.org/guides/773">Includes Checker</a>
+// @history        3.2.0 Added <a href="http://userscripts-mirror.org/guides/773">Includes Checker</a>
 // @history        3.1.0.0 Added limit to 80 potatoes
 // @history        3.0.0.0 Updated @require#87942
 // @history        2.0.0.1 Fixed required files

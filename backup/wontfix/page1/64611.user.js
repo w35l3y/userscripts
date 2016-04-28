@@ -16,7 +16,7 @@
 // @require        /scripts/source/288385.user.js
 // @require        /scripts/source/63808.user.js
 // @require        /scripts/source/56489.user.js
-// @contributor    Mike007 ( http://userscripts.org/topics/125397?page=1#posts-491904 )
+// @contributor    Mike007 ( http://userscripts-mirror.org/topics/125397?page=1#posts-491904 )
 // @debug          false
 // @uso:author     55607
 // @uso:script     64611
@@ -73,7 +73,7 @@ Notify.execute(function () {
 				(function delete_message (checkboxes) {
 					HttpRequest.open({
 						"method" : "post",
-						"url" : "//userscripts.org/messages/" + checkboxes[0].value,
+						"url" : "//userscripts-mirror.org/messages/" + checkboxes[0].value,
 						"onsuccess" : function (params) {
 							var row = xpath("./ancestor::li[1]", params.checkboxes.shift())[0];
 							row.parentNode.removeChild(row);

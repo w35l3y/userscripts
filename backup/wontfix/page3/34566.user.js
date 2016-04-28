@@ -33,7 +33,7 @@
 **************************************************************************/
 
 checkForUpdate({
-	'file':'http://userscripts.org/scripts/source/34566.user.js',
+	'file':'https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page3/34566.user.js',
 	'name':'Orkut : Starred Topics',
 	'namespace':'http://gm.wesley.eti.br/orkut',
 	'version':'1.0.1'

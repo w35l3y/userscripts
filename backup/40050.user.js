@@ -10,9 +10,9 @@ typeof(CheckForUpdate)!='undefined' && CheckForUpdate.init(<>
 // @homepage       http://www.wesley.eti.br
 // @version        1.0.0.0
 // @include        nowhere
-// @require        http://userscripts.org/scripts/source/38788.user.js
-// @cfu:meta       http://userscripts.org/scripts/source/@cfu:id.meta.js
-// @cfu:url    	   http://userscripts.org/scripts/source/@cfu:id.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page1/38788.user.js
+// @cfu:meta       https://github.com/w35l3y/userscripts/raw/master/backup/@cfu:id.user.js
+// @cfu:url    	   https://github.com/w35l3y/userscripts/raw/master/backup/@cfu:id.user.js
 // @cfu:id         uso:script
 // @cfu:timestamp  uso:timestamp
 // @cfu:version    version

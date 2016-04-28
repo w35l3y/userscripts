@@ -9,9 +9,9 @@
 // @homepage       http://gm.wesley.eti.br
 // @version        1.0.0.7
 // @language       en
-// @include        http://userscripts.org/forums/*
-// @require        http://userscripts.org/scripts/source/63808.user.js
-// @require        http://userscripts.org/scripts/source/56489.user.js
+// @include        http://userscripts-mirror.org/forums/*
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_HttpRequest/56489.user.js
 // ==/UserScript==
 
 /**************************************************************************
@@ -44,7 +44,7 @@
 
 			HttpRequest.open({
 				method		: "post",
-				url			: "http://userscripts.org/spam",
+				url			: "http://userscripts-mirror.org/spam",
 				headers		: {
 					"Referer"	: topic.parentNode.href,
 				},
@@ -63,7 +63,7 @@
 					} else {	// ops, the content message doesn't seem to be spam
 						HttpRequest.open({
 							method		: "post",
-							url			: "http://userscripts.org/spam",
+							url			: "http://userscripts-mirror.org/spam",
 							headers		: {
 								"Referer"	: topic.parentNode.href,
 							},

@@ -12,7 +12,7 @@
 // @include        nowhere
 // @exclude        *
 // @require        http://images.neopets.com/js/jquery-1.7.1.min.js?v=1
-// @require        http://userscripts.org/scripts/source/144996.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/backup/144996.user.js
 // ==/UserScript==
 
 /**************************************************************************

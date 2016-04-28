@@ -9,11 +9,11 @@ const GM_HEADER = <>
 // @license        GNU GPL
 // @homepage       http://www.wesley.eti.br
 // @version        1.0.1.2
-// @include        http://userscripts.org/*
-// @require        http://userscripts.org/scripts/source/38788.user.js
-// @require        http://userscripts.org/scripts/source/40050.user.js
-// @cfu:meta       http://userscripts.org/scripts/source/@cfu:id.meta.js
-// @cfu:url        http://userscripts.org/scripts/source/@cfu:id.user.js
+// @include        http://userscripts-mirror.org/*
+// @require        https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page1/38788.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/backup/40050.user.js
+// @cfu:meta       https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page3/@cfu:id.user.js
+// @cfu:url        https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page3/@cfu:id.user.js
 // @cfu:id         uso:script
 // @cfu:timestamp  uso:timestamp
 // @cfu:version    version
@@ -79,7 +79,7 @@ typeof(CheckForUpdate)!='undefined' && CheckForUpdate.init(GM_HEADER);
 			{
 				while ( ~--i )
 				{
-					GM_openInTab('http://userscripts.org/scripts/source/' + scripts[2][i] + '.user.js');
+					GM_openInTab('https://github.com/w35l3y/userscripts/raw/master/scripts/' + scripts[2][i] + '.user.js');
 					scripts[0].push(scripts[2][i]);
 				}
 

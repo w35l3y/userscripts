@@ -10,12 +10,12 @@
 // @language       en
 // @include        nowhere
 // @exclude        *
-// @require        http://userscripts.org/scripts/source/63808.user.js
-// @require        http://userscripts.org/scripts/source/56489.user.js
-// @require        http://userscripts.org/scripts/source/56503.user.js
-// @require        http://userscripts.org/scripts/source/56562.user.js
-// @require        http://userscripts.org/scripts/source/56528.user.js
-// @require        http://userscripts.org/scripts/source/63342.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_HttpRequest/56489.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Neopets_Shop_Wizard/56503.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Neopets_Shop_[BETA]/56562.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Neopets_Safety_Deposit_Box/56528.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/backup/63342.user.js
 // ==/UserScript==
 
 /**************************************************************************

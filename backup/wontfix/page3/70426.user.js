@@ -2,14 +2,14 @@
 // @name           Examples of interactions among tabs
 // @namespace      http://gm.wesley.eti.br/examples
 // @description    Examples of interactions among tabs
-// @include        http://translate.google.tld/?sl=auto&tl=pt#userscripts.org
-// @include        http://userscripts.org/topics/*
-// @require        http://userscripts.org/scripts/source/63808.user.js
+// @include        http://translate.google.tld/?sl=auto&tl=pt#userscripts-mirror.org
+// @include        http://userscripts-mirror.org/topics/*
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
 // ==/UserScript==
 
 ///[ EXAMPLE 1 ]///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-if (location.hostname == "userscripts.org")
+if (location.hostname == "userscripts-mirror.org")
 {
 	xpath("id('post_body')")[0].addEventListener("change", function(e)
 	{

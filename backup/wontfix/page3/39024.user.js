@@ -3,13 +3,13 @@ typeof(CheckForUpdate)!='undefined' && CheckForUpdate.init(<>
 // @name           Userscripts : Mark as read
 // @namespace      http://gm.wesley.eti.br/userscripts
 // @description    Displays the option to mark discussions as read
-// @include        http://userscripts.org/topics/*
-// @include        http://userscripts.org/forums/*
-// @include        http://userscripts.org/forums
-// @include        http://userscripts.org/scripts/discuss/*
-// @require        http://userscripts.org/scripts/source/38788.user.js
-// @cfu:meta       http://userscripts.org/scripts/source/@cfu:id.meta.js
-// @cfu:url        http://userscripts.org/scripts/source/@cfu:id.user.js
+// @include        http://userscripts-mirror.org/topics/*
+// @include        http://userscripts-mirror.org/forums/*
+// @include        http://userscripts-mirror.org/forums
+// @include        http://userscripts-mirror.org/scripts/discuss/*
+// @require        https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page1/38788.user.js
+// @cfu:meta       https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page3/@cfu:id.user.js
+// @cfu:url        https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page3/@cfu:id.user.js
 // @cfu:id         uso:script
 // @cfu:version    uso:version
 // @author         w35l3y
@@ -75,7 +75,7 @@ typeof(CheckForUpdate)!='undefined' && CheckForUpdate.init(<>
 							for ( var m , i = 1 ; m = /title="Recentactivity"\/><ahref="(\/topics\/\d+)"/gi.exec(text) ; ++i )
 							{
 								var a = document.createElement('a');
-								a.setAttribute('href', 'http://userscripts.org'+m[1]);
+								a.setAttribute('href', 'http://userscripts-mirror.org'+m[1]);
 								posts.push([a, function(e, s, i, t)
 								{
 									s.textContent = " ("+i+"/"+t+")";

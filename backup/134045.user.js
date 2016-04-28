@@ -9,8 +9,8 @@
 // @homepage    http://gm.wesley.eti.br
 // @version     1.0.0.3
 // @include     http://www.neopets.com/games/game.phtml?game_id=*
-// @icon        http://www.gravatar.com/avatar.php?gravatar_id=81269f79d21e612f9f307d16b09ee82b&r=PG&s=92&default=identicon
-// @require     http://userscripts.org/scripts/source/63808.user.js
+// @icon        http://gm.wesley.eti.br/icon.php?desc=134045
+// @require     https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
 // ==/UserScript==
 
 /**************************************************************************

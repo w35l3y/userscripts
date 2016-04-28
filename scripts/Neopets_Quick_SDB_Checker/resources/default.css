@@ -1,0 +1,11 @@
+.winConfig_QuickSDBCheckerSettings .field .fieldType_0,
+.winConfig_QuickSDBCheckerSettings .field .fieldType_2 {
+	width: 50%;
+	float: left;
+}
+.winconfig.winConfig_QuickSDBCheckerSettings input[type="text"],
+.winconfig.winConfig_QuickSDBCheckerSettings input[type="password"],
+.winConfig_QuickSDBCheckerSettings > .body > .field .fieldType_0 > label,
+.winConfig_QuickSDBCheckerSettings > .body > .field .fieldType_2 > label {
+	width: 40%;
+}

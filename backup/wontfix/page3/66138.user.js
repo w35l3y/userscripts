@@ -11,13 +11,13 @@
 // @language       en
 // @include        nowhere
 // @exclude        *
-// @resource       i18n ../../includes/Includes_I18n/resources/default.json
+// @resource       i18n https://github.com/w35l3y/userscripts/raw/master/includes/Includes_I18n/resources/default.json
 // @require        http://www.onicos.com/staff/iz/amuse/javascript/expert/md5.txt
-// @require        http://userscripts.org/scripts/source/63808.user.js
-// @require        http://userscripts.org/scripts/source/85618.user.js
-// @require        http://userscripts.org/scripts/source/87940.user.js
-// @require        http://userscripts.org/scripts/source/56489.user.js
-// @require        http://userscripts.org/scripts/source/69584.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Translate/85618.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_I18n/87940.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_HttpRequest/56489.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_ShowMyCode/69584.user.js
 // @history        4.0.0.0 Refactored
 // @history        3.1.0.4 Fixed minor bug
 // @history        3.1.0.3 Updated @require#87940
@@ -37,7 +37,7 @@
 
     This script was made from scratch.
 
-    Based on http://userscripts.org/scripts/version/63649/158447.user.js?format=txt (by Backslash)
+    Based on http://userscripts-mirror.org/scripts/version/63649/158447.user.js?format=txt (by Backslash)
 
 ***************************************************************************
 

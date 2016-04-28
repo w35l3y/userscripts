@@ -8,10 +8,10 @@
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br/includes
 // @version        1.0.3.0
-// @contributor    Steinn (http://userscripts.org/users/85134)
+// @contributor    Steinn (http://userscripts-mirror.org/users/85134)
 // @include        nowhere
-// @require        http://userscripts.org/scripts/source/54389.user.js
-// @require        http://userscripts.org/scripts/source/53965.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page3/54389.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page2/53965.user.js
 // ==/UserScript==
 
 /**************************************************************************

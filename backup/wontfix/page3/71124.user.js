@@ -9,9 +9,9 @@
 // @homepage       http://gm.wesley.eti.br
 // @version        1.0.0.2
 // @language       en
-// @include        http://userscripts.org/topics/*
-// @include        http://userscripts.org/home/comments*
-// @require        http://userscripts.org/scripts/source/63808.user.js
+// @include        http://userscripts-mirror.org/topics/*
+// @include        http://userscripts-mirror.org/home/comments*
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
 // ==/UserScript==
 
 /**************************************************************************

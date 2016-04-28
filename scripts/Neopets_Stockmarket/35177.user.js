@@ -10,21 +10,29 @@
 // @version        3.0.0.0
 // @language       en
 // @include        http://www.neopets.com/*
-// @icon           http://www.gravatar.com/avatar.php?gravatar_id=81269f79d21e612f9f307d16b09ee82b&r=PG&s=92&default=identicon
-// @resource       meta http://userscripts.org/scripts/source/35177.meta.js
+// @grant          GM_log
+// @grant          GM_addStyle
+// @grant          GM_getValue
+// @grant          GM_setValue
+// @grant          GM_deleteValue
+// @grant          GM_xmlhttpRequest
+// @grant          GM_getResourceText
+// @icon           http://gm.wesley.eti.br/icon.php?desc=35177
+// @resource       meta https://github.com/w35l3y/userscripts/raw/master/scripts/Neopets_Stockmarket/35177.user.js
 // @resource       i18n ../../includes/Includes_I18n/resources/default.json
 // @resource       updaterWindowHtml ../../includes/Includes_Updater/resources/default.html
 // @resource       updaterWindowCss ../../includes/Includes_Updater/resources/default.css
-// @resource       stockmarketModuleHtml http://pastebin.com/raw/a3mzdaxj
-// @require        http://userscripts.org/scripts/source/63808.user.js
-// @require        http://userscripts.org/scripts/source/85618.user.js
-// @require        http://userscripts.org/scripts/source/87940.user.js
-// @require        http://userscripts.org/scripts/source/87942.user.js
-// @require        http://userscripts.org/scripts/source/56489.user.js
+// @resource       stockmarketModuleHtml resources/default.html
+// @require        ../../includes/Includes_XPath/63808.user.js
+// @require        ../../includes/Includes_Translate/85618.user.js
+// @require        ../../includes/Includes_I18n/87940.user.js
+// @require        ../../includes/Includes_Updater/87942.user.js
+// @require        ../../includes/Includes_HttpRequest/56489.user.js
 // @uso:version    version
 // @history        3.0.0.0 Updated @require#87942
 // @history        2.0.0.4 Updated i18n
 // @history        2.0.0.3 Fixed "hidden" div
+// @noframes
 // ==/UserScript==
 
 /**************************************************************************

@@ -2,10 +2,10 @@
 // @name           Userscripts : Watch script
 // @namespace      http://gm.wesley.eti.br/userscripts
 // @description    Tells you the stats of watched scripts since your last access
-// @include        http://userscripts.org/users/*
-// @include        http://userscripts.org/scripts/show/*
-// @include        http://userscripts.org/scripts/search?q=*
-// @include        http://userscripts.org/scripts
+// @include        http://userscripts-mirror.org/users/*
+// @include        http://userscripts-mirror.org/scripts/show/*
+// @include        http://userscripts-mirror.org/scripts/search?q=*
+// @include        http://userscripts-mirror.org/scripts
 // @require        http://www.wesley.eti.br/includes/js/php.js
 // @require        http://www.wesley.eti.br/includes/js/php2js.js
 // @require        http://gm.wesley.eti.br/gm_default.js?v=1
@@ -36,7 +36,7 @@
 **************************************************************************/
 
 checkForUpdate({
-	'file':'http://userscripts.org/scripts/source/34272.user.js',
+	'file':'https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page3/34272.user.js',
 	'name':'Userscripts : Watch script',
 	'namespace':'http://gm.wesley.eti.br/userscripts',
 	'version':'1.4.0'

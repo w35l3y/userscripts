@@ -12,9 +12,9 @@
 // @include        http://www.neopets.com/lab2.phtml*
 // @include        http://www.neopets.com/process_lab2.phtml*
 // @include        http://lablog.sunnyneo.com/import.php*
-// @require        http://userscripts.org/scripts/source/63808.user.js
-// @require        http://userscripts.org/scripts/source/63810.user.js
-// @require        http://userscripts.org/scripts/source/56489.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Neopets/63810.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_HttpRequest/56489.user.js
 // ==/UserScript==
 
 /**************************************************************************

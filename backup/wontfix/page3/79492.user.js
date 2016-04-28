@@ -9,8 +9,8 @@
 // @homepage       http://gm.wesley.eti.br
 // @version        1.0.0.0
 // @language       en
-// @include        http://userscripts.org/users/*/scripts
-// @include        http://userscripts.org/users/*/scripts?*
+// @include        http://userscripts-mirror.org/users/*/scripts
+// @include        http://userscripts-mirror.org/users/*/scripts?*
 // @resource       back_disabled http://www.datatables.net/release-datatables/media/images/back_disabled.jpg
 // @resource       back_enabled http://www.datatables.net/release-datatables/media/images/back_enabled.jpg
 // @resource       forward_disabled http://www.datatables.net/release-datatables/media/images/forward_disabled.jpg

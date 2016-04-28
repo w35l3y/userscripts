@@ -13,8 +13,8 @@
 // @include        http://www.neopets.com/shenkuu/neggcave/
 // @include        http://www.neopets.com/shenkuu/neggcave/index.phtml
 // @require        http://images.neopets.com/js/jquery-1.7.1.min.js?v=1
-// @require        http://userscripts.org/scripts/source/144996.user.js
-// @require        http://userscripts.org/scripts/source/142688.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/backup/144996.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/backup/142688.user.js
 // ==/UserScript==
 
 /**************************************************************************

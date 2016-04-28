@@ -9,8 +9,8 @@
 // @homepage       http://gm.wesley.eti.br/includes
 // @version        1.3.1.1
 // @include        nowhere
-// @require        http://userscripts.org/scripts/source/54389.user.js
-// @contributor    sizzlemctwizzle (http://userscripts.org/guides/9)
+// @require        https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page3/54389.user.js
+// @contributor    sizzlemctwizzle (http://userscripts-mirror.org/guides/9)
 // ==/UserScript==
 
 HttpRequest = function()

@@ -10,8 +10,8 @@
 // @version        2.0.0.0
 // @language       en
 // @include        nowhere
-// @resource       winConfigCss ../../includes/Includes_WinConfig/resources/default.css
-// @require        http://userscripts.org/scripts/source/54389.user.js
+// @resource       winConfigCss https://github.com/w35l3y/userscripts/raw/master/includes/Includes_WinConfig/resources/default.css
+// @require        https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page3/54389.user.js
 // @history        2.0.0.0 Removed multiline strings due to recent firefox update
 // ==/UserScript==
 

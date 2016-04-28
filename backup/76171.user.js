@@ -10,8 +10,8 @@
 // @version        1.0.0.6
 // @language       en
 // @include        http://www.neopets.com/*
-// @require        http://userscripts.org/scripts/source/63808.user.js
-// @require        http://userscripts.org/scripts/source/63810.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Neopets/63810.user.js
 // @contributor    jellyneo (http://twitter.com/statuses/user_timeline/42098834.rss)
 // ==/UserScript==
 

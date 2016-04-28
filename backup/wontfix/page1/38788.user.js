@@ -192,9 +192,8 @@ CheckForUpdate.init(<>
 // @homepage       http://www.wesley.eti.br
 // @version        2.0.3.0
 // @include        nowhere
-// @cfu:meta       http://userscripts.org/scripts/source/@cfu:id.meta.js
-// @cfu:meta       http://userscripts.org/scripts/review/@cfu:id?format=text
-// @cfu:url        http://userscripts.org/scripts/source/@cfu:id.user.js
+// @cfu:meta       https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page1/@cfu:id.user.js
+    // @cfu:url        https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page1/@cfu:id.user.js
 // @cfu:id         uso:script
 // @cfu:timestamp  uso:timestamp
 // @cfu:version    version

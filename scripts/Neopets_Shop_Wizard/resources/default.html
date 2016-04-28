@@ -1,0 +1,56 @@
+<div class="contentModule" style="height: 100%">
+	<table cellpadding="3" cellspacing="0" border="0" class="contentModuleTable">
+	<tr>
+		<td class="contentModuleHeaderAlt"> What are you looking for?</td>
+	</tr>
+	<tr>
+		<td align="left" valign="top" class="contentModuleContent">
+			<div align="center">
+				<form action="market.phtml" method="post">
+				<table cellpadding="4" cellspacing="0" border="0">
+				<tr>
+					<td align="center" valign="top"><img src="http://images.neopets.com/shopkeepers/shopwizard.gif" width="150" height="150" alt="" border="0" align="left"></td>
+					<td align="left" valign="top">
+						<input type="hidden" name="type" value="process_wizard">
+						<input type="hidden" name="feedset" id="feedset" value="0">
+						<table align="center" cellpadding="4" cellspacing="1" border="0">
+							<tr>
+								<td valign="middle" style="background-color: #EFEFEF;"><b>Search Text</b></td>
+								<td valign="top"><input type="text" name="shopwizard" value="" size="50" maxlength="60" style="width: 300px"></td>
+							</tr>
+							<tr>
+								<td valign="top" style="background-color: #EFEFEF;"><b>Area</b></td>
+								<td valign="top"><input type="radio" name="table" value="shop" checked="checked" /> Shop<br />
+								<input type="radio" name="table" value="gallery" /> Gallery</td>
+							</tr>
+							<tr>
+								<td valign="middle" style="background-color: #EFEFEF;"><b>Search Items</b></td>
+								<td valign="top"><select name="criteria">
+									<option value="containing">containing my phrase</option>
+									<option selected="selected" value="exact">identical to my phrase</option>
+								</select></td>
+							</tr>
+							<tr>
+								<td valign="middle" style="background-color: #EFEFEF;"><b>Min Price</b></td>
+								<td valign="top"><input type="text" name="min_price" size="6" maxlength="6" value="0" /> <b>NP</b></td>
+							</tr>
+							<tr>
+								<td valign="middle" style="background-color: #EFEFEF;"><b>Max Price</b></td>
+								<td valign="top"><input type="text" name="max_price" size="6" maxlength="6" value="99999" /> <b>NP</b></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				</table>
+				<div align="center" style="background-color: #EFEFEF; padding: 4px;">
+					<input type="submit" value="Search">
+				</div>
+				</form>
+			</div>
+		</td>
+	</tr></table>
+</div>
+<br clear="all">
+<br>
+<hr noshade size="1" color="#E4E4E4">
+<br>

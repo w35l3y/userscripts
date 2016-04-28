@@ -11,10 +11,10 @@
 // @include        http://www.neopets.com/stamps.phtml?type=album&page_id=*&owner=*
 // @include        http://www.neopets.com/stamps.phtml?owner=*
 // @include        http://www.neopets.com/stamps.phtml?type=progress
-// @require        http://userscripts.org/scripts/source/54389.user.js
-// @require        http://userscripts.org/scripts/source/54987.user.js
-// @require        http://userscripts.org/scripts/source/56489.user.js
-// @require        http://userscripts.org/scripts/source/61577.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page3/54389.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page1/54987.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_HttpRequest/56489.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/backup/61577.user.js
 // ==/UserScript==
 
 /**************************************************************************
