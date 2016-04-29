@@ -12,12 +12,6 @@
 ![Settings](Settings.png)
 
 
-### Issues
-State|Topic|Replies|Author|Updated
-:---:|:---|:---:|:---:|---:
-closed|#16: [File not Found (neopets)](https://github.com/w35l3y/userscripts/issues/16)|2|[Misterybe](https://github.com/Misterybe)|2015-02-10T14:45:17Z
-closed|#13: [Missing File Issues?](https://github.com/w35l3y/userscripts/issues/13)|6|[Pixymal](https://github.com/Pixymal)|2014-06-05T21:41:10Z
-
 ### Installs
 ![Daily installs](http://gm.wesley.eti.br/count.php?id=scripts/Neopets_Avatars_Flash_Games_[BETA]/127882.user.js&type=image)
 

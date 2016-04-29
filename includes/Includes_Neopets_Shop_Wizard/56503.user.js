@@ -11,7 +11,6 @@
 // @language       en
 // @include        nowhere
 // @exclude        *
-// @grant          GM_log
 // @grant          GM_xmlhttpRequest
 // @require        ../../includes/Includes_XPath/63808.user.js
 // @require        ../../includes/Includes_HttpRequest/56489.user.js
@@ -109,7 +108,7 @@ Wizard.convert = function (params) {
 					"Price"	: parseInt(item[3].textContent.replace(/[,.]+/g, "").match(/^\d+/), 10)
 				});
 			} else {
-				GM_log([ai, items[ai].innerHTML].toString());
+				console.log([ai, items[ai].innerHTML].toString());
 			}
 		}
 
