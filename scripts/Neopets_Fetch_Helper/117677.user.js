@@ -7,7 +7,7 @@
 // @copyright      2012+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        3.1.0
+// @version        3.2.0
 // @language       en
 // @include        http://www.neopets.com/games/maze/maze.phtml*
 // @grant          GM_log
@@ -247,11 +247,34 @@ function recursive (obj) {
 			}
 		};
 		if (queue.length - 1 > 0) {
-			var sum = [by, bx];
+			var sum = [by, bx],
+			cancel = false;
 			for (var i in queue) {
 				var x = queue[i];
-				if (i!=0)
-				sum[x&2?1:0] += (x%2?1:-1);
+				if (i != 0) {
+					sum[x&2?1:0] += (x%2?1:-1);
+					if (!cancel) {
+						var start = [0, 0, 1 + parseInt(i, 10)];
+						while (start[2] < queue.length) {
+							var y = queue[start[2]];
+							start[y&2?1:0] += (y%2?1:-1);
+							//console.log([sum[1] + start[1] + cx, sum[0] + start[0] + cy], map.item && [map.item[0] + cx, map.item[1] + cy]);
+							if (1 >= texts.length && map.item && (map.item[0] == sum[1] + start[1]) && (map.item[1] == sum[0] + start[0])) {	// Item found in the path.
+								break;
+							}
+							if (!start[0] && !start[1]/* && (!cancel || cancel[1] - cancel[0] < start[2] - i)*/) {
+								cancel = [parseInt(i, 10), start[2]];
+								break;
+							}
+							++start[2];
+						}
+					}
+				}
+			}
+			if (cancel/* && confirm("Would you like to cancel " + (cancel[1] - cancel[0]) + " movements?")*/) {
+				queue.splice(1 + cancel[0], cancel[1] - cancel[0]).forEach(function (v) {
+					sum[v[0]&2?1:0] -= (v[0]%2?1:-1);
+				});
 			}
 			points.unshift([[sum[1], sum[0]], ["Y", "Here is where you were supposed to be."]]);
 		}
@@ -280,8 +303,9 @@ function recursive (obj) {
 			if (queue.length < moves) {
 				if (/movedir=(\d+)/.test(e.target.href)) {
 					var sum = [by, bx];
-					for each (var x in queue) {
-						sum[x&2?1:0] += (x%2?1:-1);
+					for (var ai in queue) {
+						var y = queue[ai];
+						sum[y&2?1:0] += (y%2?1:-1);
 					}
 					x = RegExp.$1;
 
