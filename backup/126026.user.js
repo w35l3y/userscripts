@@ -10,6 +10,7 @@
 // @version        1.0.0.0
 // @language       en
 // @include        http://www.neopets.com/island/kitchen.phtml
+// @grant          GM_log
 // @icon           http://gm.wesley.eti.br/icon.php?desc=126026
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
 // ==/UserScript==

@@ -2,17 +2,26 @@
 // @name           Userscripts : People Ranking
 // @namespace      http://gm.wesley.eti.br/userscripts
 // @description    Displays one's position since your last access
-// @include        http://userscripts-mirror.org/users?*
-// @require        http://www.wesley.eti.br/includes/js/php.js?v1
-// @require        http://www.wesley.eti.br/includes/js/php2js.js?v1
-// @require        http://gm.wesley.eti.br/gm_default.js?v1
-// @require        http://gm.wesley.eti.br/userscripts/PeopleRanking/peopleranking_default.js?v1
 // @author         w35l3y
 // @email          w35l3y@brasnet.org
 // @version        1.0.3
 // @copyright      w35l3y 2008
 // @license        GNU GPL
 // @homepage       http://www.wesley.eti.br
+// @include        http://userscripts-mirror.org/users?*
+// @grant          GM_log
+// @grant          GM_addStyle
+// @grant          GM_getValue
+// @grant          GM_setValue
+// @grant          GM_openInTab
+// @grant          GM_deleteValue
+// @grant          GM_xmlhttpRequest
+// @grant          GM_getResourceText
+// @icon           http://gm.wesley.eti.br/icon.php?desc=35215
+// @require        http://www.wesley.eti.br/includes/js/php.js?v1
+// @require        http://www.wesley.eti.br/includes/js/php2js.js?v1
+// @require        http://gm.wesley.eti.br/gm_default.js?v1
+// @require        http://gm.wesley.eti.br/userscripts/PeopleRanking/peopleranking_default.js?v1
 // ==/UserScript==
 
 /**************************************************************************

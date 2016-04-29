@@ -23,7 +23,6 @@
 // @grant          GM_xmlhttpRequest
 // @grant          GM_getResourceText
 // @icon           http://gm.wesley.eti.br/icon.php?desc=54095
-
 // @resource       i18n https://github.com/w35l3y/userscripts/raw/master/includes/Includes_I18n/resources/default.json
 // @resource       meta https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page1/54095.user.js
 // @resource       updaterWindowHtml https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Updater/resources/default.html
@@ -34,7 +33,6 @@
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_I18n/87940.user.js
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Updater/87942.user.js
 // @require        https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page2/54000.user.js
-
 // @cfu:version    version
 // @history        3.2.0 Added missing @icon
 // @history        3.1.0 Added Includes Checker (due to the recent problems with userscripts-mirror.org)

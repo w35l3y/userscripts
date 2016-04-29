@@ -10,6 +10,7 @@
 // @version        1.0.0.1
 // @include        nowhere
 // @exclude        *
+// @grant          GM_log
 // @icon           http://gm.wesley.eti.br/icon.php?desc=144996
 // ==/UserScript==
 
@@ -106,7 +107,7 @@ QueuedList = function (wait) {
 	this.end = function () {};
 };
 
-GM_log("Loaded 'Includes : Queued Events'");
+console.log("Loaded 'Includes : Queued Events'");
 
 /*var x = new QueuedList([1000, 0]),
 c = function (b) {

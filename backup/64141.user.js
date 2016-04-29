@@ -12,6 +12,14 @@
 // @include        http://www.neopets.com/magma/
 // @include        http://www.neopets.com/magma/index.phtml
 // @include        http://www.neopets.com/magma/caves.phtml
+// @grant          GM_log
+// @grant          GM_addStyle
+// @grant          GM_getValue
+// @grant          GM_setValue
+// @grant          GM_openInTab
+// @grant          GM_deleteValue
+// @grant          GM_xmlhttpRequest
+// @grant          GM_getResourceText
 // @icon           http://gm.wesley.eti.br/icon.php?desc=64141
 // @resource       meta https://github.com/w35l3y/userscripts/raw/master/backup/64141.user.js
 // @resource       i18n https://github.com/w35l3y/userscripts/raw/master/includes/Includes_I18n/resources/default.json

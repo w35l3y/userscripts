@@ -11,6 +11,15 @@
 // @language       en
 // @include        http://www.orkut.tld/*
 // @exclude        http://www.orkut.tld/Main#*
+// @grant          GM_log
+// @grant          GM_addStyle
+// @grant          GM_getValue
+// @grant          GM_setValue
+// @grant          GM_openInTab
+// @grant          GM_deleteValue
+// @grant          GM_xmlhttpRequest
+// @grant          GM_getResourceText
+// @icon           http://gm.wesley.eti.br/icon.php?desc=62957
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_HttpRequest/56489.user.js
 // @require        https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page3/54389.user.js
 // @require        https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page1/54987.user.js

@@ -3,6 +3,13 @@
 // @namespace      http://gm.wesley.eti.br/snowtigers
 // @description    Opens the Account Signup page when registration is open
 // @include        *
+// @grant          GM_log
+// @grant          GM_getValue
+// @grant          GM_setValue
+// @grant          GM_openInTab
+// @grant          GM_deleteValue
+// @grant          GM_xmlhttpRequest
+// @icon           http://gm.wesley.eti.br/icon.php?desc=37332
 // ==/UserScript==
 
 (function recursive()

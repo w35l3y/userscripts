@@ -17,7 +17,6 @@
 // @grant          GM_xmlhttpRequest
 // @grant          GM_getResourceText
 // @icon           http://gm.wesley.eti.br/icon.php?desc=28364
-
 // @resource       meta https://github.com/w35l3y/userscripts/raw/master/backup/28364.user.js
 // @resource       i18n https://github.com/w35l3y/userscripts/raw/master/includes/Includes_I18n/resources/default.json
 // @resource       updaterWindowHtml https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Updater/resources/default.html
@@ -27,7 +26,6 @@
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Translate/85618.user.js
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_I18n/87940.user.js
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Updater/87942.user.js
-
 // @cfu:version    version
 // @history        3.2.0 Added <a href="http://userscripts-mirror.org/guides/773">Includes Checker</a>
 // @history        3.1.0.0 Added limit to 80 potatoes

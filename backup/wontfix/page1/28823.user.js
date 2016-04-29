@@ -2,16 +2,26 @@
 // @name           Neopets : Random Event
 // @namespace      http://neopets.wesley.eti.br
 // @description    Logs random events
+// @author         w35l3y
+// @email          w35l3y@brasnet.org
+// @version        1.1.2 BETA
+// @homepage       http://www.wesley.eti.br
 // @include        http://www.neopets.com/*
 // @exclude        http://www.neopets.com/ads/*
 // @exclude        http://www.neopets.com/games/play_flash.phtml?*
 // @exclude        http://www.neopets.com/neomail_block_check.phtml?*
 // @exclude        http://www.neopets.com/iteminfo.phtml?*
 // @exclude        http://www.neopets.com/~*
-// @author         w35l3y
-// @email          w35l3y@brasnet.org
-// @version        1.1.2 BETA
-// @homepage       http://www.wesley.eti.br
+// @grant          GM_log
+// @grant          GM_addStyle
+// @grant          GM_getValue
+// @grant          GM_setValue
+// @grant          GM_openInTab
+// @grant          GM_deleteValue
+// @grant          GM_xmlhttpRequest
+// @grant          GM_getResourceText
+// @icon           http://gm.wesley.eti.br/icon.php?desc=28823
+// @noframes
 // ==/UserScript==
 
 /* ###[ prototype ]### */

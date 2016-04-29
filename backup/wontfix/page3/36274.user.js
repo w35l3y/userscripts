@@ -1,6 +1,12 @@
 // ==UserScript==
 // @name           Wikipedia : Grey Lady
 // @namespace      http://gm.wesley.eti.br/wikipedia
+// @author         w35l3y
+// @email          w35l3y@brasnet.org
+// @version        1.1.1
+// @copyright      w35l3y 2008
+// @license        GNU GPL
+// @homepage       http://www.wesley.eti.br
 // @include        http://*.wikibooks.tld/*
 // @include        http://*.wikipedia.tld/*
 // @include        http://*.wikimedia.tld/*
@@ -8,13 +14,10 @@
 // @include        http://*.wikisource.tld/*
 // @include        http://*.wikiversity.tld/*
 // @include        http://*.wiktionary.tld/*
+// @grant          GM_addStyle
+// @grant          GM_getResourceText
+// @icon           http://gm.wesley.eti.br/icon.php?desc=36274
 // @resource       css http://userstyles.org/styles/1365.css?v=1
-// @author         w35l3y
-// @email          w35l3y@brasnet.org
-// @version        1.1.1
-// @copyright      w35l3y 2008
-// @license        GNU GPL
-// @homepage       http://www.wesley.eti.br
 // ==/UserScript==
 
 /**************************************************************************

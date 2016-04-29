@@ -2,17 +2,25 @@
 // @name           Orkut : Starred Topics
 // @namespace      http://gm.wesley.eti.br/orkut
 // @description    Allows you to mark topics with a star
-// @include        http://www.orkut.com.br/CommTopics.aspx?cmm=*
-// @include        http://www.orkut.com.br/Community.aspx?cmm=*
-// @require        http://www.wesley.eti.br/includes/js/php.js
-// @require        http://www.wesley.eti.br/includes/js/php2js.js
-// @require        http://gm.wesley.eti.br/gm_default.js
 // @author         w35l3y
 // @email          w35l3y@brasnet.org
 // @version        1.0.1
 // @copyright      w35l3y 2008
 // @license        GNU GPL
 // @homepage       http://www.wesley.eti.br
+// @include        http://www.orkut.com.br/CommTopics.aspx?cmm=*
+// @include        http://www.orkut.com.br/Community.aspx?cmm=*
+// @grant          GM_log
+// @grant          GM_addStyle
+// @grant          GM_getValue
+// @grant          GM_setValue
+// @grant          GM_openInTab
+// @grant          GM_deleteValue
+// @grant          GM_xmlhttpRequest
+// @grant          GM_getResourceText
+// @icon           http://gm.wesley.eti.br/icon.php?desc=34566
+// @require        http://www.wesley.eti.br/includes/js/php.js
+// @require        http://www.wesley.eti.br/includes/js/php2js.js
 // ==/UserScript==
 
 /**************************************************************************

@@ -2,9 +2,10 @@
 // @name           Neopets : SSW Test
 // @namespace      http://gm.wesley.eti.br
 // @include        http://www.neopets.com/inventory.phtml
-// @version        1
-// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_HttpRequest/56489.user.js
+// @version        1.0.0
+// @grant          GM_xmlhttpRequest
 // @icon           http://gm.wesley.eti.br/icon.php?desc=36215
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_HttpRequest/56489.user.js
 // ==/UserScript==
 
 var params = {

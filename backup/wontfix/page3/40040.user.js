@@ -1,4 +1,3 @@
-typeof(CheckForUpdate)!='undefined' && CheckForUpdate.init(<>
 // ==UserScript==
 // @name           Userscripts : Sticky Topics
 // @namespace      http://gm.wesley.eti.br/userscripts
@@ -11,6 +10,15 @@ typeof(CheckForUpdate)!='undefined' && CheckForUpdate.init(<>
 // @version        1.0.0.2
 // @include        http://userscripts-mirror.org/forums/*
 // @include        http://userscripts-mirror.org/scripts/discuss/*
+// @grant          GM_log
+// @grant          GM_addStyle
+// @grant          GM_getValue
+// @grant          GM_setValue
+// @grant          GM_openInTab
+// @grant          GM_deleteValue
+// @grant          GM_xmlhttpRequest
+// @grant          GM_getResourceText
+// @icon           http://gm.wesley.eti.br/icon.php?desc=40040
 // @require        https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page1/38788.user.js
 // @cfu:meta       https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page3/@cfu:id.user.js
 // @cfu:url        https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page3/@cfu:id.user.js
@@ -19,7 +27,8 @@ typeof(CheckForUpdate)!='undefined' && CheckForUpdate.init(<>
 // @uso:script     40040
 // @uso:timestamp  01:02 01/15/2009
 // ==/UserScript==
-</>);
+
+typeof(CheckForUpdate)!='undefined' && CheckForUpdate.init(GM_info.scriptMetaStr);
 
 (function()
 {	// script scope

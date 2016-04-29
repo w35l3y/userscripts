@@ -11,6 +11,8 @@
 // @language       en
 // @include        http://userscripts-mirror.org/topics/*
 // @include        http://userscripts-mirror.org/home/comments*
+// @grant          GM_log
+// @icon           http://gm.wesley.eti.br/icon.php?desc=71124
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
 // ==/UserScript==
 

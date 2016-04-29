@@ -1,4 +1,3 @@
-typeof(CheckForUpdate)!='undefined' && CheckForUpdate.init(<>
 // ==UserScript==
 // @name           Includes : Persist
 // @namespace      http://gm.wesley.eti.br/includes
@@ -10,16 +9,22 @@ typeof(CheckForUpdate)!='undefined' && CheckForUpdate.init(<>
 // @homepage       http://www.wesley.eti.br
 // @version        1.0.0.0
 // @include        nowhere
+// @grant          GM_log
+// @grant          GM_getValue
+// @grant          GM_setValue
+// @grant          GM_openInTab
+// @grant          GM_xmlhttpRequest
+// @icon           http://gm.wesley.eti.br/icon.php?desc=40050
 // @require        https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page1/38788.user.js
 // @cfu:meta       https://github.com/w35l3y/userscripts/raw/master/backup/@cfu:id.user.js
-// @cfu:url    	   https://github.com/w35l3y/userscripts/raw/master/backup/@cfu:id.user.js
+// @cfu:url        https://github.com/w35l3y/userscripts/raw/master/backup/@cfu:id.user.js
 // @cfu:id         uso:script
 // @cfu:timestamp  uso:timestamp
 // @cfu:version    version
 // @uso:script     40050
 // @uso:timestamp  10:01 01/08/2009
 // ==/UserScript==
-</>);
+typeof(CheckForUpdate)!='undefined' && CheckForUpdate.init(GM_info.scriptMetaStr);
 
 /**************************************************************************
 

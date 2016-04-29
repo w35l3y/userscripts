@@ -10,6 +10,8 @@
 // @language       pt-BR
 // @request        http://userscripts-mirror.org/topics/48665
 // @include        http://192.168.135.1:21680/iha/abertura/atlantica/
+// @grant          GM_log
+// @icon           http://gm.wesley.eti.br/icon.php?desc=72095
 // ==/UserScript==
 
 /**************************************************************************

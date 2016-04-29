@@ -1,8 +1,13 @@
-typeof(CheckForUpdate)!='undefined' && CheckForUpdate.init(<>
 // ==UserScript==
 // @name           Orkut : PHP Code Highlight
 // @namespace      http://gm.wesley.eti.br/orkut
 // @description    Highlights php codes
+// @version        1.0.2.12
+// @author         w35l3y
+// @email          w35l3y@brasnet.org
+// @copyright      w35l3y 2009
+// @license        GNU GPL
+// @homepage       http://www.wesley.eti.br
 // @include        http*://www.orkut.tld/CommMsgs?cmm=*
 // @include        http*://www.orkut.tld/Scrapbook*
 // @include        http*://www.orkut.tld/Home*
@@ -15,6 +20,15 @@ typeof(CheckForUpdate)!='undefined' && CheckForUpdate.init(<>
 // @include        http*://orkut.tld/Profile?*
 // @include        http*://orkut.tld/Messages?msg=*
 // @include        http*://orkut.tld/ProfileT?uid=*
+// @grant          GM_log
+// @grant          GM_addStyle
+// @grant          GM_getValue
+// @grant          GM_setValue
+// @grant          GM_openInTab
+// @grant          GM_deleteValue
+// @grant          GM_xmlhttpRequest
+// @grant          GM_getResourceText
+// @icon           http://gm.wesley.eti.br/icon.php?desc=38981
 // @resource       highlight http://shjs.sourceforge.net/sh_style.css?v1
 // @require        http://shjs.sourceforge.net/sh_main.min.js?v1
 // @require        http://shjs.sourceforge.net/lang/sh_php.min.js?v1
@@ -25,16 +39,9 @@ typeof(CheckForUpdate)!='undefined' && CheckForUpdate.init(<>
 // @cfu:version    version
 // @cfu:timestamp  modified
 // @cfu:interval   5 days
-// @version        1.0.2.12
 // @modified       11:01 29/09/2009
 // @uso:script     38981
-// @author         w35l3y
-// @email          w35l3y@brasnet.org
-// @copyright      w35l3y 2009
-// @license        GNU GPL
-// @homepage       http://www.wesley.eti.br
 // ==/UserScript==
-</>);
 
 /**************************************************************************
 
@@ -59,6 +66,8 @@ typeof(CheckForUpdate)!='undefined' && CheckForUpdate.init(<>
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 **************************************************************************/
+
+typeof(CheckForUpdate)!='undefined' && CheckForUpdate.init(GM_info.scriptMetaStr);
 
 GM_addStyle(GM_getResourceText('highlight'));
 

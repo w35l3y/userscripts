@@ -10,8 +10,8 @@
 // @version        2.0.0
 // @language       en
 // @include        http://www.neopets.com/halloween/sfc/catacombs/*
-// @icon           http://gm.wesley.eti.br/icon.php?desc=180618
 // @grant          none
+// @icon           http://gm.wesley.eti.br/icon.php?desc=180618
 // ==/UserScript==
 
 /**************************************************************************

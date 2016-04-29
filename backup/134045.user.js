@@ -9,6 +9,7 @@
 // @homepage    http://gm.wesley.eti.br
 // @version     1.0.0.3
 // @include     http://www.neopets.com/games/game.phtml?game_id=*
+// @grant       GM_log
 // @icon        http://gm.wesley.eti.br/icon.php?desc=134045
 // @require     https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
 // ==/UserScript==

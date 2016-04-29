@@ -2,11 +2,6 @@
 // @name           Userscripts : Issues Report
 // @namespace      http://gm.wesley.eti.br/userscripts
 // @description    Displays all issues reported of your scripts
-// @include        http://userscripts-mirror.org/scripts/*/*
-// @include        http://userscripts-mirror.org/home/scripts*
-// @require        http://www.wesley.eti.br/includes/js/php.js?v1
-// @require        http://www.wesley.eti.br/includes/js/php2js.js?v1
-// @require        http://gm.wesley.eti.br/gm_default.js?v1
 // @language       en
 // @author         w35l3y
 // @email          w35l3y@brasnet.org
@@ -14,6 +9,20 @@
 // @copyright      w35l3y 2008
 // @license        GNU GPL
 // @homepage       http://www.wesley.eti.br
+// @include        http://userscripts-mirror.org/scripts/*/*
+// @include        http://userscripts-mirror.org/home/scripts*
+// @grant          GM_log
+// @grant          GM_addStyle
+// @grant          GM_getValue
+// @grant          GM_setValue
+// @grant          GM_openInTab
+// @grant          GM_deleteValue
+// @grant          GM_xmlhttpRequest
+// @grant          GM_getResourceText
+// @icon           http://gm.wesley.eti.br/icon.php?desc=35589
+// @require        http://www.wesley.eti.br/includes/js/php.js?v1
+// @require        http://www.wesley.eti.br/includes/js/php2js.js?v1
+// @require        http://gm.wesley.eti.br/gm_default.js?v1
 // ==/UserScript==
 
 /**************************************************************************

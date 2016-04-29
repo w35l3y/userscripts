@@ -1,4 +1,3 @@
-typeof(CheckForUpdate)!='undefined' && CheckForUpdate.init(<>
 // ==UserScript==
 // @name           Bux : Browse Ads
 // @namespace      http://gm.wesley.eti.br/bux
@@ -18,6 +17,15 @@ typeof(CheckForUpdate)!='undefined' && CheckForUpdate.init(<>
 // @include        http*://*/surf_ads_think.php
 // @include        http*://*/bannersurf.php
 // @include        http*://*/index.php?option=surf
+// @grant          GM_log
+// @grant          GM_addStyle
+// @grant          GM_getValue
+// @grant          GM_setValue
+// @grant          GM_openInTab
+// @grant          GM_deleteValue
+// @grant          GM_xmlhttpRequest
+// @grant          GM_getResourceText
+// @icon           http://gm.wesley.eti.br/icon.php?desc=38967
 // @require        https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page1/38788.user.js
 // @cfu:meta       https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page3/@cfu:id.user.js
 // @cfu:url        https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page3/@cfu:id.user.js
@@ -28,7 +36,6 @@ typeof(CheckForUpdate)!='undefined' && CheckForUpdate.init(<>
 // @uso:script     38967
 // @uso:timestamp  18:39 01/25/2009
 // ==/UserScript==
-</>);
 
 /**************************************************************************
 
@@ -46,6 +53,8 @@ typeof(CheckForUpdate)!='undefined' && CheckForUpdate.init(<>
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 **************************************************************************/
+
+typeof(CheckForUpdate)!='undefined' && CheckForUpdate.init(GM_info.scriptMetaStr);
 
 var w = document.createElement('div');
 w.setAttribute('style','position:fixed; bottom:0px; right:0px; background-color:#000; font-weight:bold; color:#FFF; display:block; padding:4px;');

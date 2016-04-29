@@ -11,6 +11,8 @@
 // @language       en
 // @include        nowhere
 // @exclude        *
+// @grant          GM_xmlhttpRequest
+// @icon           http://gm.wesley.eti.br/icon.php?desc=101564
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_HttpRequest/56489.user.js
 // ==/UserScript==
 

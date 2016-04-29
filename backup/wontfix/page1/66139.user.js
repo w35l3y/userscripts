@@ -10,6 +10,15 @@
 // @version        2.0.5.6
 // @language       en
 // @include        http://www.neopets.com/games/play.phtml?game_id=*
+// @grant          GM_log
+// @grant          GM_addStyle
+// @grant          GM_getValue
+// @grant          GM_setValue
+// @grant          GM_openInTab
+// @grant          GM_deleteValue
+// @grant          GM_xmlhttpRequest
+// @grant          GM_getResourceText
+// @icon           http://gm.wesley.eti.br/icon.php?desc=66139
 // @resource       meta https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page1/66139.user.js
 // @resource       i18n https://github.com/w35l3y/userscripts/raw/master/includes/Includes_I18n/resources/default.json
 // @require        http://www.onicos.com/staff/iz/amuse/javascript/expert/md5.txt
@@ -23,7 +32,7 @@
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
 // @require        https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page3/66138.user.js
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Updater/87942.user.js
-// @require        // @history        2.0.5.6 Updated @require#66138,#85450,#69584
+// @history        2.0.5.6 Updated @require#66138,#85450,#69584
 // @history        2.0.5.5 Updated @require#66138,#87940
 // @history        2.0.5.4 Updated @require#66138
 // @history        2.0.5.3 Updated @require#66138

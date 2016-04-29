@@ -10,6 +10,8 @@
 // @version        1.0.0.7
 // @language       en
 // @include        http://userscripts-mirror.org/forums/*
+// @grant          GM_xmlhttpRequest
+// @icon           http://gm.wesley.eti.br/icon.php?desc=131890
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_HttpRequest/56489.user.js
 // ==/UserScript==

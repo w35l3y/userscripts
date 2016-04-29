@@ -11,7 +11,11 @@
 // @language       en
 // @include        http://www.neopets.com/objects.phtml?type=inventory#alert
 // @include        http://www.neopets.com/objects.phtml?type=inventory#console
+// @grant          GM_log
+// @grant          GM_xmlhttpRequest
+// @icon           http://gm.wesley.eti.br/icon.php?desc=63342
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_HttpRequest/56489.user.js
 // ==/UserScript==
 
 /**************************************************************************

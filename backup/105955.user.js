@@ -11,6 +11,8 @@
 // @language       en
 // @include        http://www.neopets.com/altador/colosseum/standings.phtml
 // @include        http://www.neopets.com/altador/colosseum/schedule.phtml?day=*&team=all
+// @grant          GM_getValue
+// @grant          GM_setValue
 // @icon           http://gm.wesley.eti.br/icon.php?desc=105955
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
 // ==/UserScript==

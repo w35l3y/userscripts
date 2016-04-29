@@ -11,6 +11,12 @@
 // @language       en
 // @include        http://www.neopets.com/altador/colosseum/schedule.phtml?day=all*
 // @include        http://www.neopets.com/altador/colosseum/schedule.phtml?day=finals*
+// @grant          GM_addStyle
+// @grant          GM_getValue
+// @grant          GM_setValue
+// @grant          GM_deleteValue
+// @grant          GM_xmlhttpRequest
+// @grant          GM_getResourceText
 // @icon           http://gm.wesley.eti.br/icon.php?desc=105950
 // @resource       meta https://github.com/w35l3y/userscripts/raw/master/backup/105950.user.js
 // @resource       i18n https://github.com/w35l3y/userscripts/raw/master/includes/Includes_I18n/resources/default.json

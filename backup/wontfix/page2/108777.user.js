@@ -10,6 +10,14 @@
 // @version        1.0.0.1
 // @language       en
 // @include        http://www.neopets.com/pirates/disappearance/inside-ship.phtml
+// @grant          GM_log
+// @grant          GM_addStyle
+// @grant          GM_getValue
+// @grant          GM_setValue
+// @grant          GM_openInTab
+// @grant          GM_deleteValue
+// @grant          GM_xmlhttpRequest
+// @grant          GM_getResourceText
 // @icon           http://gm.wesley.eti.br/icon.php?desc=108777
 // @resource       meta https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page2/108777.user.js
 // @resource       i18n https://github.com/w35l3y/userscripts/raw/master/includes/Includes_I18n/resources/default.json

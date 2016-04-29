@@ -2,11 +2,20 @@
 // @name           Neopets : Secret Laboratory
 // @namespace      http://neopets.wesley.eti.br
 // @description    Logs everything that happens to your pet at the Secret Laboratory
-// @include        http://www.neopets.com/process_lab2.phtml
 // @author         w35l3y
 // @email          w35l3y@brasnet.org
 // @version        1.2.0 BETA
 // @homepage       http://www.wesley.eti.br
+// @include        http://www.neopets.com/process_lab2.phtml
+// @grant          GM_log
+// @grant          GM_addStyle
+// @grant          GM_getValue
+// @grant          GM_setValue
+// @grant          GM_openInTab
+// @grant          GM_deleteValue
+// @grant          GM_xmlhttpRequest
+// @grant          GM_getResourceText
+// @icon           http://gm.wesley.eti.br/icon.php?desc=28821
 // ==/UserScript==
 
 /* ###[ prototypes ]### */

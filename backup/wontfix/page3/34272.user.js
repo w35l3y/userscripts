@@ -2,20 +2,29 @@
 // @name           Userscripts : Watch script
 // @namespace      http://gm.wesley.eti.br/userscripts
 // @description    Tells you the stats of watched scripts since your last access
-// @include        http://userscripts-mirror.org/users/*
-// @include        http://userscripts-mirror.org/scripts/show/*
-// @include        http://userscripts-mirror.org/scripts/search?q=*
-// @include        http://userscripts-mirror.org/scripts
-// @require        http://www.wesley.eti.br/includes/js/php.js
-// @require        http://www.wesley.eti.br/includes/js/php2js.js
-// @require        http://gm.wesley.eti.br/gm_default.js?v=1
-// @require        http://gm.wesley.eti.br/userscripts/WatchScript/watchscript_default.js?v=2
 // @author         w35l3y
 // @email          w35l3y@brasnet.org
 // @version        1.3.3
 // @copyright      w35l3y 2008
 // @license        GNU GPL
 // @homepage       http://www.wesley.eti.br
+// @include        http://userscripts-mirror.org/users/*
+// @include        http://userscripts-mirror.org/scripts/show/*
+// @include        http://userscripts-mirror.org/scripts/search?q=*
+// @include        http://userscripts-mirror.org/scripts
+// @grant          GM_log
+// @grant          GM_addStyle
+// @grant          GM_getValue
+// @grant          GM_setValue
+// @grant          GM_openInTab
+// @grant          GM_deleteValue
+// @grant          GM_xmlhttpRequest
+// @grant          GM_getResourceText
+// @icon           http://gm.wesley.eti.br/icon.php?desc=34272
+// @require        http://www.wesley.eti.br/includes/js/php.js
+// @require        http://www.wesley.eti.br/includes/js/php2js.js
+// @require        http://gm.wesley.eti.br/gm_default.js?v=1
+// @require        http://gm.wesley.eti.br/userscripts/WatchScript/watchscript_default.js?v=2
 // ==/UserScript==
 
 /**************************************************************************

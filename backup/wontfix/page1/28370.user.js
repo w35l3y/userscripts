@@ -2,18 +2,25 @@
 // @name           Neopets : Faerie Crossword
 // @namespace      http://gm.wesley.eti.br/neopets
 // @description    Plays Faerie Crossword
-// @include        http://www.neopets.com/games/crossword/
-// @include        http://www.neopets.com/games/crossword/index.phtml
-// @include        http://www.neopets.com/games/crossword/crossword.phtml
-// @require        http://www.wesley.eti.br/includes/js/php.js
-// @require        http://www.wesley.eti.br/includes/js/php2js.js
-// @require        http://gm.wesley.eti.br/gm_default.js
 // @author         w35l3y
 // @email          w35l3y@brasnet.org
 // @version        1.2.4
 // @copyright      w35l3y 2008
 // @license        GNU GPL
 // @homepage       http://www.wesley.eti.br
+// @include        http://www.neopets.com/games/crossword/
+// @include        http://www.neopets.com/games/crossword/index.phtml
+// @include        http://www.neopets.com/games/crossword/crossword.phtml
+// @grant          GM_log
+// @grant          GM_addStyle
+// @grant          GM_getValue
+// @grant          GM_setValue
+// @grant          GM_openInTab
+// @grant          GM_deleteValue
+// @grant          GM_xmlhttpRequest
+// @icon           http://gm.wesley.eti.br/icon.php?desc=28370
+// @require        http://www.wesley.eti.br/includes/js/php.js
+// @require        http://www.wesley.eti.br/includes/js/php2js.js
 // ==/UserScript==
 
 /**************************************************************************

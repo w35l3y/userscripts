@@ -4,6 +4,11 @@
 // @description    Examples of interactions among tabs
 // @include        http://translate.google.tld/?sl=auto&tl=pt#userscripts-mirror.org
 // @include        http://userscripts-mirror.org/topics/*
+// @grant          GM_log
+// @grant          GM_getValue
+// @grant          GM_setValue
+// @grant          GM_deleteValue
+// @icon           http://gm.wesley.eti.br/icon.php?desc=70426
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
 // ==/UserScript==
 

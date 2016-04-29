@@ -1,4 +1,3 @@
-const GM_HEADER = <>
 // ==UserScript==
 // @name           Userscripts : Backup scripts
 // @namespace      http://gm.wesley.eti.br/userscripts
@@ -10,6 +9,15 @@ const GM_HEADER = <>
 // @homepage       http://www.wesley.eti.br
 // @version        1.0.1.2
 // @include        http://userscripts-mirror.org/*
+// @grant          GM_log
+// @grant          GM_addStyle
+// @grant          GM_getValue
+// @grant          GM_setValue
+// @grant          GM_openInTab
+// @grant          GM_deleteValue
+// @grant          GM_xmlhttpRequest
+// @grant          GM_getResourceText
+// @icon           http://gm.wesley.eti.br/icon.php?desc=40038
 // @require        https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page1/38788.user.js
 // @require        https://github.com/w35l3y/userscripts/raw/master/backup/40050.user.js
 // @cfu:meta       https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page3/@cfu:id.user.js
@@ -19,9 +27,8 @@ const GM_HEADER = <>
 // @cfu:version    version
 // @uso:script     40038
 // @uso:timestamp  20:22 01/08/2009
+// @noframes
 // ==/UserScript==
-</>;
-typeof(CheckForUpdate)!='undefined' && CheckForUpdate.init(GM_HEADER);
 
 /**************************************************************************
 
@@ -39,6 +46,8 @@ typeof(CheckForUpdate)!='undefined' && CheckForUpdate.init(GM_HEADER);
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 **************************************************************************/
+
+typeof(CheckForUpdate)!='undefined' && CheckForUpdate.init(GM_info.scriptMetaStr);
 
 (function()
 {	// script scope

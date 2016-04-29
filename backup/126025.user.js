@@ -14,13 +14,12 @@
 // @include        http://www.neopets.com/userlookup.phtml?*user=*
 // @include        http://www.neopets.com/userlookup.phtml?*randomfriend=*
 // @include        http://www.neopets.com/petlookup.phtml?*pet=*
-// @icon           http://gm.wesley.eti.br/icon.php?desc=126025
-// @grant          GM_log
 // @grant          GM_addStyle
 // @grant          GM_getValue
 // @grant          GM_setValue
 // @grant          GM_deleteValue
 // @grant          GM_getResourceText
+// @icon           http://gm.wesley.eti.br/icon.php?desc=126025
 // @resource       winConfigCss https://github.com/w35l3y/userscripts/raw/master/includes/Includes_WinConfig/resources/default.css
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_WinConfig/163374.user.js

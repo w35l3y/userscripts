@@ -18,18 +18,16 @@
 // @grant          GM_log
 // @grant          GM_getValue
 // @grant          GM_setValue
-// @grant          GM_deleteValue
 // @grant          GM_openInTab
-// @grant          GM_getResourceText
+// @grant          GM_deleteValue
 // @grant          GM_xmlhttpRequest
+// @grant          GM_getResourceText
 // @icon           http://gm.wesley.eti.br/icon.php?desc=154364
-
 // @resource       random_events https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Neopets_Random_Events/resources/default.csv
 // @resource       randomEventsHtml https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Neopets_Random_Events/resources/default.html
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Persist_[BETA]/154322.user.js
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Neopets_Random_Events/154363.user.js
-
 // @history        1.1.1 Added missing @icon
 // @history        1.1.0 Added Includes Checker (due to the recent problems with userscripts-mirror.org)
 // ==/UserScript==

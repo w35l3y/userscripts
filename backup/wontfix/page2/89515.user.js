@@ -10,6 +10,8 @@
 // @version        1.0.0.0
 // @language       en
 // @include        nowhere
+// @grant          GM_xmlhttpRequest
+// @icon           http://gm.wesley.eti.br/icon.php?desc=89515
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
 // ==/UserScript==
 

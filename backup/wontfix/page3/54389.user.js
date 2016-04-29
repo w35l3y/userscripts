@@ -9,6 +9,8 @@
 // @homepage       http://gm.wesley.eti.br/includes
 // @version        1.0.2.0 BETA
 // @include        nowhere
+// @grant          GM_log
+// @icon           http://gm.wesley.eti.br/icon.php?desc=54389
 // ==/UserScript==
 
 /**************************************************************************

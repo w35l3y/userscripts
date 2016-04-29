@@ -10,6 +10,8 @@
 // @version        1.0.0.0
 // @language       en
 // @include        nowhere
+// @grant          GM_log
+// @icon           http://gm.wesley.eti.br/icon.php?desc=85659
 // ==/UserScript==
 
 /**************************************************************************

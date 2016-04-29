@@ -6,7 +6,6 @@
 // @exclude        *
 // @version        1.2.2
 // @language       pt-br
-// @-icon           http://gm.wesley.eti.br/icon.php?desc=180525
 // @grant          GM_log
 // @grant          GM_addStyle
 // @grant          GM_getValue
@@ -14,6 +13,7 @@
 // @grant          GM_deleteValue
 // @grant          GM_xmlhttpRequest
 // @grant          GM_getResourceText
+// @icon           http://gm.wesley.eti.br/icon.php?desc=180525
 // @resource       meta https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page1/180525.user.js
 // @resource       i18n https://github.com/w35l3y/userscripts/raw/master/includes/Includes_I18n/resources/default.json
 // @resource       winConfigCss https://github.com/w35l3y/userscripts/raw/master/includes/Includes_WinConfig/resources/default.css

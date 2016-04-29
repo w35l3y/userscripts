@@ -7,8 +7,12 @@
 // @copyright      2010+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        1.0.0.0
+// @version        1.0.0
 // @language       en
+// @grant          GM_addStyle
+// @grant          GM_getResourceURL
+// @grant          GM_getResourceText
+// @icon           http://gm.wesley.eti.br/icon.php?desc=79492
 // @include        http://userscripts-mirror.org/users/*/scripts
 // @include        http://userscripts-mirror.org/users/*/scripts?*
 // @resource       back_disabled http://www.datatables.net/release-datatables/media/images/back_disabled.jpg

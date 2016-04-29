@@ -2,13 +2,19 @@
 // @name           Neopets : Petpet Laboratory
 // @namespace      http://gm.wesley.eti.br/neopets
 // @description    Loggs everything that happens to your petpet at the Petpet Laboratory
-// @include        http://www.neopets.com/process_petpetlab.phtml
 // @author         w35l3y
 // @email          w35l3y@brasnet.org
 // @version        1.1.0 BETA
 // @copyright      w35l3y 2008
 // @license        GNU GPL
 // @homepage       http://www.wesley.eti.br
+// @include        http://www.neopets.com/process_petpetlab.phtml
+// @grant          GM_log
+// @grant          GM_getValue
+// @grant          GM_setValue
+// @grant          GM_openInTab
+// @grant          GM_xmlhttpRequest
+// @icon           http://gm.wesley.eti.br/icon.php?desc=36224
 // ==/UserScript==
 
 /* ###[ prototypes ]### */

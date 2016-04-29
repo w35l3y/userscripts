@@ -1,26 +1,33 @@
-typeof(CheckForUpdate)!='undefined' && CheckForUpdate.init(<>
 // ==UserScript==
 // @name           Userscripts : Mark as read
 // @namespace      http://gm.wesley.eti.br/userscripts
 // @description    Displays the option to mark discussions as read
-// @include        http://userscripts-mirror.org/topics/*
-// @include        http://userscripts-mirror.org/forums/*
-// @include        http://userscripts-mirror.org/forums
-// @include        http://userscripts-mirror.org/scripts/discuss/*
-// @require        https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page1/38788.user.js
-// @cfu:meta       https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page3/@cfu:id.user.js
-// @cfu:url        https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page3/@cfu:id.user.js
-// @cfu:id         uso:script
-// @cfu:version    uso:version
 // @author         w35l3y
 // @email          w35l3y@brasnet.org
 // @copyright      w35l3y 2008
 // @license        GNU GPL
 // @homepage       http://www.wesley.eti.br
+// @include        http://userscripts-mirror.org/topics/*
+// @include        http://userscripts-mirror.org/forums/*
+// @include        http://userscripts-mirror.org/forums
+// @include        http://userscripts-mirror.org/scripts/discuss/*
+// @grant          GM_log
+// @grant          GM_addStyle
+// @grant          GM_getValue
+// @grant          GM_setValue
+// @grant          GM_openInTab
+// @grant          GM_deleteValue
+// @grant          GM_xmlhttpRequest
+// @grant          GM_getResourceText
+// @icon           http://gm.wesley.eti.br/icon.php?desc=39024
+// @require        https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page1/38788.user.js
+// @cfu:meta       https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page3/@cfu:id.user.js
+// @cfu:url        https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page3/@cfu:id.user.js
+// @cfu:id         uso:script
+// @cfu:version    uso:version
 // @uso:script     39024
 // @uso:version    1.0.4.1
 // ==/UserScript==
-</>);
 
 /**************************************************************************
 
@@ -38,6 +45,8 @@ typeof(CheckForUpdate)!='undefined' && CheckForUpdate.init(<>
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 **************************************************************************/
+
+typeof(CheckForUpdate)!='undefined' && CheckForUpdate.init(GM_info.scriptMetaStr);
 
 (function()
 {	// script scope

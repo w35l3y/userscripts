@@ -10,6 +10,15 @@
 // @version        1.0.3.6
 // @language       en
 // @include        nowhere
+// @grant          GM_log
+// @grant          GM_addStyle
+// @grant          GM_getValue
+// @grant          GM_setValue
+// @grant          GM_openInTab
+// @grant          GM_deleteValue
+// @grant          GM_xmlhttpRequest
+// @grant          GM_getResourceText
+// @icon           http://gm.wesley.eti.br/icon.php?desc=54000
 // ==/UserScript==
 
 /**************************************************************************

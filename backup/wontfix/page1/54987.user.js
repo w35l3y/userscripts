@@ -10,6 +10,15 @@
 // @version        2.0.0.0
 // @language       en
 // @include        nowhere
+// @grant          GM_log
+// @grant          GM_addStyle
+// @grant          GM_getValue
+// @grant          GM_setValue
+// @grant          GM_openInTab
+// @grant          GM_deleteValue
+// @grant          GM_xmlhttpRequest
+// @grant          GM_getResourceText
+// @icon           http://gm.wesley.eti.br/icon.php?desc=54987
 // @resource       winConfigCss https://github.com/w35l3y/userscripts/raw/master/includes/Includes_WinConfig/resources/default.css
 // @require        https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page3/54389.user.js
 // @history        2.0.0.0 Removed multiline strings due to recent firefox update
