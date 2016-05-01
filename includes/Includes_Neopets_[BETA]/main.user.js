@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.6.1
+// @version     1.6.2
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -122,7 +122,7 @@ var Neopets = function (doc) {
 		},
 		f = function (a) {
 			return a[0].replace(/\$(\d+)/g, function ($0, $1) {
-				return a[$1] || "";
+				return ($1 in a?a[$1]:"");
 			}).replace(/\r?\n/g, "<br />");
 		},
 		pmsg = function (fn, a) {
