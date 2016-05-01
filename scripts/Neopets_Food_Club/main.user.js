@@ -7,7 +7,7 @@
 // @copyright      2016+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        1.0.2
+// @version        1.0.3
 // @language       en
 // @include        http://www.neopets.com/pirates/foodclub.phtml?type=bet
 // @icon           http://gm.wesley.eti.br/icon.php?desc=Neopets_Food_Club/main.user.js
@@ -115,6 +115,7 @@ button.addEventListener("click", function (e) {
 									}
 								} else {
 									np.console.log("[$1 / $2] Food Club : $3", index, list.length, "Complete");
+									location.assign("http://www.neopets.com/pirates/foodclub.phtml?type=current_bets");
 								}
 							}(bets.filter(function (b, i) {
 								return 0 < checked.indexOf(i);
