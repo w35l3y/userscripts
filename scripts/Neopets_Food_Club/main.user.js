@@ -7,7 +7,7 @@
 // @copyright      2016+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        1.1.0
+// @version        1.2.0
 // @language       en
 // @include        http://www.neopets.com/pirates/foodclub.phtml?type=bet
 // @icon           http://gm.wesley.eti.br/icon.php?desc=Neopets_Food_Club/main.user.js
@@ -68,20 +68,23 @@ button.addEventListener("click", function (e) {
 					}
 
 					return (a.round > b.round?-1:1);
+				}).filter(function (v, i, arr) {
+					return v.round == arr[0].round;
 				}).slice(0, 10);
 				if (bets.length) {
 					var row = function (i) {
-						var bet = bets[i] || {arenas:[],odds:1};
+						var bet = bets[i] || {arenas:[], odds:1},
+						sbets = bet.arenas.map(function (arena) {
+							return '<span style="color: ' + (fc.check(r.arenas, arena)?"inherit":"red") + '"><b>' + arena.name + "</b>: " + arena.pirate.name + "</span>";
+						}).join("<br />");
 
-						return '<td><input type="checkbox" name="bet_index" value="' + i + '" checked="checked" /></td><td>' + bet.arenas.map(function (arena) {
-								return "<b>" + arena.name + "</b>: " + arena.pirate.name;
-							}).join("<br />") + "</td><td>" + bet.odds + ":1</td>";
+						return '<td><input type="checkbox" name="bet_index" value="' + i + '" ' + (~sbets.indexOf(": red")?'disabled="disabled"':'checked="checked"') + ' /></td><td>' + sbets + "</td><td>" + bet.odds + ":1</td>";
 					};
 
 					var xWin = WinConfig.init({
 						type	: WinConfig.WindowType.EXPLANATION,
 						title	: "Food Club : Bets found",
-						size	: ["650px", -1],
+						size	: ["666px", -1],
 						description	: '<table border="1" cellpadding="2" cellspacing="0" align="center"><tr><th><input type="checkbox" checked="checked" name="bet_checkall" value="0,5" /></th><th>Info</th><th>Odds</th><th><input type="checkbox" checked="checked" name="bet_checkall" value="5,10" /></th><th>Info</th><th>Odds</th></tr>' + [0,1,2,3,4].map(function (i) {
 							return "<tr>" + row(i) + row(5 + i)+ "</tr>";
 						}).join("") + '</table><a href="' + url + '" target="_blank">Source</a>',
@@ -118,7 +121,7 @@ button.addEventListener("click", function (e) {
 									}
 								} else {
 									np.console.log("[$1 / $2] Food Club : $3", index, list.length, "Complete");
-									if (success) {
+									if (success && index) {
 										location.assign("http://www.neopets.com/pirates/foodclub.phtml?type=current_bets");
 									}
 								}
@@ -134,7 +137,7 @@ button.addEventListener("click", function (e) {
 
 							xpath(".//input[@name = 'bet_index']", xWin.form).forEach(function (bi) {
 								if (x[0] <= bi.value && x[1] > bi.value) {
-									bi.checked = e.target.checked;
+									bi.checked = e.target.checked && !bi.disabled;
 								}
 							});
 						}, false);
