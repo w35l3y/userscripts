@@ -7,7 +7,7 @@
 // @copyright      2016+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        1.0.3
+// @version        1.1.0
 // @language       en
 // @include        http://www.neopets.com/pirates/foodclub.phtml?type=bet
 // @icon           http://gm.wesley.eti.br/icon.php?desc=Neopets_Food_Club/main.user.js
@@ -88,7 +88,8 @@ button.addEventListener("click", function (e) {
 						load	: function (cfg) {
 							var checked = Array.prototype.slice.apply(this.form.querySelectorAll("input[name = 'bet_index']:checked")).map(function (v) {
 								return parseInt(v.value, 10);
-							});
+							}),
+							success = true;
 
 							(function recursive (list, index) {	// recursively iterate through the list of bets
 								if (index < list.length) {
@@ -99,6 +100,7 @@ button.addEventListener("click", function (e) {
 											console.log(o);
 											if (o.error) {
 												np.console.error("[" + (1 + index) + " / $2] Food Club : $3", 1 + index, list.length, o.errmsg);
+												success = false;
 											} else {
 												np.console.info("[$1 / $2] Food Club : $3", 1 + index, list.length, "Success");
 											}
@@ -111,14 +113,17 @@ button.addEventListener("click", function (e) {
 										});
 									} catch (e) {
 										np.console.error("[" + (1 + index) + " / $2] Food Club : $3", 1 + index, list.length, e);
+										success = false;
 										recursive(list, ++index);
 									}
 								} else {
 									np.console.log("[$1 / $2] Food Club : $3", index, list.length, "Complete");
-									location.assign("http://www.neopets.com/pirates/foodclub.phtml?type=current_bets");
+									if (success) {
+										location.assign("http://www.neopets.com/pirates/foodclub.phtml?type=current_bets");
+									}
 								}
 							}(bets.filter(function (b, i) {
-								return 0 < checked.indexOf(i);
+								return 0 <= checked.indexOf(i);
 							}), 0));
 						}
 					});
