@@ -7,12 +7,10 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.5.1
+// @version     1.6.0
 // @language    en
 // @include     nowhere
 // @exclude     *
-// @grant       GM_getValue
-// @grant       GM_setValue
 // @grant       GM_xmlhttpRequest
 // @grant       GM_getResourceText
 // @resource    foodclubJson https://gist.github.com/w35l3y/fab231758eb0991f36a0/raw/foodclub.json
@@ -297,6 +295,21 @@ var FoodClub = function (page) {
 				throw "Unknown 'type'";
 		}
 	};
+	
+	this.check = function (arenas, arena) {
+		for (var ai in arenas) {
+			var aa = arenas[ai];
+			if (aa.id == arena.id || !arena.id && aa.name == arena.name) {
+				for (var bi in aa.pirates) {
+					var bb = aa.pirates[bi];
+					if (bb.id == arena.pirate.id || !arena.pirate.id && bb.name == arena.pirate.name) {
+						return bb;
+					}
+				}
+				return null;
+			}
+		}
+	};
 
 	this.get = function (cb, data) {
 		return HttpRequest.open({
@@ -357,27 +370,14 @@ var FoodClub = function (page) {
 				throw "Invalid arena id";
 			}
 
-			if (b.pirate.id || b.checked && b.id) {
+			if (b.pirate.id || b.checked) {
 				if (data.check) {
-					for (var ai in data.check) {
-						var aa = data.check[ai];
-						if (aa.id == b.id) {
-							var found = false;
-							for (var bi in aa.pirates) {
-								var bb = aa.pirates[bi];
-								if (bb.id == b.pirate.id) {
-									b.pirate.odds = bb.odds;
-									found = true;
-									break;
-								}
-							}
-
-							if (!found) {
-								console.error("Pirate not found in the current arena", b.pirate.id, b.id, data.check);
-								throw "Pirate not found";
-							}
-							break;
-						}
+					var p = _this.check(data.check, b);
+					if (p) {
+						b.pirate.odds = p.odds;
+					} else {
+						console.error("Pirate not found in the current arena", b.pirate.id, b.id, data.check);
+						throw "Pirate not found";
 					}
 				}
 
