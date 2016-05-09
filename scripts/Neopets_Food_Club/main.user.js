@@ -7,10 +7,10 @@
 // @copyright      2016+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        1.2.0
+// @version        1.2.1
 // @language       en
 // @include        http://www.neopets.com/pirates/foodclub.phtml?type=bet
-// @icon           http://gm.wesley.eti.br/icon.php?desc=Neopets_Food_Club/main.user.js
+// @icon           http://gm.wesley.eti.br/icon.php?desc=scripts/Neopets_Food_Club/main.user.js
 // @grant          GM_log
 // @grant          GM_addStyle
 // @grant          GM_getValue
