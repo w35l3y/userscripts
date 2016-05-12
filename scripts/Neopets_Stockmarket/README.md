@@ -6,6 +6,9 @@
 **License:** GNU GPL<br />
 [![PayPal - The safer, easier way to pay online!](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif "PayPal - The safer, easier way to pay online!")](https://goo.gl/DNfg2w)
 
+### Screenshots
+![stockmarket_summary](stockmarket_summary.png)
+
 
 ### Installs
 ![Daily installs](http://gm.wesley.eti.br/count.php?id=scripts/Neopets_Stockmarket/35177.user.js&type=image)
