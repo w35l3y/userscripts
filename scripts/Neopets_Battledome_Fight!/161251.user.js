@@ -1,4 +1,4 @@
-// ==UserScript==
+﻿// ==UserScript==
 // @name           Neopets : Battledome : Fight!
 // @namespace      http://gm.wesley.eti.br
 // @description    Automatically fights at Battledome
@@ -7,7 +7,7 @@
 // @copyright      2013+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        2.2.1
+// @version        2.3.0
 // @language       en
 // @include        http://www.neopets.com/dome/arena.phtml
 // @include        http://www.neopets.com/dome/arena.phtml#
@@ -141,6 +141,18 @@ setTimeout(function () {
 			},
 			callback	: function (event, win) {
 				opp.open();
+			},
+		}, {
+			name		: "stopHotKey",
+			label		: "Stop HotKey",
+			key			: "hotkey",
+			default		: {
+				keyCode	: "H".charCodeAt(0),
+			},
+			callback	: function () {
+				if (1 < plays && confirm("Would you like to stop playing the next fights?")) {
+					plays = 1;
+				}
 			},
 		}, {
 			type	: WinConfig.FieldType.GROUP,
@@ -390,7 +402,7 @@ setTimeout(function () {
 							console.log("Clicking " + p[0]);
 							unsafeWindow.location.assign('javascript:void($("' + p[0] + '").click());');
 						} else {
-							GM_log(p[0] + " is too generic.");
+							console.log(p[0] + " is too generic.");
 						}
 					}
 				}
