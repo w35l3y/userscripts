@@ -39,7 +39,7 @@ function get_np(p, n) {
 
 // bank
 if (location.pathname == "/bank.phtml") {
-	GM_setValue("bank", get_np(document, "id('content')/table/tbody/tr/td[2]/div/table/tbody/tr[2]/td/table/tbody/tr[2]/td[2]"));
+	GM_setValue("bank", get_np(document, "id('content')/table/tbody/tr/td[2]/div[2]/table/tbody/tr/td[2]/table/tbody/tr[2]/td[2]"));
 }
 
 // till
