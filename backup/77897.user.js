@@ -7,7 +7,7 @@
 // @copyright      2013+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        3.0.0
+// @version        3.0.1
 // @language       en
 // @include        http://www.neopets.com/neoboards/topic.phtml?topic=*
 // @grant          GM_log
@@ -308,31 +308,33 @@ if (xpath("string(id('content')//td//a[contains(@href, 'boardlist') and contains
 
 	if (upd_positions) {
 		HttpRequest.open({
-			"url" : "http://www.jellyneo.net/?go=plotsummary_ac",
+			"url" : "http://bookofages.jellyneo.net/events/altador-cup/",
 			"method" : "get",
 			"headers" : {
-				"Referer" : "http://www.jellyneo.net/?go=altadorcup6"
+				"Referer" : "http://www.jellyneo.net/?go=altadorcup11"
 			},
 			"onsuccess" : function(xhr) {
 				var yr = 2005,
-				iteams = {};
+				iteams = {},
+				index = -1,
+				parent;
 
 				for (var ai in teams) {
 					iteams[teams[ai]] = ai;
 				}
 
-				for each (var result in xpath("id('contentshell')/div/center/div[contains(., 'Results')]/div[2]/table/tbody/tr/td[not(contains(text(), '('))]/text()", xhr.response.xml)) {
-					if (/^(\d+)\. (.+)$/.test(result.textContent)) {
-						if (RegExp.$1 == 1) {
-							++yr;
-						}
-
-						if (!(yr in positions)) {
-							positions[yr] = new Array(16);	// 16 teams
-						}
-
-						positions[yr][RegExp.$1 - 1] = iteams[RegExp.$2];
+				for each (var result in xpath(".//ol[not(li[contains(text(), '(')])]/li", xhr.response.xml)) {
+					if (parent != result.parentNode) {
+						parent = result.parentNode;
+						index = -1;
+						++yr;
 					}
+
+					if (!(yr in positions)) {
+						positions[yr] = new Array(16);	// 16 teams
+					}
+
+					positions[yr][++index] = iteams[result.textContent];
 				}
 
 				// removes positions older than `1 + history_cups` years ago
