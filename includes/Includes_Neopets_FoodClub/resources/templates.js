@@ -52,7 +52,6 @@ FoodClub.templates.push(function (doc, findArenaBy, findPirateBy) {
 								var posKey = pirates2.indexOf(key),
 									pirate = findPirateBy(-1 < posKey?1 + posKey:key);
 
-								console.log(posKey, key, pirate);
 								if (pirate) {
 									var h = JSON.parse(JSON.stringify(headers[cellIndex]));	// deep copy
 									h.pirate = pirate;
