@@ -7,7 +7,7 @@
 // @copyright      2013+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        2.0.0
+// @version        2.1.0
 // @language       en
 // @include        http://www.neopets.com/altador/colosseum/standings.phtml
 // @include        http://www.neopets.com/altador/colosseum/schedule.phtml?day=*&team=all
@@ -84,22 +84,33 @@
 			console.log(sum);
 		}
 	} else {
-		for each (var roundNode in xpath(".//div[@class = 'standingMod' and .//table[@class = 'standingBracketMiddle']]")) {
+		var totals = {};
+		xpath(".//div[@class = 'standingModMiddle']//td/b|.//div[@class = 'standingTrophyDiv']").forEach(function (team) {
+			if (/([\w ]+)\s+\((\d+)\)/.test(team.textContent) || /([\w ]+)\s+(\d+)/.test(team.textContent)) {
+				totals[RegExp.$1.trim()] = parseInt(RegExp.$2.trim(), 10);
+			}
+		});
+
+		xpath(".//div[@class = 'standingBracketPoints' and b[not(text())]]").forEach(function (points) {
+			var team = points.parentNode.textContent.trim();
+
+			points.firstElementChild.textContent = totals[team] - xpath("sum(.//div[@class = 'standingBracketPoints' and b[text()] and preceding-sibling::div[@class = 'standingBracketName' and b[text() = '" + team + "']]]/b/text())");
+		});
+
+		xpath(".//div[@class = 'standingMod' and .//table[@class = 'standingBracketMiddle']]").forEach(function (roundNode) {
 			var roundNumber = /round-(\d+)/.test(xpath("string(.//div[@class = 'standingModTitle']/@style)", roundNode)) && (RegExp.$1 - 1);
 
-			for each (var teamNode in xpath(".//div[@class = 'standingBracketLogo']", roundNode)) {
+			xpath(".//div[@class = 'standingBracketLogo']", roundNode).forEach(function (teamNode) {
 				var id = /(\w+)_\d/.test(teamNode.getAttribute("style")) && RegExp.$1,
 				sup = document.createElement("sup");
 
-				sup.textContent = (id && sum[rounds[roundNumber]] && sum[rounds[roundNumber]][id]?sum[rounds[roundNumber]][id].reduce(function (a, b) {
-					a.goals += b.goals;
-
-					return a;
-				}).goals:0);
+				sup.textContent = (id && sum[rounds[roundNumber]] && sum[rounds[roundNumber]][id]?sum[rounds[roundNumber]][id].reduce(function (previous, current) {
+					return previous + current.goals;
+				}, 0):0);
 
 				teamNode.nextElementSibling.firstElementChild.textContent += " ";
 				teamNode.nextElementSibling.appendChild(sup);
-			}
-		}
+			});
+		});
 	}
 }());
