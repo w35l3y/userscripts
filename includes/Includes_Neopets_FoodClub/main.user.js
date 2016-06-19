@@ -7,7 +7,7 @@
 // @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
 // @license     GNU GPL
 // @homepage    http://gm.wesley.eti.br
-// @version     1.6.0
+// @version     1.7.0
 // @language    en
 // @include     nowhere
 // @exclude     *
@@ -37,7 +37,36 @@
 
 **************************************************************************/
 
-var FoodClub = function (page) {
+(function (parent) {
+var fixedTemplate = function (xhr, findArena, findPirate) {
+	var _n = function (v) {
+		return parseInt(v.trim().replace(/\D+/g), 10);
+	},
+		totalWinnings = 0;
+
+	return {
+		list	: xpath(".//tr[2 < position() and td[5] and not(ancestor::table[1]/tbody/tr[position() = last()]/td[3])]", xhr).map(function (bet) {
+			var winnings = _n(bet.cells[4].textContent);
+			totalWinnings += winnings;
+
+			return {
+				round	: _n(bet.cells[0].textContent),
+				arenas	: xpath("./b", bet.cells[1]).map(function (arena) {
+					var _an = findArena(arena.textContent.trim());
+					_an.pirate = findPirate(arena.nextSibling.textContent.trim().slice(1).trim());
+
+					return _an
+				}),
+				amount	: _n(bet.cells[2].textContent),
+				odds	: _n(bet.cells[3].textContent.trim().slice(0, -2)),
+				winnings: winnings
+			};
+		}),
+		winnings: totalWinnings 
+	};
+};
+
+parent.FoodClub = function (page) {
 	var _this = this,
 	_response = function (xhr, p) {
 		Object.defineProperties(xhr, {
@@ -108,6 +137,16 @@ var FoodClub = function (page) {
 
 		console.error("Pirate not found", name);
 	},
+	findPirateBy = function (value) {
+		if (value - 1 in json.pirates) {
+			return {
+				id		: parseInt(value, 10),
+				name	: json.pirates[value - 1][0],
+				checked	: true
+			}
+		}
+		return findPirate(value);
+	},
 	findArena = function (name) {
 		for (var ai in json.arenas) {
 			if (name == json.arenas[ai][0]) {
@@ -120,6 +159,16 @@ var FoodClub = function (page) {
 		}
 
 		console.error("Arena not found", name);
+	},
+	findArenaBy = function (value) {
+		if (value - 1 in json.arenas) {
+			return {
+				id		: parseInt(value, 10),
+				name	: json.arenas[value - 1][0],
+				checked	: true
+			}
+		}
+		return findArena(value);
 	},
 	IterateArena = function (type) {
 		if ("previous" != type && "current" != type) {
@@ -171,33 +220,26 @@ var FoodClub = function (page) {
 		}
 
 		switch (type) {
+			case "custom":
+				for (var key in FoodClub.templates) {
+					try {
+						var result = FoodClub.templates[key](xhr, findArenaBy, findPirateBy);
+						if (0 < result.list.filter(function (bet) {
+							return bet.round && bet.odds && 0 < bet.arenas.filter(function (arena) {
+								return arena.id && arena.name && arena.pirate.id && arena.pirate.name;
+							}).length;
+						}).length) {
+							return result;
+						}
+					} catch (e) {
+						console.log("Parsing error", key, e);
+					}
+				}
+				throw "No template matched";
+				break;
 			case "collect":
 			case "current_bets":
-				var _n = function (v) {
-					return parseInt(v.trim().replace(/\D+/g), 10);
-				},
-				totalWinnings = 0;
-
-				return {
-					list	: xpath(".//tr[2 < position() and td[5] and not(ancestor::table[1]/tbody/tr[position() = last()]/td[3])]", xhr).map(function (bet) {
-						var winnings = _n(bet.cells[4].textContent);
-						totalWinnings += winnings;
-
-						return {
-							round	: _n(bet.cells[0].textContent),
-							arenas	: xpath("./b", bet.cells[1]).map(function (arena) {
-								var _an = findArena(arena.textContent.trim());
-								_an.pirate = findPirate(arena.nextSibling.textContent.trim().slice(1).trim());
-
-								return _an
-							}),
-							amount	: _n(bet.cells[2].textContent),
-							odds	: _n(bet.cells[3].textContent.trim().slice(0, -2)),
-							winnings: winnings
-						};
-					}),
-					winnings: totalWinnings 
-				};
+				return fixedTemplate(xhr, findArena, findPirate);
 			case "current":
 				var courses = xpath(".//a[contains(@href, '=foods&id=')]/@href", xhr).map(function (o) {
 					return parseInt(o.value.match(/id=(\d+)/)[1], 10);
@@ -322,7 +364,7 @@ var FoodClub = function (page) {
 					body	: xhr.response.xml
 				};
 				_response(_data, function (x) {
-					return _this.parse("current_bets", x.body);
+					return _this.parse("custom", x.body);
 				});
 				cb(_data);
 			}
@@ -426,3 +468,6 @@ var FoodClub = function (page) {
 		new Bets("pirates").execute(cb);
 	};
 };
+
+parent.FoodClub.templates = [fixedTemplate];
+}(this));
