@@ -7,7 +7,7 @@
 // @copyright      2016+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        1.2.1
+// @version        1.3.0
 // @language       en
 // @include        http://www.neopets.com/pirates/foodclub.phtml?type=bet
 // @icon           http://gm.wesley.eti.br/icon.php?desc=scripts/Neopets_Food_Club/main.user.js
@@ -25,6 +25,7 @@
 // @require        ../../includes/Includes_HttpRequest/56489.user.js
 // @require        ../../includes/Includes_Neopets_[BETA]/main.user.js
 // @require        ../../includes/Includes_Neopets_FoodClub/main.user.js
+// @require        ../../includes/Includes_Neopets_FoodClub/resources/templates.js
 // @require        ../../includes/Includes_WinConfig/163374.user.js
 // @noframes
 // ==/UserScript==
