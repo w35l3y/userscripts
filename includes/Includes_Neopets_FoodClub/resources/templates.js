@@ -26,10 +26,10 @@ FoodClub.templates.push(function (doc, findArenaBy, findPirateBy) {
 		];
 
 	return {
-		list	: Array.prototype.concat.apply([], xpath(".//table[thead/tr[th['Odds' = text()]]/th[7 = position()]]", doc).map(function (table) {
+		list	: Array.prototype.concat.apply([], xpath(".//table[thead/tr[th['Odds' = text()]]/th[7 = position()] or tbody/tr[1][th['Odds' = text()]]/th[7 = position()]]", doc).map(function (table) {
 			var headers = [], odds, round;
 
-			xpath("./thead/tr/th", table).forEach(function (column, index) {
+			xpath("./thead/tr/th|./tbody/tr[1]/th", table).forEach(function (column, index) {
 				var key = column.textContent.trim().split(/\s+/)[0].toLowerCase(),
 					posKey = arenas2.indexOf(key);
 
@@ -42,7 +42,7 @@ FoodClub.templates.push(function (doc, findArenaBy, findPirateBy) {
 				}
 			});
 
-			return odds && round && xpath("./tbody/tr", table).map(function (bet, rowIndex) {
+			return odds && round && xpath("./tbody/tr[td]", table).map(function (bet, rowIndex) {
 				return {
 					round	: round,
 					arenas	: Array.prototype.slice.apply(bet.cells).map(function (column, cellIndex) {
