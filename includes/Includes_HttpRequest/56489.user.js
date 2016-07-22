@@ -7,7 +7,7 @@
 // @copyright      2011+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br/includes
-// @version        2.2.0
+// @version        2.3.0
 // @language       en
 // @include        nowhere
 // @exclude        *
@@ -41,71 +41,84 @@ HttpRequest.open = function (params) {
 			params.url = "http://" + params.url;
 		}
 
-		this.options = {
-			"method"		: (params.method || "GET").toUpperCase(),
-			"url"			: params.url || "",
-			"headers"		: { "User-Agent" : window.navigator.userAgent },
-			"synchronous"	: !!params.synchronous,
-			"onload"		: function (e) {
-				var obj = params.parameters || {},
-				_resp = {};
+		var cb = function (e) {
+			var obj = params.parameters || {},
+			_resp = {};
 
-				Object.defineProperties(_resp, {
-					raw : {
-						get	: function () {
-							return e;
-						}
-					},
-					text: {
-						get	: function () {
-							return e.responseText;
-						}
-					},
-					xml	: {
-						get	: function () {
-							if (e.responseXML) {
-								return e.responseXML;
-							} else {
-								if (/^Content-Type: text\/xml/m.test(e.responseHeaders)) {
-									return new DOMParser().parseFromString(e.responseText, "text/xml");
-								} else if (/^Content-Type: text\/html/m.test(e.responseHeaders)) {
-									/*var dt = document.implementation.createDocumentType("html", "-//W3C//DTD HTML 4.01 Transitional//EN", "http://www.w3.org/TR/html4/loose.dtd");
-									var doc = document.implementation.createDocument(null, null, dt);
+			Object.defineProperties(_resp, {
+				raw : {
+					get	: function () {
+						return e;
+					}
+				},
+				text: {
+					get	: function () {
+						return e.responseText;
+					}
+				},
+				xml	: {
+					get	: function () {
+						if (e.responseXML) {
+							return e.responseXML;
+						} else {
+							if (/^Content-Type: text\/xml/m.test(e.responseHeaders)) {
+								return new DOMParser().parseFromString(e.responseText, "text/xml");
+							} else if (/^Content-Type: text\/html/m.test(e.responseHeaders)) {
+								/*var dt = document.implementation.createDocumentType("html", "-//W3C//DTD HTML 4.01 Transitional//EN", "http://www.w3.org/TR/html4/loose.dtd");
+								var doc = document.implementation.createDocument(null, null, dt);
 
-									// I have to find a workaround because this technique make the html(*)/head/body tags disappear.  
-									var html = document.createElement("html");
-									html.innerHTML = e.responseText;
-									doc.appendChild(html);*/
-									var doc = document.implementation.createHTMLDocument("");
-									doc.documentElement.innerHTML = e.responseText;
+								// I have to find a workaround because this technique make the html(*)/head/body tags disappear.  
+								var html = document.createElement("html");
+								html.innerHTML = e.responseText;
+								doc.appendChild(html);*/
+								var doc = document.implementation.createHTMLDocument("");
+								doc.documentElement.innerHTML = e.responseText;
 
-									return doc;
-								}
-							}
-						}
-					},
-					json: {
-						get	: function () {
-							try {
-								return JSON.parse(e.responseText);
-							} catch (e) {
-								console.log(e);
-								try {
-									return eval("(" + e.responseText + ")");
-								} catch (e) {
-									console.log(e);
-									return {};
-								}
+								return doc;
 							}
 						}
 					}
-				});
-				Object.defineProperty(obj, "response", {
-					value	: _resp
-				});
+				},
+				json: {
+					get	: function () {
+						try {
+							return JSON.parse(e.responseText);
+						} catch (e) {
+							console.log(e);
+							try {
+								return eval("(" + e.responseText + ")");
+							} catch (e) {
+								console.log(e);
+								return {};
+							}
+						}
+					}
+				}
+			});
+			Object.defineProperty(obj, "response", {
+				value	: _resp
+			});
+
+			return obj;
+		};
+
+		this.options = {
+			"method"	: (params.method || "GET").toUpperCase(),
+			"url"		: params.url || "",
+			"headers"	: { "User-Agent" : window.navigator.userAgent },
+			"synchronous"	: !!params.synchronous,
+			"onload"	: function (xhr) {
+				var o = cb(xhr);
 
 				if (typeof params.onsuccess == "function") {
-					params.onsuccess(obj);
+					params.onsuccess(o);
+				}
+			},
+			"onerror"	: function (xhr) {
+				var o = cb(xhr);
+
+				if (typeof params.onfail == "function") {
+					params.onfail(o);
 				}
 			}
 		};
@@ -162,7 +175,9 @@ HttpRequest.open = function (params) {
 					content = x.substr(1);
 
 					if ("POST" == this.options.method) {
-						this.options.headers["Content-Type"] = "application/x-www-form-urlencoded";
+						if (!this.options.headers["Content-Type"]) {
+							this.options.headers["Content-Type"] = "application/x-www-form-urlencoded";
+						}
 						this.options.data = content;
 					} else {
 						this.options.url += (~this.options.url.indexOf("?") ? "&" : "?") + content;
