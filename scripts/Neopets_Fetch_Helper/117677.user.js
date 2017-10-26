@@ -129,9 +129,9 @@ function recursive (obj) {
 					map.exit[1]++;
 				}
 			} else if (!~map.x) {	// -1 left (add col)
-				for each (var row in map.data) {
+				map.data.forEach(function (row) {
 					row.unshift(undefined);
-				}
+				});
 				map.x = 0;
 				map.start[0]++;
 				if (map.item) {
@@ -147,7 +147,7 @@ function recursive (obj) {
 		map.moves = moves;
 		map.iso = [0, 0];
 		
-		for each (var cell in xpath(".//td[@background]", table)) {
+		xpath(".//td[@background]", table).forEach(function (cell) {
 			var cr = [cell.parentNode.rowIndex, cell.cellIndex],
 			r = map.y + cr[0],
 			c = map.x + cr[1],
@@ -174,16 +174,16 @@ function recursive (obj) {
 			if (img) {
 				map.item = [c, r];
 			}
-		}
+		});
 
 		var data = '<table id="fetch_map" border="0" cellspacing="0" cellpadding="0">',
 		max = 0;
 
-		for each (var row in map.data) {
+		map.data.forEach(function (row) {
 			if (max < row.length) {
 				max = row.length;
 			}
-		}
+		});
 
 		var limits = [
 			[/^(?:x|t_[dlu]|l[urd]?)$/, 0],	// left
@@ -238,12 +238,9 @@ function recursive (obj) {
 		], pp = {
 			"added" : [[bx, by]],
 			"test" : function (point) {
-				for each (var p in this.added) {
-					if (point[0] == p[0] && point[1] == p[1]) {
-						return false;
-					}
-				}
-				return true;
+				return !this.added.some(function (p) {
+					return point[0] == p[0] && point[1] == p[1];
+				});
 			}
 		};
 		if (queue.length - 1 > 0) {
@@ -280,7 +277,7 @@ function recursive (obj) {
 		}
 		div.firstElementChild.rows[by + cy].cells[bx + cx].innerHTML += '<div style="position:relative;top:-' + size + 'px;"><div style="position:absolute;top:0px;left:0px;"><img src="http://images.neopets.com/games/maze/blumaroo_s.gif" border="0" width="' + size + '" height="' + size + '" /></div></div>';
 		
-		for each (var p in points) {
+		points.forEach(function (p) {
 			if (p[0] && pp.test(p[0])) {
 				pp.added.push(p[0]);
 				p[1].unshift(size);
@@ -290,7 +287,7 @@ function recursive (obj) {
 					console.log("Position not found", " X = " + (p[0][0] + cx), " Y = " + (p[0][1] + cy));
 				}
 			}
-		}
+		});
 
 		compass.parentNode.insertBefore(div, compass.nextElementSibling);
 		div.parentNode.insertBefore(document.createElement("br"), div);
@@ -333,9 +330,9 @@ function recursive (obj) {
 			e.preventDefault();
 		}		
 
-		for each (var area in xpath(".//map[@name = 'navmap']/area", table)) {
+		xpath(".//map[@name = 'navmap']/area", table).forEach(function (area) {
 			area.addEventListener("click", click, false);
-		}
+		});
 
 		return true;
 	} else {
