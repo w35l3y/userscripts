@@ -125,9 +125,9 @@
 		css_link.href = css_link.href.replace(/\w+\.css/, theme[0] + ".css");
 		rnd_image.src = rnd_image.src.replace(/\w+\/rotations\/\d+/, theme[0] + "/rotations/" + Math.floor(1 + (theme[2] || 4) * Math.random()));
 
-		for each (var img in thm_images) {
+		thm_images.forEach(function (img) {
 			img.src = img.src.replace(/themes\/\w+/, "themes/" + theme[0]);
-		}
+		});
 	}
 
 	document.addEventListener("DOMContentLoaded", function () {
