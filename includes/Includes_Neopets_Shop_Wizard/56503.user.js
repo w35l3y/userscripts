@@ -7,11 +7,12 @@
 // @copyright      2013+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        5.0.1
+// @version        5.0.2
 // @language       en
 // @include        nowhere
 // @exclude        *
 // @grant          GM_xmlhttpRequest
+// @connect        neopets.com
 // @require        ../../includes/Includes_XPath/63808.user.js
 // @require        ../../includes/Includes_HttpRequest/56489.user.js
 // @contributor    Steinn (http://userscripts.org/users/85134)
@@ -98,7 +99,7 @@ Wizard.convert = function (params) {
 			var item = items[ai].cells,
 			href = item[0].firstElementChild.href;
 
-			if (/&buy_obj_info_id=(\d+)/.test(href)) {
+			if (/&(?:amp;?)buy_obj_info_id=(\d+)/.test(href)) {
 				r.push({
 					"Id"	: parseInt(RegExp.$1, 10),
 					"Link"	: (!/^http:\/\//i.test(href)?"http://www.neopets.com" + (!/^\//.test(href)?"/":""):"") + href,
