@@ -7,7 +7,7 @@
 // @copyright      2013+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        3.1.0
+// @version        3.1.1
 // @language       en
 // @include        http://www.neopets.com/*/prizes.phtml
 // @include        http://www.neopets.com/halloween/hwp/shack.phtml
@@ -23,6 +23,10 @@
 // @grant          GM_getResourceText
 // @grant          GM_xmlhttpRequest
 // @icon           http://gm.wesley.eti.br/icon.php?desc=101687
+// @connect        jellyneo.net
+// @connect        neopets.com
+// @connect        github.com
+// @connect        raw.githubusercontent.com
 // @require        ../../includes/Includes_HttpRequest/56489.user.js
 // @require        ../../includes/Includes_XPath/63808.user.js
 // @require        ../../includes/Includes_JellyNeo_[BETA]/101685.user.js
