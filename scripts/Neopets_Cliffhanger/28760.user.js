@@ -19,6 +19,8 @@
 // @grant          GM_xmlhttpRequest
 // @grant          GM_getResourceText
 // @icon           http://gm.wesley.eti.br/icon.php?desc=28760
+// @connect        http://www.neopets.com/~acara227910
+// @connect        http://www.cnwcentral.com/neopets/neopets-cliffhanger-answers/
 // @resource       random_events ../../includes/Includes_Neopets_Random_Events/resources/default.csv
 // @resource       randomEventsHtml ../../includes/Includes_Neopets_Random_Events/resources/default.html
 // @resource       meta https://github.com/w35l3y/userscripts/raw/master/scripts/Neopets_Cliffhanger/28760.user.js
@@ -32,6 +34,7 @@
 // @require        ../../includes/Includes_Updater/87942.user.js
 // @require        ../../includes/Includes_Persist_%5BBETA%5D/154322.user.js
 // @require        ../../includes/Includes_Neopets_Random_Events/154363.user.js
+// @contributor    acara227910 (http://www.neopets.com/~acara227910)
 // @contributor    cnwcentral (http://www.cnwcentral.com/neopets/neopets-cliffhanger-answers/)
 // @cfu:version    version
 // @history        5.0.0 Added <a href="http://userscripts.org/guides/773">Includes Checker</a>
@@ -201,6 +204,7 @@
 	}({
 		referer : location.href,
 		source	: [
+			["http://www.neopets.com/~acara227910", ".//b/font/p/text()"],
 			["http://www.cnwcentral.com/neopets/neopets-cliffhanger-answers/", "id('content')/article/div/ul/li/text()"],
 		],
 	}));
