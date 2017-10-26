@@ -7,7 +7,7 @@
 // @copyright      2012+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        3.2.1
+// @version        3.2.2
 // @language       en
 // @include        http://www.neopets.com/games/maze/maze.phtml*
 // @grant          GM_log
@@ -97,6 +97,43 @@ function innerText(s, t, tt, c) {
 	return '<div style="position:relative;top:-' + Math.floor((s + 3) / 2) + 'px;"><div style="position:absolute;font-weight:bold;text-align:center;top:0px;width:' + s + 'px;height:' + s + 'px;color:' + (c ? c : 'white') + ';cursor:' + (tt ? 'help;" title="' + tt : 'default;') + '">' + t + '</div></div>';
 }
 
+function clickMovement (moves, bx, by, cx, cy, limits, map, referer, div, size) {
+    return function (e) {
+        if (queue.length < moves) {
+            if (/movedir=(\d+)/.test(e.target.href)) {
+                var sum = [by, bx];
+                for (var ai in queue) {
+                    var y = queue[ai];
+                    sum[y&2?1:0] += (y%2?1:-1);
+                }
+                x = RegExp.$1;
+
+                //					alert(map.data[sum[0]][sum[1]]);
+                if (limits[[2, 3, 0, 1][x]][0].test(map.data[sum[0]][sum[1]])) {
+                    queue.push(x);
+                    sum[x&2?1:0] += (x%2?1:-1);
+
+                    try {
+                        div.firstElementChild.rows[sum[0] + cy].cells[sum[1] + cx].innerHTML += innerText.apply(this, [size, "•"]);
+                    } catch (ex) {
+                        console.log("Position not found", " X = " + sum[1], " Y = " + sum[0], ex);
+                    }
+
+                    recursiveQueue({
+                        "target" : e.target,
+                        "referer" : referer
+                    });
+                } else {
+                    alert("You can not go that way.");
+                }
+            }
+        }
+
+        e.preventDefault();
+    };
+}
+
+
 function recursive (obj) {
 	var old = xpath(".//td[@class = 'content']//table[.//img[contains(@src, '/maze/blumaroo')]]", document)[0];
 
@@ -114,7 +151,7 @@ function recursive (obj) {
 
 		var map = JSON.parse(GM_getValue("map", '{"x":0,"y":0,"start":[2,2],"limit":[0,0,0,0],"data":[]}'));
 		
-		if (map.moves != moves && !(err.replace(/[^!]+/g, "").length % 2) && /movedir=(\d+)/.test(obj.referer)) {
+		if (map.moves != moves && 0 === err.replace(/[^!]+/g, "").length % 2 && /movedir=(\d+)/.test(obj.referer)) {
 			// 0 1 2 3 : up down right left
 			var movedir = parseInt(RegExp.$1, 10);
 			
@@ -249,9 +286,9 @@ function recursive (obj) {
 		if (queue.length - 1 > 0) {
 			var sum = [by, bx],
 			cancel = false;
-			for (var i in queue) {
-				var x = queue[i];
-				if (i != 0) {
+			for (let i in queue) {
+				if (0 < i) {
+                    let x = queue[i];
 					sum[x&2?1:0] += (x%2?1:-1);
 					if (!cancel) {
 						var start = [0, 0, 1 + parseInt(i, 10)];
@@ -299,42 +336,10 @@ function recursive (obj) {
 			old.parentNode.replaceChild(table, old);
 		}
 
-		function click (e) {
-			if (queue.length < moves) {
-				if (/movedir=(\d+)/.test(e.target.href)) {
-					var sum = [by, bx];
-					for (var ai in queue) {
-						var y = queue[ai];
-						sum[y&2?1:0] += (y%2?1:-1);
-					}
-					x = RegExp.$1;
-
-//					alert(map.data[sum[0]][sum[1]]);
-					if (limits[[2, 3, 0, 1][x]][0].test(map.data[sum[0]][sum[1]])) {
-						queue.push(x);
-						sum[x&2?1:0] += (x%2?1:-1);
-
-						try {
-							div.firstElementChild.rows[sum[0] + cy].cells[sum[1] + cx].innerHTML += innerText.apply(this, [size, "•"]);
-						} catch (e) {
-							console.log("Position not found", " X = " + sum[1], " Y = " + sum[0]);
-						}
-
-						recursiveQueue({
-							"target" : e.target,
-							"referer" : obj.referer
-						});
-					} else {
-						alert("You can not go that way.");
-					}
-				}
-			}
-
-			e.preventDefault();
-		}		
+        var clickFn = clickMovement(moves, bx, by, cx, cy, limits, map, obj.referer, div, size);
 
 		xpath(".//map[@name = 'navmap']/area", table).forEach(function (area) {
-			area.addEventListener("click", click, false);
+			area.addEventListener("click", clickFn, false);
 		});
 
 		return true;
@@ -389,7 +394,7 @@ recursive({
 	"referer" : location.href
 });
 
-document.addEventListener("keypress", function (e) {
+document.addEventListener("keydown", function (e) {
 	switch (e.keyCode) {
 		case 37:	// 2	left
 		case 38:	// 0	up
