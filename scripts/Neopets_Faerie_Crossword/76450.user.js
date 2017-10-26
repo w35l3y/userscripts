@@ -7,7 +7,7 @@
 // @copyright      2010+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        3.0.2
+// @version        3.0.3
 // @language       en
 // @include        http://www.neopets.com/games/crossword/*
 // @grant          GM_log
@@ -166,22 +166,20 @@ if ("/games/crossword/crossword.phtml" == location.pathname) {
 										}
 									});
 
-									var tanswers = {},
-									ok = true;
-									missing2.forEach(function (n) {
+									var tanswers = {};
+
+									if (!missing2.some(function (n) {
 										var q = n[1],
 										i = (n[0][0] == 1 ?"a":"d") + n[0][1];
 										if (!(q in answers)) {
 											if (i in xx) {
 												tanswers[q] = xx[i];
 											} else {
-												ok = false;
-												break;
+												return true;
 											}
 										}
-									});
-
-									if (ok) {
+										return false;
+									})) {
 										for (var answer in tanswers) {
 											answers[answer] = tanswers[answer];
 										}
