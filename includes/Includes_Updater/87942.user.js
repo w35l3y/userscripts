@@ -135,13 +135,13 @@ var Updater = {};
 							"i18n.disable" : I18n.get("cfuw.disable.label"), // Don't ask me again for this script
 						};
 
-						for (var key in old_header.histories) {
+						for (let key in old_header.histories) {
 							if (key in new_header.histories) {
 								delete new_header.histories[key];
 							}
 						}
 
-						for (var key in new_header.histories) {
+						for (let key in new_header.histories) {
 							params.history += "<span>" + key + "</span><ul>";
 
 							new_header.histories[key].forEach(function (item) {
