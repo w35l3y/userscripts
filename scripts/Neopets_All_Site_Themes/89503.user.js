@@ -7,7 +7,7 @@
 // @copyright      2013+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        3.3.1
+// @version        3.4.0
 // @language       en
 // @include        http://www.neopets.com/*
 // @icon           http://gm.wesley.eti.br/icon.php?desc=89503
@@ -27,6 +27,7 @@
 // @require        ../../includes/Includes_Translate/85618.user.js
 // @require        ../../includes/Includes_I18n/87940.user.js
 // @require        ../../includes/Includes_Updater/87942.user.js
+// @history        3.4.0 Added "Destroyed Faerie Festival" Theme
 // @history        3.3.0 Added 5 more themes (Grey Day, Kiko Lake, Mystery Island, Roo Island, Tyrannia)
 // @history        3.2.0 Added "JumpStart" Theme
 // @history        3.1.0 Added 4 more themes (Battleground: Seekers, Daily Dare: Chadley, Monster Hunting and Habitarium)
@@ -81,6 +82,7 @@
 		"12"	: ["012_tcg_d977a", "Cyodrake's Gaze", 8],
 		"23"	: ["023_dyd_c470b", "Daily Dare", 10],
 		"36"	: ["036_ddc_je4z0", "Daily Dare: Chadley", 2],
+		"46"  : ["046_ff_sep2017", "Destroyed Faerie Festival", 4],
 		"26"	: ["026_fon_f2c70", "Festival of Neggs", 7],
 		"39"	: ["039_gry_2j9b4", "Grey Day", 5],
 		"38"	: ["038_hab_ig53k", "Habitarium", 12],
