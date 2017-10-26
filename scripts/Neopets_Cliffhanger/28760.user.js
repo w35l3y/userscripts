@@ -19,8 +19,8 @@
 // @grant          GM_xmlhttpRequest
 // @grant          GM_getResourceText
 // @icon           http://gm.wesley.eti.br/icon.php?desc=28760
-// @connect        http://www.neopets.com/~acara227910
-// @connect        http://www.cnwcentral.com/neopets/neopets-cliffhanger-answers/
+// @connect        www.neopets.com
+// @connect        www.cnwcentral.com
 // @resource       random_events ../../includes/Includes_Neopets_Random_Events/resources/default.csv
 // @resource       randomEventsHtml ../../includes/Includes_Neopets_Random_Events/resources/default.html
 // @resource       meta https://github.com/w35l3y/userscripts/raw/master/scripts/Neopets_Cliffhanger/28760.user.js
