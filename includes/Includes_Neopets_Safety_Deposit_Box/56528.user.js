@@ -7,7 +7,7 @@
 // @copyright      2009+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        1.0.1
+// @version        1.0.2
 // @language       en
 // @grant          GM_xmlhttpRequest
 // @include        http*://www.neopets.com/safetydeposit.phtml*#debug
@@ -153,9 +153,9 @@ SDB.removeOne = function(params) {
 if (location.hash == "#debug" && location.pathname == "/safetydeposit.phtml") {
 	var output = [];
 	
-	for each (var item in SDB.convert(document).list) {
+	SDB.convert(document).list.forEach(function (item) {
 		output.push([item.Id, item.Image, item.Name, item.Description, item.Type, item.Quantity].join("\n"));
-	}
+	});
 
 	alert(output.join("\n"));
 }
