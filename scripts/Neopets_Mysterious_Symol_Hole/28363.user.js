@@ -10,6 +10,7 @@
 // @version        2.0.0
 // @language       en
 // @icon           http://gm.wesley.eti.br/icon.php?desc=28363
+// @grant          GM_getValue
 // @include        http://www.neopets.com/medieval/symolhole.phtml
 // @require        ../../includes/Includes_XPath/63808.user.js
 // ==/UserScript==
