@@ -7,7 +7,7 @@
 // @copyright      2011+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        2.0.0
+// @version        2.0.1
 // @language       en
 // @include        http://www.neopets.com/market.phtml?type=your*
 // @include        http://www.neopets.com/market.phtml?*&type=your*
@@ -69,7 +69,7 @@ if (/^\/process_market\.phtml/i.test(location.pathname)) {	// something went wro
 	GM_deleteValue("StockTemp");
 	GM_setValue("Stock", JSON.stringify(stock));
 
-	for each (var item in items) {
+	items.forEach(function (item) {
 		var pos = item.name.match(/\d+$/)[0],
 		id = item.form.elements.namedItem("obj_id_" + pos);
 		
@@ -88,19 +88,19 @@ if (/^\/process_market\.phtml/i.test(location.pathname)) {	// something went wro
 			
 			item.parentNode.parentNode.parentNode.insertBefore(item.parentNode.parentNode, item.parentNode.parentNode.parentNode.rows[1]);	// changes the order of the lines
 		}
-	}
+	});
 
 	if (items.length)	// list is not empty
 	item.form.addEventListener("submit", function (e) {
 		var stocktemp = {};
 
-		for each (var item in items) {
+		items.forEach(function (item) {
 			var pos = item.name.match(/\d+$/)[0],
 			id = e.target.elements.namedItem("obj_id_" + pos);
 
 			if (item.value != "0")
 			stocktemp[id.value] = item.value;	// stores the current prices temporarily
-		}
+		});
 
 		GM_setValue("StockTemp", JSON.stringify(stocktemp));
 	}, false);
