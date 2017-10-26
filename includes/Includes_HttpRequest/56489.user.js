@@ -7,7 +7,7 @@
 // @copyright      2011+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br/includes
-// @version        2.3.0
+// @version        2.3.1
 // @language       en
 // @include        nowhere
 // @exclude        *
@@ -62,7 +62,7 @@ HttpRequest.open = function (params) {
 							return e.responseXML;
 						} else {
 							if (/^Content-Type: text\/xml/m.test(e.responseHeaders)) {
-								return new DOMParser().parseFromString(e.responseText, "text/xml");
+								return new DOMParser().parseFromString(e.responseText.replace(/(<script.*?>)(.+?)(<\/script>)/g, function ($0, $1, $2, $3) {return $1 + (-1 < $2.indexOf("]]>")?$2:"<![CDATA[" + $2 + "]]>") + $3}), "text/xml");
 							} else if (/^Content-Type: text\/html/m.test(e.responseHeaders)) {
 								/*var dt = document.implementation.createDocumentType("html", "-//W3C//DTD HTML 4.01 Transitional//EN", "http://www.w3.org/TR/html4/loose.dtd");
 								var doc = document.implementation.createDocument(null, null, dt);
