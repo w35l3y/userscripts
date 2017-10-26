@@ -15,6 +15,7 @@
 // @contributor    sizzlemctwizzle (http://userscripts.org/guides/9)
 // @contributor    Seniltai (http://userscripts.org/topics/47687?page=2#posts-257677)
 // @contributor    ameboide (http://userscripts.org/topics/88021#posts-384155)
+// @debug          true
 // ==/UserScript==
 
 /**************************************************************************
@@ -59,9 +60,11 @@ HttpRequest.open = function (params) {
 				xml	: {
 					get	: function () {
 						if (e.responseXML) {
+							console.log(1, "responseXML");
 							return e.responseXML;
 						} else {
 							if (/^Content-Type: text\/xml/m.test(e.responseHeaders)) {
+								console.log(2, "parseFromString");
 								return new DOMParser().parseFromString(e.responseText.replace(/(<script.*?>)(.+?)(<\/script>)/g, function ($0, $1, $2, $3) {return $1 + (-1 < $2.indexOf("]]>")?$2:"<![CDATA[" + $2 + "]]>") + $3}), "text/xml");
 							} else if (/^Content-Type: text\/html/m.test(e.responseHeaders)) {
 								/*var dt = document.implementation.createDocumentType("html", "-//W3C//DTD HTML 4.01 Transitional//EN", "http://www.w3.org/TR/html4/loose.dtd");
@@ -71,11 +74,13 @@ HttpRequest.open = function (params) {
 								var html = document.createElement("html");
 								html.innerHTML = e.responseText;
 								doc.appendChild(html);*/
+								console.log(3, "createHTMLDocument");
 								var doc = document.implementation.createHTMLDocument("");
 								doc.documentElement.innerHTML = e.responseText;
 
 								return doc;
 							}
+							console.log(4, "Nothing");
 						}
 					}
 				},
