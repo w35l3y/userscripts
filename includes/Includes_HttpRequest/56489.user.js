@@ -62,10 +62,10 @@ HttpRequest.open = function (params) {
 						if (e.responseXML && !e.responseXML.querySelector("parsererror")) {
 							return e.responseXML;
 						} else {
-							if (/^Content-Type: text\/xml/m.test(e.responseHeaders)) {
+							if (/^Content-Type: text\/xml/mi.test(e.responseHeaders)) {
 								console.log(2, "parseFromString");
 								return new DOMParser().parseFromString(e.responseText.replace(/(<script.*?>)(.+?)(<\/script>)/g, function ($0, $1, $2, $3) {return $1 + (-1 < $2.indexOf("]]>")?$2:"<![CDATA[" + $2 + "]]>") + $3}), "text/xml");
-							} else if (/^Content-Type: text\/html/m.test(e.responseHeaders)) {
+							} else if (/^Content-Type: text\/html/mi.test(e.responseHeaders)) {
 								/*var dt = document.implementation.createDocumentType("html", "-//W3C//DTD HTML 4.01 Transitional//EN", "http://www.w3.org/TR/html4/loose.dtd");
 								var doc = document.implementation.createDocument(null, null, dt);
 
