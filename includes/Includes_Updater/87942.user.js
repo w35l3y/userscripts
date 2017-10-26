@@ -144,9 +144,9 @@ var Updater = {};
 						for (var key in new_header.histories) {
 							params.history += "<span>" + key + "</span><ul>";
 
-							for each (var item in new_header.histories[key]) {
+							new_header.histories[key].forEach(function (item) {
 								params.history += "<li>" + item + "</li>";
-							}
+							});
 
 							params.history += "</ul>";
 						}
@@ -174,13 +174,13 @@ var Updater = {};
 							}, true);
 						}
 
-						for each (var btn in xpath(win + "//a[contains(@class,'close')]")) {
+						xpath(win + "//a[contains(@class,'close')]").forEach(function (btn) {
 							btn.addEventListener("click", function (e) {
 								parent.parentNode.removeChild(parent);
 								clearTimeout(closeWin);
 								GM_setValue("cfuw_last_check", new Date().toString());
 							}, false);
-						}
+						});
 					
 						xpath(win+"//td[@class='disable']/input")[0].addEventListener("click", function (e) {
 							GM_setValue("cfuw_enabled", !e.target.checked);
