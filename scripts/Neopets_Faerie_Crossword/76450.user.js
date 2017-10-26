@@ -7,7 +7,7 @@
 // @copyright      2010+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        3.0.0
+// @version        3.0.1
 // @language       en
 // @include        http://www.neopets.com/games/crossword/*
 // @grant          GM_log
@@ -99,7 +99,7 @@ if ("/games/crossword/crossword.phtml" == location.pathname) {
 				var answers = eval(GM_getValue("answers", "({})")),
 				missing = [],
 				missing2 = [];
-				for each (var answer in xpath("id('content')//td[2]//center/table/tbody/tr/td/a[contains(@onclick, 'set_clue')]")) {
+				xpath("id('content')//td[2]//center/table/tbody/tr/td/a[contains(@onclick, 'set_clue')]").forEach(function (answer) {
 					var key = answer.textContent.replace(/^\d+\.|\s+/g, "").toLowerCase(),
 					f = answer.getAttribute("onclick").replace(/; return false;?$|\s+/g, "");
 
@@ -109,7 +109,7 @@ if ("/games/crossword/crossword.phtml" == location.pathname) {
 						missing.push(answer.textContent);
 						missing2.push([/(\d+),(\d+)\)/.test(f) && [RegExp.$1, RegExp.$2], key]);
 					}
-				}
+				});
 				
 				if (missing2.length)
 				switch (status) {
@@ -119,29 +119,30 @@ if ("/games/crossword/crossword.phtml" == location.pathname) {
 						"url" : "http://cluesandanswers.blogspot.com/",
 						"onsuccess" : function (xhr) {
 							var answers = {};
-							for each (var answer in xpath("id('main')//td/blockquote/div/text()", xhr.response.xml))
-							if (/^(.+)-(\w+)$/.test(answer.textContent.replace(/\s+/g, "")) && !(RegExp.$1 in answers)) {
-								var qq = [RegExp.$1.toLowerCase()],
-								a = RegExp.$2.toUpperCase(),
-								x = qq[0].replace(/[.;]$/, "");
-								if (!~qq.indexOf(x)){
-									qq.push(x);
-								}
+							xpath("id('main')//td/blockquote/div/text()", xhr.response.xml).forEach(function (answer) {
+								if (/^(.+)-(\w+)$/.test(answer.textContent.replace(/\s+/g, "")) && !(RegExp.$1 in answers)) {
+									var qq = [RegExp.$1.toLowerCase()],
+									a = RegExp.$2.toUpperCase(),
+									x = qq[0].replace(/[.;]$/, "");
+									if (!~qq.indexOf(x)){
+										qq.push(x);
+									}
 
-								for each (var q in qq) {
-									if (q in answers) {
-										if (answers[q] instanceof Array) {
-											if (!~answers[q].indexOf(a)) {
-												answers[q].push(a);
+									qq.forEach(function (q) {
+										if (q in answers) {
+											if (answers[q] instanceof Array) {
+												if (!~answers[q].indexOf(a)) {
+													answers[q].push(a);
+												}
+											} else {
+												answers[q] = [answers[q], a];
 											}
 										} else {
-											answers[q] = [answers[q], a];
+											answers[q] = a;
 										}
-									} else {
-										answers[q] = a;
-									}
+									});
 								}
-							}
+							});
 
 							HttpRequest.open({
 								method		: "get",
@@ -150,7 +151,7 @@ if ("/games/crossword/crossword.phtml" == location.pathname) {
 									var xx = {},
 									n = 0,
 									s = "a";	// across
-									for each (var x in xpath("id('contentshell')//div[@class = 'article']/text()[contains(., '. ')]", xhr.response.xml)) {
+									xpath("id('contentshell')//div[@class = 'article']/text()[contains(., '. ')]", xhr.response.xml).forEach(function (x) {
 										if (/(\d+)\. (.+)/.test(x.textContent)) {
 											var nn = parseInt(RegExp.$1, 10);
 											if (nn < n) {
@@ -159,11 +160,11 @@ if ("/games/crossword/crossword.phtml" == location.pathname) {
 											n = nn;
 											xx[s + nn] = RegExp.$2.toUpperCase();
 										}
-									}
+									});
 
 									var tanswers = {},
 									ok = true;
-									for each (var n in missing2) {
+									missing2.forEach(function (n) {
 										var q = n[1],
 										i = (n[0][0] == 1 ?"a":"d") + n[0][1];
 										if (!(q in answers)) {
@@ -174,7 +175,8 @@ if ("/games/crossword/crossword.phtml" == location.pathname) {
 												break;
 											}
 										}
-									}
+									});
+
 									if (ok) {
 										for (var answer in tanswers) {
 											answers[answer] = tanswers[answer];
