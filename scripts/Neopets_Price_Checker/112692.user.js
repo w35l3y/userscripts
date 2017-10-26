@@ -1,4 +1,4 @@
-﻿// ==UserScript==
+// ==UserScript==
 // @name           Neopets : Price Checker
 // @namespace      http://gm.wesley.eti.br/neopets
 // @description    Puts a link near to the item name in many places.
@@ -7,7 +7,7 @@
 // @copyright      2013+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        4.7.0
+// @version        4.7.1
 // @language       en
 // @include        http*://www.neopets.com/games/kadoatery/index.phtml
 // @include        http*://www.neopets.com/objects.phtml?*type=inventory*
@@ -48,6 +48,9 @@
 // @grant          GM_xmlhttpRequest
 // @grant          GM_getResourceText
 // @icon           http://gm.wesley.eti.br/icon.php?desc=112692
+// @connect        neopets.com
+// @connect        github.com
+// @connect        raw.githubusercontent.com
 // @resource       meta https://github.com/w35l3y/userscripts/raw/master/scripts/Neopets_Price_Checker/112692.user.js
 // @resource       i18n ../../includes/Includes_I18n/resources/default.json
 // @resource       updaterWindowHtml ../../includes/Includes_Updater/resources/default.html
