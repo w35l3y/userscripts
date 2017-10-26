@@ -39,6 +39,8 @@
 **************************************************************************/
 
 Message = function () {
+	var _this = this;
+
 	switch (GM_getValue("MessageType", 0)) {
 		case 0:
 			GM_addStyle(GM_getResourceText("messageContainerCss"));
@@ -50,16 +52,16 @@ Message = function () {
 						sum -= 1/(ctx.opts.max/ctx.opts.min);
 						ctx.node.style.opacity = sum;
 					} else {
-						if (!--this.totalMessages) {
+						if (!--_this.totalMessages) {
 							ctx.node.parentNode.style.display = "none";
 						}
 						clearInterval(ctx.timer);
 						ctx.node.parentNode.removeChild(ctx.node);
 					}
-				}.bind(this), ctx.opts.min);
+				}.bind(_this), ctx.opts.min);
 			};
 
-			this.totalMessages = 0;
+			_this.totalMessages = 0;
 
 			container.setAttribute("id", "messageContainerGroup");
 			container.style.display = "none";
@@ -81,7 +83,7 @@ Message = function () {
 					}
 				}
 
-				for each (var m in group) {
+				group.forEach(function (m) {
 					var text = document.createElement("div"),
 					msg = m; // Template.get(m, {})
 					text.setAttribute("class", "messageContainerDiv");
@@ -97,20 +99,20 @@ Message = function () {
 					GM_log([cm.created_at, msg]);
 					if (!cm.opts.fixed) {
 						cm.timer = setTimeout(function (cm) {
-							timedMessage.call(this, cm);
-						}.bind(this), o.ini, cm);
+							timedMessage.call(_this, cm);
+						}.bind(_this), o.ini, cm);
 					}
-					++this.totalMessages;
-				}
+					++_this.totalMessages;
+				});
 			};
 			break;
 		case 1:
-			this._add = function () {
+			_this._add = function () {
 				GM_log([new Date()].concat(Array.prototype.slice.apply(arguments)));
 			};
 			break;
 		case 2:
-			this._add = console.log;
+			_this._add = console.log;
 			break;
 	}
 };
