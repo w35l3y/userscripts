@@ -7,7 +7,7 @@
 // @copyright      2013+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        4.0.0
+// @version        4.0.1
 // @language       en
 // @include        http://www.neopets.com/shenkuu/lunar/?show=puzzle
 // @grant          GM_addStyle
@@ -17,6 +17,8 @@
 // @grant          GM_xmlhttpRequest
 // @grant          GM_getResourceText
 // @icon           http://gm.wesley.eti.br/icon.php?desc=28359
+// @connect        github.com
+// @connect        raw.githubusercontent.com
 // @resource       meta https://github.com/w35l3y/userscripts/raw/master/scripts/Neopets_Lunar_Temple/28359.user.js
 // @resource       i18n ../../includes/Includes_I18n/resources/default.json
 // @resource       updaterWindowHtml ../../includes/Includes_Updater/resources/default.html
