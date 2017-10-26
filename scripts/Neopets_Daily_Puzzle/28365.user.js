@@ -19,6 +19,7 @@
 // @icon           http://gm.wesley.eti.br/icon.php?desc=28365
 // @connect        www.jellyneo.net
 // @connect        www.sunnyneo.com
+// @connect        github.com
 // @resource       meta https://github.com/w35l3y/userscripts/raw/master/scripts/Neopets_Daily_Puzzle/28365.user.js
 // @resource       i18n ../../includes/Includes_I18n/resources/default.json
 // @resource       updaterWindowHtml ../../includes/Includes_Updater/resources/default.html
@@ -36,8 +37,6 @@
 // @history        3.0.0.0 Updated @require#87942
 // @history        2.0.0.1 Added new source (sunnyneo)
 // ==/UserScript==
-
-"use strict";
 
 /**************************************************************************
 
@@ -57,7 +56,9 @@
 **************************************************************************/
 
 (function () {	// script scope
-	var interval = JSON.parse(GM_getValue("interval",	"[2000, 1000]")),
+    "use strict";
+
+    var interval = JSON.parse(GM_getValue("interval",	"[2000, 1000]")),
 	language = xpath("string(.//select[@name = 'lang']/option[@selected]/@value)") || "en",
 	sources = [
 		["http://www.jellyneo.net/?go=dailypuzzle", "string(id('contentshell')/div/center/div/span/text())"],
@@ -80,7 +81,9 @@
 									option.selected = true;
 
 									window.setTimeout(function() {
-										option.parentNode.form.submit();
+                                        var fn = option.parentNode.form.submit;
+                                        if (fn instanceof Function) fn();
+                                        else fn.click();
 									}, interval[0] + Math.floor(interval[1] * Math.random()));
 
 									return true;
