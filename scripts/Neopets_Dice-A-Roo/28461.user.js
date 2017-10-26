@@ -7,10 +7,12 @@
 // @copyright      2011+, w35l3y (http://www.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        6.1.1
+// @version        6.1.2
 // @language       en
 // @include        http://www.neopets.com/games/dicearoo.phtml
 // @include        http://www.neopets.com/games/play_dicearoo.phtml
+// @connect        github.com
+// @connect        raw.githubusercontent.com
 // @grant          GM_log
 // @grant          GM_addStyle
 // @grant          GM_getValue
