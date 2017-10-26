@@ -7,7 +7,7 @@
 // @copyright      2011+, w35l3y (http://www.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        6.1.0
+// @version        6.1.1
 // @language       en
 // @include        http://www.neopets.com/games/dicearoo.phtml
 // @include        http://www.neopets.com/games/play_dicearoo.phtml
@@ -234,9 +234,9 @@ GM_addStyle(GM_getResourceText("winConfigDiceARooCss"));
 				sf = function (f) {
 					var data = {};
 
-					for each (var e in Array.prototype.slice.apply(f.elements)) {
+					Array.prototype.slice.apply(f.elements).forEach(function (e) {
 						data[e.name] = e.value;
-					}
+					});
 
 					HttpRequest.open({
 						method : f.method,
@@ -274,9 +274,9 @@ GM_addStyle(GM_getResourceText("winConfigDiceARooCss"));
 					time : new Date() - last.time
 				};
 
-				for each (var f in btn) {
+				btn.forEach(function (f) {
 					f.form.addEventListener("submit", sel, false);
-				}
+				});
 
 				//	collect	0	/pets/happy/blumaroo_green_baby.gif
 				//	lose	1	/pets/sad/blumaroo_blue_baby.gif
