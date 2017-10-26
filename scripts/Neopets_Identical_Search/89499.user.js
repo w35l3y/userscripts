@@ -14,7 +14,7 @@
 // @grant          GM_log
 // @grant          GM_getValue
 // @grant          GM_getResourceText
-// @icon           http://gm.wesley.eti.bt/icon.php?desc=89499
+// @icon           http://gm.wesley.eti.br/icon.php?desc=89499
 // @require        ../../includes/Includes_XPath/63808.user.js
 // @history        2.1.2 Added missing @icon
 // @history        2.1.0 Added Includes Checker (due to the recent problems with userscripts.org)
@@ -44,7 +44,7 @@
 		"genie" : 0x04,					// auction
 		"portal/supershopwiz" : 0x08	// super wizard
 	},
-	searchType = GM_getValue("search", 15);	// wizard + trading post + auction + super wizard
+	searchType = GM_getValue("search", 0x0F);	// wizard + trading post + auction + super wizard
 
 	if (/^\/([\w\/]+)\.phtml/i.test(location.pathname) && (searchType & type[RegExp.$1]) || (searchType & type["portal/supershopwiz"])) {
 		var opts = xpath(".//select[contains(@name, 'criteria')]/option[contains(@value, 'exact')]") || [];
