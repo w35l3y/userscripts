@@ -7,7 +7,7 @@
 // @copyright      2013+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        4.7.1
+// @version        4.7.2
 // @language       en
 // @include        http*://www.neopets.com/games/kadoatery/index.phtml
 // @include        http*://www.neopets.com/objects.phtml?*type=inventory*
@@ -597,6 +597,7 @@ GM_addStyle(GM_getResourceText("winConfigPriceCheckerCss"));
 							"item" : ".//td[a/img[contains(@src, '/items/')]]/b/text()[1]",
 						};
 				}
+                break;
 			case "/browseshop.phtml":
 				return {
 					"key" : 0x0002,
@@ -763,7 +764,7 @@ GM_addStyle(GM_getResourceText("winConfigPriceCheckerCss"));
 			this.groups = [];
 			this.click = function (evt, n) {
 				var _this = this,
-				isSuper = true == config.isSuper || 1 == config.isSuper || "true" == config.isSuper;
+				isSuper = true === config.isSuper || 1 == config.isSuper || "true" == config.isSuper;
 				_this.target.style.color = "#0000CC";
 
 				Wizard.find({
@@ -836,7 +837,7 @@ GM_addStyle(GM_getResourceText("winConfigPriceCheckerCss"));
 				listButtons[ai].target.style.color = "#008800";
 			}
 
-			for (var ai in list) {
+			for (let ai in list) {
 				sum += parseInt(listButtons[list[ai][2]].previous.Price, 10) || 0;
 				listButtons[list[ai][2]].target.style.color = "#CC00CC";
 			}
