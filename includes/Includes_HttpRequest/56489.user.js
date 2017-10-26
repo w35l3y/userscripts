@@ -59,8 +59,7 @@ HttpRequest.open = function (params) {
 				},
 				xml	: {
 					get	: function () {
-						if (e.responseXML) {
-							console.log(1, "responseXML");
+						if (e.responseXML && !e.responseXML.querySelector("parsererror")) {
 							return e.responseXML;
 						} else {
 							if (/^Content-Type: text\/xml/m.test(e.responseHeaders)) {
