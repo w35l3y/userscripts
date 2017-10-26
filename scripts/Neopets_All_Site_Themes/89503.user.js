@@ -7,7 +7,7 @@
 // @copyright      2013+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        3.4.0
+// @version        3.4.1
 // @language       en
 // @include        http://www.neopets.com/*
 // @icon           http://gm.wesley.eti.br/icon.php?desc=89503
@@ -47,6 +47,7 @@
 // @history        bug from fx 3.x to 4.x
 // @history        1.0.1.0 added "The Faeries' Ruin" theme
 // @history        1.0.0.1 made code a little cleaner
+// @noframes
 // ==/UserScript==
 
 /**************************************************************************
@@ -150,7 +151,7 @@
 			selected = user_theme.options[user_theme.selectedIndex].value || "0";
 
 			for (var ai = 0, at = user_theme.options.length; ai < at; ++ai) {	// remove themes that are already in list
-				var opt = user_theme.options[ai],
+				let opt = user_theme.options[ai],
 				bi = opt.value;
 
 				opt.setAttribute("data-value", bi);
@@ -166,7 +167,7 @@
 				var t = themes[tId];
 
 				if (!~in_list.indexOf(tId)) {
-					var opt = new Option(t[1], selected);
+					let opt = new Option(t[1], selected);
 
 					opt.style.backgroundColor = "#FFDFDF";
 					opt.setAttribute("data-value", tId);
