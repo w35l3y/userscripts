@@ -7,7 +7,7 @@
 // @copyright      2013+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        4.0.0
+// @version        4.0.1
 // @language       en
 // @include        http://www.neopets.com/community/index.phtml
 // @grant          GM_addStyle
@@ -73,21 +73,18 @@
 
 					if (answer) {
 						Translate.execute(answer, "en", language, function (result) {
-							var found = false;
-
-							for each (var option in xpath(".//form[input[@name = 'trivia_date']]/select[@name = 'trivia_response']/option[position() > 1]")) {
+							if (!xpath(".//form[input[@name = 'trivia_date']]/select[@name = 'trivia_response']/option[position() > 1]").some(function (option) {
 								if (~[result.translation.toLowerCase(), answer.trim().toLowerCase()].indexOf(option.textContent.toLowerCase())) {
-									option.selected = found = true;
+									option.selected = true;
 
 									window.setTimeout(function() {
 										option.parentNode.form.submit();
 									}, interval[0] + Math.floor(interval[1] * Math.random()));
 
-									break;
+									return true;
 								}
-							}
-
-							if (!found) {
+								return false;
+							})) {
 								recursive(list);
 							}
 						});
