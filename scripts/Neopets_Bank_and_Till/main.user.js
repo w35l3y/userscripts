@@ -10,6 +10,7 @@
 // @version        1.1.2
 // @include        http://*.neopets.com/*
 // @icon           http://gm.wesley.eti.br/icon.php?desc=scripts/Neopets_Bank_and_Till/main.user.js
+// @connect        www.neopets.com
 // @grant          GM_getValue
 // @grant          GM_setValue
 // @grant          GM_xmlhttpRequest
