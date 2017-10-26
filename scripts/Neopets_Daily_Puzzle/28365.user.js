@@ -17,8 +17,8 @@
 // @grant          GM_xmlhttpRequest
 // @grant          GM_getResourceText
 // @icon           http://gm.wesley.eti.br/icon.php?desc=28365
-// @connect        http://www.jellyneo.net/?go=dailypuzzle
-// @connect        http://www.sunnyneo.com/dailypuzzle.php
+// @connect        www.jellyneo.net
+// @connect        www.sunnyneo.com
 // @resource       meta https://github.com/w35l3y/userscripts/raw/master/scripts/Neopets_Daily_Puzzle/28365.user.js
 // @resource       i18n ../../includes/Includes_I18n/resources/default.json
 // @resource       updaterWindowHtml ../../includes/Includes_Updater/resources/default.html
