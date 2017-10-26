@@ -6,7 +6,7 @@
 // @copyright      2015+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        1.2.1
+// @version        1.2.2
 // @language       en
 // @include        http://www.neopets.com/games/pyramids/*
 // @grant          GM_setValue
@@ -78,7 +78,7 @@ AjaxUpdate.init({
 					value	: value,
 				};
 
-				for each (var card in xpath(".//tr[2]/td/center/table/tbody/tr/td/a/img[contains(@src, '_')]", obj.document)) {
+				xpath(".//tr[2]/td/center/table/tbody/tr/td/a/img[contains(@src, '_')]", obj.document).forEach(function (card) {
 					if (/\/(\d+)_(\w)/.test(card.src)) {
 						value = parseInt(RegExp.$1, 10);
 
@@ -103,7 +103,7 @@ AjaxUpdate.init({
 							value	: value,
 						};
 					}
-				}
+				});
 
 				for (var ai = 8, at = (52 + 4 * Math.floor((pile - 4) / 4)) % 52;ai;--ai,++at) {
 					if (4 == ai) {
