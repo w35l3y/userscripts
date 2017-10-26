@@ -7,7 +7,7 @@
 // @copyright      2014+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        2.0.3
+// @version        2.0.4
 // @language       en
 // @include        /userscripts\.org\/scripts\/review\/288385$/
 // @grant          GM_xmlhttpRequest
@@ -78,9 +78,9 @@ var Assert = {
 				this.error = 0;
 				this.methods = [];
 
-				for each (var e in ["beforeClass", "before", "after", "afterClass"]) {
+				["beforeClass", "before", "after", "afterClass"].forEach(function (e) {
 					events[e] = instance[e] && instance[e].bind(instance) || function () {};
-				}
+				});
 
 				console.groupCollapsed(this.name);
 				catchException.apply(this, [events.beforeClass, "Time (BeforeClass)"]);
