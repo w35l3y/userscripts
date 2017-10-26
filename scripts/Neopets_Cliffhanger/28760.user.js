@@ -7,7 +7,7 @@
 // @copyright      2012+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        5.0.0
+// @version        5.0.1
 // @language       en
 // @include        http://www.neopets.com/games/cliffhanger/cliffhanger.phtml
 // @grant          GM_log
@@ -160,7 +160,7 @@
 					}),
 					list = {};
 
-					for each (var v in letters) {
+					letters.forEach(function (v) {
 						var letter = v.textContent.toUpperCase();
 						list[letter] = [0, v.href];
 						
@@ -169,7 +169,7 @@
 								++list[letter][0];
 							}
 						}
-					}
+					});
 
 					for (var tt = t;tt;--tt) {
 						for (var v in list) {
