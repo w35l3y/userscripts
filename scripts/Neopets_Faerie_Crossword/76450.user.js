@@ -7,7 +7,7 @@
 // @copyright      2010+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        3.0.3
+// @version        3.0.4
 // @language       en
 // @include        http://www.neopets.com/games/crossword/*
 // @grant          GM_log
@@ -32,7 +32,7 @@
 // @require        ../../includes/Includes_Translate/85618.user.js
 // @require        ../../includes/Includes_I18n/87940.user.js
 // @require        ../../includes/Includes_Updater/87942.user.js
-// @contributor    cluesandanswers (http://cluesandanswers.blogspot.com/)
+// @contributor    cluesandanswers (http://cluesandanswers.blogspot.com.br/)
 // @contributor    jellyneo (http://www.jellyneo.net/?go=fcrossword)
 // @history        3.0.0 Added <a href="http://userscripts.org/scripts/show/87942">Updater</a>
 // @history        3.0.0 Added <a href="http://userscripts.org/guides/773">Includes Checker</a>
@@ -120,7 +120,7 @@ if ("/games/crossword/crossword.phtml" == location.pathname) {
 					case 0:
 					HttpRequest.open({
 						"method" : "get",
-						"url" : "http://cluesandanswers.blogspot.com/",
+						"url" : "http://cluesandanswers.blogspot.com.br/",
 						"onsuccess" : function (xhr) {
 							var answers = {};
 							xpath("id('main')//td/blockquote/div/text()", xhr.response.xml).forEach(function (answer) {
