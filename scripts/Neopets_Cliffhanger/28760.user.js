@@ -7,7 +7,7 @@
 // @copyright      2012+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        5.0.1
+// @version        5.0.2
 // @language       en
 // @include        http://www.neopets.com/games/cliffhanger/cliffhanger.phtml
 // @grant          GM_log
@@ -19,8 +19,10 @@
 // @grant          GM_xmlhttpRequest
 // @grant          GM_getResourceText
 // @icon           http://gm.wesley.eti.br/icon.php?desc=28760
-// @connect        www.neopets.com
-// @connect        www.cnwcentral.com
+// @connect        cnwcentral.com
+// @connect        neopets.com
+// @connect        github.com
+// @connect        raw.githubusercontent.com
 // @resource       random_events ../../includes/Includes_Neopets_Random_Events/resources/default.csv
 // @resource       randomEventsHtml ../../includes/Includes_Neopets_Random_Events/resources/default.html
 // @resource       meta https://github.com/w35l3y/userscripts/raw/master/scripts/Neopets_Cliffhanger/28760.user.js
@@ -34,8 +36,8 @@
 // @require        ../../includes/Includes_Updater/87942.user.js
 // @require        ../../includes/Includes_Persist_%5BBETA%5D/154322.user.js
 // @require        ../../includes/Includes_Neopets_Random_Events/154363.user.js
-// @contributor    acara227910 (http://www.neopets.com/~acara227910)
 // @contributor    cnwcentral (http://www.cnwcentral.com/neopets/neopets-cliffhanger-answers/)
+// @contributor    acara227910 (http://www.neopets.com/~acara227910)
 // @cfu:version    version
 // @history        5.0.0 Added <a href="http://userscripts.org/guides/773">Includes Checker</a>
 // @history        4.1.0 Changed the order of @require#56489
@@ -204,7 +206,7 @@
 	}({
 		referer : location.href,
 		source	: [
-			["http://www.neopets.com/~acara227910", ".//b/font/p/text()"],
+          		["http://www.neopets.com/~acara227910", ".//b/font/p/text()"],
 			["http://www.cnwcentral.com/neopets/neopets-cliffhanger-answers/", "id('content')/article/div/ul/li/text()"],
 		],
 	}));
