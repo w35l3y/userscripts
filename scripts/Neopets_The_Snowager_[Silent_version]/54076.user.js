@@ -81,7 +81,7 @@
 		compare.setMinutes(0, 0, 0);
 		sd.setHours(h + INTERVAL - ((2 + h) % INTERVAL), 0, 30);
 
-		if (la.valueOf() != compare.valueOf() && !((2 + h) % INTERVAL)) {
+		if (la.valueOf() != compare.valueOf() && 0 === ((2 + h) % INTERVAL)) {
 			GM_setValue(key, (la = compare).toString());
 			
 			HttpRequest.open({
