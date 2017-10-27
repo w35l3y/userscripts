@@ -97,7 +97,7 @@ Wizard.convert = function (params) {
 
 		for (var ai = 0, at = items.length;ai < at;++ai) {
 			var item = items[ai].cells,
-			href = item[0].firstElementChild.href;
+			href = item[0].firstElementChild.getAttribute("href");
 
 			console.log(item[0], item[0].firstElementChild, href);
 			if (/&(?:amp;?)?buy_obj_info_id=(\d+)/.test(href)) {
