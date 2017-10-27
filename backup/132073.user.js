@@ -76,14 +76,14 @@ AjaxUpdate.init = function (obj) {
 
 	if (result.document) {
 		if (obj.triggers) {
-			for each (var trigger in xpath(obj.triggers, result.document)) {
+			xpath(obj.triggers, result.document).forEach(function (trigger) {
 				trigger.addEventListener(trigger instanceof HTMLFormElement?"submit":"click", function (e) {
 					e.preventDefault();
 					e.stopPropagation();
 
 					result.next(this);
 				}, false);
-			}
+			});
 		}
 		
 		obj.onsuccess(result);
