@@ -7,7 +7,7 @@
 // @copyright      2012+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        5.0.2
+// @version        5.0.3
 // @language       en
 // @include        http://www.neopets.com/games/cliffhanger/cliffhanger.phtml
 // @grant          GM_log
@@ -19,7 +19,9 @@
 // @grant          GM_xmlhttpRequest
 // @grant          GM_getResourceText
 // @icon           http://gm.wesley.eti.br/icon.php?desc=28760
+// @connect        angelfire.com
 // @connect        cnwcentral.com
+// @connect        quagthistle.org
 // @connect        neopets.com
 // @connect        github.com
 // @connect        raw.githubusercontent.com
@@ -36,8 +38,10 @@
 // @require        ../../includes/Includes_Updater/87942.user.js
 // @require        ../../includes/Includes_Persist_%5BBETA%5D/154322.user.js
 // @require        ../../includes/Includes_Neopets_Random_Events/154363.user.js
-// @contributor    cnwcentral (http://www.cnwcentral.com/neopets/neopets-cliffhanger-answers/)
+// @contributor    skyknight920 (http://www.angelfire.com/games5/skgames/guides/cliffhangeranswers.html)
 // @contributor    acara227910 (http://www.neopets.com/~acara227910)
+// @contributor    cnwcentral (http://www.cnwcentral.com/neopets/neopets-cliffhanger-answers/)
+// @contributor    Quagthistle (http://quagthistle.org/neopets/Games/CliffhangerTable.html)
 // @cfu:version    version
 // @history        5.0.0 Added <a href="http://userscripts.org/guides/773">Includes Checker</a>
 // @history        4.1.0 Changed the order of @require#56489
@@ -206,8 +210,10 @@
 	}({
 		referer : location.href,
 		source	: [
-          		["http://www.neopets.com/~acara227910", ".//b/font/p/text()"],
+			["http://www.angelfire.com/games5/skgames/guides/cliffhangeranswers.html", ".//font/p/text()"],
+			["http://www.neopets.com/~acara227910", ".//b/font/p/text()"],
 			["http://www.cnwcentral.com/neopets/neopets-cliffhanger-answers/", "id('content')/article/div/ul/li/text()"],
+			["http://quagthistle.org/neopets/Games/CliffhangerTable.html", ".//td[2]/text()"]
 		],
 	}));
 }());
