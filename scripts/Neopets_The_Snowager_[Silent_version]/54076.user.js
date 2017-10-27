@@ -7,7 +7,7 @@
 // @copyright      2011+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        3.1.0
+// @version        3.1.1
 // @language       en
 // @include        http://www.neopets.com/*
 // @exclude        http://www.neopets.com/colorpallette.phtml
@@ -16,6 +16,8 @@
 // @exclude        http://www.neopets.com/games/play_flash.phtml?*
 // @exclude        http://www.neopets.com/iteminfo.phtml?*
 // @icon           http://gm.wesley.eti.br/icon.php?desc=54076
+// @connect        github.com
+// @connect        raw.githubusercontent.com
 // @grant          GM_log
 // @grant          GM_addStyle
 // @grant          GM_getValue
