@@ -19,6 +19,8 @@
 // @grant          GM_xmlhttpRequest
 // @grant          GM_getResourceText
 // @icon           http://gm.wesley.eti.br/icon.php?desc=33958
+// @connect        github.com
+// @connect        raw.githubusercontent.com
 // @resource       meta https://github.com/w35l3y/userscripts/raw/master/scripts/Neopets_Shop_Wizard/33958.user.js
 // @resource       i18n ../../includes/Includes_I18n/resources/default.json
 // @resource       shopWizardHtml resources/default.html
