@@ -9,6 +9,7 @@
 // @version        1.2.2
 // @language       en
 // @include        http://www.neopets.com/games/pyramids/*
+// @icon           http://gm.wesley.eti.br/icon.php?desc=scripts/Neopets_Pyramids/main.user.js
 // @grant          GM_setValue
 // @grant          GM_getValue
 // @grant          GM_deleteValue
