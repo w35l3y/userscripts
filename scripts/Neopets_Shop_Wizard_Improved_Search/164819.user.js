@@ -12,6 +12,8 @@
 // @include        http://www.neopets.com/market.phtml?type=wizard
 // @include        http://www.neopets.com/market.phtml
 // @icon           http://gm.wesley.eti.br/icon.php?desc=164819
+// @connect        github.com
+// @connect        raw.githubusercontent.com
 // @grant          GM_log
 // @grant          GM_addStyle
 // @grant          GM_getValue
