@@ -7,7 +7,7 @@
 // @copyright      2016+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        1.1.0
+// @version        1.1.1
 // @language       en
 // @include        http://www.neopets.com/quickstock.phtml
 // @include        http://www.neopets.com/quickstock.phtml?r=*
@@ -251,9 +251,9 @@
 
 		// overwrites check_all function
 		unsafeWindow.check_all = function (col) {
-			for each (var elem in xpath(".//form[@name = 'quickstock']//tr[position() != last() - 1]/td/input[@type = 'radio']")) {
+			xpath(".//form[@name = 'quickstock']//tr[position() != last() - 1]/td/input[@type = 'radio']").forEach(function (elem) {
 				elem.checked = (elem.parentNode.cellIndex == col);
-			}
+			});
 		};
 	}
 }());
