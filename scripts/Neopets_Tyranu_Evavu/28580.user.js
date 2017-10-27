@@ -11,6 +11,8 @@
 // @language       en
 // @include        http://www.neopets.com/games/tyranuevavu.phtml*
 // @icon           http://gm.wesley.eti.br/icon.php?desc=28580
+// @connect        github.com
+// @connect        raw.githubusercontent.com
 // @resource       meta https://github.com/w35l3y/userscripts/raw/master/scripts/Neopets_Tyranu_Evavu/28580.user.js
 // @resource       i18n ../../includes/Includes_I18n/resources/default.json
 // @require        ../../includes/Includes_XPath/63808.user.js
