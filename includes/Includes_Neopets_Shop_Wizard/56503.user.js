@@ -99,6 +99,7 @@ Wizard.convert = function (params) {
 			var item = items[ai].cells,
 			href = item[0].firstElementChild.href;
 
+			console.log(item[0], item[0].firstElementChild, href);
 			if (/&(?:amp;?)?buy_obj_info_id=(\d+)/.test(href)) {
 				r.push({
 					"Id"	: parseInt(RegExp.$1, 10),
