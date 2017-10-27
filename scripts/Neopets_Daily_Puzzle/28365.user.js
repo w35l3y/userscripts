@@ -7,7 +7,7 @@
 // @copyright      2013+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        4.0.2
+// @version        4.0.3
 // @language       en
 // @include        http://www.neopets.com/community/index.phtml
 // @grant          GM_addStyle
@@ -81,9 +81,9 @@
 									option.selected = true;
 
 									window.setTimeout(function() {
-                                        var fn = option.parentNode.form.submit;
-                                        if (fn instanceof Function) fn();
-                                        else fn.click();
+                                        var f = option.parentNode.form;
+                                        if (f.submit instanceof Function) f.submit();
+                                        else f.submit.click();
 									}, interval[0] + Math.floor(interval[1] * Math.random()));
 
 									return true;
