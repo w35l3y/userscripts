@@ -93,15 +93,16 @@ if (/^\/process_market\.phtml/i.test(location.pathname)) {	// something went wro
 	});
 
 	if (items.length)	// list is not empty
-	item.form.addEventListener("submit", function (e) {
+	items[0].form.addEventListener("submit", function (e) {
 		var stocktemp = {};
 
 		items.forEach(function (item) {
 			var pos = item.name.match(/\d+$/)[0],
 			id = e.target.elements.namedItem("obj_id_" + pos);
 
-			if (item.value != "0")
-			stocktemp[id.value] = item.value;	// stores the current prices temporarily
+			if (item.value != "0") {
+				stocktemp[id.value] = item.value;	// stores the current prices temporarily
+			}
 		});
 
 		GM_setValue("StockTemp", JSON.stringify(stocktemp));
