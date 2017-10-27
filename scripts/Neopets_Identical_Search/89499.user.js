@@ -18,6 +18,7 @@
 // @require        ../../includes/Includes_XPath/63808.user.js
 // @history        2.1.2 Added missing @icon
 // @history        2.1.0 Added Includes Checker (due to the recent problems with userscripts.org)
+// @noframes
 // ==/UserScript==
 
 /**************************************************************************
