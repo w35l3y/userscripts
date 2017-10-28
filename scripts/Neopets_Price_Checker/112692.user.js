@@ -7,7 +7,7 @@
 // @copyright      2013+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        4.7.2
+// @version        4.7.3
 // @language       en
 // @include        http*://www.neopets.com/games/kadoatery/index.phtml
 // @include        http*://www.neopets.com/objects.phtml?*type=inventory*
@@ -126,6 +126,7 @@
 			/closet.phtml
 	0x0008	/faerieland/employ/employment.phtml
 	0x0010	/market.phtml
+			/market_your.phtml
 	0x0020	/quests.phtml
 	0x0040	/auctions.phtml
 	0x0080	/island/tradingpost.phtml
@@ -617,6 +618,7 @@ GM_addStyle(GM_getResourceText("winConfigPriceCheckerCss"));
 					"inline" : true,
 				};
 			case "/market.phtml":
+			case "/market_your.phtml":
 				return {
 					"key" : 0x0010,
 					"item" : ".//td[following-sibling::td[1]/img[contains(@src, '/items/')]]/b/text()[1]",
