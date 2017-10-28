@@ -7,8 +7,8 @@
 [![PayPal - The safer, easier way to pay online!](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif "PayPal - The safer, easier way to pay online!")](https://goo.gl/DNfg2w)
 
 ### Screenshots
-![Moving HP Bar](Moving HP Bar.png)
-![Opponent Settings](Opponent Settings.png)
+![Moving HP Bar](Moving%20HP%20Bar.png)<br />
+![Opponent Settings](Opponent%20Settings.png)<br />
 ![Settings](Settings.png)
 
 
