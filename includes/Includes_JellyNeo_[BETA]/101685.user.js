@@ -7,7 +7,7 @@
 // @copyright      2013+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        2.0.1 BETA
+// @version        3.0.0
 // @language       en
 // @include        nowhere
 // @exclude        *
@@ -31,9 +31,7 @@
 
 **************************************************************************/
 
-if (!JellyNeo) {
-	var JellyNeo = function () {};
-}
+var JellyNeo = function () {};
 
 JellyNeo.shops = function (params) {
 	HttpRequest.open({
@@ -75,41 +73,41 @@ JellyNeo.ItemDatabase = function () {};
 
 JellyNeo.ItemDatabase.find = function (params) {
 	var data = {
-		"go"			: "show_items",
-		"sortby"		: "release",
-		"sortby_type"	: "desc",
-		"numitems"		: 100,
-		"ncoff"			: 1,
-		"start"			: 0
+		"sort"		: 3,
+		"sort_dir"	: "desc",
+		"limit"		: 100,
+		"exclude_nc"	: 1,
+		"start"		: 0
 	},
-	total = 0,
-	ai;
+	total = 0;
 
 	if (!params.pages) {
 		params.pages = 0;
 	}
 
-	for (ai in params.data) {
+	for (let ai in params.data) {
 		data[ai] = params.data[ai];
 	}
 
 	(function recursive (page, list) {
 		HttpRequest.open({
 			"method"	: "get",
-			"url"		: "http://items.jellyneo.net/index.php",
+			"url"		: "https://items.jellyneo.net/search/",
 			"onsuccess"	: function (xhr) {
 				if (!page) {
-					total = parseInt(xpath("number(substring-before(id('content')/b/text(), ' '))", xhr.response.xml), 10);
+					total = parseInt(xpath("string(.//div/div/p/b/text())", xhr.response.xml).replace(/\D+/g, ""), 10);
 				}
-				var next = xpath("string(id('content')/p/a[text() = 'Next']/@href)", xhr.response.xml),
-				pageList = xpath("id('content')/form/center/table//tr/td[.//img]", xhr.response.xml).map(function (item) {
-					var img = xpath(".//img", item)[0];
+				var next = xpath("string(.//ul[@class = 'pagination']/li[last()][@class = 'arrow']/a[@href]/@href)", xhr.response.xml),
+				pageList = xpath(".//ul/li[a/img]", xhr.response.xml).map(function (item) {
+					var img = xpath(".//img", item)[0],
+					href = img.parentNode.getAttribute("href");
 
 					return {
-						"id"	: /\bshowitem=(\d+)/.test(img.parentNode.href) && RegExp.$1,
+						"id"	: /\bitem\/(\d+)/.test(href) && RegExp.$1,
+						"link"	: "https://items.jellyneo.net" + href,
 						"name"	: img.getAttribute("title"),
 						"image"	: img.getAttribute("src"),
-						"price"	: parseInt(xpath("string(.//a[contains(@href, '=price_history&')]/text())", item).replace(/[,.]/g, ""), 10)
+						"price"	: parseInt(xpath("string(.//a[contains(@href, '/price-history/')]/text())", item).replace(/[,.]/g, ""), 10)
 					};
 				});
 
