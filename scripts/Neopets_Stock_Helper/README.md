@@ -7,7 +7,7 @@
 [![PayPal - The safer, easier way to pay online!](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif "PayPal - The safer, easier way to pay online!")](https://goo.gl/DNfg2w)
 
 ### Screenshots
-![Example of usage](Example of usage.png)
+![Example of usage](Example%20of%20usage.png)
 
 
 ### Installs
