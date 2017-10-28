@@ -7,7 +7,7 @@
 // @copyright      2013+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        2.0.1
+// @version        2.0.2
 // @language       en
 // @include        http://www.neopets.com/neoboards/preferences.phtml*
 // @include        http://www.neopets.com/neoboards/topic.phtml?topic=*
@@ -21,6 +21,9 @@
 // @grant          GM_xmlhttpRequest
 // @grant          GM_getResourceText
 // @icon           http://gm.wesley.eti.br/icon.php?desc=161705
+// @connect        neopets.com
+// @connect        github.com
+// @connect        raw.githubusercontent.com
 // @resource       meta https://github.com/w35l3y/userscripts/raw/master/scripts/Neopets_Infinite_Neoboard_Pens/161705.user.js
 // @resource       i18n ../../includes/Includes_I18n/resources/default.json
 // @resource       updaterWindowHtml ../../includes/Includes_Updater/resources/default.html
@@ -75,7 +78,7 @@
 						break;
 					case "select":
 					case "select-one":
-						input.options.some(function (option) {
+						Array.prototype.slice.apply(input.options).some(function (option) {
 							if (option.selected) {
 								pens[active_pen].form[input.name] = option.value;
 								return true;
@@ -149,7 +152,7 @@
 								break;
 							case "select":
 							case "select-one":
-								input.options.some(function (option) {
+								Array.prototype.slice.apply(input.options).some(function (option) {
 									if (option.value == value && (option.index > 0 || "activeAv" != input.name) && !/^-+$/.test(option.textContent)) {
 										location.href = "javascript:void(document.images['avatar'].src = 'http://images.neopets.com/neoboards/avatars/" + input.options[option.index].value + ".gif')";
 										option.selected = true;
