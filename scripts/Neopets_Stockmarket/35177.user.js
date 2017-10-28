@@ -7,7 +7,7 @@
 // @copyright      2011+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        3.0.0.0
+// @version        3.0.1
 // @language       en
 // @include        http://www.neopets.com/*
 // @grant          GM_log
@@ -18,6 +18,9 @@
 // @grant          GM_xmlhttpRequest
 // @grant          GM_getResourceText
 // @icon           http://gm.wesley.eti.br/icon.php?desc=35177
+// @connect        neopets.com
+// @connect        github.com
+// @connect        raw.githubusercontent.com
 // @resource       meta https://github.com/w35l3y/userscripts/raw/master/scripts/Neopets_Stockmarket/35177.user.js
 // @resource       i18n ../../includes/Includes_I18n/resources/default.json
 // @resource       updaterWindowHtml ../../includes/Includes_Updater/resources/default.html
@@ -162,7 +165,7 @@ function attachModule(module, prepend) {
 	var user = {
 		"increment"	: GM_getValue("increment",		30000),	// miliseconds
 		"image"	: GM_getValue("image",			"sell.gif"),
-		"translate"	: eval(GM_getValue("translate",	uneval(["Stock Summary", "Buys", "Sells", "Ticker", "Price", "Holdings", "Refreshing...", "Options", "Buy Price", "Sell Price", "Close", "Minimum", "Maximum"])))
+		"translate"	: JSON.parse(GM_getValue("translate",	JSON.stringify(["Stock Summary", "Buys", "Sells", "Ticker", "Price", "Holdings", "Refreshing...", "Options", "Buy Price", "Sell Price", "Close", "Minimum", "Maximum"])))
 	};
 
 	GM_addStyle(".activePetInfo TD {background-color: inherit;};");
@@ -178,7 +181,7 @@ function attachModule(module, prepend) {
 				match.shift();
 				portfolio.push(match);
 			}
-			GM_setValue("portfolio",uneval(portfolio));
+			GM_setValue("portfolio", JSON.stringify(portfolio));
 
 			var companies = [];
 
@@ -192,7 +195,7 @@ function attachModule(module, prepend) {
 
 				companies.push(match);
 			}
-			GM_setValue("companies", uneval(companies));
+			GM_setValue("companies", JSON.stringify(companies));
 
 			addModule(companies, portfolio);
 	}
@@ -224,7 +227,7 @@ function attachModule(module, prepend) {
 		} else {
 			(wait = setInterval(function() {
 				if (!GM_getValue("refreshing", false)) {
-					addModule(eval(GM_getValue("companies", "([])")), eval(GM_getValue("portfolio", "([])")));
+					addModule(JSON.parse(GM_getValue("companies", "[]")), JSON.parse(GM_getValue("portfolio", "[]")));
 					clearInterval(wait);
 				}
 			}, (first ? 0 : 250)));
@@ -349,7 +352,7 @@ function attachModule(module, prepend) {
 			GM_setValue("sellMinimum", event.target.elements[2].value || 30);
 			xpath("id('stockmarketDiv')")[0].style.display = "none";
 			event.preventDefault();
-			addModule(eval(GM_getValue("companies", "([])")), eval(GM_getValue("portfolio", "([])")));
+			addModule(JSON.parse(GM_getValue("companies", "([])")), JSON.parse(GM_getValue("portfolio", "([])")));
 		}, false);
 		xpath("id('stockmarketRefreshImage')")[0].addEventListener("click", function(event) {
 			GM_setValue("lastAccess", "Sat Jul 16 2011 09:24:27 GMT-0300");
@@ -360,7 +363,7 @@ function attachModule(module, prepend) {
 	if (/\/stockmarket\.phtml\?type=portfolio#(\d+)/.test(location.href)) {
 		location.replace("javascript:disclose(\'" + RegExp.$1 + "\')");
 	} else if (/\/stockmarket\.phtml\?type=buy#/.test(location.href)) {
-		xpath(".//td[2]/form/table/tbody/tr/td/input[@type='text']").forEach(function(elem) {
+		xpath(".//td[@class = 'content']//form/table/tbody/tr/td/input[@type='text']").forEach(function(elem) {
 			var v_re = new RegExp("[#&]" + elem.name + "=(\\w+)");
 			if (v_re.test(location.href)) {
 				elem.value = RegExp.$1;
