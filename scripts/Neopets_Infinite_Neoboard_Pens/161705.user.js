@@ -7,7 +7,7 @@
 // @copyright      2013+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        2.0.2
+// @version        2.0.3
 // @language       en
 // @include        http://www.neopets.com/neoboards/preferences.phtml*
 // @include        http://www.neopets.com/neoboards/topic.phtml?topic=*
@@ -154,8 +154,8 @@
 							case "select-one":
 								Array.prototype.slice.apply(input.options).some(function (option) {
 									if (option.value == value && (option.index > 0 || "activeAv" != input.name) && !/^-+$/.test(option.textContent)) {
-										location.href = "javascript:void(document.images['avatar'].src = 'http://images.neopets.com/neoboards/avatars/" + input.options[option.index].value + ".gif')";
 										option.selected = true;
+										option.dispatchEvent(new Event("change", { bubbles: true }));
 										return true;
 									}
 									return false;
