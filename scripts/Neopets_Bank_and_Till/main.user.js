@@ -7,7 +7,7 @@
 // @copyright      2015+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        1.1.2
+// @version        1.1.3
 // @include        http://*.neopets.com/*
 // @icon           http://gm.wesley.eti.br/icon.php?desc=scripts/Neopets_Bank_and_Till/main.user.js
 // @connect        www.neopets.com
@@ -42,7 +42,7 @@ function get_np(p, n) {
 
 // bank
 if (location.pathname == "/bank.phtml") {
-	GM_setValue("bank", get_np(document, "id('content')/table/tbody/tr/td[2]/div/table/tbody/tr[2]/td/table/tbody/tr[2]/td[2]"));
+	GM_setValue("bank", get_np(document, ".//td[@class = 'content']/div/table/tbody/tr[2]/td/table/tbody/tr[2]/td[2]"));
 }
 
 // till
@@ -50,7 +50,7 @@ var current = new Date().valueOf();
 if (location.pathname == "/market.phtml" && /[&?]type=till\b/.test(location.search)) {
 	GM_setValue("LastAccess", "" + current);
 	
-	GM_setValue("till", get_np(document, "id('content')/table/tbody/tr/td[2]/p[1]/b"));
+	GM_setValue("till", get_np(document, ".//td[@class = 'content']/p[1]/b"));
 } else {
 	const INTERVAL = 1 * 60 * 60 * 1000; // 1 hour
 	if (parseInt(GM_getValue("LastAccess", "0"), 10) + INTERVAL < current) {
@@ -60,7 +60,7 @@ if (location.pathname == "/market.phtml" && /[&?]type=till\b/.test(location.sear
 			"method" : "get",
 			"url" : "http://www.neopets.com/market.phtml",
 			"onsuccess" : function (params) {
-				GM_setValue("till", get_np(params.response.xml, "id('content')/table/tbody/tr/td[2]/p[1]/b"));
+				GM_setValue("till", get_np(params.response.xml, ".//td[@class = 'content']/p[1]/b"));
 			}
 		}).send({
 			"type" : "till"
