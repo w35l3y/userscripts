@@ -6,7 +6,7 @@
 // @copyright      2015+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        1.2.3
+// @version        1.2.4
 // @language       en
 // @include        http://www.neopets.com/games/pyramids/*
 // @icon           http://gm.wesley.eti.br/icon.php?desc=scripts/Neopets_Pyramids/main.user.js
@@ -38,7 +38,7 @@
 **************************************************************************/
 
 AjaxUpdate.init({
-	root		: "id('content')/table/tbody/tr/td[2]/div/div[@class = 'frame']",
+	root		: ".//td[@class = 'content']//div/div[@class = 'frame']",
 	triggers	: ".//a[contains(@href, '?action=')]|.//form[contains(@action, 'pyramids')]",
 	onsuccess	: function (obj) {
 		let x = xpath(".//a[contains(@href, 'action=collect')]|.//form[contains(@action, 'pyramids.phtml')]", obj.document)[0],
@@ -67,7 +67,7 @@ AjaxUpdate.init({
 				next(x);
 			}
 		} else {
-			if (/\/(\d+)_(\w)/.test(xpath("string(.//tr[2]/td/table/tbody/tr[1]/td/img[position() = last()]/@src)", obj.document))) {
+			if (/\/(\d+)_(\w)/.test(xpath("string(.//tr[2]/td/table/tbody/tr[1]/td/img[last()]/@src)", obj.document))) {
 				let value = parseInt(RegExp.$1, 10),
 				pile = "cdhs".indexOf(RegExp.$2[0]) + 4 * (value - 2),
 				cards = JSON.parse(GM_getValue("cards", "{}")),
