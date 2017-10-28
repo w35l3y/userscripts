@@ -7,11 +7,13 @@
 // @copyright      2013+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        2.3.0
+// @version        2.3.1
 // @language       en
 // @include        http://www.neopets.com/dome/arena.phtml
 // @include        http://www.neopets.com/dome/arena.phtml#
 // @icon           http://gm.wesley.eti.br/icon.php?desc=161251
+// @connect        github.com
+// @connect        raw.githubusercontent.com
 // @grant          GM_log
 // @grant          GM_addStyle
 // @grant          GM_getValue
