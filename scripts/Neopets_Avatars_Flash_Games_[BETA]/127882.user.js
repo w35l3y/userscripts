@@ -7,13 +7,16 @@
 // @copyright      2012+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        3.0.2
+// @version        3.0.3
 // @language       en
 // @include        http://www.neopets.com/games/*#gmc
 // @include        http://www.neopets.com/games/game.phtml?game_id=*
 // @include        http://www.neopets.com/altador/colosseum/ctp.phtml
 // @include        http://www.neopets.com/altador/colosseum/ctp.phtml?game_id=*
 // @icon           http://gm.wesley.eti.br/icon.php?desc=127882
+// @connect        neopets.com
+// @connect        github.com
+// @connect        raw.githubusercontent.com
 // @grant          GM_addStyle
 // @grant          GM_getValue
 // @grant          GM_setValue
@@ -265,13 +268,13 @@ function init (doc) {	// script scope
 						],
 					},];
 
-					for each (var g in groups) {
-						for each (var t in g.list) {
+					groups.forEach(function (g) {
+						g.list.forEach(function (t) {
 							var row = table.insertRow(2);
 							row.setAttribute("class", g.name);
 							row.innerHTML = t;
-						}
-					}
+						});
+					});
 					table.insertRow(2).innerHTML = '<td colspan="2" class="aleft confirmation-2"><input id="field_cache" name="cache" type="checkbox" value="1" /> <label for="field_cache">Try cached encryption</label></td><td class="confirmation-2"><input type="button" value="R" title="Randomize" id="button_rand" /></td><th class="confirmation" style="width:75px">Game</th><td class="confirmation aleft" style="width:205px" id="label_game">' + doc.name + ' (' + id + ')</td>';
 					
 					if (!p) {
@@ -319,10 +322,10 @@ function init (doc) {	// script scope
 				tmp = div.firstElementChild;
 			}
 
-			for each (var n in xpath(".//*[contains(@name, '" + r[0] + "') or contains(@id, '" + r[0] + "')]", tmp)) {
+			xpath(".//*[contains(@name, '" + r[0] + "') or contains(@id, '" + r[0] + "')]", tmp).forEach(function (n) {
 				var a = (n.hasAttribute("id") ? "id" : "name");
 				n.setAttribute(a, String.prototype.replace.apply(n.getAttribute(a), r));
-			}
+			});
 			node = copy[c].execute(tmp, node) || node;
 			//alert(node);
 			node.parentNode.insertBefore(tmp, node);
@@ -380,12 +383,13 @@ function init (doc) {	// script scope
 					if (!data[1]) {
 						mod = data[0] || 1;
 					} else {
-						for each (var b in mods) {
+						mods.some(function (b) {
 							if (v && v % b == 0) {
 								mod.push(b);
-								break;
+								return true;
 							}
-						}
+							return false;
+						});
 
 						mod = Math.min.apply(this, mod);
 					}
