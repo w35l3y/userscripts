@@ -7,7 +7,7 @@
 // @copyright      2012+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        5.2.0
+// @version        5.2.1
 // @language       en
 // @include        http://www.neopets.com/altador/council.phtml
 // @include        http://www.neopets.com/altador/council.phtml?*
@@ -245,7 +245,7 @@
 		opts = win.get("group");
 
 		if (opts.activate & Math.pow(2, dailiesField[location.pathname][0])) {
-			a:for each (var btn in dailiesField[location.pathname][1]) {
+			dailiesField[location.pathname][1].some(function (btn) {
 				var f = xpath(btn[0] instanceof Function?btn[0]():btn[0])[0];
 				if (f) {
 					if (btn[1] instanceof Function) {
@@ -253,9 +253,10 @@
 					} else {
 						f.submit();
 					}
-					break a;
+					return true;
 				}
-			}
+				return false;
+			});
 		}
 	}
 }());
