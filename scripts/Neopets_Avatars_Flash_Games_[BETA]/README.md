@@ -7,8 +7,8 @@
 [![PayPal - The safer, easier way to pay online!](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif "PayPal - The safer, easier way to pay online!")](https://goo.gl/DNfg2w)
 
 ### Screenshots
-![Monkey Button 2](Monkey Button 2.png)
-![Monkey Button](Monkey Button.png)
+![Monkey Button 2](Monkey%20Button%202.png)<br />
+![Monkey Button](Monkey%20Button.png)<br />
 ![Settings](Settings.png)
 
 
