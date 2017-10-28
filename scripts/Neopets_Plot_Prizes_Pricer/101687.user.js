@@ -7,7 +7,7 @@
 // @copyright      2013+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        3.1.1
+// @version        3.2.0
 // @language       en
 // @include        http://www.neopets.com/*/prizes.phtml
 // @include        http://www.neopets.com/halloween/hwp/shack.phtml
@@ -94,7 +94,7 @@
 	function attachNpRatio(node, point, item) {
 		var ratio = document.createElement("span");
 
-		ratio.innerHTML = (item.price?'<a target="_blank" href="http://items.jellyneo.net/index.php?go=item&showitem=' + item.id + '">' + item.price + " NP</a><br />(" + (Math.floor(100 * item.price / point) / 100) + " NP/p)<br /><br />":"<br />Unpriced<br /><br />");
+		ratio.innerHTML = (item.price?'<a target="_blank" href="' + item.link + '">' + item.price + " NP</a><br />(" + (Math.floor(100 * item.price / point) / 100) + " NP/p)<br /><br />":"<br />Unpriced<br /><br />");
 
 		var a = xpath(".//a", node.insertBefore(ratio, node.firstChild))[0];
 
@@ -124,15 +124,14 @@
 			img = /\/([^\/]+)\.gif/.test(xpath("string(.//img[1]/@src|.//div[contains(translate(@class, 'I', 'i'), 'image') and contains(@style, '//images.')]/@style)", prize)) && RegExp.$1;
 
 			if (point && img) {
-				if (img in items) {
+				if (img in items) { // always FALSE because index is ID, not IMAGE
 					fitems.push(items[img]);
 
 					attachNpRatio(prize, point, items[img]);
 				} else {
 					JellyNeo.ItemDatabase.find({
 						"data" : {
-							"pic" : "/" + img + ".gif",
-							"pic_type" : "partial"
+							"image" : "/" + img + ".gif"
 						},
 						"callback" : function (obj) {
 							var name = "cache_" + location.pathname,
@@ -177,10 +176,8 @@
 	} else if (plot) {
 		JellyNeo.ItemDatabase.find({
 			"data" : {
-				"op_spec": 0,
-				"specialcat" : plot[1],
+				"scat" : [plot[1]],
 				"notes" : plot[0],
-				"notes_type" : "partial",
 			},
 			"pages" : -1,
 			"callback" : function (obj) {
