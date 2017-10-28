@@ -41,6 +41,8 @@
 // @grant          GM_xmlhttpRequest
 // @grant          GM_getResourceText
 // @icon           http://gm.wesley.eti.br/icon.php?desc=32041
+// @connect        github.com
+// @connect        raw.githubusercontent.com
 // @resource       i18n ../../includes/Includes_I18n/resources/default.json
 // @resource       meta https://github.com/w35l3y/userscripts/raw/master/scripts/Neopets_Dailies_To-Do/32041.user.js
 // @resource       updaterWindowHtml ../../includes/Includes_Updater/resources/default.html
