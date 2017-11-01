@@ -7,8 +7,9 @@
 // @copyright      2013+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        4.0.4
+// @version        4.0.5
 // @language       en
+// @include        http://www.neopets.com/community/
 // @include        http://www.neopets.com/community/index.phtml
 // @grant          GM_addStyle
 // @grant          GM_getValue
