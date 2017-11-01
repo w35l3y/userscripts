@@ -7,7 +7,7 @@
 // @copyright      2010+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        3.0.4
+// @version        3.0.5
 // @language       en
 // @include        http://www.neopets.com/games/crossword/*
 // @grant          GM_log
@@ -18,10 +18,11 @@
 // @grant          GM_xmlhttpRequest
 // @grant          GM_getResourceText
 // @icon           http://gm.wesley.eti.br/icon.php?desc=76450
-// @connect        jellyneo.net
+// @connect        www.jellyneo.net
 // @connect        cluesandanswers.blogspot.com.br
 // @connect        github.com
 // @connect        raw.githubusercontent.com
+// @connect        translate.google.com.br
 // @resource       meta https://github.com/w35l3y/userscripts/raw/master/scripts/Neopets_Faerie_Crossword/76450.user.js
 // @resource       i18n ../../includes/Includes_I18n/resources/default.json
 // @resource       updaterWindowHtml ../../includes/Includes_Updater/resources/default.html
