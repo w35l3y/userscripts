@@ -7,7 +7,7 @@
 // @copyright      2013+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        4.0.3
+// @version        4.0.4
 // @language       en
 // @include        http://www.neopets.com/community/index.phtml
 // @grant          GM_addStyle
@@ -20,6 +20,8 @@
 // @connect        www.jellyneo.net
 // @connect        www.sunnyneo.com
 // @connect        github.com
+// @connect        raw.githubusercontent.com
+// @connect        translate.google.com.br
 // @resource       meta https://github.com/w35l3y/userscripts/raw/master/scripts/Neopets_Daily_Puzzle/28365.user.js
 // @resource       i18n ../../includes/Includes_I18n/resources/default.json
 // @resource       updaterWindowHtml ../../includes/Includes_Updater/resources/default.html
