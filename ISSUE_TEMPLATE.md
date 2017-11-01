@@ -1,15 +1,15 @@
-**Browser:** (NAME VERSION)<br />
-**Greasemonkey:** (VERSION)<br />
-**Script:** (NAME VERSION)<br />
-**Accessed url:** (URL THAT YOU WERE WHEN THE ERROR OCCURRED)<br />
-**Installation url:** (URL THAT YOU USED TO INSTALL THE SCRIPT) [ Only if the script doesn't work since installation ]<br />
-**Error Message:** (MESSAGE) [ Add filename and line number too. A printscreen is an option. Usually found in the Error Console : Ctrl+Shift+J ]<br />
-**Obs.:** (OTHERS OBSERVATIONS THAT YOU CONSIDER RELEVANT)<br />
-**Expected behavior:** (EXPECTED)<br />
-**Actual behavior:** (ACTUAL)<br />
+**Browser:** Firefox|Chrome X.Y.Z<br />
+**Plugin:** Greasemonkey|Tampermonkey X.Y.Z<br />
+**Script:** Script name X.Y.Z<br />
+**Accessed url:** Put here the URL that you were when the error occurred<br />
+**Installation url:** Put here the URL that you used to install the script (Optional, only if the script doesn't work since installation)<br />
+**Error Message:** Error that appeared on Error Console containing stacktrace, filename and line number (a printscreen of the Error Console also is welcome)<br />
+**Obs.:** Put here some other observations that you consider relevant (Optional)<br />
+**Expected behavior:** Fill here what you expected to happen<br />
+**Actual behavior:** Fill here what actually happened<br />
 **Steps to reproduce:**<br />
  1. -
  2. -
 
-**Example of code**: [Only if you know what it means]
+**Example of code**: (Optional, only if you know what it means)
 <pre>CODE HERE</pre>
