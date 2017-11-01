@@ -7,7 +7,7 @@
 // @copyright      2010+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        3.0.5
+// @version        3.0.6
 // @language       en
 // @include        http://www.neopets.com/games/crossword/*
 // @grant          GM_log
