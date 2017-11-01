@@ -101,7 +101,7 @@ if ("/games/crossword/crossword.phtml" == location.pathname) {
 					word.form.submit();
 				}, 4000 + Math.floor(3000 * Math.random()));
 			} else {
-				var answers = eval(GM_getValue("answers", "({})")),
+				var answers = JSON.parse(GM_getValue("answers", "{}")),
 				missing = [],
 				missing2 = [];
 				xpath("id('content')//td[2]//center/table/tbody/tr/td/a[contains(@onclick, 'set_clue')]").forEach(function (answer) {
@@ -186,7 +186,7 @@ if ("/games/crossword/crossword.phtml" == location.pathname) {
 										}
 									}
 									
-									GM_setValue("answers", uneval(answers));
+									GM_setValue("answers", JSON.stringify(answers));
 									
 									GM_setValue("status", 1);
 									
