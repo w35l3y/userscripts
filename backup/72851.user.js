@@ -145,21 +145,18 @@ else if (!/You need to be logged/.test(document.body.textContent))
 			p = false,
 			month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
-			for each ( var name in xpath(".//event/petName/text()", params.response.xml) )
-			{
+			xpath(".//event/petName/text()", params.response.xml).forEach(function (name) {
 				var n = name.textContent.toLowerCase();
-				if (!(n in pets))
-				{
+				if (!(n in pets)) {
 					pets[n] = [];
 					pet_list.push(n);
 					++pet_count;
 				}
 				var date = new Date(Date.parse(xpath("string(./ancestor::event[1]/date/text())", name).replace(/-/g, "/")))||new Date();
 				pets[n].unshift([("0"+date.getDate()).substr(-2), month[date.getMonth()], date.getFullYear(), "\t", xpath("string(./ancestor::event[1]/text/text())", name)].join(" "));
-			}
+			});
 			
-			if (pet_count && (p = (""+prompt("Which pet would you like to import now?\n\n[Available pets]\n\n" + pet_list.join("\n"))).toLowerCase()) in pets)
-			{
+			if (pet_count && (p = (""+prompt("Which pet would you like to import now?\n\n[Available pets]\n\n" + pet_list.join("\n"))).toLowerCase()) in pets) {
 				xpath(".//input[@name='petname']")[0].value = p;
 				xpath(".//textarea[@name='result']")[0].value = pets[p].join("\n");
 			}

@@ -140,7 +140,7 @@ Shop.check = function (obj) {
 				var total = 0,
 				np = xpath("string(id('npanchor')/text())", obj.xhr.response.xml).replace(/\D+/g, "");
 
-				for each (var item in obj.list) {
+				obj.list.forEach(function (item) {
 					if (!item.quantity) {
 						item.quantity = 1;
 					}
@@ -148,7 +148,7 @@ Shop.check = function (obj) {
 					if (obj.result[item.name].length) {
 						total += item.quantity * (obj.result[item.name][2].Price || obj.result[item.name][1].Price || obj.result[item.name][0].Price || 1000);
 					}
-				}
+				});
 				
 				console.log("total " + total);
 				console.log(obj);
@@ -162,7 +162,7 @@ Shop.check = function (obj) {
 				},
 				sdb = [{}, []];
 
-				for each (var item in obj.result) {
+				obj.result.forEach(function (item) {
 					if (item.length) {
 						items[item[0].Item] = {
 							id : item[0].Id,
@@ -173,7 +173,7 @@ Shop.check = function (obj) {
 							},
 						};
 					}
-				}
+				});
 				
 				for (var item in obj.list) {
 					var o = obj.list[item];
@@ -199,7 +199,7 @@ Shop.check = function (obj) {
 						onsuccess : function (params) {
 							window.setTimeout(Inventory.list, obj.wait(), {
 								onsuccess : function (params) {
-									for each (var item in params.list) {
+									params.list.forEach(function (item) {
 										if (item.Name in sdb[0]) {
 											for (var x in obj.list) {
 												if (obj.list[x].name == item.Name) {	
@@ -213,7 +213,7 @@ Shop.check = function (obj) {
 												}
 											}
 										}
-									}
+									});
 
 									window.setTimeout(function (obj) {
 										obj.indexes = [0, 0];
@@ -234,27 +234,22 @@ Shop.check = function (obj) {
 																	"link" : shop.Link,
 																	"onsuccess" : function recursive5 (params) {
 																		console.log("recursive5 " + obj.indexes[1]);
-																		var found = false;
-																		
 																		obj.xhr = params;
 
-																		if (obj.indexes[1] < obj.list[obj.indexes[0]].quantity) {
-																			for each (var item in params.list) {
-																				if (shop.Id == item.Id) {
-																					found = true;
-																					++obj.indexes[1];
 
-																					window.setTimeout(Shop.buy, obj.wait(), {
-																						"link" : item.Link,
-																						"onsuccess" : recursive5
-																					});
-																					
-																					break;
-																				}
+																		if (obj.indexes[1] >= obj.list[obj.indexes[0]].quantity || !params.list.some(function (item) {
+																			if (shop.Id == item.Id) {
+																				++obj.indexes[1];
+
+																				window.setTimeout(Shop.buy, obj.wait(), {
+																					"link" : item.Link,
+																					"onsuccess" : recursive5
+																				});
+																				
+																				return true;
 																			}
-																		}
-
-																		if (!found) {
+																			return false;
+																		})) {
 																			window.setTimeout(recursive4, obj.wait(), obj);
 																		}
 																	}

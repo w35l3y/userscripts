@@ -48,8 +48,7 @@ NeoBoard.convert = function(doc, type)
 		case "boardlist" :
 			output.message = xpath(".//td[@class='content']/strong[2]/following-sibling::text()[1]", doc)[0];
 
-			for each ( var topic in xpath(".//td[@class='content']/div[4]/table/tbody/tr[.//a/span]", doc) )
-			{
+			xpath(".//td[@class='content']/div[4]/table/tbody/tr[.//a/span]", doc).forEach(function (topic) {
 				var title = xpath("./td[1]/a[span]", topic)[0],
 				link = (xpath(".//a[contains(@href, 'next=')]", topic)[0] || title).getAttribute("href");
 
@@ -67,18 +66,17 @@ NeoBoard.convert = function(doc, type)
 					"Replies" : parseInt(xpath("string(./td[2]/text())", topic).replace(/[,.]+/g, ""), 10),
 					"LastPost" : xpath("string(./td[3]//span[1]/text())", topic)
 				});
-			}
+			});
 			break;
 		case "topic" :
 			output.message = xpath(".//td[@class='content' and not(b/a)]/strong/following-sibling::text()[1]", doc)[0];
 			
-			for each ( var message in xpath("id('boards_table')/tbody/tr[position() mod 3 = 0 and position() < last()]", doc) )
-			{
+			xpath("id('boards_table')/tbody/tr[position() mod 3 = 0 and position() < last()]", doc).forEach(function (message) {
 				output.list.push({
 					"Author" : "",
 					"Message" : ""
 				});
-			}
+			});
 		break;
 	}
 	output.error = (output.message?1:0);
@@ -133,19 +131,14 @@ if (/^#(?:alert|console)$/.test(location.hash))
 {
 	var output = [];
 
-	if (/^\/neoboards\/boardlist\.phtml$/.test(location.pathname))
-	{
-		for each (var topic in NeoBoard.convert(document, "boardlist").list)
-		{
+	if (/^\/neoboards\/boardlist\.phtml$/.test(location.pathname)) {
+		NeoBoard.convert(document, "boardlist").list.forEach(function (topic) {
 			output.push([topic.Link, topic.Title, topic.Author, topic.Replies, topic.LastPost].join("\n"));
-		}
-	}
-	else if (/^\/neoboards\/topic\.phtml/.test(location.pathname))
-	{
-		for each (var value in NeoBoard.convert(document, "topic"))
-		{
+		});
+	} else if (/^\/neoboards\/topic\.phtml/.test(location.pathname)) {
+		NeoBoard.convert(document, "topic").forEach(function (value) {
 			output.push(value);
-		}
+		});
 	}
 	
 	(location.hash == "#alert" ? alert : console && console.log || GM_log)(output.join("\n"));

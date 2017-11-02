@@ -53,7 +53,7 @@
 					};
 				}),
 				rgoals = xpath("./td[.//img[@width = 45]]/text()[position() = last()]", list[ai]);
-				for each (var rt in rteams) {
+				rteams.forEach(function (rt) {
 					if (!(rt.name in sum[day])) {
 						sum[day][rt.name] = [];
 						for (var bi = rgoals.length;bi--;) {
@@ -63,7 +63,7 @@
 							});
 						}
 					}
-				}
+				});
 				for (var bi in rgoals) {
 					if (/(\d+) - (\d+)/.test(rgoals[bi].textContent)) {
 						var g0 = parseInt(RegExp.$1, 10),

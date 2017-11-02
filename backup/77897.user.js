@@ -185,7 +185,7 @@ if (xpath("string(id('content')//td//a[contains(@href, 'boardlist') and contains
 			GM_setValue("users", JSON.stringify(users));
 		}
 		
-		for each (var user in xpath("id('boards_table')//td//td/a[contains(@href, 'userlookup')]")) {
+		xpath("id('boards_table')//td//td/a[contains(@href, 'userlookup')]").forEach(function (user) {
 			var login = /user=(\w+)/.test(user.href) && RegExp.$1,
 			p = xpath("./ancestor::tbody[1]", user)[0];
 
@@ -205,7 +205,7 @@ if (xpath("string(id('content')//td//a[contains(@href, 'boardlist') and contains
 					wait[login] = [p];
 				}
 			}
-		}
+		});
 
 		(function recursive(yr, list) {
 			var users = JSON.parse(GM_getValue("users", "{}"));
@@ -221,9 +221,9 @@ if (xpath("string(id('content')//td//a[contains(@href, 'boardlist') and contains
 				var l = list.shift();
 
 				if (l in wait && users[l].cups[yr].team) {
-					for each (var row in wait[l]) {
+					wait[l].forEach(function (row) {
 						ac(row, l, yr, false, 0);
-					}
+					});
 				}
 
 				recursive(yr, list);
@@ -286,9 +286,9 @@ if (xpath("string(id('content')//td//a[contains(@href, 'boardlist') and contains
 							GM_setValue("users", JSON.stringify(users));
 
 							if (l in wait) {
-								for each (var row in wait[l]) {
+								wait[l].forEach(function (row) {
 									ac(row, l, yr, false, 0);
-								}
+								});
 							}
 						} else {
 							users[l].cups[yr] = {};
@@ -323,7 +323,7 @@ if (xpath("string(id('content')//td//a[contains(@href, 'boardlist') and contains
 					iteams[teams[ai]] = ai;
 				}
 
-				for each (var result in xpath(".//ol[not(li[contains(text(), '(')])]/li", xhr.response.xml)) {
+				xpath(".//ol[not(li[contains(text(), '(')])]/li", xhr.response.xml).forEach(function (result) {
 					if (parent != result.parentNode) {
 						parent = result.parentNode;
 						index = -1;
@@ -335,7 +335,7 @@ if (xpath("string(id('content')//td//a[contains(@href, 'boardlist') and contains
 					}
 
 					positions[yr][++index] = iteams[result.textContent];
-				}
+				});
 
 				// removes positions older than `1 + history_cups` years ago
 				for (var ai = yr - (1 + history_cups); ai >= 2006; --ai) {

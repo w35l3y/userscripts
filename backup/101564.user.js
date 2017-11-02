@@ -63,23 +63,19 @@ TradingPost.convert = function(xml, type)
 					"items" : []
 				});
 				
-				for each (var node in xpath(".//td[@class='content']/table//table//tr[2]/td/img/@src|.//td[@class='content']/table//table//tr[2]/td/text()", xml))
-				if (/^http/.test(node.textContent))
-				{
-					output[count].items[++item] = {"image" : node.textContent};
-					next = false;
-				}
-				else if (next)
-				{
-					++count;
-					item = -1;
-					next = false;
-				}
-				else
-				{
-					output[count].items[item].name = node.textContent.replace(/^\s+|\s+$/g, "");
-					next = true;
-				}
+				xpath(".//td[@class='content']/table//table//tr[2]/td/img/@src|.//td[@class='content']/table//table//tr[2]/td/text()", xml).forEach(function (node) {
+					if (/^http/.test(node.textContent)) {
+						output[count].items[++item] = {"image" : node.textContent};
+						next = false;
+					} else if (next) {
+						++count;
+						item = -1;
+						next = false;
+					} else {
+						output[count].items[item].name = node.textContent.replace(/^\s+|\s+$/g, "");
+						next = true;
+					}
+				});
 
 				return output;
 			}

@@ -33,9 +33,8 @@
 
 **************************************************************************/
 
-for each ( var code in xpath(".//code[not(ancestor::pre or ancestor::code) and (descendant::br or contains(descendant::text(), '\n'))]") )
-{
+xpath(".//code[not(ancestor::pre or ancestor::code) and (descendant::br or contains(descendant::text(), '\n'))]").forEach(function (code) {
 	var pre = document.createElement("pre");
 	pre.innerHTML = code.innerHTML.replace(/(?:\r?\n(?=<br(?: ?\/)?>)|^\s+|\s+$)/gi, "");
 	code.parentNode.replaceChild(pre, code);
-}
+});

@@ -100,23 +100,24 @@ process = function (jobName, loc, doc, info) {
 				block	: JSON.parse(JSON.stringify(block)),	// creates a clone
 			};
 
-			for each (var f in context.block.files) {
+			context.block.files.forEach(function (f) {
 				f.categoryString = (~f.category?jobInfo.categories[1][f.category][1]:jobInfo.categories[0]);
 				f.typeString = jobInfo.types[f.type + 1];
 
 				if (-1 == f.category) {
 					f.hasTest = "-";
 
-					for each (var ff in context.block.files) {
+					context.block.files.some(function (ff) {
 						if (ff.name != f.name && ff.name.replace("src/test/java", "src/main/java").replace(/Test\.java$/, ".java") == f.name) {
 							f.hasTest = "+";
 							ff.hasPair = true;
 
-							break;
+							return true;
 						}
-					}
+						return false;
+					});
 				}
-			}
+			});
 
 			for (var f in context.block.files) {
 				if (context.block.files[f].hasPair) {
@@ -128,11 +129,11 @@ process = function (jobName, loc, doc, info) {
 		},
 		jobInfo = jobsInfo["_"],
 		urlMantis = {};
-		for each (var url in info.mantis.urls.split(/[\r\n]+/).filter(function (a) {
+		info.mantis.urls.split(/[\r\n]+/).filter(function (a) {
 			return a.length > 0;
-		}).map(processaUrl)) {
+		}).map(processaUrl).forEach(function (url) {
 			urlMantis[url.path] = url;
-		}
+		});
 		if (jobName in jobsInfo) {
 			for (var i in jobsInfo[jobName]) {
 				jobInfo[i] = jobsInfo[jobName][i];
@@ -162,18 +163,18 @@ process = function (jobName, loc, doc, info) {
 						ibloco = -1;
 						job.status = details[index].status = xpath("string(id('main-panel')/h1/img/@alt)", xhr.response.xml);
 
-						for each (var row in xpath("id('main-panel')/table/tbody/tr", xhr.response.xml)) {
+						xpath("id('main-panel')/table/tbody/tr", xhr.response.xml).forEach(function (row) {
 							if ("pane" == row.getAttribute("class")) {
 								ibloco = -1;
 								var text = row.textContent.replace(/��/g, "?").trim();
 
-								for each (var a in blocos) {
-
+								blocos.some(function (a) {
 									if (a.text == text) {
 										ibloco = a.index;
-										break;
+										return true;
 									}
-								}
+									return false;
+								});
 
 								if (!~ibloco) {
 									var b = {
@@ -273,7 +274,7 @@ process = function (jobName, loc, doc, info) {
 
 								blocos[ibloco].files.push(f);
 							}
-						}
+						});
 
 						job.last = details[index].index;
 						WinConfig.init({
@@ -329,14 +330,12 @@ process = function (jobName, loc, doc, info) {
 													if (bloco.mantis.length && !~(info.hudson.citation || "").split(/\s*,\s*/).indexOf(bloco.owner)) {
 														if (loc.username == bloco.owner || ~(info.hudson.others || "").split(/\s*,\s*/).indexOf(bloco.owner)) {
 															return 1;
-														} else { // if (~bloco.users.indexOf(info.mantis.username))
-															for each (var u in bloco.users) {
-																for each (var uu in urlMantis) {
-																	if (u.username == uu.username) {
-																		return -1;
-																	}
-																}
-															}
+														} else if (bloco.users.some(function (u) {
+															return urlMantis.some(function (uu) {
+																return u.username == uu.username;
+															});
+														})) { // if (~bloco.users.indexOf(info.mantis.username))
+															return -1;
 														}
 													}
 													return 0;
@@ -547,9 +546,9 @@ process = function (jobName, loc, doc, info) {
 			history.push(obj.index);
 
 			if (obj.index in job.builds) {
-				for each (var x in job.builds[obj.index]) {
+				job.builds[obj.index].forEach(function (x) {
 					createInfo(obj, x);
-				}
+				});
 			}
 
 			return obj;
@@ -591,12 +590,12 @@ process = function (jobName, loc, doc, info) {
 },
 next = function (cfg, cb) {
 	if (cfg && cfg.hudson && cfg.hudson.urls && jj) {
-		for each (var i in infos) {
+		infos.forEach(function (i) {
 			i.parentNode.removeChild(i);
-		}
+		});
 		infos = [];
 
-		for each (var url in cfg.hudson.urls.split(/[\r\n]+/).map(processaUrl)) {
+		cfg.hudson.urls.split(/[\r\n]+/).map(processaUrl).forEach(function (url) {
 			if (jj[0] == url.host) {
 				var jL = url.path.split(/\s*\|\s*/),
 				ijl = jL.indexOf(jj[1]);
@@ -620,7 +619,7 @@ next = function (cfg, cb) {
 				}
 				//break;
 			}
-		}
+		});
 	} else if (cb) {
 		return cb();
 	}

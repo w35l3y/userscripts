@@ -82,11 +82,11 @@ if (/^\/(\w+)\/(\w+)\/tree\/(\w+)\/(.+)/.test(location.pathname) && confirm("Upd
 			}
 		}
 
-		for each (var key in list.slice(0, 4)) {
+		list.slice(0, 4).forEach(function (key) {
 			if (key in obj) {
 				obj[key].sort(orderByAsc);
 			}
-		}
+		});
 
 		return obj;
 	}
@@ -103,12 +103,12 @@ if (/^\/(\w+)\/(\w+)\/tree\/(\w+)\/(.+)/.test(location.pathname) && confirm("Upd
 			blobs = tree.filter(function (a) {
 				return ("blob" == a.type);
 			});
-			for each (var dir in tree.filter(function (a) {
+			tree.filter(function (a) {
 				return ("tree" == a.type);
-			})) {
+			}).forEach(function (dir) {
 				trees[dir.path] = dir;
-			}
-			for each (var file in blobs) {
+			});
+			blobs.forEach(function (file) {
 				if (!file.path.indexOf(info.Path)) {
 					if (/^(\w+\/([^\/]+))\/((\w+)\.user\.js)$/.test(file.path)) {
 						var root = RegExp.$1;
@@ -148,7 +148,7 @@ if (/^\/(\w+)\/(\w+)\/tree\/(\w+)\/(.+)/.test(location.pathname) && confirm("Upd
 						path.template = file;
 					}
 				}
-			}
+			});
 
 			scripts.sort(function (a, b) {
 				if (a.group == b.group) {
@@ -172,8 +172,8 @@ if (/^\/(\w+)\/(\w+)\/tree\/(\w+)\/(.+)/.test(location.pathname) && confirm("Upd
 				} else {
 					issu.list({state:"all"}, function (err, issues) {
 						var labels = {};
-						for each (var issue in issues) {
-							for each (var label in issue.labels) {
+						issues.forEach(function (issue) {
+							issue.labels.forEach(function (label, i, arr) {
 								if (!(label.name in labels)) {
 									labels[label.name] = {
 										meta : {
@@ -188,23 +188,20 @@ if (/^\/(\w+)\/(\w+)\/tree\/(\w+)\/(.+)/.test(location.pathname) && confirm("Upd
 								}
 								++labels[label.name].meta[issue.state];
 								++labels[label.name].meta.all;
-							}
-							if (label) {
-								labels[label.name].list.push(issue);
-							}
-						}
-						for each (var s in scripts) {
+								if (arr.length - 1 == i) {
+									labels[label.name].list.push(issue);
+								}
+							});
+						});
+						scripts.forEach(function (s) {
 							s.issues.meta.label = s.meta.name;
 							s.issues.meta.flabel = encodeURIComponent(s.issues.label);
 							s.issues.list = issues.filter(function (a) {
 								var output = (-1 < a.body.indexOf(s.meta.name));
-								if (!output && a.labels.length) {
-									for each (var label in a.labels) {
-										if (s.meta.name == label.name) {
-											output = true;
-											break;
-										}
-									}
+								if (!output && a.labels.length && a.labels.some(function (label) {
+									return s.meta.name == label.name;
+								})) {
+									output = true;
 								}
 								if (output) {
 									++s.issues.meta[a.state];
@@ -213,7 +210,7 @@ if (/^\/(\w+)\/(\w+)\/tree\/(\w+)\/(.+)/.test(location.pathname) && confirm("Upd
 
 								return output;
 							});
-						}
+						});
 
 						path.files = scripts;
 						
@@ -235,14 +232,14 @@ if (/^\/(\w+)\/(\w+)\/tree\/(\w+)\/(.+)/.test(location.pathname) && confirm("Upd
 							
 							if (path.files.length) {
 								getTemplate("template", function (err, data) {
-									for each (var script in path.files) {
+									path.files.forEach(function (script) {
 										trees.push({
 											path	: decodeURIComponent(script.tree.path) + "/README.md",
 											mode	: "100644",
 											type	: "blob",
 											content	: Template.get(data, script),
 										});
-									}
+									});
 
 									writeContent(trees, "Updated all README.md recursively.");
 								});
@@ -256,7 +253,7 @@ if (/^\/(\w+)\/(\w+)\/tree\/(\w+)\/(.+)/.test(location.pathname) && confirm("Upd
 		});
 	} else {
 		var files = Array.prototype.slice.apply(document.querySelectorAll("td.content a"));
-		for each (var file in files) {
+		files.some(function (file) {
 			if (/\.user\.js$/.test(file.textContent)) {
 				var id = file.id.split("-");
 				info.Sha = id[1];
@@ -280,16 +277,9 @@ if (/^\/(\w+)\/(\w+)\/tree\/(\w+)\/(.+)/.test(location.pathname) && confirm("Upd
 								},
 								issues	: {
 									list : issues.filter(function (a) {
-										var output = (-1 < a.body.indexOf(meta.name));
-										if (!output) {
-											for each (var label in a.labels) {
-												if (meta.name == label.name) {
-													output = true;
-													break;
-												}
-											}
-										}
-										return output;
+										return (-1 < a.body.indexOf(meta.name)) || a.labels.some(function (label) {
+											return meta.name == label.name;
+										});
 									}),
 								},
 								updated_at	: new Date().toISOString(),
@@ -307,8 +297,9 @@ if (/^\/(\w+)\/(\w+)\/tree\/(\w+)\/(.+)/.test(location.pathname) && confirm("Upd
 					});
 				});
 
-				break;
+				return true;
 			}
-		}
+			return false;
+		});
 	}
 }

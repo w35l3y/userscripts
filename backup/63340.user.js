@@ -59,8 +59,7 @@ Kadoatery.convert = function(doc, type)
 		default:
 			output = {"list":[]};
 
-			for each ( var kad in xpath(".//td[@class='content']/div[1]/table/tbody/tr/td/a[img]", doc) )
-			{
+			xpath(".//td[@class='content']/div[1]/table/tbody/tr/td/a[img]", doc).forEach(function (kad) {
 				var b = xpath(".//strong", kad.parentNode),
 				not_fed = b[1].parentNode.tagName.toUpperCase() == "TD";
 
@@ -70,7 +69,7 @@ Kadoatery.convert = function(doc, type)
 					"Feeder" : ( not_fed ? "" : b[1].textContent ),
 					"Item" : ( not_fed ? b[1].textContent : "" )
 				});
-			}
+			});
 		break;
 	}
 
@@ -105,19 +104,14 @@ if (/^#(?:alert|console)$/.test(location.hash))
 {
 	var output = [];
 
-	if (/^\/games\/kadoatery(\/|\/index\.phtml)?$/.test(location.pathname))
-	{
-		for each (var kad in Kadoatery.convert(document).list)
-		{
+	if (/^\/games\/kadoatery(\/|\/index\.phtml)?$/.test(location.pathname)) {
+		Kadoatery.convert(document).list.forEach(function (kad) {
 			output.push([kad.Link.match(/\d+$/), kad.Name, kad.Feeder, kad.Item]);
-		}
-	}
-	else if (/^\/games\/kadoatery\/feed_kadoatie\.phtml/.test(location.pathname))
-	{
-		for each (var kad in Kadoatery.convert(document, "feed_kadoatie"))
-		{
+		});
+	} else if (/^\/games\/kadoatery\/feed_kadoatie\.phtml/.test(location.pathname)) {
+		Kadoatery.convert(document, "feed_kadoatie").forEach(function (kad) {
 			output.push(kad);
-		}
+		});
 	}
 	
 	(location.hash == "#alert" ? alert : console && console.log || GM_log)(output.join("\n"));

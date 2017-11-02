@@ -83,8 +83,9 @@ Inventory.list = function (params) {
 
 if (location.pathname == "/objects.phtml" && /\btype=inventory\b/.test(location.search) && /^#(?:alert|console)$/.test(location.hash)) {
 	var output = [];
-	for each ( var item in Inventory.convert(document).list )
-	output.push([item.Id, item.Name, item.Image, item.Description].join("\n"));
+	Inventory.convert(document).list.forEach(function (item) {
+		output.push([item.Id, item.Name, item.Image, item.Description].join("\n"));
+	});
 	
 	( location.hash == "#alert" ? alert : console && console.log || GM_log )(output.join("\n\n"));
 }

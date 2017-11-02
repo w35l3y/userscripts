@@ -227,7 +227,7 @@
 	page = page[location.pathname];
 
 	if (page.id & opt.shop) {
-		for each (var node in xpath(page.item)) {
+		xpath(page.item).forEach(function (node) {
 			var pe = "on" + page.event,
 			cb = node[pe];
 			node.removeAttribute(pe);
@@ -237,6 +237,6 @@
 					withdrawAndBuy.apply(node, [e, cb]);
 				}, true);
 			}(cb, node));
-		}
+		});
 	}
 }());

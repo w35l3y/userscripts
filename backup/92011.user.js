@@ -42,14 +42,16 @@ var link = GM_getValue("topic", "http://www.neopets.com/neoboards/boardlist.phtm
 
 function proceed_success(params) {
 	var replies = [-1, ""];
-	for each ( var topic in params.list )
-	if (/^\*kadoat(?:ie|ery)\*KadoateryFeedingTimes&Lists(?:\*kadoat(?:ie|ery)\*)?(?:Please)?Readfirs?tposts?(?:please)?!(?:\*kadoat(?:ie|ery)\*)?$/i.test(topic.Title.replace(/\s+/g, "")) && (!~replies[0] || topic.Replies < replies[0])) {
-		replies = [topic.Replies, topic.Link];
-		GM_setValue("topic", topic.Link);
-	}
+	params.list.forEach(function (topic) {
+		if (/^\*kadoat(?:ie|ery)\*KadoateryFeedingTimes&Lists(?:\*kadoat(?:ie|ery)\*)?(?:Please)?Readfirs?tposts?(?:please)?!(?:\*kadoat(?:ie|ery)\*)?$/i.test(topic.Title.replace(/\s+/g, "")) && (!~replies[0] || topic.Replies < replies[0])) {
+			replies = [topic.Replies, topic.Link];
+			GM_setValue("topic", topic.Link);
+		}
+	});
 
-	if (replies[1])
-	params.proceed(replies[1]);
+	if (replies[1]) {
+		params.proceed(replies[1]);
+	}
 }
 
 if (/^\/neoboards\/topic\.phtml/.test(location.pathname)) {

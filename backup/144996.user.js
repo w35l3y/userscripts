@@ -116,8 +116,8 @@ c = function (b) {
 	return b;
 }, b;
 
-for each (var y in ["1", "2", "3", "4", "5"].sort(function () {return Math.floor(3 * Math.random()) - 1})) {
+["1", "2", "3", "4", "5"].sort(function () {return Math.floor(3 * Math.random()) - 1}).forEach(function (y) {
 	x.add([c, [y]]);
-}
+});
 
 x.run();*/

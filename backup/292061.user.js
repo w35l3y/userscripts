@@ -84,9 +84,9 @@ function SamsungTV (endpoint) {
 			if (!xml.firstChild || 3 == xml.firstChild.nodeType) {
 				output = xml.textContent;
 			} else {
-				for each (var n in Array.prototype.slice.apply(xml.childNodes)) {
+				Array.prototype.slice.apply(xml.childNodes).forEach(function (n) {
 					output[n.nodeName] = r(n);
-				}
+				});
 			}
 			
 			return output;

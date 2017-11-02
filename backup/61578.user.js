@@ -66,10 +66,9 @@ if (/^\/stamps\.phtml/.test(location.pathname) && /\btype=progress\b/.test(locat
 	if (location.hash == "#compare" && /[&?]page_id=(\d+)/.test(location.search) && parseInt(RegExp.$1, 10) > 0) {
 		function compare (stamps) {
 			var ai = 0;
-			for each ( var stamp in Stamp.convert(document, false, true).Stamps) {
+			Stamp.convert(document, false, true).Stamps.forEach(function (stamp) {
 				var img = stamp.Reference;
-				if (stamps[ai].Image == stamp.Image)	// both have / both don't have
-				{
+				if (stamps[ai].Image == stamp.Image) {	// both have / both don't have
 					img.style.opacity = "0.35";
 				} else {
 					var status = document.createElement("img");
@@ -90,13 +89,14 @@ if (/^\/stamps\.phtml/.test(location.pathname) && /\btype=progress\b/.test(locat
 				}
 				
 				++ai;
-			}
+			});
 		}
 
 		function update (p, t) {
-			for each (var a in p.progress)
-				if (a.Id == p.id)
-					break;
+			// I don't remember what the following statement does.
+			p.progress.some(function (a) {
+				return a.Id == p.id;
+			});
 
 			if (a.Total == p.cache.Total)	// cache is updated
 				compare(p.cache.Stamps);
@@ -118,7 +118,11 @@ if (/^\/stamps\.phtml/.test(location.pathname) && /\btype=progress\b/.test(locat
 		var overview = eval(GM_getValue("overview", "({LastAccess:0})"));
 		var cache = eval(GM_getValue("page" + pg, "({})"));
 		cache.Total = 0;
-		for each (var s in cache.Stamps) !/\/no_stamp/i.test(s.Image) && ++cache.Total;
+		cache.Stamps.forEach(function (s) {
+			if(!/\/no_stamp/i.test(s.Image)) {
+				++cache.Total;
+			}
+		});
 
 		if (parseInt(overview.LastAccess, 10) >= new Date().valueOf() - GM_getValue("cache", 21600000))	// progress is cached
 			update({

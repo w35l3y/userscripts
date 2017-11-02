@@ -57,51 +57,42 @@ http://images.neopets.com/pirates/disappearance/balance/9vp032.png
 */
 
 if (!xpath("id('popup-ship-message')")[0]) {
+	function occupiedSeat (c) {
+		return function (seat) {
+			return seat.occupied == c;
+		};
+	}
+
+	function deleteCanditate (c) {
+		return function (seat) {
+			delete seat.candidate[c];
+		};
+	}
+
 	function init(input) {
 		unsafeWindow.dojo.addOnLoad(function() {
 			var puzzle = {
 				chars : unsafeWindow.neopets.krawk.puzzle.Ship._pieces.length - 1,
 				ship : false,
 				inRow : function (n, c) {	// n=0-8 ; c=1-9
-					for each (var seat in this.getShipRow(n)) {
-						if (seat.occupied == c) {
-							return true;
-						}
-					}
-					return false;
+					return this.getShipRow(n).some(occupiedSeat(c));
 				},
 				inColumn : function (n, c) {	// n=0-8 ; c=1-9
-					for each (var seat in this.getShipColumn(n)) {
-						if (seat.occupied == c) {
-							return true;
-						}
-					}
-					return false;
+					return this.getShipColumn(n).some(occupiedSeat(c));
 				},
 				inArea : function (n, c) { // n=0-8 ; c=1-9
-					for each (var seat in this.getShipArea(n)) {
-						if (seat.occupied == c) {
-							return true;
-						}
-					}
-					return false;
+					return this.getShipArea(n).some(occupiedSeat(c));
 				},
 				isCandidate: function (n, c) {	// n=0-80 ; c=1-9
 					var coords = this.getCoordinates(n);
 					return !this.inRow(coords.r, c) && !this.inColumn(coords.c, c) && !this.inArea(coords.a, c);
 				},
 				clearCandidates: function (n, c) {	// n=0-80 ; c=1-9
-					var coords = this.getCoordinates(n), seat;
+					var coords = this.getCoordinates(n);
 					
-					for each (seat in this.getShipRow(coords.r)) {
-						delete seat.candidate[c];
-					}
-					for each (seat in this.getShipColumn(coords.c)) {
-						delete seat.candidate[c];
-					}
-					for each (seat in this.getShipArea(coords.a)) {
-						delete seat.candidate[c];
-					}
+					this.getShipRow(coords.r).forEach(deleteCanditate(c));
+					this.getShipColumn(coords.c).forEach(deleteCanditate(c));
+					this.getShipArea(coords.a).forEach(deleteCanditate(c));
 				},
 				getShipRow : function (n) {	// n=0-8
 					var output = [];
@@ -149,9 +140,9 @@ if (!xpath("id('popup-ship-message')")[0]) {
 					var isEqual = [1, {}];
 					isEqual[1][seat.index] = seat;
 					for (var ai = candidates.length - 1;~ai;--ai) {
-						for each (seat_r in list) {
+						list.forEach(function (seat_r) {
 							if (seat_r.index in isEqual[1]) {
-								continue;
+								return false;
 							}
 							var candidates_r = [];
 							for (c in seat_r.candidate) {
@@ -171,20 +162,20 @@ if (!xpath("id('popup-ship-message')")[0]) {
 									++isEqual[0];
 								}
 							}
-						}
+						});
 					}
 					found = false;
 					if (isEqual[0] == candidates.length) {
-						for each (seat_r in list) {
+						list.forEach(function (seat_r) {
 							if (!(seat_r.index in isEqual[1])) {
-								for each (c in candidates) {
+								candidates.forEach(function (c) {
 									if (c in seat_r.candidate) {
 										found = true;
 										delete seat_r.candidate[c];
 									}
-								}
+								});
 							}
-						}
+						});
 					}
 					return found;
 				},
@@ -229,7 +220,7 @@ if (!xpath("id('popup-ship-message')")[0]) {
 			if (puzzle.ship) {
 				var seat;
 				// Fill candidates
-				for each (seat in puzzle.ship) {
+				puzzle.ship.forEach(function (seat) {
 					var key;
 					if (!seat.occupied) {
 						for (key in unsafeWindow.neopets.krawk.puzzle.Ship._pieces) {
@@ -238,12 +229,12 @@ if (!xpath("id('popup-ship-message')")[0]) {
 							}
 						}
 					}
-				}
+				});
 				
 				while (true) {
 					var modified = false;
 
-					for each (seat in puzzle.ship) {
+					puzzle.ship.forEach(function (seat) {
 						if (!seat.occupied) {
 							var candidates = [], c,
 							coords = puzzle.getCoordinates(seat.index - 1);
@@ -265,7 +256,7 @@ if (!xpath("id('popup-ship-message')")[0]) {
 								if (puzzle.smartCandidateRemoval(seat, puzzle.getShipArea(coords.a)))modified = true;
 							}
 						}
-					}
+					});
 
 					if (!modified) {
 						break;

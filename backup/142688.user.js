@@ -70,13 +70,13 @@ Neggbreaker.solver = function (params) {
 			l = [a, b];
 
 			for (var nx in l) {
-				for each (var xx in l[nx].nodes) {
+				l[nx].nodes.forEach(function (xx) {
 					if (~xx.symbol && ~xx.color) {
 						++x[nx][0];
 					} else if (~xx.symbol || ~xx.color) {
 						++x[nx][1];
 					}
-				}
+				});
 			}
 
 			if (x[0][0] == x[1][0]) {
@@ -111,9 +111,7 @@ Neggbreaker.solver = function (params) {
 					break;
 				} else {
 					var copy = JSON.parse(JSON.stringify(obj.table)),
-					cabe = true;
-
-					a:for each (var n in peace.nodes) {
+					cabe = !peace.nodes.some(function (n) {
 						var i = 3 * (n.row + r) + n.column + c;
 						if ((~n.symbol && (!~copy[i][0] || copy[i][0] == n.symbol) && (!~copy[i][1] || !~n.color || copy[i][1] == n.color)) ||
 						(~n.color && (!~copy[i][1] || copy[i][1] == n.color) && (!~copy[i][0] || !~n.symbol || copy[i][0] == n.symbol))) {
@@ -123,22 +121,21 @@ Neggbreaker.solver = function (params) {
 							copy[i][1] = n.color;
 							
 							var f = {};
-							for each (var x in copy) {
+
+							return copy.some(function (x) {
 								if (~x[0] && ~x[1]) {
 									var pp = 3 * x[0] + x[1];
 									if (pp in f && f[pp] != i) {
-										cabe = false;
-										break a;
+										return true;
 									} else {
 										f[pp] = i;
+										return false;
 									}
 								}
-							}
-						} else if (~n.symbol || ~n.color) {
-							cabe = false;
-							break;
+							});
 						}
-					}
+						return (~n.symbol || ~n.color);
+					});
 
 					var w = [[],[],[]];
 					for (var wn in copy) {
@@ -261,7 +258,7 @@ Neggbreaker.solver = function (params) {
 				}
 			};
 			ql.add([params.negg.clickClear, [], [423, 319]]);
-			for each (var p in table.sort(pieces)) {
+			table.sort(pieces).forEach(function (p) {
 				if (l[0] !== p.symbol) {
 					l[0] = p.symbol;
 					ql.add([params.negg.clickSymbol, [p.symbol], [352, 197]]);
@@ -271,7 +268,7 @@ Neggbreaker.solver = function (params) {
 					ql.add([params.negg.clickColor, [p.color], [391, 163]]);
 				}
 				ql.add([params.negg.colorCell, [Math.floor(p.index / 3), p.index % 3], [481, 283]]);
-			}
+			});
 			ql.run();
 		}
 	}({

@@ -92,11 +92,11 @@
 	}
 
 	function recursive (doc) {
-		for each (var nav in xpath(".//table/tbody/tr/td[2]/nobr//a[not(contains(@href, 'archive'))]", doc)) {
+		xpath(".//table/tbody/tr/td[2]/nobr//a[not(contains(@href, 'archive'))]", doc).forEach(function (nav) {
 			nav.setAttribute("id", "nav_" + nav.textContent.replace(/\W+/g, "").toLowerCase());
 
 			nav.addEventListener("click", click, false);
-		}
+		});
 	};
 
 	recursive(document);

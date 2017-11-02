@@ -48,9 +48,9 @@ Pin.convert = function (doc) {
 		"list" : {}
 	};
 	
-	for each (var area in xpath(".//td[@class='content']//form[2]//tbody/tr/td/div/input[@type = 'checkbox']", doc)) {
+	xpath(".//td[@class='content']//form[2]//tbody/tr/td/div/input[@type = 'checkbox']", doc).forEach(function (area) {
 		obj.list[area.name] = area.checked;
-	}
+	});
 
 	return obj;
 };
@@ -142,9 +142,9 @@ Pin.areas = function (params) {
 			params.data = {};
 		}
 
-		for each (var area in params.list) {
+		params.list.forEach(function (area) {
 			params.data[area] = "1";
-		}
+		});
 
 		Pin.process(params);
 	}

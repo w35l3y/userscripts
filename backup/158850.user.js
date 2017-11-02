@@ -159,11 +159,11 @@
 				}
 			}
 
-			for each (var img in xpath(".//img", board)) {
+			xpath(".//img", board).forEach(function (img) {
 				img.parentNode.replaceChild(old_board.shift(), img);
-			}
+			});
 		} else {
-			for each (var img in xpath(".//img", board)) {
+			xpath(".//img", board).forEach(function (img) {
 				if (/_1\./.test(img.src)) {
 					img.src = img.src.replace("_1.", "_0.");
 				}
@@ -233,7 +233,7 @@
 						}
 					}
 				}, false);
-			}
+			});
 
 			for (var ai = 0, at = shapes.length;ai < at;++ai) {
 				if (shapes_status[ai].active) {
@@ -265,11 +265,11 @@
 	function check_active() {
 		var coords = [];
 
-		for each (var shape in shapes_status) {
+		shapes_status.forEach(function (shape) {
 			if (shape.active) {
 				coords.push(shape.position);
 			}
-		}
+		});
 
 		if (coords.length == shapes.length) {
 			alert(coords.join(" "));

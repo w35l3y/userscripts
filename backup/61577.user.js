@@ -137,16 +137,15 @@ if (location.hash == "#debug" && location.pathname == "/stamps.phtml") {
 	var output = [];
 
 	if (/^\?type=progress/.test(location.search)) {
-		for each ( var album in Stamp.convert(document, true)) {
+		Stamp.convert(document, true).forEach(function (album) {
 			output.push([album.Id, album.Title, album.Total]);
-		}
+		});
 	} else if (/^\?type=album&page_id=/.test(location.search)) {
 		var album = Stamp.convert(document, false);
 		output.push(album.Title);
-		for each ( var stamp in album.Stamps)
-		{
+		album.Stamps.forEach(function (stamp) {
 			output.push([stamp.Name, stamp.Image]);
-		}
+		});
 	}
 
 	alert(output.join("\n"));

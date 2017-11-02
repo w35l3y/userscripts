@@ -105,12 +105,12 @@ FlashGame.convert = function (doc, type) {
 				"highscores" : []
 			};
 
-			for each (var h in xpath("id('game-info')//td[1]//tr[2]//strong/div", doc)) {
+			xpath("id('game-info')//td[1]//tr[2]//strong/div", doc).forEach(function (h) {
 				obj.highscores.push({
 					"username" : xpath("string(.//a[1])", h),
 					"score" : parseInt(("" + h.textContent.match(/\d+(?:[,.]\d+)+/)).replace(/[,.]/g, ""), 10)||0
 				});
-			}
+			});
 
 			var flashvars = xpath("string(id('gameWrapper')//param[@name='flashvars']/@value|id('gameWrapper')//script[contains(., 'gamePreloader')]/text())", doc), p;
 
@@ -157,13 +157,13 @@ FlashGame.convert = function (doc, type) {
 			break;
 		case "process_flash_score":
 			var obj = {"list" : {}};
-			for each (var p in String(typeof(doc) == "string" ? doc : doc.textContent).split("&").map(function(a) {
+			String(typeof(doc) == "string" ? doc : doc.textContent).split("&").map(function(a) {
 				var o = a.split("=", 2);
 				o[1] = decodeURIComponent(o[1]);
 				return o;
-			})) {
+			}).forEach(function (p) {
 				obj.list[p[0]] = p[1];
-			}
+			});
 
 			obj.error = (p.length ? 0 : 1);
 			obj.message = obj.list.call_url;
@@ -344,11 +344,11 @@ FlashGame.url = function (params) {
 	var nan = (function(o, c) {
 		var ps = [];
 
-		for each (var p in c) {
+		c.forEach(function (p) {
 			if (p in o && isNaN(o[p])) {
 				ps.push(p);
 			}
-		}
+		});
 
 		return ps;
 	})(params.opts, ["id", "f", "dc", "ddNcChallenge", "multiple", "forceScore", "n"]);
@@ -507,7 +507,7 @@ FlashGame.send = function (params) {
 			try {
 				var data = JSON.parse(decodeURIComponent(obj.list.call_external_params).substr(5)) || [];
 
-				for each (var d in data) {
+				data.forEach(function (d) {
 					switch (d.fn) {
 						case "setnp":
 							document.getElementById("npanchor").innerHTML = d.args;
@@ -518,7 +518,7 @@ FlashGame.send = function (params) {
 							}
 						break;
 					}
-				}
+				});
 			} catch (e) {
 			}
 
@@ -660,10 +660,10 @@ FlashGame.test = function(querystring, crypt) {
 		}
 	}
 
-	for each (var value in querystring.split("&")) {
+	querystring.split("&").forEach(function (value) {
 		var x = value.split("=", 2);
 		qs[x[0]] = x[1];
-	}
+	});
 
 	for (var ai = 0, at = qs.gmdt_g.length;ai < at;ai += 3) {
 		str += String.fromCharCode(qs.gmdt_g.substr(ai, 3));

@@ -116,11 +116,11 @@
 		cachedNits = JSON.parse(GM_getValue("registros", '["2013-10-23T14:12:55.770Z", []]'));
 
 		function processaListaNits(lista) {
-			for each (var row in xpath(".//tr/td[" + (1 + h.cellIndex) + "]/text()", h.parentNode.parentNode.parentNode)) {
+			xpath(".//tr/td[" + (1 + h.cellIndex) + "]/text()", h.parentNode.parentNode.parentNode).forEach(function (row) {
 				if (~lista.indexOf(parseInt(row.textContent.replace(/\D/g, ""), 10))) {
 					row.parentNode.parentNode.style.backgroundColor = "#FFCCCC";
 				}
-			}
+			});
 		}
 
 		function forceReset (opts, cb) {
@@ -131,9 +131,9 @@
 					var myHandlerFunction = function (data) {
 						if ("ok" == data.status) {
 							var nits = [];
-							for each (var row in data.table.rows) {
+							data.table.rows.forEach(function (row) {
 								nits.push(row.c[0].v);
-							}
+							});
 
 							if (nits.length) {
 								GM_setValue("registros", JSON.stringify([new Date(), nits]));

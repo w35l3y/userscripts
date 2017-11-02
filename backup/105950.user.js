@@ -107,7 +107,7 @@
 		row.cells[0].innerHTML += "<br />" + params.game.cells[0].textContent;
 	};
 
-	for each (var game in xpath("id('schedule')//tr[position()>1]/td[2]")) {
+	xpath("id('schedule')//tr[position()>1]/td[2]").forEach(function (game) {
 		var key = xpath(".//img[contains(@src, 'logo')]", game).map(function(a) {
 			return ("00" + a.getAttribute("onclick").match(/\d+/)).substr(-2);
 		}).sort().join(),
@@ -127,28 +127,26 @@
 		} else {
 			games[key] = xpath("./ancestor::tr[1]", game)[0];
 		}
-	}
+	});
 
 	var removed = false;
-	for each (var game in xpath("id('schedule')//tr[position()>1]")) {
-		var remove = true;
-		for each (var row in games) {
+	xpath("id('schedule')//tr[position()>1]").forEach(function (game) {
+		if (games.some(function (row) {
 			if (row == game) {
-				remove = false;
 				if (removed) {
 					row.cells[0].setAttribute("style", "background-color: #BBCCFF");
 				}
-				break;
+				return true;
 			}
-		}
-		if (remove) {
+			return false;
+		})) {
 			removed = true;
 			game.parentNode.removeChild(game);
 		}
-	}
+	});
 
 	last_date = null;
-	for each (var game in xpath("id('schedule')//tr[position()>1]")) {
+	xpath("id('schedule')//tr[position()>1]").forEach(function (game) {
 		var date = xpath("./*[text()]", game.cells[0])[0];
 		if (!last_date || last_date.textContent != date.textContent) {
 			last_date = date;
@@ -157,5 +155,5 @@
 			date.parentNode.removeChild(date.previousElementSibling);
 			date.parentNode.removeChild(date);
 		}
-	}
+	});
 }());
