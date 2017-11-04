@@ -7,7 +7,7 @@
 // @copyright      2012+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        2.0.1.0
+// @version        2.0.2
 // @language       en
 // @include        http://www.neopets.com/neggfest/y14/negg.phtml
 // @include        http://www.neopets.com/shenkuu/neggcave/
@@ -20,8 +20,8 @@
 // @grant          GM_xmlhttpRequest
 // @icon           http://gm.wesley.eti.br/icon.php?desc=131454
 // @require        http://images.neopets.com/js/jquery-1.7.1.min.js?v=1
-// @require        https://github.com/w35l3y/userscripts/raw/master/backup/144996.user.js
-// @require        https://github.com/w35l3y/userscripts/raw/master/backup/142688.user.js
+// @require        ../../backup/144996.user.js
+// @require        ../../includes/Includes_Neopets_Neggbreaker/142688.user.js
 // ==/UserScript==
 
 /**************************************************************************

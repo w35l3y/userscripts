@@ -7,7 +7,7 @@
 // @copyright      2012+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        1.0.1.1
+// @version        1.0.2
 // @language       en
 // @include        nowhere
 // @exclude        *
