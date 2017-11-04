@@ -69,12 +69,7 @@
 
 		return null;
 	}()) || [(/^(?:Neopets - )?(.+?) - Prize/i.test(document.title) && RegExp.$1), 3],
-	cache;
-	try {
-		cache = JSON.parse(GM_getValue("cache_" + location.pathname, "{}"));
-	} catch (e) { // compatibility mode
-		cache = eval(GM_getValue("cache_" + location.pathname, "({})"));
-	}
+	cache = JSON.parse(GM_getValue("cache_" + location.pathname, "{}"));
 
 	function getPoints(node) {
 		var texts = xpath(".//text()", node),

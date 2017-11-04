@@ -53,8 +53,8 @@ checkForUpdate({
 
 	var user = {
 		'pages':GM_getValue('pages',			5),
-		'update':eval(GM_getValue('update',		'Update.Manual')),	// != Update.Automatic
-		'position':eval(GM_getValue('position',		'Position.Absolute')),	// != Position.Relative
+		'update': GM_getValue('update',		Update.Manual),	// != Update.Automatic
+		'position':GM_getValue('position',		Position.Absolute),	// != Position.Relative
 		'ranking':GM_getValue('ranking',		'scripts;comments;posts').toLowerCase().split(';')
 	};	
 
@@ -89,7 +89,7 @@ checkForUpdate({
 				btn.innerHTML='Update rank';
 				btn.addEventListener('click', function(event)
 				{
-					var ranking = eval(GM_getValue(qs.sort,'({})'));
+					var ranking = JSON.parse(GM_getValue(qs.sort,'{}'));
 					xpath('//table/tbody/tr/td[1]/a').forEach(function(elem, index)
 					{
 						var uid = elem.href.match(/\d+/);
@@ -105,7 +105,7 @@ checkForUpdate({
 							x.innerHTML = ( uid in ranking ? '+0' : '?' );
 						}
 					});
-					GM_setValue(qs.sort,uneval(ranking));
+					GM_setValue(qs.sort, JSON.stringify(ranking));
 					event.preventDefault();
 				}, true);
 				elem.insertBefore(btn,elem.firstChild);
@@ -116,7 +116,7 @@ checkForUpdate({
 		rank.innerHTML = '<a>Rank</a>'
 		xpath('//table/tbody/tr[1]')[0].appendChild(rank);
 		var cp = parseInt(qs.page,10);
-		var ranking = eval(GM_getValue(qs.sort,'({})'));
+		var ranking = JSON.parse(GM_getValue(qs.sort,'{}'));
 
 		xpath('//table/tbody/tr/td[1]/a').forEach(function(elem, index)
 		{
@@ -160,6 +160,6 @@ checkForUpdate({
 			elem.parentNode.parentNode.appendChild(nc);
 		});
 
-		GM_setValue(qs.sort,uneval(ranking));
+		GM_setValue(qs.sort, JSON.stringify(ranking));
 	}
 })();

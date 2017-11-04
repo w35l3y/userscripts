@@ -56,13 +56,8 @@ if (/^\/process_market\.phtml/i.test(location.pathname)) {	// something went wro
 	GM_deleteValue("StockTemp");
 } else {
 	var items = xpath(".//td[@class='content']//td[5]/input");
-	try {
-		var stocktemp = JSON.parse(GM_getValue("StockTemp", "{}")),
-		stock = JSON.parse(GM_getValue("Stock", "{}"));
-	} catch (e) { // for compatibility
-		var stocktemp = eval(GM_getValue("StockTemp", "({})")),
-		stock = eval(GM_getValue("Stock", "({})"));
-	}
+	var stocktemp = JSON.parse(GM_getValue("StockTemp", "{}")),
+	stock = JSON.parse(GM_getValue("Stock", "{}"));
 
 	for (var item in stocktemp) {
 		stock[item] = stocktemp[item]; // stores the temporary prices definitely

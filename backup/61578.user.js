@@ -47,7 +47,7 @@
 //-------------------------------//
 
 if (/^\/stamps\.phtml/.test(location.pathname) && /\btype=progress\b/.test(location.search)) {
-	GM_setValue("overview", uneval({
+	GM_setValue("overview", JSON.stringify({
 		"LastAccess" : "" + new Date().valueOf(),
 		"Albums" : Stamp.convert(document, true)
 	}));
@@ -104,7 +104,7 @@ if (/^\/stamps\.phtml/.test(location.pathname) && /\btype=progress\b/.test(locat
 				setTimeout(Stamp.album, t * Math.floor(500 + 500 * Math.random()), {
 					"page" : p.id,
 					"onsuccess" : function (params) {
-						GM_setValue("page"+params.id, uneval({
+						GM_setValue("page"+params.id, JSON.stringify({
 							"Stamps" : params.page.Stamps
 						}));
 
@@ -115,8 +115,8 @@ if (/^\/stamps\.phtml/.test(location.pathname) && /\btype=progress\b/.test(locat
 		}
 
 		var pg = parseInt(RegExp.$1, 10);
-		var overview = eval(GM_getValue("overview", "({LastAccess:0})"));
-		var cache = eval(GM_getValue("page" + pg, "({})"));
+		var overview = JSON.parse(GM_getValue("overview", '{"LastAccess":0}'));
+		var cache = JSON.parse(GM_getValue("page" + pg, "{}"));
 		cache.Total = 0;
 		cache.Stamps.forEach(function (s) {
 			if(!/\/no_stamp/i.test(s.Image)) {
@@ -134,7 +134,7 @@ if (/^\/stamps\.phtml/.test(location.pathname) && /\btype=progress\b/.test(locat
 			Stamp.progress({
 				"onsuccess" : function(params)
 				{
-					GM_setValue("overview", uneval({
+					GM_setValue("overview", JSON.stringify({
 						"LastAccess" : "" + new Date().valueOf(),
 						"Albums" : params.progress
 					}));

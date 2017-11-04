@@ -205,7 +205,7 @@ if (location.pathname == "/process_pin_prefs.phtml") {
 	}
 
 	var areas = Pin.convert(document).list;
-	GM_setValue("pin_areas", uneval(areas));
+	GM_setValue("pin_areas", JSON.stringify(areas));
 
 	if (/^#(?:alert|console)$/.test(location.hash)) {
 		var output = [];

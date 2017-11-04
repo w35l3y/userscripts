@@ -66,15 +66,8 @@ if (xpath("string(id('content')//td//a[contains(@href, 'boardlist') and contains
 	current = new Date(),
 	cyear = current.getFullYear(),
 	signup = new Date(cyear, 4, 25),	// May 25th
-	positions = GM_getValue("positions", "{}");
+	positions = JSON.parse(GM_getValue("positions", "{}"));
 	
-	try {	// legacy compatibility
-		positions = JSON.parse(positions);
-	} catch (e) {
-		positions = eval(positions);
-		GM_setValue("positions", JSON.stringify(positions));
-	}
-
 	var upd_positions = !((cyear-1) in positions);
 
 	if (current < signup) {
@@ -174,16 +167,9 @@ if (xpath("string(id('content')//td//a[contains(@href, 'boardlist') and contains
 	}
 	
 	function init() {
-		var users = GM_getValue("users", "{}"),
+		var users = JSON.parse(GM_getValue("users", "{}")),
 		wait = {},
 		update_users = [];
-		
-		try {	// legacy compatibility
-			users = JSON.parse(users);
-		} catch (e) {
-			users = eval(users);
-			GM_setValue("users", JSON.stringify(users));
-		}
 		
 		xpath("id('boards_table')//td//td/a[contains(@href, 'userlookup')]").forEach(function (user) {
 			var login = /user=(\w+)/.test(user.href) && RegExp.$1,

@@ -126,18 +126,18 @@ typeof(CheckForUpdate)!='undefined' && CheckForUpdate.init(GM_info.scriptMetaStr
 			.singleNodeValue
 			.addEventListener('submit', function(e)
 			{
-				GM_setValue('posts', uneval([forum.href]));
+				GM_setValue('posts', JSON.stringify([forum.href]));
 			}, false);
 
-			var posts = eval(GM_getValue('posts','[]'));
+			var posts = JSON.parse(GM_getValue('posts','[]'));
 			if (posts.length)
 			{
 				var read = [];
 				var update = function(e)
 				{
-					var posts = eval(GM_getValue('posts','[]'));
+					var posts = JSON.parse(GM_getValue('posts','[]'));
 					posts.pop();
-					GM_setValue('posts', uneval(posts));
+					GM_setValue('posts', JSON.stringify(posts));
 				};
 				for ( var i = posts.length ; i-- ; )
 				{

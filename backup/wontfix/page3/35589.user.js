@@ -62,7 +62,7 @@ checkForUpdate({
 		'lastPage':GM_getValue('lastPage',0),
 		'user':""+xpath("string(id('homeMenu')/li/a[contains(@href,'users')]/@href)").match(/\d+/)[0],
 		'author':""+xpath("string(id('details')/span/a[contains(@href,'users')]/@href)").match(/\d+/),
-		'issues':eval(GM_getValue('issues','({})')),
+		'issues':JSON.parse(GM_getValue('issues','{}')),
 		'retrieve':GM_getValue('retrieve',-1),
 		'lastAccess':parseInt(GM_getValue('lastAccess','0'))
 	};
@@ -197,7 +197,7 @@ checkForUpdate({
 				{
 					r = -1;
 					GM_setValue('lastPage', lastPage+script.lastPage);
-					GM_setValue('issues', uneval(script.issues));
+					GM_setValue('issues', JSON.stringify(script.issues));
 					var x = 0;
 					for ( var prop in script.issues[id])
 						++x;
@@ -221,7 +221,7 @@ checkForUpdate({
 					clearInterval(int);
 
 					var x = 0;
-					for ( var prop in eval(GM_getValue('issues','({})'))[id])
+					for ( var prop in JSON.parse(GM_getValue('issues','{}'))[id])
 						++x;
 
 					retrieve.innerHTML = x;

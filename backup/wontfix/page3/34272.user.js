@@ -54,13 +54,13 @@ checkForUpdate({
 (function()
 {	// script scope
 	var user = {
-		watch:eval(GM_getValue('watch',		uneval(['Watch script','Watching script']))),
-		owner:eval(GM_getValue('owner',		'Watch.All&~Watch.Name')),	// = Watch.Comments|Watch.Installs|Watch.Fans (scripts you owns)
-		other:eval(GM_getValue('other',		'Watch.All&~Watch.Installs'))	// = Watch.Name|Watch.Comments|Watch.Fans (other scripts)
+		watch:JSON.parse(GM_getValue('watch',		JSON.stringify(['Watch script','Watching script']))),
+		owner:JSON.parse(GM_getValue('owner',		Watch.All&~Watch.Name)),	// = Watch.Comments|Watch.Installs|Watch.Fans (scripts you owns)
+		other:JSON.parse(GM_getValue('other',		Watch.All&~Watch.Installs))	// = Watch.Name|Watch.Comments|Watch.Fans (other scripts)
 	};
 
 	var script = {
-		list:eval(GM_getValue('list','({})')),
+		list:JSON.parse(GM_getValue('list','{}')),
 		'author':xpath("string(//div[1]/span/a[contains(@href,'/users/')]/text())"),
 		'user':xpath("string(id('mainmenu')/li/a[contains(@href,'/home')]/text())")
 	};
@@ -80,7 +80,7 @@ checkForUpdate({
 		var monitor = xpath("id('monitor_checkbox')")[0];
 		monitor.addEventListener("click",function(e)
 		{
-			var list = eval(GM_getValue('list','({})'));
+			var list = JSON.parse(GM_getValue('list','{}'));
 			var script = showScript[1];
 			xpath('id("monitor_label")')[0].innerHTML = user.watch[(e.target.checked ? 1 : 0)];
 			if (e.target.checked)
@@ -92,14 +92,14 @@ checkForUpdate({
 			{
 				delete list[script];
 			}
-			GM_setValue('list',uneval(list));
+			GM_setValue('list', JSON.stringify(list));
 		},false);
 
 		var curr = showScript[1];
 		if (curr in script.list && script.list[curr][0])
 		{
 			script.list[curr][0] = false;
-			GM_setValue('list',uneval(script.list));
+			GM_setValue('list', JSON.stringify(script.list));
 		}
 	}
 	else
@@ -156,6 +156,6 @@ checkForUpdate({
 			}
 		}
 
-		GM_setValue('list',uneval(script.list));
+		GM_setValue('list', JSON.stringify(script.list));
 	}
 })();

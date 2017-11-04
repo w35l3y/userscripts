@@ -42,18 +42,12 @@ HttpRequest = function()
 		this.options.url = url;
 		this.options.onload = function(e)
 		{
-			if (/^Content-Type: (?:text|application)\/(?:x-)?json/m.test(e.responseHeaders))
-			{
-				e.responseJSON = (typeof JSON != 'undefined' && typeof JSON.parse == 'function' ? JSON.parse(e.responseText) : eval("(" + e.responseText + ")") );
-			}
-			else if (!e.responseXML)
-			{
-				if (/^Content-Type: text\/xml/m.test(e.responseHeaders))
-				{
+			if (/^Content-Type: (?:text|application)\/(?:x-)?json/m.test(e.responseHeaders)) {
+				e.responseJSON = JSON.parse(e.responseText);
+			} else if (!e.responseXML) {
+				if (/^Content-Type: text\/xml/m.test(e.responseHeaders)) {
 					e.responseXML = new DOMParser().parseFromString(e.responseText, "text/xml");
-				}
-				else if (/^Content-Type: text\/html/m.test(e.responseHeaders))
-				{
+				} else if (/^Content-Type: text\/html/m.test(e.responseHeaders)) {
 					var doc = document.implementation.createDocument(null, null, null);
 
 					// I have to find a workaround because this technique make the html*/head/body tags disappear.
@@ -65,8 +59,7 @@ HttpRequest = function()
 				}
 			}
 
-			if (typeof onLoadCallback == 'function')
-			{
+			if (typeof onLoadCallback == 'function') {
 
 				xargs.unshift(e);
 				onLoadCallback.apply(this, xargs);

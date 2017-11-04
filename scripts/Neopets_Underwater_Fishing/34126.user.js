@@ -53,8 +53,8 @@
 
 (function () {	// script scope
 	var user = {
-		"interval" : eval(GM_getValue("interval",	"[3000, 1000]")),
-		"disable" : eval(GM_getValue("disable", "[]"))
+		"interval" : JSON.parse(GM_getValue("interval",	"[3000, 1000]")),
+		"disable" : JSON.parse(GM_getValue("disable", "[]"))
 	},
 	script = {
  		"firstPet" : GM_getValue("firstPet", ""),

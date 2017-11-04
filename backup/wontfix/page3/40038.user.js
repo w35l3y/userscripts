@@ -59,7 +59,7 @@ typeof(CheckForUpdate)!='undefined' && CheckForUpdate.init(GM_info.scriptMetaStr
 	// This will be called everytime you click to install an script (Not necessarily the Install button)
 	function onInstall(e)
 	{
-		var scripts = eval(GM_getValue('scripts', '[]'));
+		var scripts = JSON.parse(GM_getValue('scripts', '[]'));
 		var script = parseInt((e.target.href || e.target.parentNode.href).match(/(\d+)\.user\.js/)[1]);
 
 		// Checks if the current script was added already
@@ -69,7 +69,7 @@ typeof(CheckForUpdate)!='undefined' && CheckForUpdate.init(GM_info.scriptMetaStr
 		{
 			scripts.push(script);
 
-			GM_setValue('scripts', uneval(scripts));
+			GM_setValue('scripts', JSON.stringify(scripts));
 		}
 	}
 
@@ -92,7 +92,7 @@ typeof(CheckForUpdate)!='undefined' && CheckForUpdate.init(GM_info.scriptMetaStr
 					scripts[0].push(scripts[2][i]);
 				}
 
-				GM_setValue('scripts', uneval(scripts[0]));
+				GM_setValue('scripts', JSON.stringify(scripts[0]));
 			}
 		}
 		else
@@ -106,7 +106,7 @@ typeof(CheckForUpdate)!='undefined' && CheckForUpdate.init(GM_info.scriptMetaStr
 		{
 			Persist.get(code, function(e)
 			{
-				var scripts = [eval(GM_getValue('scripts', '[]')), [], []];
+				var scripts = [JSON.parse(GM_getValue('scripts', '[]')), [], []];
 
 				for ( var script ; script = /\/scripts\/source\/(\d+)\.user\.js["'\r\n]/gi.exec(e.responseText) ; )
 				{
@@ -135,7 +135,7 @@ typeof(CheckForUpdate)!='undefined' && CheckForUpdate.init(GM_info.scriptMetaStr
 				// Checks if the content has the desired pattern (an array json)
 				if (/^\[\d+(?:,\d+)*\]$/.test(e.responseText.replace(/\s+/g,'')))
 				{
-					var scripts = [eval(GM_getValue('scripts', '[]')), eval(e.responseText), []];
+					var scripts = [JSON.parse(GM_getValue('scripts', '[]')), JSON.parse(e.responseText), []];
 
 					for ( var i = scripts[1].length ; ~--i ; )
 					{
@@ -163,7 +163,7 @@ typeof(CheckForUpdate)!='undefined' && CheckForUpdate.init(GM_info.scriptMetaStr
 	{
 		var scripts = GM_getValue('scripts', '[]');
 
-		var installs = eval(scripts).length;
+		var installs = JSON.parse(scripts).length;
 		var current = new Date().valueOf();
 		var code = GM_getValue('lastCode', '');
 

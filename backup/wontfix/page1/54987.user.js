@@ -183,7 +183,7 @@ WinConfig.init = function (opts) {
 										break;
 								}
 								if (this.Type == "array" && this.isMulti)
-									this.Value = opts.value||load && eval(GM_getValue(prefix+"-"+name,"[]"))||opts.default||[];
+									this.Value = opts.value||load && JSON.parse(GM_getValue(prefix+"-"+name,"[]"))||opts.default||[];
 								else
 									this.Value = opts.value||load && GM_getValue(prefix+"-"+name,"")||opts.default||"";
 							})(opts,prefix,load);
@@ -444,7 +444,7 @@ WinConfig.init = function (opts) {
 									break;
 								}
 							}
-						sv = uneval(sv);
+						sv = JSON.stringify(sv);
 						break;
 					default:
 						sv = obj.value;
@@ -561,7 +561,7 @@ WinConfig.init({
 			var pet = pets[ai].split(":",2);
 			obj[pet[0]] = pet[1].replace(/:/g,"|");
 		}
-		GM_setValue(w.Name+"-TrainingList",uneval(obj));
+		GM_setValue(w.Name+"-TrainingList",JSON.stringify(obj));
 		var pin = e.form.elements.namedItem("PinNumber").value;
 		if (pin && !/^\d{4}$/.test(pin))
 		{

@@ -72,7 +72,7 @@ else if (location.pathname == "/process_lab2.phtml")
 		GM_openInTab("http://lablog.sunnyneo.com/import.php");
 	}
 
-	var logs = eval(GM_getValue("logs", ""))||[];
+	var logs = JSON.parse(GM_getValue("logs", "[]"));
 
 	if (/^(?:.+)$/.test((xpath(".//p[1]/b")[0]||{"textContent":""}).textContent))	// .+	-> petname1|petname2|petname3
 	{
@@ -97,7 +97,7 @@ else if (location.pathname == "/process_lab2.phtml")
 
 	(function recursive(list)
 	{
-		GM_setValue("logs", uneval(list));
+		GM_setValue("logs", JSON.stringify(list));
 
 		var i = list.length;
 		if (i)

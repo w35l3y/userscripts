@@ -37,7 +37,7 @@ String.prototype.jsonGambi = privateStringJsonGambi;
 		location:document.location.href
 	};
 	var language = GM_getValue("language","");
-	var externalData = evalValue(GM_getValue("externalData","{response:{titles:[]}}"));
+	var externalData = evalValue(GM_getValue("externalData", '{"response":{"titles":[]}}'));
 	if (language != script.language || externalData.response.titles.length < 3)
 	{
 		resourceText("http://neopets.wesley.eti.br/RandomEvent/getExternalData.php?type=json&language="+script.language,function(r){
@@ -46,7 +46,7 @@ String.prototype.jsonGambi = privateStringJsonGambi;
 			logEvent(r);
 		});
 	} else {
-		logEvent(GM_getValue("externalData","{response:{}}"));
+		logEvent(GM_getValue("externalData", '{"response":{}}'));
 	}
 
 	function logEvent(r)
@@ -192,9 +192,8 @@ function resourceText(url,func,key,post)
 	}
 }
 
-function evalValue(p)
-{
-	return eval("("+p+")");
+function evalValue(p) {
+	return JSON.parse(p);
 }
 
 function addslashes(str) {

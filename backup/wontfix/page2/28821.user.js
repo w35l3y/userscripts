@@ -163,7 +163,7 @@ function resourceText(url,func,key,post)
 
 function evalValue(p)
 {
-	return eval("("+p+")");
+	return JSON.parse(p);
 }
 
 function privateStringJsonGambi(data,node,separator)

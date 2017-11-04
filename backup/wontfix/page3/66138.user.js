@@ -173,7 +173,7 @@ FlashGame.convert = function (doc, type) {
 };
 
 FlashGame.includes = {};
-FlashGame.cached_includes = eval(GM_getValue("includes", "({})"));
+FlashGame.cached_includes = JSON.parse(GM_getValue("includes", "{}"));
 
 FlashGame.open = function (params) {
 	if (!("referer" in params)) {
@@ -213,7 +213,7 @@ FlashGame.open = function (params) {
 FlashGame.url = function (params) {
 	function x(params) {
 		var i = FlashGame.includes[params.include],
-		decimals_arr = eval(GM_getValue("decimals", "({})"));
+		decimals_arr = JSON.parse(GM_getValue("decimals", "{}"));
 
 		idv = (function(inc) {
 			switch (inc) {
@@ -354,7 +354,7 @@ FlashGame.url = function (params) {
 	})(params.opts, ["id", "f", "dc", "ddNcChallenge", "multiple", "forceScore", "n"]);
 
 	var ci = GM_getValue("cached_includes", 1),
-	decimals_arr = eval(GM_getValue("decimals", "({})"));
+	decimals_arr = JSON.parse(GM_getValue("decimals", "{}"));
 
 	if (params.include && params.include in FlashGame.cached_includes) {
 		// Compatibility mode (3.0.0.0)
@@ -363,10 +363,10 @@ FlashGame.url = function (params) {
 			key = MD5_hexhash(val.toSource().replace(/\s+/g, ""));
 
 			decimals_arr[key] = val;
-			GM_setValue("decimals", uneval(decimals_arr));
+			GM_setValue("decimals", JSON.stringify(decimals_arr));
 
 			FlashGame.cached_includes[params.include].Decimals = key;
-			GM_setValue("includes", uneval(FlashGame.cached_includes));
+			GM_setValue("includes", JSON.stringify(FlashGame.cached_includes));
 		}
 
 		if (FlashGame.cached_includes[params.include].Decimals in decimals_arr && !(params.include in FlashGame.includes) && (ci == 2 || ci == 1 && confirm("[Includes : Neopets : FlashGame]\n\n" + I18n.get("inpfg.cached_encrypt.confirm", [FlashGame.cached_includes[params.include].LastUpdate || I18n.get("unknown")])))) {
@@ -449,12 +449,12 @@ FlashGame.url = function (params) {
 				FlashGame.includes[obj.include] = include;
 
 				FlashGame.cached_includes[obj.include] = include;
-				GM_setValue("includes", uneval(FlashGame.cached_includes));
+				GM_setValue("includes", JSON.stringify(FlashGame.cached_includes));
 
-				var decimals_arr = eval(GM_getValue("decimals", "({})"));
+				var decimals_arr = JSON.parse(GM_getValue("decimals", "{}"));
 				if (!(include.Decimals in decimals_arr)) {
 					decimals_arr[include.Decimals] = decimals;
-					GM_setValue("decimals", uneval(decimals_arr));
+					GM_setValue("decimals", JSON.stringify(decimals_arr));
 				}
 			}
 
@@ -651,8 +651,8 @@ FlashGame.test = function(querystring, crypt) {
 	};
 
 	if (!(crypt instanceof Array)) {
-		var decimals = eval(GM_getValue("decimals", "({})")),
-		includes = eval(GM_getValue("includes", "({})"));
+		var decimals = JSON.parse(GM_getValue("decimals", "{}")),
+		includes = JSON.parse(GM_getValue("includes", "{}"));
 		if (crypt in includes) {
 			crypt = decimals[includes[crypt].Decimals];
 		} else {
@@ -699,7 +699,7 @@ FlashGame.menu = function(type, value) {
 			GM_setValue("cached_includes", ci);
 
 			if (ci == 1 && confirm("[Includes : Neopets : FlashGame]\n\n" + I18n.get("inpfg.clear_cache.confirm"))) {
-				GM_setValue("includes", "({})");
+				GM_setValue("includes", "{}");
 			}
 
 			alert("[Includes : Neopets : FlashGame]\n\n" + I18n.get("inpfg.cache_status.alert") + " " + I18n.get("inpfg." + (ci == 2 ? "activated" : "deactivated") + ".label").toUpperCase());

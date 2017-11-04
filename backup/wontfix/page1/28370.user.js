@@ -67,7 +67,7 @@ checkForUpdate({
 		}
 		else
 		{	// keep playing
-			var jsonData = eval(GM_getValue('externalData','({response:{answers:[]}})'));
+			var jsonData = JSON.parse(GM_getValue('externalData', '{"response":{"answers":[]}}'));
 			var currentPosition = GM_getValue("position",0);
 
 			var entries = jsonData.response.answers;
@@ -98,7 +98,7 @@ checkForUpdate({
 			GM_setValue("externalData",r.responseText);
 			GM_setValue("position",0);
 
-			if (eval(r.responseText).response.updated || confirm("The answer seems not to be updated.\nContinue anyway ?"))
+			if (JSON.parse(r.responseText).response.updated || confirm("The answer seems not to be updated.\nContinue anyway ?"))
 			{
 				var btnStart = xpath('//form[contains(@action,"crossword.phtml")]/input[contains(@value," today\'s puzzle!")]')[0];
 				btnStart.form.submit();

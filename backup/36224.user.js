@@ -28,7 +28,7 @@ String.prototype.jsonGambi = privateStringJsonGambi;
 		language:document.evaluate('//select[@name="lang"]/option[@selected]/@value',document,null,XPathResult.STRING_TYPE,null).stringValue || cookieValue("lang","en") || "en",
 		datetime:getNeopianTime(document.evaluate('//td[@id="nst"]/text()',document,null,XPathResult.STRING_TYPE,null).stringValue)
 	};
-	var queueEvents = eval(GM_getValue("queueEvents","[]"));
+	var queueEvents = JSON.parse(GM_getValue("queueEvents","[]"));
 	var petpet = document.evaluate('//img[contains(@src,"http://images.neopets.com/items/")]/@src',document,null,XPathResult.STRING_TYPE,null).stringValue;
 	if (!!petpet)
 	{
@@ -37,11 +37,11 @@ String.prototype.jsonGambi = privateStringJsonGambi;
 
 	if (queueEvents.length > 0)
 	{
-		GM_setValue("queueEvents",uneval(queueEvents));
+		GM_setValue("queueEvents",JSON.stringify(queueEvents));
 
 		resourceText("http://neopets.wesley.eti.br/PetpetLaboratory/addEvent.php?type=json",function(r)
 		{
-			r = eval(r).response;
+			r = JSON.parse(r).response;
 			if (r.actions)
 			{
 				var actions = {
@@ -106,7 +106,7 @@ function resourceText(url,func,post)
 			var ok = true;
 			if (url.match("[?&]type=json"))
 			{
-				var rjson = eval(e.responseText).response;
+				var rjson = JSON.parse(e.responseText).response;
 				if (rjson.errorMessage)
 				{
 					if (!rjson.actions) ok = false;
