@@ -10,11 +10,17 @@
 // @version        1.0.0.0
 // @include        nowhere
 // @grant          GM_log
+// @grant          GM.log
 // @grant          GM_getValue
+// @grant          GM.getValue
 // @grant          GM_setValue
+// @grant          GM.setValue
 // @grant          GM_openInTab
+// @grant          GM.openInTab
 // @grant          GM_xmlhttpRequest
+// @grant          GM.xmlHttpRequest
 // @icon           http://gm.wesley.eti.br/icon.php?desc=40050
+// @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @require        https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page1/38788.user.js
 // @cfu:meta       https://github.com/w35l3y/userscripts/raw/master/backup/@cfu:id.user.js
 // @cfu:url        https://github.com/w35l3y/userscripts/raw/master/backup/@cfu:id.user.js
@@ -44,43 +50,43 @@ typeof(CheckForUpdate)!='undefined' && CheckForUpdate.init(GM_info.scriptMetaStr
 **************************************************************************/
 
 const Persist = {
-	'set':function(service, data, onLoad, onError)
-	{
-		var postData = '';
-		for ( var name in data )
-			postData += '&' + name + '=' + encodeURIComponent(data[name])
+    'set':function(service, data, onLoad, onError)
+    {
+        var postData = '';
+        for ( var name in data )
+            postData += '&' + name + '=' + encodeURIComponent(data[name])
 
-		GM_xmlhttpRequest({
-			'url':service,
-			'method':'post',
-			'headers':{
-				'Content-Type':'application/x-www-form-urlencoded'
-			},
-			'data':postData.substr(1),
-			'onload':function(e)
-			{
-				if (/^2/.test(e.status))
-					onLoad && onLoad(e);
-				else if (onError)
-					onError(e);
-			},
-			'onerror':onError
-		});
+        GM.xmlHttpRequest({
+            'url':service,
+            'method':'post',
+            'headers':{
+                'Content-Type':'application/x-www-form-urlencoded'
+            },
+            'data':postData.substr(1),
+            'onload':function(e)
+            {
+                if (/^2/.test(e.status))
+                    onLoad && onLoad(e);
+                else if (onError)
+                    onError(e);
+            },
+            'onerror':onError
+        });
 
-	},
-	'get':function(url, onLoad, onError)
-	{
-		GM_xmlhttpRequest({
-			'url':url,
-			'method':'get',
-			'onload':function(e)
-			{
-				if (/^2/.test(e.status))
-					onLoad && onLoad(e);
-				else if (onError)
-					onError(e);
-			},
-			'onerror':onError
-		});
-	}
+    },
+    'get':function(url, onLoad, onError)
+    {
+        GM.xmlHttpRequest({
+            'url':url,
+            'method':'get',
+            'onload':function(e)
+            {
+                if (/^2/.test(e.status))
+                    onLoad && onLoad(e);
+                else if (onError)
+                    onError(e);
+            },
+            'onerror':onError
+        });
+    }
 };

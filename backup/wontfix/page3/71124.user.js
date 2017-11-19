@@ -12,7 +12,9 @@
 // @include        http://userscripts-mirror.org/topics/*
 // @include        http://userscripts-mirror.org/home/comments*
 // @grant          GM_log
+// @grant          GM.log
 // @icon           http://gm.wesley.eti.br/icon.php?desc=71124
+// @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
 // ==/UserScript==
 
@@ -34,7 +36,7 @@
 **************************************************************************/
 
 xpath(".//code[not(ancestor::pre or ancestor::code) and (descendant::br or contains(descendant::text(), '\n'))]").forEach(function (code) {
-	var pre = document.createElement("pre");
-	pre.innerHTML = code.innerHTML.replace(/(?:\r?\n(?=<br(?: ?\/)?>)|^\s+|\s+$)/gi, "");
-	code.parentNode.replaceChild(pre, code);
+    var pre = document.createElement("pre");
+    pre.innerHTML = code.innerHTML.replace(/(?:\r?\n(?=<br(?: ?\/)?>)|^\s+|\s+$)/gi, "");
+    code.parentNode.replaceChild(pre, code);
 });

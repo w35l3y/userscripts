@@ -14,13 +14,20 @@
 // @connect        github.com
 // @connect        raw.githubusercontent.com
 // @grant          GM_addStyle
+// @grant          GM.addStyle
 // @grant          GM_getValue
+// @grant          GM.getValue
 // @grant          GM_setValue
+// @grant          GM.setValue
 // @grant          GM_deleteValue
+// @grant          GM.deleteValue
 // @grant          GM_xmlhttpRequest
+// @grant          GM.xmlHttpRequest
 // @grant          GM_getResourceText
+// @grant          GM.getResourceText
 // @resource       meta https://github.com/w35l3y/userscripts/raw/master/scripts/Neopets_Tyranu_Evavu/28580.user.js
 // @resource       i18n ../../includes/Includes_I18n/resources/default.json
+// @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @require        ../../includes/Includes_XPath/63808.user.js
 // @require        ../../includes/Includes_Translate/85618.user.js
 // @require        ../../includes/Includes_I18n/87940.user.js
@@ -47,12 +54,12 @@
 **************************************************************************/
 
 (function () {	// script scope
-	var interval = JSON.parse(GM_getValue("interval", "[3000, 2000]")),
+	var interval = JSON.parse(GM.getValue("interval", "[3000, 2000]")),
 	actionButton = xpath(".//form[contains(@action, 'tyranuevavu.phtml')]/input[@type = 'submit']")[0];
 
 	if (!actionButton && /(\d+)_(\w+)/.test(xpath("string(.//img[contains(@src, 'games/cards/')]/@src[contains(., '_')])"))) {	// keep playing
 		var suit = ["spades", "hearts", "clubs", "diamonds"].indexOf(RegExp.$2),
-		cards = JSON.parse(GM_getValue("cards", "[]")) || [],
+		cards = JSON.parse(GM.getValue("cards", "[]")) || [],
 		at = cards.length,
 		evavu = (RegExp.$1 - 1) << 2,
 		tyranu = 55 - at - evavu;
@@ -70,13 +77,13 @@
 		}
 		evavu -= ai;
 
-		GM_setValue("cards", JSON.stringify(cards));
+		GM.setValue("cards", JSON.stringify(cards));
 
 		function nextAction () {
 			location.replace(xpath("string(.//a[contains(@href, '" + ["higher", "lower"][0|(evavu > tyranu)] + "') and img[contains(@src, '/prehistoric/')]]/@href)"));
 		}		
 	} else {
-		GM_setValue("cards", "[]");
+		GM.setValue("cards", "[]");
 
 		function nextAction () {
 			actionButton.click();

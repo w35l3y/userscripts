@@ -40,13 +40,21 @@
 // @include        http*://www.neopets.com/faerieland/darkfaerie.phtml
 // @include        http*://www.neopets.com/space/coincidence.phtml
 // @grant          GM_log
+// @grant          GM.log
 // @grant          GM_addStyle
+// @grant          GM.addStyle
 // @grant          GM_getValue
+// @grant          GM.getValue
 // @grant          GM_setValue
+// @grant          GM.setValue
 // @grant          GM_openInTab
+// @grant          GM.openInTab
 // @grant          GM_deleteValue
+// @grant          GM.deleteValue
 // @grant          GM_xmlhttpRequest
+// @grant          GM.xmlHttpRequest
 // @grant          GM_getResourceText
+// @grant          GM.getResourceText
 // @icon           http://gm.wesley.eti.br/icon.php?desc=112692
 // @connect        neopets.com
 // @connect        github.com
@@ -57,6 +65,7 @@
 // @resource       updaterWindowCss ../../includes/Includes_Updater/resources/default.css
 // @resource       winConfigCss ../../includes/Includes_WinConfig/resources/default.css
 // @resource       winConfigPriceCheckerCss resources/default.css
+// @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @require        ../../includes/Includes_XPath/63808.user.js
 // @require        ../../includes/Includes_HttpRequest/56489.user.js
 // @require        ../../includes/Includes_WinConfig/163374.user.js
@@ -151,7 +160,7 @@
 	0x4000	/winter/igloo2.phtml
 */
 
-GM_addStyle(GM_getResourceText("winConfigPriceCheckerCss"));
+GM.addStyle(GM.getResourceText("winConfigPriceCheckerCss"));
 
 (function () {	// script scope
 	var win = new WinConfig({
@@ -726,7 +735,7 @@ GM_addStyle(GM_getResourceText("winConfigPriceCheckerCss"));
 		listButtons = [],
 		buy = function (_this) {
 			_this.target.style.color = "#CC8800";
-			GM_log("Buying " + _this.previous.Item + "...");
+			GM.log("Buying " + _this.previous.Item + "...");
 
 			setTimeout(Shop.list, _w(), {
 				link		: _this.previous.Link,

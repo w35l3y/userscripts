@@ -1,32 +1,40 @@
 // ==UserScript==
 // @name		   Neopets : Quick SDB Checker
-// @namespace	  http://gm.wesley.eti.br/neopets
-// @description	Enables Alt+S to quickly check whether the selected text is in SDB and asks to remove it
-// @author		 w35l3y
-// @email		  w35l3y@brasnet.org
-// @copyright	  2013+, w35l3y (http://gm.wesley.eti.br/includes/neopets)
-// @license		GNU GPL
+// @namespace	   http://gm.wesley.eti.br/neopets
+// @description	   Enables Alt+S to quickly check whether the selected text is in SDB and asks to remove it
+// @author		   w35l3y
+// @email		   w35l3y@brasnet.org
+// @copyright	   2013+, w35l3y (http://gm.wesley.eti.br/includes/neopets)
+// @license		   GNU GPL
 // @homepage	   http://gm.wesley.eti.br/includes/neopets
-// @version		3.1.1
-// @include		http://www.neopets.com/*
-// @grant		  GM_log
-// @grant		  GM_addStyle
-// @grant		  GM_getValue
-// @grant		  GM_setValue
-// @grant		  GM_deleteValue
-// @grant		  GM_xmlhttpRequest
-// @grant		  GM_getResourceText
+// @version		   3.1.1
+// @include		   http://www.neopets.com/*
+// @grant		   GM_log
+// @grant		   GM.log
+// @grant		   GM_addStyle
+// @grant		   GM.addStyle
+// @grant		   GM_getValue
+// @grant		   GM.getValue
+// @grant		   GM_setValue
+// @grant		   GM.setValue
+// @grant		   GM_deleteValue
+// @grant		   GM.deleteValue
+// @grant		   GM_xmlhttpRequest
+// @grant		   GM.xmlHttpRequest
+// @grant		   GM_getResourceText
+// @grant		   GM.getResourceText
 // @icon		   http://gm.wesley.eti.br/icon.php?desc=61435
 // @resource	   winConfigCss ../../includes/Includes_WinConfig/resources/default.css
 // @resource	   winConfigQuickSDBCheckerCss resources/default.css
-// @require		../../includes/Includes_XPath/63808.user.js
-// @require		../../includes/Includes_HttpRequest/56489.user.js
-// @require		../../includes/Includes_Neopets_Safety_Deposit_Box/56528.user.js
-// @require		../../includes/Includes_WinConfig/163374.user.js
-// @history		3.1.1 Added missing @icon
-// @history		3.1.0 Added Includes Checker (due to the recent problems with userscripts.org)
-// @history		3.0.0 Added WinConfig Settings
-// @history		2.0.0.0 Updated @require#54987
+// @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
+// @require		   ../../includes/Includes_XPath/63808.user.js
+// @require		   ../../includes/Includes_HttpRequest/56489.user.js
+// @require		   ../../includes/Includes_Neopets_Safety_Deposit_Box/56528.user.js
+// @require		   ../../includes/Includes_WinConfig/163374.user.js
+// @history		   3.1.1 Added missing @icon
+// @history		   3.1.0 Added Includes Checker (due to the recent problems with userscripts.org)
+// @history		   3.0.0 Added WinConfig Settings
+// @history		   2.0.0.0 Updated @require#54987
 // @noframes
 // ==/UserScript==
 
@@ -51,7 +59,7 @@
 	'use strict';
 	/*jslint indent: 4, maxerr: 50, browser: true, vars: true, nomen: true, plusplus: true, regexp: true, newcap: true */
 
-	GM_addStyle(GM_getResourceText("winConfigQuickSDBCheckerCss"));
+	GM.addStyle(GM.getResourceText("winConfigQuickSDBCheckerCss"));
 
 	function execute(obj) {
 		var sel;
@@ -63,11 +71,11 @@
 
 				if (range.toString().length) {
 					var current = new Date().valueOf(),
-					next = parseInt(GM_getValue("nextAccess", "0"), 10),
+					next = parseInt(GM.getValue("nextAccess", "0"), 10),
 					time = Math.max(0, next - current),
 					params = obj.parameters(range) || [];
 
-					GM_setValue("nextAccess", String(obj.time() + (time ? next : current)));
+					GM.setValue("nextAccess", String(obj.time() + (time ? next : current)));
 
 					params.unshift(obj.callback, time);
 

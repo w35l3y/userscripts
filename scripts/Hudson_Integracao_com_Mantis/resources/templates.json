@@ -1,12 +1,12 @@
 {
-	"buildInformations"	: "[Status]<br />#{status}<a href=\"#{mantis.info.host/}view.php?id=#{mantis.number/}\">#{mantis.number/}</a>\t#{code/}\t#{message/}<br />#{/status}<br /><pre style=\"height:180px;\">#{text/}</pre>",
-	"buildNumber"				: "Informe o número da última build comentada:<br />(Cancele para manter o valor anterior: #{value/})",
-	"citation"					: "Você foi citado por <i href=\"#{url/}user/#{block.owner/}/\">#{block.owner/}</i> em uma correção referente ao(s) mantis #{block.mantis}#{index|>0}, #{/index}<a href=\"#{info.url/}view.php?id=#{number/}\">#{number/}</a>#{/block.mantis}.<br /><br />Deseja continuar?",
-	"numberOfFiles"			: "O bloco ##{block.index/} da build #<a href=\"#{url/}job/#{job/}/#{id/}/changes\">#{id/}</a> possui #{block.files.length/} arquivos a serem informados no comentário do(s) mantis #{block.mantis}#{index|>0}, #{/index}<a href=\"#{info.url/}view.php?id=#{number/}\">#{number/}</a>#{/block.mantis}.<br /><br />Deseja continuar?",
-	"addNote"						: "Adicionar anotação ao mantis <a href=\"#{url/}view.php?id=#{mantis/}\">##{mantis/}</a>?<br /><br /><b>Certifique-se que o mantis seja <u>INTERNO</u>!</b><br /><br />",
-	"requestPassword"		: "<b>Url:</b> <a href=\"#{mantis.info.host/}\">#{mantis.info.host/}</a><br /><b>Username:</b> #{mantis.info.username/}",
-	"jobs"							: {
-		"_"								: "#{block.description/}\n\nBuild: #{build.date/} (#{build.job/})\n#{block.users|>1}Usuários: #{values}#{index|>0}, #{/index}#{username/}#{type|>0} (#{value/})#{/type}#{/values}\n#{/block.users}#{block.mantis|>1}Mantis: #{values}#{index|>0}, #{/index}##{number/}#{/values}\n#{/block.mantis}\n#{block.files}[Arquivos enviados]#{values}#{categoryString|<>}\n- #{value/}\n#{/categoryString}-- #{typeString/} | #{version/}#{hasTest} | #{value/}#{/hasTest} | #{name/}\n#{/values}\n#{/block.files}",
-		"semListaArquivos": "#{block.description/}\n\nBuild: #{build.date/} (#{build.job/})\n#{block.users|>1}Usuários: #{values}#{index|>0}, #{/index}#{username/}#{type|>0} (#{value/})#{/type}#{/values}\n#{/block.users}#{block.mantis|>1}Mantis: #{values}#{index|>0}, #{/index}##{number/}#{/values}\n#{/block.mantis}"
-	}
+    "buildInformations"    : "[Status]<br />#{status}<a href=\"#{mantis.info.host/}view.php?id=#{mantis.number/}\">#{mantis.number/}</a>\t#{code/}\t#{message/}<br />#{/status}<br /><pre style=\"height:180px;\">#{text/}</pre>",
+    "buildNumber"          : "Informe o número da última build comentada:<br />(Cancele para manter o valor anterior: #{value/})",
+    "citation"             : "Você foi citado por <i href=\"#{url/}user/#{block.owner/}/\">#{block.owner/}</i> em uma correção referente ao(s) mantis #{block.mantis}#{index|>0}, #{/index}<a href=\"#{info.url/}view.php?id=#{number/}\">#{number/}</a>#{/block.mantis}.<br /><br />Deseja continuar?",
+    "numberOfFiles"        : "O bloco ##{block.index/} da build #<a href=\"#{url/}job/#{job/}/#{id/}/changes\">#{id/}</a> possui #{block.files.length/} arquivos a serem informados no comentário do(s) mantis #{block.mantis}#{index|>0}, #{/index}<a href=\"#{info.url/}view.php?id=#{number/}\">#{number/}</a>#{/block.mantis}.<br /><br />Deseja continuar?",
+    "addNote"              : "Adicionar anotação ao mantis <a href=\"#{url/}view.php?id=#{mantis/}\">##{mantis/}</a>?<br /><br /><b>Certifique-se que o mantis seja <u>INTERNO</u>!</b><br /><br />",
+    "requestPassword"      : "<b>Url:</b> <a href=\"#{mantis.info.host/}\">#{mantis.info.host/}</a><br /><b>Username:</b> #{mantis.info.username/}",
+    "jobs"                 : {
+        "_"                  : "#{block.description/}\n\nBuild: #{build.date/} (#{build.job/})\n#{block.users|>1}Usuários: #{values}#{index|>0}, #{/index}#{username/}#{type|>0} (#{value/})#{/type}#{/values}\n#{/block.users}#{block.mantis|>1}Mantis: #{values}#{index|>0}, #{/index}##{number/}#{/values}\n#{/block.mantis}\n#{block.files}[Arquivos enviados]#{values}#{categoryString|<>}\n- #{value/}\n#{/categoryString}-- #{typeString/} | #{version/}#{hasTest} | #{value/}#{/hasTest} | #{name/}\n#{/values}\n#{/block.files}",
+        "semListaArquivos"   : "#{block.description/}\n\nBuild: #{build.date/} (#{build.job/})\n#{block.users|>1}Usuários: #{values}#{index|>0}, #{/index}#{username/}#{type|>0} (#{value/})#{/type}#{/values}\n#{/block.users}#{block.mantis|>1}Mantis: #{values}#{index|>0}, #{/index}##{number/}#{/values}\n#{/block.mantis}"
+    }
 }

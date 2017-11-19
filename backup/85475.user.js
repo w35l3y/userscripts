@@ -12,6 +12,7 @@
 // @include        http://www.neopets.com/island/training.phtml?type=status
 // @include        http://www.neopets.com/pirates/academy.phtml?type=status
 // @include        http://www.neopets.com/island/fight_training.phtml?type=status
+// @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Timer/85450.user.js
 // ==/UserScript==
@@ -34,30 +35,30 @@
 **************************************************************************/
 
 (function () {
-	var list = xpath(".//td[@class = 'content']//td[not(form) and b[contains(text(), 'minute')]]/b/text()");
+    var list = xpath(".//td[@class = 'content']//td[not(form) and b[contains(text(), 'minute')]]/b/text()");
 
-	for (var ai in list) {
-		var o = list[ai];
+    for (var ai in list) {
+        var o = list[ai];
 
-		window.setInterval(function (obj) {
-			obj.node.textContent = obj.timer.toString("{0?(- }{1} hr{1?s}, {2} minute{2?s}, {3} second{3?s}{0?)}");
-			
-			if (obj.timer.current(true) < 0 && !obj.complete) {
-				obj.complete = true;
+        window.setInterval(function (obj) {
+            obj.node.textContent = obj.timer.toString("{0?(- }{1} hr{1?s}, {2} minute{2?s}, {3} second{3?s}{0?)}");
+            
+            if (obj.timer.current(true) < 0 && !obj.complete) {
+                obj.complete = true;
 
-				if (obj.pet) {
-					var f = obj.node.parentNode.parentNode.appendChild(document.createElement("form"));
-					f.setAttribute("method", "post");
-					f.setAttribute("action", "process_fight_training.phtml");
-					f.innerHTML = '<input type="hidden" value="complete" name="type" /><input type="hidden" value="' + obj.pet + '" name="pet_name" /><input type="submit" value="Complete Course!" />';
-				}
-			}
-		}, 1000, {
-			complete	: false,
-			node		: o,
-			pet			: /\/cpn\/(.+?)\//.test(xpath("string(./ancestor::tr[1]/td[1]/img/@src)", o)) && RegExp.$1,
-			timer		: Timer.convert(o.textContent.match(/\d+/g).join(":")),
-//			timer		: Timer.convert("0:0:9"),
-		});
-	}
+                if (obj.pet) {
+                    var f = obj.node.parentNode.parentNode.appendChild(document.createElement("form"));
+                    f.setAttribute("method", "post");
+                    f.setAttribute("action", "process_fight_training.phtml");
+                    f.innerHTML = '<input type="hidden" value="complete" name="type" /><input type="hidden" value="' + obj.pet + '" name="pet_name" /><input type="submit" value="Complete Course!" />';
+                }
+            }
+        }, 1000, {
+            complete    : false,
+            node        : o,
+            pet            : /\/cpn\/(.+?)\//.test(xpath("string(./ancestor::tr[1]/td[1]/img/@src)", o)) && RegExp.$1,
+            timer        : Timer.convert(o.textContent.match(/\d+/g).join(":")),
+//            timer        : Timer.convert("0:0:9"),
+        });
+    }
 }());

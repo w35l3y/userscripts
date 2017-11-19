@@ -1,23 +1,27 @@
 // ==UserScript==
-// @name        Includes : Neopets : DiceARoo
-// @namespace   http://gm.wesley.eti.br
-// @description DiceARoo Function
-// @author      w35l3y
-// @email       w35l3y@brasnet.org
-// @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
-// @license     GNU GPL
-// @homepage    http://gm.wesley.eti.br
-// @version     1.0.0
-// @language    en
-// @include     nowhere
-// @exclude     *
-// @grant       GM_getValue
-// @grant       GM_setValue
-// @grant       GM_xmlhttpRequest
-// @icon        http://gm.wesley.eti.br/icon.php?desc=includes/Includes_Neopets_DiceARoo/main.user.js
-// @require     https://github.com/w35l3y/localStorageDB/raw/master/localstoragedb.js
-// @require     https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
-// @require     https://github.com/w35l3y/userscripts/raw/master/includes/Includes_HttpRequest/56489.user.js
+// @name           Includes : Neopets : DiceARoo
+// @namespace      http://gm.wesley.eti.br
+// @description    DiceARoo Function
+// @author         w35l3y
+// @email          w35l3y@brasnet.org
+// @copyright      2015+, w35l3y (http://gm.wesley.eti.br)
+// @license        GNU GPL
+// @homepage       http://gm.wesley.eti.br
+// @version        1.0.0
+// @language       en
+// @include        nowhere
+// @exclude        *
+// @grant          GM_getValue
+// @grant          GM.getValue
+// @grant          GM_setValue
+// @grant          GM.setValue
+// @grant          GM_xmlhttpRequest
+// @grant          GM.xmlHttpRequest
+// @icon           http://gm.wesley.eti.br/icon.php?desc=includes/Includes_Neopets_DiceARoo/main.user.js
+// @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
+// @require        https://github.com/w35l3y/localStorageDB/raw/master/localstoragedb.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_HttpRequest/56489.user.js
 // ==/UserScript==
 
 /**************************************************************************

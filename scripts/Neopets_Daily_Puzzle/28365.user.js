@@ -12,11 +12,17 @@
 // @include        http://www.neopets.com/community/
 // @include        http://www.neopets.com/community/index.phtml
 // @grant          GM_addStyle
+// @grant          GM.addStyle
 // @grant          GM_getValue
+// @grant          GM.getValue
 // @grant          GM_setValue
+// @grant          GM.setValue
 // @grant          GM_deleteValue
+// @grant          GM.deleteValue
 // @grant          GM_xmlhttpRequest
+// @grant          GM.xmlHttpRequest
 // @grant          GM_getResourceText
+// @grant          GM.getResourceText
 // @icon           http://gm.wesley.eti.br/icon.php?desc=28365
 // @connect        www.jellyneo.net
 // @connect        www.sunnyneo.com
@@ -27,6 +33,7 @@
 // @resource       i18n ../../includes/Includes_I18n/resources/default.json
 // @resource       updaterWindowHtml ../../includes/Includes_Updater/resources/default.html
 // @resource       updaterWindowCss ../../includes/Includes_Updater/resources/default.css
+// @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @require        ../../includes/Includes_XPath/63808.user.js
 // @require        ../../includes/Includes_HttpRequest/56489.user.js
 // @require        ../../includes/Includes_Translate/85618.user.js
@@ -61,7 +68,7 @@
 (function () {	// script scope
     "use strict";
 
-    var interval = JSON.parse(GM_getValue("interval",	"[2000, 1000]")),
+    var interval = JSON.parse(GM.getValue("interval",	"[2000, 1000]")),
 	language = xpath("string(.//select[@name = 'lang']/option[@selected]/@value)") || "en",
 	sources = [
 		["http://www.jellyneo.net/?go=dailypuzzle", "string(id('contentshell')/div/center/div/span/text())"],

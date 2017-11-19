@@ -14,13 +14,21 @@
 // @connect        github.com
 // @connect        raw.githubusercontent.com
 // @grant          GM_log
+// @grant          GM.log
 // @grant          GM_addStyle
+// @grant          GM.addStyle
 // @grant          GM_getValue
+// @grant          GM.getValue
 // @grant          GM_setValue
+// @grant          GM.setValue
 // @grant          GM_openInTab
+// @grant          GM.openInTab
 // @grant          GM_deleteValue
+// @grant          GM.deleteValue
 // @grant          GM_xmlhttpRequest
+// @grant          GM.xmlHttpRequest
 // @grant          GM_getResourceText
+// @grant          GM.getResourceText
 // @icon           http://gm.wesley.eti.br/icon.php?desc=28461
 // @resource       random_events ../../includes/Includes_Neopets_Random_Events/resources/default.csv
 // @resource       randomEventsHtml ../../includes/Includes_Neopets_Random_Events/resources/default.html
@@ -30,6 +38,7 @@
 // @resource       updaterWindowCss ../../includes/Includes_Updater/resources/default.css
 // @resource       winConfigCss ../../includes/Includes_WinConfig/resources/default.css
 // @resource       winConfigDiceARooCss resources/default.css
+// @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @require        ../../includes/Includes_XPath/63808.user.js
 // @require        ../../includes/Includes_HttpRequest/56489.user.js
 // @require        ../../includes/Includes_Persist_%5BBETA%5D/154322.user.js
@@ -62,7 +71,7 @@
 
 **************************************************************************/
 
-GM_addStyle(GM_getResourceText("winConfigDiceARooCss"));
+GM.addStyle(GM.getResourceText("winConfigDiceARooCss"));
 
 (function () {
 	var win = new WinConfig({

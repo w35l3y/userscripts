@@ -11,10 +11,15 @@
 // @include        http://www.neopets.com/games/pyramids/*
 // @icon           http://gm.wesley.eti.br/icon.php?desc=scripts/Neopets_Pyramids/main.user.js
 // @grant          GM_setValue
+// @grant          GM.setValue
 // @grant          GM_getValue
+// @grant          GM.getValue
 // @grant          GM_deleteValue
+// @grant          GM.deleteValue
 // @grant          GM_xmlhttpRequest
+// @grant          GM.xmlHttpRequest
 // @connect        neopets.com
+// @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @require        ../../includes/Includes_XPath/63808.user.js
 // @require        ../../includes/Includes_HttpRequest/56489.user.js
 // @require        ../../backup/132073.user.js
@@ -60,7 +65,7 @@ AjaxUpdate.init({
 			}
 
 			if (start) {
-				GM_deleteValue("cards");
+				GM.deleteValue("cards");
 			}
 
 			if (1 != start) {
@@ -70,7 +75,7 @@ AjaxUpdate.init({
 			if (/\/(\d+)_(\w)/.test(xpath("string(.//tr[2]/td/table/tbody/tr[1]/td/img[last()]/@src)", obj.document))) {
 				let value = parseInt(RegExp.$1, 10),
 				pile = "cdhs".indexOf(RegExp.$2[0]) + 4 * (value - 2),
-				cards = JSON.parse(GM_getValue("cards", "{}")),
+				cards = JSON.parse(GM.getValue("cards", "{}")),
 				draw = xpath(".//a[contains(@href, 'action=draw')]", obj.document)[0],
 				acards = [],
 				choices = [];
@@ -172,7 +177,7 @@ AjaxUpdate.init({
 					});
 				}
 
-				GM_setValue("cards", JSON.stringify(cards));
+				GM.setValue("cards", JSON.stringify(cards));
 			}
 		}
 	},

@@ -15,12 +15,18 @@
 // @include        http://www.neopets.com/userlookup.phtml?*randomfriend=*
 // @include        http://www.neopets.com/petlookup.phtml?*pet=*
 // @grant          GM_addStyle
+// @grant          GM.addStyle
 // @grant          GM_getValue
+// @grant          GM.getValue
 // @grant          GM_setValue
+// @grant          GM.setValue
 // @grant          GM_deleteValue
+// @grant          GM.deleteValue
 // @grant          GM_getResourceText
+// @grant          GM.getResourceText
 // @icon           http://gm.wesley.eti.br/icon.php?desc=126025
 // @resource       winConfigCss https://github.com/w35l3y/userscripts/raw/master/includes/Includes_WinConfig/resources/default.css
+// @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_WinConfig/163374.user.js
 // ==/UserScript==
@@ -42,56 +48,56 @@
 
 **************************************************************************/
 
-GM_addStyle(".winConfig_StyleRemoverSettings .fieldName_enable .subfield {width: 50%;}.winConfig_StyleRemoverSettings .fieldName_enable .subfield > label {width: 60%;}");
+GM.addStyle(".winConfig_StyleRemoverSettings .fieldName_enable .subfield {width: 50%;}.winConfig_StyleRemoverSettings .fieldName_enable .subfield > label {width: 60%;}");
 
 (function () {
-	var page = {
-		"/browseshop.phtml"	: [0x01, ".//td[@class = 'content']/*[preceding-sibling::comment()[contains(., 'desc start')] and following-sibling::comment()[contains(., 'desc end')]]"],
-		"/userlookup.phtml"	: [0x02, ".//td[@class = 'content']/table[1]/preceding-sibling::div[1]"],
-		"/petlookup.phtml"	: [0x04, ".//td[@class = 'content']/div[position() = last()]"],
-		"/gallery/index.phtml"	: [0x08, ".//td[@class = 'content']/div/*[preceding-sibling::a[2] and (following-sibling::hr[1] or ../../hr[1])]"],
-	}[location.pathname],
-	win = new WinConfig({
-		title	: "Style Remover : Settings",
-		type	: WinConfig.WindowType.CUSTOM,
-		size	: ["300px", 0],
-		fields	: [{
-			name		: "settingsHotKey",
-			label		: "Settings HotKey",
-			key			: "hotkey",
-			callback	: function (event, win) {
-				win.open();
-			},
-		}, {
-			name		: "enable",
-			type		: WinConfig.FieldType.CHECK,
-			format		: WinConfig.FieldFormat.NUMBER,
-			multiple	: true,
-			unique		: true,
-			empty		: 0x00,
-			default		: 0x01,
-			value		: [{
-				value	: 0x01,
-				label	: "Shop",
-			}, {
-				value	: 0x08,
-				label	: "Gallery",
-			}, {
-				value	: 0x02,
-				label	: "User Lookup",
-			}, {
-				value	: 0x04,
-				label	: "Pet Lookup",
-			}],
-		}],
-	}),
-	enable = win.get("enable", 0x0);
-	
-	if (enable & page[0]) {
-		var root = xpath(page[1]);
+    var page = {
+        "/browseshop.phtml"    : [0x01, ".//td[@class = 'content']/*[preceding-sibling::comment()[contains(., 'desc start')] and following-sibling::comment()[contains(., 'desc end')]]"],
+        "/userlookup.phtml"    : [0x02, ".//td[@class = 'content']/table[1]/preceding-sibling::div[1]"],
+        "/petlookup.phtml"    : [0x04, ".//td[@class = 'content']/div[position() = last()]"],
+        "/gallery/index.phtml"    : [0x08, ".//td[@class = 'content']/div/*[preceding-sibling::a[2] and (following-sibling::hr[1] or ../../hr[1])]"],
+    }[location.pathname],
+    win = new WinConfig({
+        title    : "Style Remover : Settings",
+        type    : WinConfig.WindowType.CUSTOM,
+        size    : ["300px", 0],
+        fields    : [{
+            name        : "settingsHotKey",
+            label        : "Settings HotKey",
+            key            : "hotkey",
+            callback    : function (event, win) {
+                win.open();
+            },
+        }, {
+            name        : "enable",
+            type        : WinConfig.FieldType.CHECK,
+            format        : WinConfig.FieldFormat.NUMBER,
+            multiple    : true,
+            unique        : true,
+            empty        : 0x00,
+            default        : 0x01,
+            value        : [{
+                value    : 0x01,
+                label    : "Shop",
+            }, {
+                value    : 0x08,
+                label    : "Gallery",
+            }, {
+                value    : 0x02,
+                label    : "User Lookup",
+            }, {
+                value    : 0x04,
+                label    : "Pet Lookup",
+            }],
+        }],
+    }),
+    enable = win.get("enable", 0x0);
+    
+    if (enable & page[0]) {
+        var root = xpath(page[1]);
 
-		for (var ai in root) {
-			root[ai].parentNode.removeChild(root[ai]);
-		}
-	}
+        for (var ai in root) {
+            root[ai].parentNode.removeChild(root[ai]);
+        }
+    }
 }());

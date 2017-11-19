@@ -11,7 +11,9 @@
 // @language       en
 // @include        http://userscripts-mirror.org/forums/*
 // @grant          GM_xmlhttpRequest
+// @grant          GM.xmlHttpRequest
 // @icon           http://gm.wesley.eti.br/icon.php?desc=131890
+// @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_HttpRequest/56489.user.js
 // ==/UserScript==
@@ -34,68 +36,68 @@
 **************************************************************************/
 
 (function recursive (topics) {
-	if (topics.length) {
-		var topic = topics.shift();
+    if (topics.length) {
+        var topic = topics.shift();
 
-		if (/^(?:[A-Z][a-z]+){2}/.test(topic.textContent)	// title
-		&& "0" == xpath("string(./ancestor::tr[1]/td[3]/text())", topic)	// number of replies
-		&& /[a-z]{2,}\d*[a-z]?$/.test(xpath("string(./ancestor::tr[1][td[2]/small/a[1]/text() = td[5]/small/a[1]/text()]/td[2]/small/a[1]/text())", topic))	// username
-		&& /#posts-(\d+)/.test(xpath("string(./ancestor::tr[1]/td[5]/small/a[2]/@href)", topic))	// post id
-		) {
-			var pid = RegExp.$1;
+        if (/^(?:[A-Z][a-z]+){2}/.test(topic.textContent)    // title
+        && "0" == xpath("string(./ancestor::tr[1]/td[3]/text())", topic)    // number of replies
+        && /[a-z]{2,}\d*[a-z]?$/.test(xpath("string(./ancestor::tr[1][td[2]/small/a[1]/text() = td[5]/small/a[1]/text()]/td[2]/small/a[1]/text())", topic))    // username
+        && /#posts-(\d+)/.test(xpath("string(./ancestor::tr[1]/td[5]/small/a[2]/@href)", topic))    // post id
+        ) {
+            var pid = RegExp.$1;
 
-			HttpRequest.open({
-				method		: "post",
-				url			: "http://userscripts-mirror.org/spam",
-				headers		: {
-					"Referer"	: topic.parentNode.href,
-				},
-				onsuccess	: function (xhr) {
-					xpath("./ancestor::tr[1]/td[1]/img/@class", topic)[0].value = "icon grey";
+            HttpRequest.open({
+                method        : "post",
+                url            : "http://userscripts-mirror.org/spam",
+                headers        : {
+                    "Referer"    : topic.parentNode.href,
+                },
+                onsuccess    : function (xhr) {
+                    xpath("./ancestor::tr[1]/td[1]/img/@class", topic)[0].value = "icon grey";
 
-					var msg = xpath("string(id('post-body-" + pid + "'))", xhr.response.xml).replace(/^\s+|\s+$/g, ""),
-					notice = xpath("id('content')/p[@class = 'notice']", xhr.response.xml)[0],
-					content = xpath("id('content')")[0];
-					if (notice) {
-						content.replaceChild(notice, content.firstChild);	// it works because the first child is a TextNode
-					}
+                    var msg = xpath("string(id('post-body-" + pid + "'))", xhr.response.xml).replace(/^\s+|\s+$/g, ""),
+                    notice = xpath("id('content')/p[@class = 'notice']", xhr.response.xml)[0],
+                    content = xpath("id('content')")[0];
+                    if (notice) {
+                        content.replaceChild(notice, content.firstChild);    // it works because the first child is a TextNode
+                    }
 
-					if (!msg || /(?:[A-Z][a-z]+){4}/.test(msg)) {
-						window.setTimeout(recursive, 500, topics);
-					} else {	// ops, the content message doesn't seem to be spam
-						HttpRequest.open({
-							method		: "post",
-							url			: "http://userscripts-mirror.org/spam",
-							headers		: {
-								"Referer"	: topic.parentNode.href,
-							},
-							onsuccess	: function (xhr) {
-								window.setTimeout(recursive, 500, topics);
+                    if (!msg || /(?:[A-Z][a-z]+){4}/.test(msg)) {
+                        window.setTimeout(recursive, 500, topics);
+                    } else {    // ops, the content message doesn't seem to be spam
+                        HttpRequest.open({
+                            method        : "post",
+                            url            : "http://userscripts-mirror.org/spam",
+                            headers        : {
+                                "Referer"    : topic.parentNode.href,
+                            },
+                            onsuccess    : function (xhr) {
+                                window.setTimeout(recursive, 500, topics);
 
-								notice = xpath("id('content')/p[@class = 'notice']", xhr.response.xml)[0];
+                                notice = xpath("id('content')/p[@class = 'notice']", xhr.response.xml)[0];
 
-								if (notice) {
-									content.replaceChild(notice, content.firstChild);	// it works because the first child is a TextNode
-								}
-							},
-						}).send({
-							"authenticity_token"	: unsafeWindow.auth_token,
-							"post_id"				: pid,
-							"spam"					: "false",
-							"commit"				: "Disagree",
-						});
-					}
-				},
-			}).send({
-				"authenticity_token"	: unsafeWindow.auth_token,
-				"post_id"				: pid,
-				"spam"					: "true",
-				"commit"				: "Flag Spam",
-			});
-		} else {	// next topic
-			recursive(topics);
-		}
-	} else {
-		window.setTimeout("location.reload()", 150000);	// 02m30s
-	}
+                                if (notice) {
+                                    content.replaceChild(notice, content.firstChild);    // it works because the first child is a TextNode
+                                }
+                            },
+                        }).send({
+                            "authenticity_token"    : unsafeWindow.auth_token,
+                            "post_id"                : pid,
+                            "spam"                    : "false",
+                            "commit"                : "Disagree",
+                        });
+                    }
+                },
+            }).send({
+                "authenticity_token"    : unsafeWindow.auth_token,
+                "post_id"                : pid,
+                "spam"                    : "true",
+                "commit"                : "Flag Spam",
+            });
+        } else {    // next topic
+            recursive(topics);
+        }
+    } else {
+        window.setTimeout("location.reload()", 150000);    // 02m30s
+    }
 }(xpath("id('content')//tr[td[1]/img[@class = 'icon green']]/td[2]/a/text()")));

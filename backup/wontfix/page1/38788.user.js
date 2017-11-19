@@ -17,159 +17,159 @@
 
 function meta2object(meta)
 {
-	var out = {}, re = /^\/\/\s+@(\S+)\s+(.+)$/gm;
-	for ( var match ; match = re.exec(meta) ; )
-	{
-		if (!(match[1] in out))
-			out[match[1]] = [];
+    var out = {}, re = /^\/\/\s+@(\S+)\s+(.+)$/gm;
+    for ( var match ; match = re.exec(meta) ; )
+    {
+        if (!(match[1] in out))
+            out[match[1]] = [];
 
-		out[match[1]].push(match[2]);
-	}
-	return out;
+        out[match[1]].push(match[2]);
+    }
+    return out;
 }
 function CheckForUpdate()
 {
-	const CallbackResponse;
+    const CallbackResponse;
 }
 CheckForUpdate.CallbackResponse = {
-	'Error':-1,
-	'NoReminder':0,
-	'ForcedWaiting':1,
-	'Waiting':2,
-	'Unchanged':3,
-	'Changed':4
+    'Error':-1,
+    'NoReminder':0,
+    'ForcedWaiting':1,
+    'Waiting':2,
+    'Unchanged':3,
+    'Changed':4
 };
 CheckForUpdate.changelog = function(oheader, nheader, source)
 {
-	return ( oheader['cfu:changelog'] ? eval(oheader['cfu:changelog'][0]+'(oheader, nheader, source)') : '' );
+    return ( oheader['cfu:changelog'] ? eval(oheader['cfu:changelog'][0]+'(oheader, nheader, source)') : '' );
 }
 CheckForUpdate.init = function(header, callback)
 {
-	if (typeof header == 'xml')
-		header = meta2object(header);
-	
-	if (!header['cfu:url'] || !(header['cfu:timestamp'] || header['cfu:version']))
-		alert('@cfu:url and @cfu:timestamp/@cfu:version is required.');
-	else
-	{
-		function update(header, manual, purl)
-		{
-			var tint = '1 week';
-			var interval = eval((header['cfu:interval'] || tint).toString().replace(/week[s]?/,'* 7 days').replace(/day[s]?/g,'* 24 hours').replace(/hour[s]?/g,'* 60 minutes').replace(/minute[s]?/g,'* 60 seconds').replace(/second[s]?/g,'* 1000').replace(/[^\d*]+/g,''));
-			var lastCheck = parseInt(GM_getValue('lastCheck-'+header.namespace+header.name, '0'), 10);
-			var currentDate = new Date().valueOf();
-			var c = CheckForUpdate.CallbackResponse.Waiting;
-			if (currentDate-lastCheck < 120000)	// 2 * 60 * 1000
-			{
-				if (manual && !callback)
-					alert('You have to wait at least 2 minutes before checking for updates again.');
+    if (typeof header == 'xml')
+        header = meta2object(header);
+    
+    if (!header['cfu:url'] || !(header['cfu:timestamp'] || header['cfu:version']))
+        alert('@cfu:url and @cfu:timestamp/@cfu:version is required.');
+    else
+    {
+        function update(header, manual, purl)
+        {
+            var tint = '1 week';
+            var interval = eval((header['cfu:interval'] || tint).toString().replace(/week[s]?/,'* 7 days').replace(/day[s]?/g,'* 24 hours').replace(/hour[s]?/g,'* 60 minutes').replace(/minute[s]?/g,'* 60 seconds').replace(/second[s]?/g,'* 1000').replace(/[^\d*]+/g,''));
+            var lastCheck = parseInt(GM.getValue('lastCheck-'+header.namespace+header.name, '0'), 10);
+            var currentDate = new Date().valueOf();
+            var c = CheckForUpdate.CallbackResponse.Waiting;
+            if (currentDate-lastCheck < 120000)    // 2 * 60 * 1000
+            {
+                if (manual && !callback)
+                    alert('You have to wait at least 2 minutes before checking for updates again.');
 
-				c = CheckForUpdate.CallbackResponse.ForcedWaiting;
-			}
-			else if ((interval > 0 && lastCheck+interval < currentDate) || manual)
-			{
-				GM_setValue('lastCheck-'+header.namespace+header.name, ''+currentDate);
-		
-				purl = parseInt(purl, 10) || 0;
-			
-				var urls = header['cfu:meta'] || header['cfu:url'] || [];
-		
-				c = CheckForUpdate.CallbackResponse.Error;
-				if (purl < urls.length)
-				{
-					var curl = urls[purl].replace('@cfu:id',header['cfu:id'] && (header[header['cfu:id'][0]][0] || header['cfu:id'][0]) || '');
+                c = CheckForUpdate.CallbackResponse.ForcedWaiting;
+            }
+            else if ((interval > 0 && lastCheck+interval < currentDate) || manual)
+            {
+                GM.setValue('lastCheck-'+header.namespace+header.name, ''+currentDate);
+        
+                purl = parseInt(purl, 10) || 0;
+            
+                var urls = header['cfu:meta'] || header['cfu:url'] || [];
+        
+                c = CheckForUpdate.CallbackResponse.Error;
+                if (purl < urls.length)
+                {
+                    var curl = urls[purl].replace('@cfu:id',header['cfu:id'] && (header[header['cfu:id'][0]][0] || header['cfu:id'][0]) || '');
 
-					c = null;
-					GM_log('Checking for updates... ' + curl);
+                    c = null;
+                    GM.log('Checking for updates... ' + curl);
 
-					GM_xmlhttpRequest({
-						'url':curl + ( ~curl.indexOf('?') ? '&' : '?' ) + 'rand=' + Math.random(),
-						'method':'get',
-						'headers':{
-							'Cache-Control':	'no-store, no-cache, must-revalidate',
-							'Pragma':		'no-cache',
-							'Expires':		'0'
-						},
-						'onload':function (e)
-						{
-							if (/^2/.test(e.status))
-							{
-								var h = meta2object(e.responseText);
+                    GM.xmlHttpRequest({
+                        'url':curl + ( ~curl.indexOf('?') ? '&' : '?' ) + 'rand=' + Math.random(),
+                        'method':'get',
+                        'headers':{
+                            'Cache-Control':    'no-store, no-cache, must-revalidate',
+                            'Pragma':        'no-cache',
+                            'Expires':        '0'
+                        },
+                        'onload':function (e)
+                        {
+                            if (/^2/.test(e.status))
+                            {
+                                var h = meta2object(e.responseText);
 
-								function compareVersion(newV, oldV)
-								{
-									var n = ('0.'+(newV || '0')).split('.');
-									var o = ('0.'+(oldV || '0')).split('.');
-									for ( var i = (Math.max(n.length, o.length))-1 ; i ; --i )
-									{
-										var x = parseInt(n[i], 10) || 0, y = parseInt(o[i], 10) || 0;
-										if (x != y)
-											return [x - y, i];
-									}
-									return 0;
-								}
+                                function compareVersion(newV, oldV)
+                                {
+                                    var n = ('0.'+(newV || '0')).split('.');
+                                    var o = ('0.'+(oldV || '0')).split('.');
+                                    for ( var i = (Math.max(n.length, o.length))-1 ; i ; --i )
+                                    {
+                                        var x = parseInt(n[i], 10) || 0, y = parseInt(o[i], 10) || 0;
+                                        if (x != y)
+                                            return [x - y, i];
+                                    }
+                                    return 0;
+                                }
 
-								var ltv = [header['cfu:version'] && (header[header['cfu:version'][0]][0] || header['cfu:version'][0]),header['cfu:timestamp'] && (header[header['cfu:timestamp'][0]][0] || header['cfu:timestamp'][0])]; // local temp version
-								var rtv = [h['cfu:version'] && (h[h['cfu:version'][0]][0] || h['cfu:version'][0]),h['cfu:timestamp'] && (h[h['cfu:timestamp'][0]][0] || h['cfu:timestamp'][0])]; // remote temp version
-								var v = [(ltv[0] && ltv[1] && rtv[0] && rtv[1]? ltv[1] + ' ('+ltv[0]+')' : ltv[0] || ltv[1]),(rtv[0] && rtv[1] && ltv[0] && ltv[1] ? rtv[1] + ' ('+rtv[0]+')' : rtv[0] || rtv[1])];
+                                var ltv = [header['cfu:version'] && (header[header['cfu:version'][0]][0] || header['cfu:version'][0]),header['cfu:timestamp'] && (header[header['cfu:timestamp'][0]][0] || header['cfu:timestamp'][0])]; // local temp version
+                                var rtv = [h['cfu:version'] && (h[h['cfu:version'][0]][0] || h['cfu:version'][0]),h['cfu:timestamp'] && (h[h['cfu:timestamp'][0]][0] || h['cfu:timestamp'][0])]; // remote temp version
+                                var v = [(ltv[0] && ltv[1] && rtv[0] && rtv[1]? ltv[1] + ' ('+ltv[0]+')' : ltv[0] || ltv[1]),(rtv[0] && rtv[1] && ltv[0] && ltv[1] ? rtv[1] + ' ('+rtv[0]+')' : rtv[0] || rtv[1])];
 
-								if ((Date.parse(''+rtv[1]) || parseInt(rtv[1], 10)) > (Date.parse(''+ltv[1]) || parseInt(ltv[1], 10)) || compareVersion(''+rtv[0], ''+ltv[0])[0] > 0)
-								{
-									if (!!callback)	// "true"
-										callback(CheckForUpdate.CallbackResponse.Changed, !!manual, header, h, e.responseText);
-									else if (typeof(callback)!='boolean') // !false
-									{
-										if (confirm('[ '+header.name+' ]'+
-												'\n\nCurrent version:\t'+v[0]+
-												'\nLastest version:\t'+v[1]+
-												'\n'+CheckForUpdate.changelog(header, h, e.responseText)+
-												(header.name[0] != h.name[0] || header.namespace[0] != h.namespace[0] ? '\nName and/or namespace has changed.\nYou should uninstall the current version manually.\n' : '')+
-												'\nInstall the lastest version now?'))
-											GM_openInTab(header['cfu:url'][0].replace('@cfu:id',header['cfu:id'] && (header[header['cfu:id'][0]][0] || header['cfu:id'][0]) || ''));
-										else if (confirm('Would you like to be reminded tomorrow?'))
-											GM_setValue('lastCheck-'+header.namespace+header.name, '' + (currentDate - 518400000)); // 6 * 24 * 60 * 60 * 1000
-										else
-											alert((interval > 0 ? 'You will be reminded again in '+(header['cfu:interval'] || tint) : 'You won\'t be reminded again.' ));
-									}
-								}
-								else if (!!callback)
-								{
-									callback(CheckForUpdate.CallbackResponse.Unchanged, !!manual, header, h, e.responseText);
-								}
-								else if (manual)
-								{
+                                if ((Date.parse(''+rtv[1]) || parseInt(rtv[1], 10)) > (Date.parse(''+ltv[1]) || parseInt(ltv[1], 10)) || compareVersion(''+rtv[0], ''+ltv[0])[0] > 0)
+                                {
+                                    if (!!callback)    // "true"
+                                        callback(CheckForUpdate.CallbackResponse.Changed, !!manual, header, h, e.responseText);
+                                    else if (typeof(callback)!='boolean') // !false
+                                    {
+                                        if (confirm('[ '+header.name+' ]'+
+                                        '\n\nCurrent version:\t'+v[0]+
+                                        '\nLastest version:\t'+v[1]+
+                                        '\n'+CheckForUpdate.changelog(header, h, e.responseText)+
+                                                (header.name[0] != h.name[0] || header.namespace[0] != h.namespace[0] ? '\nName and/or namespace has changed.\nYou should uninstall the current version manually.\n' : '')+
+                                                '\nInstall the lastest version now?'))
+                                            GM.openInTab(header['cfu:url'][0].replace('@cfu:id',header['cfu:id'] && (header[header['cfu:id'][0]][0] || header['cfu:id'][0]) || ''));
+                                        else if (confirm('Would you like to be reminded tomorrow?'))
+                                            GM.setValue('lastCheck-'+header.namespace+header.name, '' + (currentDate - 518400000)); // 6 * 24 * 60 * 60 * 1000
+                                        else
+                                            alert((interval > 0 ? 'You will be reminded again in '+(header['cfu:interval'] || tint) : 'You won\'t be reminded again.' ));
+                                    }
+                                }
+                                else if (!!callback)
+                                {
+                                    callback(CheckForUpdate.CallbackResponse.Unchanged, !!manual, header, h, e.responseText);
+                                }
+                                else if (manual)
+                                {
 									alert('You are using the lastest version.\n\nInstalled version:\t'+v[0]+'\nPublic version:\t\t'+v[1]);
-								}
-							}
-							else
-								update(header, manual, ++purl);
-						},
-						'onerror':function (e)
-						{
-							update(header, manual, ++purl);
-						}
-					});
-				}
-				else
-					GM_log('An error has occurred while checking for updates.');
-			}
-			else if (interval <= 0)
-				c = CheckForUpdate.CallbackResponse.NoReminder;
+                                }
+                            }
+                            else
+                                update(header, manual, ++purl);
+                        },
+                        'onerror':function (e)
+                        {
+                            update(header, manual, ++purl);
+                        }
+                    });
+                }
+                else
+                    GM.log('An error has occurred while checking for updates.');
+            }
+            else if (interval <= 0)
+                c = CheckForUpdate.CallbackResponse.NoReminder;
 
-			if (c !== null && !!callback)
-				callback(c, !!manual, header);
-		}
+            if (c !== null && !!callback)
+                callback(c, !!manual, header);
+        }
 
-		if (typeof(callback)!='boolean')
-			GM_registerMenuCommand('[' + header.name + '] Check for Updates', function()
-			{
-				update(header, true);
-			});
-	
-		update(header, false);
-	}
+        if (typeof(callback)!='boolean')
+            GM.registerMenuCommand('[' + header.name + '] Check for Updates', function()
+            {
+                update(header, true);
+            });
+    
+        update(header, false);
+    }
 
-	return header;
+    return header;
 };
 
 /*#####################################*/

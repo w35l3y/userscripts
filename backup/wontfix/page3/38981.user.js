@@ -21,15 +21,24 @@
 // @include        http*://orkut.tld/Messages?msg=*
 // @include        http*://orkut.tld/ProfileT?uid=*
 // @grant          GM_log
+// @grant          GM.log
 // @grant          GM_addStyle
+// @grant          GM.addStyle
 // @grant          GM_getValue
+// @grant          GM.getValue
 // @grant          GM_setValue
+// @grant          GM.setValue
 // @grant          GM_openInTab
+// @grant          GM.openInTab
 // @grant          GM_deleteValue
+// @grant          GM.deleteValue
 // @grant          GM_xmlhttpRequest
+// @grant          GM.xmlHttpRequest
 // @grant          GM_getResourceText
+// @grant          GM.getResourceText
 // @icon           http://gm.wesley.eti.br/icon.php?desc=38981
 // @resource       highlight http://shjs.sourceforge.net/sh_style.css?v1
+// @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @require        http://shjs.sourceforge.net/sh_main.min.js?v1
 // @require        http://shjs.sourceforge.net/lang/sh_php.min.js?v1
 // @require        https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page1/38788.user.js
@@ -69,46 +78,46 @@
 
 typeof(CheckForUpdate)!='undefined' && CheckForUpdate.init(GM_info.scriptMetaStr);
 
-GM_addStyle(GM_getResourceText('highlight'));
+GM.addStyle(GM.getResourceText('highlight'));
 
 (function()
-{	// script scope
+{    // script scope
 /*
-	/CommMsgs?cmm=*		id('mboxfull')/table/tbody/tr[2]/td[1]/div[position()<last()]/div[2]
-	/Scrapbook*			id('mboxfull')/table[2]/tbody/tr[2]/td[1]/form[1]/div/div
-	/Home*				id('mbox')/table[3]/tbody/tr[2]/td[1]/div/div
-	/Profile?*			id('app_content_testimonials')/div/div[2]
-	/Messages?msg=*		id('f')/table/tbody/tr[2]/td[1]/div[5]/div/div[6]
-	/ProfileT?uid=*		id('mboxfull')/table/tbody/tr[2]/td[1]/div/div
+    /CommMsgs?cmm=*        id('mboxfull')/table/tbody/tr[2]/td[1]/div[position()<last()]/div[2]
+    /Scrapbook*            id('mboxfull')/table[2]/tbody/tr[2]/td[1]/form[1]/div/div
+    /Home*                 id('mbox')/table[3]/tbody/tr[2]/td[1]/div/div
+    /Profile?*             id('app_content_testimonials')/div/div[2]
+    /Messages?msg=*        id('f')/table/tbody/tr[2]/td[1]/div[5]/div/div[6]
+    /ProfileT?uid=*        id('mboxfull')/table/tbody/tr[2]/td[1]/div/div
 */
-	var replies = document.evaluate("id('mboxfull')/table/tbody/tr[2]/td[1]/div[position()<last()]/div[2]|id('mboxfull')/table[2]/tbody/tr[2]/td[1]/form[1]/div/div|id('mbox')/table[3]/tbody/tr[2]/td[1]/div/div|id('app_content_testimonials')/div/div[2]|id('f')/table/tbody/tr[2]/td[1]/div[5]/div/div[6]|id('mboxfull')/table/tbody/tr[2]/td[1]/div/div", document, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
-	for ( var reply , i = replies.snapshotLength ; reply = replies.snapshotItem(--i) ; )
-	{
-		var output = "";
-		var lines = reply.innerHTML.split(/<br(?:\s*\/)?>/);
-		var tabs = [0,0];
-		for ( var ai = 0 , at = lines.length ; ai < at ; ++ai )
-		{
-			var x = [lines[ai].split("{").length, lines[ai].split("}").length];
-			tabs[0] += x[0] - x[1];
+    var replies = document.evaluate("id('mboxfull')/table/tbody/tr[2]/td[1]/div[position()<last()]/div[2]|id('mboxfull')/table[2]/tbody/tr[2]/td[1]/form[1]/div/div|id('mbox')/table[3]/tbody/tr[2]/td[1]/div/div|id('app_content_testimonials')/div/div[2]|id('f')/table/tbody/tr[2]/td[1]/div[5]/div/div[6]|id('mboxfull')/table/tbody/tr[2]/td[1]/div/div", document, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
+    for ( var reply , i = replies.snapshotLength ; reply = replies.snapshotItem(--i) ; )
+    {
+        var output = "";
+        var lines = reply.innerHTML.split(/<br(?:\s*\/)?>/);
+        var tabs = [0,0];
+        for ( var ai = 0 , at = lines.length ; ai < at ; ++ai )
+        {
+            var x = [lines[ai].split("{").length, lines[ai].split("}").length];
+            tabs[0] += x[0] - x[1];
 
-			// this is a workaround for the "} else {" case
-			// Math.max(0, tabs[0] - (x[0] > 1 && /^}/.test(lines[ai]) && x[0] == x[1] ? 1 : 0))
-			for ( var bi = (x[0] > x[1] ? tabs[1] : Math.max(0, tabs[0] - (x[0] > 1 && /^}/.test(lines[ai]) && x[0] == x[1] ? 1 : 0))) ; bi ; --bi )
-				output += "&nbsp;&nbsp;&nbsp;&nbsp;";
-			output += lines[ai] + "<br />";
+            // this is a workaround for the "} else {" case
+            // Math.max(0, tabs[0] - (x[0] > 1 && /^}/.test(lines[ai]) && x[0] == x[1] ? 1 : 0))
+            for ( var bi = (x[0] > x[1] ? tabs[1] : Math.max(0, tabs[0] - (x[0] > 1 && /^}/.test(lines[ai]) && x[0] == x[1] ? 1 : 0))) ; bi ; --bi )
+                output += "&nbsp;&nbsp;&nbsp;&nbsp;";
+            output += lines[ai] + "<br />";
 
-			if (tabs[1] != tabs[0])
-				tabs[1] = tabs[0];
-		}
+            if (tabs[1] != tabs[0])
+                tabs[1] = tabs[0];
+        }
 
-		reply.innerHTML = output
-				.replace(/\t+/gm,'')
-				.replace(/(?!\[{2})\[code\](?:(?:<br(?:\s*\/)?>)+)?(|[^]+?)((?:<br(?:\s*\/)?>)+)?\[\/code\]/gi,'<fieldset style="border:1px #000000 solid;"><legend>[&nbsp;Code&nbsp;]</legend>$1</fieldset>')
-				.replace(/(?:&lt;?|<)\?((?:php|=|(?!(?:xml|>|&gt;?)))(?:[^]*?(?:<br(?:\s*\/)?>)?)?)((?:|[^]+?))(<br(?:\s*\/)?>)?\?(?:&gt;?|>)/gi,'<pre class="sh_php" style="display:inline; white-space:pre-wrap;">&lt;?$1<span style="background-color:inherit; display:inline-block;">$2</span>$3?&gt;</pre>')
-				.replace(/(?:<br(?:\s*\/)?>){3,}/gi,'<br /><br />')
-				//.replace(/</g,'&lt;') // debug
-	}
+        reply.innerHTML = output
+                .replace(/\t+/gm,'')
+                .replace(/(?!\[{2})\[code\](?:(?:<br(?:\s*\/)?>)+)?(|[^]+?)((?:<br(?:\s*\/)?>)+)?\[\/code\]/gi,'<fieldset style="border:1px #000000 solid;"><legend>[&nbsp;Code&nbsp;]</legend>$1</fieldset>')
+                .replace(/(?:&lt;?|<)\?((?:php|=|(?!(?:xml|>|&gt;?)))(?:[^]*?(?:<br(?:\s*\/)?>)?)?)((?:|[^]+?))(<br(?:\s*\/)?>)?\?(?:&gt;?|>)/gi,'<pre class="sh_php" style="display:inline; white-space:pre-wrap;">&lt;?$1<span style="background-color:inherit; display:inline-block;">$2</span>$3?&gt;</pre>')
+                .replace(/(?:<br(?:\s*\/)?>){3,}/gi,'<br /><br />')
+                //.replace(/</g,'&lt;') // debug
+    }
 })();
 
 sh_highlightDocument();

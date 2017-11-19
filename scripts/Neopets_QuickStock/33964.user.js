@@ -13,14 +13,22 @@
 // @include        http://www.neopets.com/quickstock.phtml?r=*
 // @icon           http://gm.wesley.eti.br/icon.php?desc=33964
 // @grant          GM_log
+// @grant          GM.log
 // @grant          GM_addStyle
+// @grant          GM.addStyle
 // @grant          GM_getValue
+// @grant          GM.getValue
 // @grant          GM_setValue
+// @grant          GM.setValue
 // @grant          GM_deleteValue
+// @grant          GM.deleteValue
 // @grant          GM_xmlhttpRequest
+// @grant          GM.xmlHttpRequest
 // @grant          GM_getResourceText
+// @grant          GM.getResourceText
 // @resource       meta 33964.user.js
 // @resource       winConfigCss ../../includes/Includes_WinConfig/resources/default.css
+// @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @require        https://github.com/w35l3y/localStorageDB/raw/master/localstoragedb.js
 // @require        ../../includes/Includes_XPath/63808.user.js
 // @require        ../../includes/Includes_HttpRequest/56489.user.js

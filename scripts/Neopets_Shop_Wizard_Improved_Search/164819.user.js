@@ -15,18 +15,26 @@
 // @connect        github.com
 // @connect        raw.githubusercontent.com
 // @grant          GM_log
+// @grant          GM.log
 // @grant          GM_addStyle
+// @grant          GM.addStyle
 // @grant          GM_getValue
+// @grant          GM.getValue
 // @grant          GM_setValue
+// @grant          GM.setValue
 // @grant          GM_deleteValue
+// @grant          GM.deleteValue
 // @grant          GM_xmlhttpRequest
+// @grant          GM.xmlHttpRequest
 // @grant          GM_getResourceText
+// @grant          GM.getResourceText
 // @resource       meta https://github.com/w35l3y/userscripts/raw/master/scripts/Neopets_Shop_Wizard_Improved_Search/164819.user.js
 // @resource       i18n ../../includes/Includes_I18n/resources/default.json
 // @resource       winConfigCss ../../includes/Includes_WinConfig/resources/default.css
 // @resource       neopetsMessageJson resources/neopetsMessageJson.json
 // @resource       updaterWindowHtml ../../includes/Includes_Updater/resources/default.html
 // @resource       updaterWindowCss ../../includes/Includes_Updater/resources/default.css
+// @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @require        ../../includes/Includes_XPath/63808.user.js
 // @require        ../../includes/Includes_HttpRequest/56489.user.js
 // @require        ../../includes/Includes_Neopets_Shop_Wizard/56503.user.js
@@ -56,7 +64,7 @@
 
 **************************************************************************/
 
-GM_addStyle(".winConfig_ShopWizardImprovedSearchSettings .body .fieldName_group > fieldset .fieldClass_default > label {width: 50%}.winConfig_ShopWizardImprovedSearchSettings .fieldName_group > fieldset .fieldType_0 input {width: 20%}");
+GM.addStyle(".winConfig_ShopWizardImprovedSearchSettings .body .fieldName_group > fieldset .fieldClass_default > label {width: 50%}.winConfig_ShopWizardImprovedSearchSettings .fieldName_group > fieldset .fieldType_0 input {width: 20%}");
 
 (function () {
 	var win = new WinConfig({
@@ -146,7 +154,7 @@ GM_addStyle(".winConfig_ShopWizardImprovedSearchSettings .body .fieldName_group 
 
 	if (config)
 	if (/type=wizard/.test(location.search)) {
-		GM_deleteValue("search");
+		GM.deleteValue("search");
 	} else {
 		/*
 			0x00	normal
@@ -163,7 +171,7 @@ GM_addStyle(".winConfig_ShopWizardImprovedSearchSettings .body .fieldName_group 
 			doc		: document,
 		}),
 		lang = xpath("string(.//select[@name = 'lang']/option[@selected]/@value)") || "en",
-		msgs = JSON.parse(GM_getResourceText("neopetsMessageJson"))[lang],
+		msgs = JSON.parse(GM.getResourceText("neopetsMessageJson"))[lang],
 		notFound = [msgs.itemNotFound, msgs.shopIsEmpty],
 		isWhite = true,
 		isWhite2 = false,
@@ -210,7 +218,7 @@ GM_addStyle(".winConfig_ShopWizardImprovedSearchSettings .body .fieldName_group 
 															params.row.cells[priceColumnIndex].innerHTML = o.Stock;
 														}
 
-														GM_setValue("search", JSON.stringify(search));
+														GM.setValue("search", JSON.stringify(search));
 
 														break;
 													}
@@ -230,7 +238,7 @@ GM_addStyle(".winConfig_ShopWizardImprovedSearchSettings .body .fieldName_group 
 																	params.row.cells[priceColumnIndex].innerHTML = o.Stock;
 																}
 
-																GM_setValue("search", JSON.stringify(search));
+																GM.setValue("search", JSON.stringify(search));
 
 																break;
 															}
@@ -252,7 +260,7 @@ GM_addStyle(".winConfig_ShopWizardImprovedSearchSettings .body .fieldName_group 
 											};
 											obj.link = i.Link;
 
-											GM_log("[" + qnty + "] Buying " + obj.referer + "...");
+											GM.log("[" + qnty + "] Buying " + obj.referer + "...");
 											setTimeout(Shop.buy, 1000, obj);
 										}
 
@@ -269,7 +277,7 @@ GM_addStyle(".winConfig_ShopWizardImprovedSearchSettings .body .fieldName_group 
 										if (search[ai].Link == o.Link) {
 											params.row.cells[2].innerHTML = search[ai].Stock = o.Stock;
 
-											GM_setValue("search", JSON.stringify(search));
+											GM.setValue("search", JSON.stringify(search));
 
 											break;
 										}
@@ -283,7 +291,7 @@ GM_addStyle(".winConfig_ShopWizardImprovedSearchSettings .body .fieldName_group 
 
 								alert(obj.message.textContent);
 							} else {
-								GM_log(obj.response.text);
+								GM.log(obj.response.text);
 
 								alert("Unknown error while listing items.");
 							}
@@ -293,7 +301,7 @@ GM_addStyle(".winConfig_ShopWizardImprovedSearchSettings .body .fieldName_group 
 			}],
 			[0x10, "Group"],
 		],
-		search = JSON.parse(GM_getValue("search", "[]")),
+		search = JSON.parse(GM.getValue("search", "[]")),
 		updateAttrs = function (obj) {
 			for (var bi in attrs) {
 				if ((Math.pow(2, bi) & config.columns) && obj.index <= bi) {
@@ -406,7 +414,7 @@ GM_addStyle(".winConfig_ShopWizardImprovedSearchSettings .body .fieldName_group 
 				}
 			});
 
-			GM_setValue("search", JSON.stringify(search));
+			GM.setValue("search", JSON.stringify(search));
 
 			var list = xpath(".//tbody/tr[position() > 1]", table);
 			for (var ai in doc.list) {

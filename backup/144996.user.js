@@ -11,7 +11,9 @@
 // @include        nowhere
 // @exclude        *
 // @grant          GM_log
+// @grant          GM.log
 // @icon           http://gm.wesley.eti.br/icon.php?desc=144996
+// @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // ==/UserScript==
 
 /**************************************************************************
@@ -32,92 +34,92 @@
 **************************************************************************/
 
 QueuedEvent = function (fn, params, wait) {
-	this.wait = wait;
+    this.wait = wait;
 
-	this.execute = function (last) {
-		this.last = last;
-		return this.proceed.apply(this, [this.result = fn.apply(this, [].concat(params))]);
-	};
+    this.execute = function (last) {
+        this.last = last;
+        return this.proceed.apply(this, [this.result = fn.apply(this, [].concat(params))]);
+    };
 
-	this.proceed = function (result) {
-		return true;
-	};
+    this.proceed = function (result) {
+        return true;
+    };
 
-	this.halt = function () {};
+    this.halt = function () {};
 };
 
 QueuedList = function (wait) {
-	var _wait = wait || [500, 500],
-	_running = 0,
-	_list = [];
+    var _wait = wait || [500, 500],
+    _running = 0,
+    _list = [];
 
-	this.add = function (obj) {
-		if (obj instanceof Array) {
-			var r = {};
-			QueuedEvent.apply(r, obj);
-			obj = r;
-		} else if (!(obj instanceof QueuedEvent)) {
-			throw "Wrong type of the parameter";
-		}
+    this.add = function (obj) {
+        if (obj instanceof Array) {
+            var r = {};
+            QueuedEvent.apply(r, obj);
+            obj = r;
+        } else if (!(obj instanceof QueuedEvent)) {
+            throw "Wrong type of the parameter";
+        }
 
-		_list.push(obj);
+        _list.push(obj);
 
-		return obj;
-	}
+        return obj;
+    }
 
-	this.run = function (obj) {
-		if (obj) {
-			this.add.apply(this, Array.prototype.slice.apply(arguments));
-		}
+    this.run = function (obj) {
+        if (obj) {
+            this.add.apply(this, Array.prototype.slice.apply(arguments));
+        }
 
-		if (!_running && (1 == _list.length || !obj)) {
-			_running = 1;
+        if (!_running && (1 == _list.length || !obj)) {
+            _running = 1;
 
-			var _this = this;
-			(function _recursive (last) {
-				if (_running) {
-					if (_list.length) {
-						_running = ~~_list[0].execute(last) >> 0;
+            var _this = this;
+            (function _recursive (last) {
+                if (_running) {
+                    if (_list.length) {
+                        _running = ~~_list[0].execute(last) >> 0;
 
-						if (!~_running) {	// == -1
-							_this.halt();
-						} else if (_running) {
-							var w = _list[0].wait || _wait;
-							window.setTimeout(function () {
-								_recursive(_list.shift());
-							}, (w[0]||0) + Math.ceil((w[1]||0) * Math.random()));
-						}
-					} else {
-						_running = 0;
-						_this.end.apply(_this, []);
-					}
-				}
-			}());
-		}
-	};
+                        if (!~_running) {    // == -1
+                            _this.halt();
+                        } else if (_running) {
+                            var w = _list[0].wait || _wait;
+                            window.setTimeout(function () {
+                                _recursive(_list.shift());
+                            }, (w[0]||0) + Math.ceil((w[1]||0) * Math.random()));
+                        }
+                    } else {
+                        _running = 0;
+                        _this.end.apply(_this, []);
+                    }
+                }
+            }());
+        }
+    };
 
-	this.halt = function () {
-		_running = 0;
+    this.halt = function () {
+        _running = 0;
 
-		if (this.list.length) {
-			this.list[0].halt();
-		}
-	};
+        if (this.list.length) {
+            this.list[0].halt();
+        }
+    };
 
-	this.end = function () {};
+    this.end = function () {};
 };
 
 console.log("Loaded 'Includes : Queued Events'");
 
 /*var x = new QueuedList([1000, 0]),
 c = function (b) {
-	alert("Current : " + b + (this.last?"\nPrevious : " + this.last.result:""));
+    alert("Current : " + b + (this.last?"\nPrevious : " + this.last.result:""));
 
-	return b;
+    return b;
 }, b;
 
 ["1", "2", "3", "4", "5"].sort(function () {return Math.floor(3 * Math.random()) - 1}).forEach(function (y) {
-	x.add([c, [y]]);
+    x.add([c, [y]]);
 });
 
 x.run();*/

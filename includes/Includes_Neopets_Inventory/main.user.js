@@ -1,21 +1,23 @@
 // ==UserScript==
-// @name        Includes : Neopets : Inventory
-// @namespace   http://gm.wesley.eti.br
-// @description Inventory Function
-// @author      w35l3y
-// @email       w35l3y@brasnet.org
-// @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
-// @license     GNU GPL
-// @homepage    http://gm.wesley.eti.br
-// @version     1.0.0
-// @language    en
-// @include     nowhere
-// @exclude     *
-// @grant       GM_xmlhttpRequest
-// @require     https://github.com/w35l3y/localStorageDB/raw/master/localstoragedb.js
-// @require     https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
-// @require     https://github.com/w35l3y/userscripts/raw/master/includes/Includes_HttpRequest/56489.user.js
-// @require     https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Neopets_%5BBETA%5D/main.user.js
+// @name           Includes : Neopets : Inventory
+// @namespace      http://gm.wesley.eti.br
+// @description    Inventory Function
+// @author         w35l3y
+// @email          w35l3y@brasnet.org
+// @copyright      2015+, w35l3y (http://gm.wesley.eti.br)
+// @license        GNU GPL
+// @homepage       http://gm.wesley.eti.br
+// @version        1.0.0
+// @language       en
+// @include        nowhere
+// @exclude        *
+// @grant          GM_xmlhttpRequest
+// @grant          GM.xmlHttpRequest
+// @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
+// @require        https://github.com/w35l3y/localStorageDB/raw/master/localstoragedb.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_HttpRequest/56489.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Neopets_%5BBETA%5D/main.user.js
 // ==/UserScript==
 
 var Inventory = function (page) {

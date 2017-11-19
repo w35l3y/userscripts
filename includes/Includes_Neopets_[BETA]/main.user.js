@@ -1,23 +1,27 @@
 // ==UserScript==
-// @name        Includes : Neopets [BETA]
-// @namespace   http://gm.wesley.eti.br
-// @description Neopets Function
-// @author      w35l3y
-// @email       w35l3y@brasnet.org
-// @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
-// @license     GNU GPL
-// @homepage    http://gm.wesley.eti.br
-// @version     1.6.2
-// @language    en
-// @include     nowhere
-// @exclude     *
-// @grant       GM_getValue
-// @grant       GM_setValue
-// @grant       GM_xmlhttpRequest
-// @icon        http://gm.wesley.eti.br/icon.php?desc=includes/Includes_Neopets_[BETA]/main.user.js
-// @require     https://github.com/w35l3y/localStorageDB/raw/master/localstoragedb.js
-// @require     https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
-// @require     https://github.com/w35l3y/userscripts/raw/master/includes/Includes_HttpRequest/56489.user.js
+// @name           Includes : Neopets [BETA]
+// @namespace      http://gm.wesley.eti.br
+// @description    Neopets Function
+// @author         w35l3y
+// @email          w35l3y@brasnet.org
+// @copyright      2015+, w35l3y (http://gm.wesley.eti.br)
+// @license        GNU GPL
+// @homepage       http://gm.wesley.eti.br
+// @version        1.6.2
+// @language       en
+// @include        nowhere
+// @exclude        *
+// @grant          GM_getValue
+// @grant          GM.getValue
+// @grant          GM_setValue
+// @grant          GM.setValue
+// @grant          GM_xmlhttpRequest
+// @grant          GM.xmlHttpRequest
+// @icon           http://gm.wesley.eti.br/icon.php?desc=includes/Includes_Neopets_[BETA]/main.user.js
+// @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
+// @require        https://github.com/w35l3y/localStorageDB/raw/master/localstoragedb.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_HttpRequest/56489.user.js
 // ==/UserScript==
 
 /**************************************************************************
@@ -39,7 +43,7 @@
 
 var Neopets = function (doc) {
 	var createdAt = new Date(),
-	diff = GM_getValue("neopets-diff", 28800000),	// UTC-0800
+	diff = GM.getValue("neopets-diff", 28800000),	// UTC-0800
 	_b = function (v) {
 		return xpath("boolean(" + v + ")", doc);
 	},
@@ -218,7 +222,7 @@ var Neopets = function (doc) {
 				}
 
 				if (data.error && / pin /i.test(data.errmsg.toLowerCase())) {
-					GM_deleteValue(_this.username + "-pinNumber");
+					GM.deleteValue(_this.username + "-pinNumber");
 				}
 
 				obj.callback(data);
@@ -256,7 +260,7 @@ var Neopets = function (doc) {
 		)),
 		diff = Date.now() - createdAt;
 
-		GM_setValue("neopets-diff", diff);
+		GM.setValue("neopets-diff", diff);
 	} else {
 		createdAt.setUTCMilliseconds(createdAt.getUTCMilliseconds() - diff);
 	}
@@ -546,8 +550,8 @@ var Neopets = function (doc) {
 	};
 	
 	var userKey = "neopets-" + this.username,
-	_userTmp = JSON.parse(GM_getValue(userKey, "{}")),
-	_userTmpCache = JSON.parse(GM_getValue(userKey + "_cache", "{}"));
+	_userTmp = JSON.parse(GM.getValue(userKey, "{}")),
+	_userTmpCache = JSON.parse(GM.getValue(userKey + "_cache", "{}"));
 	
 	this.getUserData = function (key) {
 		if (key in _userTmpCache && new Date() - _userTmpCache[key][0] > _userTmpCache[key][1]) {
@@ -560,17 +564,17 @@ var Neopets = function (doc) {
 	this.deleteUserData = function (key) {
 		delete _userTmp[key];
 		delete _userTmpCache[key]
-		GM_setValue(userKey, JSON.stringify(_userTmp));
-		GM_setValue(userKey + "_cache", JSON.stringify(_userTmpCache));
+		GM.setValue(userKey, JSON.stringify(_userTmp));
+		GM.setValue(userKey + "_cache", JSON.stringify(_userTmpCache));
 	};
 
 	this.setUserData = function (key, value, cache) {
 		if (cache) {
 			_userTmpCache[key] = [new Date().valueOf(), cache];
-			GM_setValue(userKey + "_cache", JSON.stringify(_userTmpCache));
+			GM.setValue(userKey + "_cache", JSON.stringify(_userTmpCache));
 		}
 		_userTmp[key] = value;
-		GM_setValue(userKey, JSON.stringify(_userTmp));
+		GM.setValue(userKey, JSON.stringify(_userTmp));
 	};
 	
 	this.document = doc;

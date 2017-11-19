@@ -11,11 +11,17 @@
 // @language       en
 // @include        http://www.neopets.com/moon/meteor.phtml?getclose=1
 // @grant          GM_addStyle
+// @grant          GM.addStyle
 // @grant          GM_getValue
+// @grant          GM.getValue
 // @grant          GM_setValue
+// @grant          GM.setValue
 // @grant          GM_deleteValue
+// @grant          GM.deleteValue
 // @grant          GM_xmlhttpRequest
+// @grant          GM.xmlHttpRequest
 // @grant          GM_getResourceText
+// @grant          GM.getResourceText
 // @icon           http://gm.wesley.eti.br/icon.php?desc=28362
 // @connect        github.com
 // @connect        raw.githubusercontent.com
@@ -23,6 +29,7 @@
 // @resource       i18n ../../includes/Includes_I18n/resources/default.json
 // @resource       updaterWindowHtml ../../includes/Includes_Updater/resources/default.html
 // @resource       updaterWindowCss ../../includes/Includes_Updater/resources/default.css
+// @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @require        ../../includes/Includes_XPath/63808.user.js
 // @require        ../../includes/Includes_HttpRequest/56489.user.js
 // @require        ../../includes/Includes_Translate/85618.user.js
@@ -51,12 +58,12 @@
 
 **************************************************************************/
 
-//GM_setValue("interval", "[1000, 1000]");
+//GM.setValue("interval", "[1000, 1000]");
 
 (function () {	// script scope
 	var field = xpath(".//form[@name = 'meteorselect']/select[@name = 'pickstep'][1]")[0],
 	rnd = function (fn) {
-		var interval = JSON.parse(GM_getValue("interval", "[1000, 1000]"));
+		var interval = JSON.parse(GM.getValue("interval", "[1000, 1000]"));
 		setTimeout(fn, Math.ceil(interval[0] + interval[1] * Math.random()));
 	};
 	

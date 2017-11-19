@@ -12,14 +12,23 @@
 // @include        http://www.neopets.com/pirates/academy.phtml?type=status
 // @include        http://www.neopets.com/island/training.phtml?type=status
 // @grant          GM_log
+// @grant          GM.log
 // @grant          GM_addStyle
+// @grant          GM.addStyle
 // @grant          GM_getValue
+// @grant          GM.getValue
 // @grant          GM_setValue
+// @grant          GM.setValue
 // @grant          GM_openInTab
+// @grant          GM.openInTab
 // @grant          GM_deleteValue
+// @grant          GM.deleteValue
 // @grant          GM_xmlhttpRequest
+// @grant          GM.xmlHttpRequest
 // @grant          GM_getResourceText
+// @grant          GM.getResourceText
 // @icon           http://gm.wesley.eti.br/icon.php?desc=54605
+// @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @require        https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page1/38788.user.js
 // @require        https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page2/54000.user.js
 // @cfu:meta       https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page3/@cfu:id.user.js
@@ -53,32 +62,32 @@ typeof(CheckForUpdate)!='undefined' && CheckForUpdate.init(GM_info.scriptMetaStr
 
 if (NeopetsDocument.Username)
 (function()
-{	// script scope
-	var staticTimes = {};
+{    // script scope
+    var staticTimes = {};
 
-	var times = document.evaluate("//td[@class='content']//td[not(form)][2]/b", document, null, XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE, null);
-	var at = times.snapshotLength;
-	for ( var ai = 0 ; ai < at ; ++ai )
-		staticTimes[ai] = times.snapshotItem(ai).textContent.match(/\d+/g);
+    var times = document.evaluate("//td[@class='content']//td[not(form)][2]/b", document, null, XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE, null);
+    var at = times.snapshotLength;
+    for ( var ai = 0 ; ai < at ; ++ai )
+        staticTimes[ai] = times.snapshotItem(ai).textContent.match(/\d+/g);
 
-	if (at)
-	(function recursive()
-	{
-		var elapsed = Math.floor( ( NeopetsDocument.Time(true) - NeopetsDocument.Time(false) ) / 1000 );
+    if (at)
+    (function recursive()
+    {
+        var elapsed = Math.floor( ( NeopetsDocument.Time(true) - NeopetsDocument.Time(false) ) / 1000 );
 
-		for ( var ai = 0 ; ai < at ; ++ai )
-		{
-			var time = times.snapshotItem(ai);
-			var t = time.textContent.split(/\d+/);
+        for ( var ai = 0 ; ai < at ; ++ai )
+        {
+            var time = times.snapshotItem(ai);
+            var t = time.textContent.split(/\d+/);
 
-			var s = 3600 * staticTimes[ai][0] + 60 * staticTimes[ai][1] + 1 * staticTimes[ai][2] - elapsed;	// 1 * X = parseInt(X, 10)
+            var s = 3600 * staticTimes[ai][0] + 60 * staticTimes[ai][1] + 1 * staticTimes[ai][2] - elapsed;    // 1 * X = parseInt(X, 10)
 
-			time.textContent = ( s >= 0 ?
-				Math.floor(s/3600) + t[1] + Math.floor(s%3600/60) + t[2] + (s%60) :	/*positive*/
-				"- " + Math.abs(Math.ceil(s/3600)) + t[1] + Math.abs(Math.ceil(s%3600/60)) + t[2] + Math.abs(s%60)	/*negative*/
-			) + t[3];
-		}
+            time.textContent = ( s >= 0 ?
+                Math.floor(s/3600) + t[1] + Math.floor(s%3600/60) + t[2] + (s%60) :    /*positive*/
+                "- " + Math.abs(Math.ceil(s/3600)) + t[1] + Math.abs(Math.ceil(s%3600/60)) + t[2] + Math.abs(s%60)    /*negative*/
+            ) + t[3];
+        }
 
-		setTimeout(recursive, 1000);
-	})();
+        setTimeout(recursive, 1000);
+    })();
 })();

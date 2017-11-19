@@ -1,17 +1,20 @@
 // ==UserScript==
-// @name        Neopets : Neopoints
-// @namespace   http://gm.wesley.eti.br
-// @description Shows the score needed to get 1000 NP
-// @author      w35l3y
-// @email       w35l3y@brasnet.org
-// @copyright   2012+, w35l3y (http://gm.wesley.eti.br)
-// @license     GNU GPL
-// @homepage    http://gm.wesley.eti.br
-// @version     1.0.0.3
-// @include     http://www.neopets.com/games/game.phtml?game_id=*
-// @grant       GM_log
-// @icon        http://gm.wesley.eti.br/icon.php?desc=134045
-// @require     https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
+// @name           Neopets : Neopoints
+// @namespace      http://gm.wesley.eti.br
+// @description    Shows the score needed to get 1000 NP
+// @author         w35l3y
+// @email          w35l3y@brasnet.org
+// @copyright      2012+, w35l3y (http://gm.wesley.eti.br)
+// @license        GNU GPL
+// @homepage       http://gm.wesley.eti.br
+// @version        1.0.0.3
+// @include        http://www.neopets.com/games/game.phtml?game_id=*
+// @grant          GM_log
+// @grant          GM.log
+// @icon           http://gm.wesley.eti.br/icon.php?desc=134045
+// @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
+// @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
+// @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
 // ==/UserScript==
 
 /**************************************************************************
@@ -32,16 +35,16 @@
 **************************************************************************/
 
 (function () {
-	var score = xpath("id('gr-ctp-scores')/div[3]/div[2]")[0];
+    var score = xpath("id('gr-ctp-scores')/div[3]/div[2]")[0];
 
-	if (score)
-	score.innerHTML = score.innerHTML.replace(/(\d+(?:[,.]\d+)?)/g, function ($0, $1) {
-		var result = (1000 * parseFloat($1.replace(",", "."))).toFixed();
+    if (score)
+    score.innerHTML = score.innerHTML.replace(/(\d+(?:[,.]\d+)?)/g, function ($0, $1) {
+        var result = (1000 * parseFloat($1.replace(",", "."))).toFixed();
 
-		if (~$1.indexOf(",")) {
-			result = result.replace(".", ",");
-		}
+        if (~$1.indexOf(",")) {
+            result = result.replace(".", ",");
+        }
 
-		return result;
-	});
+        return result;
+    });
 }());

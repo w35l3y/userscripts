@@ -10,12 +10,15 @@
 // @version        2.1.0
 // @language       en
 // @grant          GM_getValue
+// @grant          GM.getValue
 // @grant          GM_setValue
+// @grant          GM.setValue
 // @include        http://www.neopets.com/games/hidenseek.phtml
 // @include        http://www.neopets.com/games/process_hideandseek.phtml?*
 // @include        http://www.neopets.com/games/hidenseek/*.phtml?xfn=
 // @include        http://www.neopets.com/games/hidenseek/*.phtml
 // @icon           http://gm.wesley.eti.br/icon.php?desc=34085
+// @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @require        ../../includes/Includes_XPath/63808.user.js
 // ==/UserScript==
 
@@ -36,18 +39,18 @@
 
 **************************************************************************/
 
-//GM_setValue("interval", "[1000, 1000]");
+//GM.setValue("interval", "[1000, 1000]");
 
 (function () {	// script scope
-	var interval = JSON.parse(GM_getValue("interval", "[1000, 500]")),
+	var interval = JSON.parse(GM.getValue("interval", "[1000, 500]")),
 	rnd = Math.floor(interval[0] + interval[1] * Math.random());
 
 	switch (location.pathname) {
 		case "/games/hidenseek.phtml":
 			var places = xpath(".//td[@class = 'content']//tr/td/a[img and contains(@onclick, '.phtml?xfn=')]");
 
-			GM_setValue("places", "{}");
-			GM_setValue("total", places.length);
+			GM.setValue("places", "{}");
+			GM.setValue("total", places.length);
 
 			if (places.length) {
 				setTimeout(function (place) {
@@ -57,8 +60,8 @@
 			break;
 		case "/games/process_hideandseek.phtml":
 			if (/\?p=(\d+)&game=(\d+)/.test(location.search)) {
-				var places = JSON.parse(GM_getValue("places", "{}")),
-				total = GM_getValue("total", 32);
+				var places = JSON.parse(GM.getValue("places", "{}")),
+				total = GM.getValue("total", 32);
 				area = RegExp.$1,
 				board = RegExp.$2,
 				href = xpath("string(.//a/@href)");
@@ -96,12 +99,12 @@
 					}, rnd, board, next);
 				}
 
-				GM_setValue("places", JSON.stringify(places));
+				GM.setValue("places", JSON.stringify(places));
 			}
 			break;
 		default:
 			if (/(\d+)\.phtml/.test(location.pathname)) {
-				var places = JSON.parse(GM_getValue("places", "{}")),
+				var places = JSON.parse(GM.getValue("places", "{}")),
 				board = RegExp.$1,
 				areas = xpath(".//map/area[contains(@href, '&game=" + board + "')]");
 

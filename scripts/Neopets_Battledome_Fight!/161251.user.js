@@ -15,13 +15,21 @@
 // @connect        github.com
 // @connect        raw.githubusercontent.com
 // @grant          GM_log
+// @grant          GM.log
 // @grant          GM_addStyle
+// @grant          GM.addStyle
 // @grant          GM_getValue
+// @grant          GM.getValue
 // @grant          GM_setValue
+// @grant          GM.setValue
 // @grant          GM_deleteValue
+// @grant          GM.deleteValue
 // @grant          GM_xmlhttpRequest
+// @grant          GM.xmlHttpRequest
 // @grant          GM_getResourceURL
+// @grant          GM.getResourceUrl
 // @grant          GM_getResourceText
+// @grant          GM.getResourceText
 // @resource       hpBar resources/image/hpbar.png
 // @resource       meta https://github.com/w35l3y/userscripts/raw/master/scripts/Neopets_Battledome_Fight!/161251.user.js
 // @resource       i18n ../../includes/Includes_I18n/resources/default.json
@@ -29,6 +37,7 @@
 // @resource       updaterWindowCss ../../includes/Includes_Updater/resources/default.css
 // @resource       winConfigCss ../../includes/Includes_WinConfig/resources/default.css
 // @resource       winConfigBattledomeCss resources/default.css
+// @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @require        http://images.neopets.com/js/jquery-1.7.1.min.js
 // @require        ../../includes/Includes_XPath/63808.user.js
 // @require        ../../includes/Includes_HttpRequest/56489.user.js
@@ -65,16 +74,16 @@
 
 **************************************************************************/
 
-GM_addStyle(GM_getResourceText("winConfigBattledomeCss"));
-//GM_deleteValue("config-players-username");
+GM.addStyle(GM.getResourceText("winConfigBattledomeCss"));
+//GM.deleteValue("config-players-username");
 
 setTimeout(function () {
-	var plays = GM_getValue("plays", 0),
+	var plays = GM.getValue("plays", 0),
 	text = $("script:contains('#p1name')").text(),
 	p1name = (/#p1name.+['"]([-,.\s\w]+)/.test(text)) && RegExp.$1 || "",
 	p2name = (/#p2name.+['"]([-,.\s\w]+)/.test(text)) && RegExp.$1 || "",
 	pk = "players-" + p1name,
-	players = JSON.parse(GM_getValue("config-" + pk, "{}")),
+	players = JSON.parse(GM.getValue("config-" + pk, "{}")),
 	key = p2name/*.toLowerCase().replace(/\s+/g, "_")*/,
 	opp = new WinConfig({
 		name	: pk,
@@ -242,7 +251,7 @@ setTimeout(function () {
 		list = [["#start:visible"], ["#p1hp:visible", 0, function () {
 			$("<img />", {
 				id : "shp",
-				src : GM_getResourceURL("hpBar"),
+				src : GM.getResourceUrl("hpBar"),
 				style : "position:absolute;z-index:14;top:112px;left:8px;display:none;",
 			}).insertBefore("#p1hp");
 			
@@ -361,7 +370,7 @@ setTimeout(function () {
 						if (x.hasClass("collect")) {
 							l.unshift(
 								["#bdplayagain:visible", 0, function (l) {
-									GM_setValue("plays", --plays);
+									GM.setValue("plays", --plays);
 									
 									if (0 < plays) {
 										return true;
@@ -373,7 +382,7 @@ setTimeout(function () {
 								}]
 							);
 						} else if (x.hasClass("exit") && !config.exit) {
-							GM_setValue("plays", --plays);
+							GM.setValue("plays", --plays);
 							
 							if (0 < plays) {
 								l.unshift([".defeatPlayAgain:visible"]);
@@ -452,7 +461,7 @@ setTimeout(function () {
 				players[key][c] = l;
 
 				setTimeout(function (p) {
-					GM_setValue("config-" + pk, JSON.stringify(p));
+					GM.setValue("config-" + pk, JSON.stringify(p));
 				}, 0, players);
 			});
 		}

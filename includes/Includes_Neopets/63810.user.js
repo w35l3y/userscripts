@@ -84,7 +84,7 @@ Neopets.convert = function (doc) {
 			tz = (60 * ((24 + c.getUTCHours() - o.nh - 12 * ("pm" == o.na)) % 24) + 30 * (Math.abs(c.getUTCMinutes() - o.nm) >= 25))/60;
 			
 			if (tz != 8) {
-				GM_log([tz, c.getUTCHours(), o.nh, 12 * ("pm" == o.na), c.getUTCMinutes(), o.nm]);
+				GM.log([tz, c.getUTCHours(), o.nh, 12 * ("pm" == o.na), c.getUTCMinutes(), o.nm]);
 			}
 			
 			if (isNaN(tz)) {

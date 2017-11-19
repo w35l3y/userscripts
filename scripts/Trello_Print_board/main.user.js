@@ -11,10 +11,13 @@
 // @include        https://trello.com/b/*/*
 // @icon           http://gm.wesley.eti.br/icon.php?desc=scripts/Trello_Print_board/main.user.js
 // @grant          GM_openInTab
+// @grant          GM.openInTab
 // @grant          GM_getResourceText
+// @grant          GM.getResourceText
 // @resource       core https://d78fikflryjgj.cloudfront.net/css/76ead370f4805199a6d67aca7c014143/core.css
 // @resource       normalize http://fiddle.jshell.net/css/normalize.css
 // @resource       print-boardCss http://pastebin.com/raw/gpNrTUkh
+// @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @require        http://code.jquery.com/jquery-2.1.3.js
 // @require        http://api.trello.com/1/client.js?key=05e1b25a9057bb2aecbc99363285a8c2&dummy=.js
 // ==/UserScript==
@@ -114,12 +117,12 @@ onAuthorize = function () {
 			} else {
 				throw "Not implemented yet";
 				/*
-				GM_openInTab("#").addEventListener("load", function (e) {
+				GM.openInTab("#").addEventListener("load", function (e) {
 					var win = e.relatedTarget;
 
 					$(win.document.head).append($("<style>", {
 						type	: "text/css"
-					}).append(GM_getResourceText("core")).append(GM_getResourceText("normalize")).append(GM_getResourceText("print-boardCss")));
+					}).append(GM.getResourceText("core")).append(GM.getResourceText("normalize")).append(GM.getResourceText("print-boardCss")));
 					$(win.document.body).html($ulList);
 
 					win.print();
@@ -171,7 +174,7 @@ $("#content").one("DOMNodeInserted", "#permission-level", function (e) {
 			.find("head")
 			.append($("<style>", {
 				type	: "text/css"
-			}).append(GM_getResourceText("core")).append(GM_getResourceText("normalize")).append(GM_getResourceText("print-boardCss")));
+			}).append(GM.getResourceText("core")).append(GM.getResourceText("normalize")).append(GM.getResourceText("print-boardCss")));
 
 			$("#print-board").show();
 		});

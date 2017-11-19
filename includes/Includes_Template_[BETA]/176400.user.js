@@ -11,7 +11,9 @@
 // @language       en
 // @include        /userscripts\.org\/scripts\/review\/176400$/
 // @grant          GM_getResourceText
+// @grant          GM.getResourceText
 // @icon           http://gm.wesley.eti.br/icon.php?desc=176400
+// @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @debug          true
 // @uso:author     55607
 // @uso:script     176400
@@ -39,7 +41,7 @@ Template = {
 		var retorno = {};
 
 		try {
-			retorno = JSON.parse(GM_getResourceText("templates"));
+			retorno = JSON.parse(GM.getResourceText("templates"));
 		} catch (e) {}
 
 		return retorno;

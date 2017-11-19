@@ -13,11 +13,17 @@
 // @exclude        *
 // @icon           http://gm.wesley.eti.br/icon.php?desc=includes/Includes_Message/main.user.js
 // @grant          GM_log
+// @grant          GM.log
 // @grant          GM_addStyle
+// @grant          GM.addStyle
 // @grant          GM_getValue
+// @grant          GM.getValue
 // @grant          GM_setValue
+// @grant          GM.setValue
 // @grant          GM_getResourceText
+// @grant          GM.getResourceText
 // @resource       messageContainerCss ../../includes/Includes_Message/resources/css/messageContainer.css
+// @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @require        ../../includes/Includes_Template_%5BBETA%5D/176400.user.js
 // ==/UserScript==
 
@@ -41,9 +47,9 @@
 Message = function () {
 	var _this = this;
 
-	switch (GM_getValue("MessageType", 0)) {
+	switch (GM.getValue("MessageType", 0)) {
 		case 0:
-			GM_addStyle(GM_getResourceText("messageContainerCss"));
+			GM.addStyle(GM.getResourceText("messageContainerCss"));
 			var container = document.createElement("div"),
 			timedMessage = function (ctx) {
 				var sum = 1;
@@ -96,7 +102,7 @@ Message = function () {
 						created_at	: new Date(),
 						parent	: (group[0] == msg?null:group[0]),
 					};
-					GM_log([cm.created_at, msg]);
+					GM.log([cm.created_at, msg]);
 					if (!cm.opts.fixed) {
 						cm.timer = setTimeout(function (cm) {
 							timedMessage.call(_this, cm);
@@ -108,7 +114,7 @@ Message = function () {
 			break;
 		case 1:
 			_this._add = function () {
-				GM_log([new Date()].concat(Array.prototype.slice.apply(arguments)));
+				GM.log([new Date()].concat(Array.prototype.slice.apply(arguments)));
 			};
 			break;
 		case 2:

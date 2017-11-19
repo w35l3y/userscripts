@@ -11,7 +11,9 @@
 // @language       en
 // @icon           http://gm.wesley.eti.br/icon.php?desc=28363
 // @grant          GM_getValue
+// @grant          GM.getValue
 // @include        http://www.neopets.com/medieval/symolhole.phtml
+// @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @require        ../../includes/Includes_XPath/63808.user.js
 // ==/UserScript==
 
@@ -34,7 +36,7 @@
 
 (function () {	// script scope
 	var user = {
-		interval	: JSON.parse(GM_getValue("interval",	"[1000, 2000]"))
+		interval	: JSON.parse(GM.getValue("interval",	"[1000, 2000]"))
 	},
 	field = xpath(".//form[contains(@action, 'process_symolhole.phtml')]/select[@name = 'goin']")[0];
 	field.selectedIndex = Math.floor(100 * Math.random() * field.length % (field.length - 1));

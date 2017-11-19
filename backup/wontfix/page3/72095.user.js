@@ -11,7 +11,9 @@
 // @request        http://userscripts-mirror.org/topics/48665
 // @include        http://192.168.135.1:21680/iha/abertura/atlantica/
 // @grant          GM_log
+// @grant          GM.log
 // @icon           http://gm.wesley.eti.br/icon.php?desc=72095
+// @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // ==/UserScript==
 
 /**************************************************************************
@@ -36,25 +38,25 @@ location.href = "http://192.168.135.1:21680/iha/login/login.php?opc=1&idioma=br&
 /*
 (function recursive(reqs)
 {
-	if (reqs.length)
-	{
-		GM_xmlhttpRequest({
-			"url" : reqs.shift(),
-			"method" : "get",
-			"onload" : function(xhr)
-			{
-				recursive(reqs);
-			}
-		});
-	}
-	else
-	{
-		alert("Logado!");
-	}
+    if (reqs.length)
+    {
+        GM.xmlHttpRequest({
+            "url" : reqs.shift(),
+            "method" : "get",
+            "onload" : function(xhr)
+            {
+                recursive(reqs);
+            }
+        });
+    }
+    else
+    {
+        alert("Logado!");
+    }
 })([
-//	"http://192.168.135.1:21680/iha/abertura/atlantica/",
-	"http://192.168.135.1:21680/iha/abertura/atlantica/aceite.php?dl=br",
-	"http://192.168.135.1:21680/iha/abertura/atlantica/login.php?opc=0&dl=br&checkbox=checkbox",
-	"http://192.168.135.1:21680/iha/login/login.php?opc=1&idioma=br&idafiliado=1&conexao_tipo=d&conexao_qtde=1&senha=1009&usuario=Faria"
+//    "http://192.168.135.1:21680/iha/abertura/atlantica/",
+    "http://192.168.135.1:21680/iha/abertura/atlantica/aceite.php?dl=br",
+    "http://192.168.135.1:21680/iha/abertura/atlantica/login.php?opc=0&dl=br&checkbox=checkbox",
+    "http://192.168.135.1:21680/iha/login/login.php?opc=1&idioma=br&idafiliado=1&conexao_tipo=d&conexao_qtde=1&senha=1009&usuario=Faria"
 ]);
 */

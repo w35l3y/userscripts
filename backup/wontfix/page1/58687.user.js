@@ -15,17 +15,25 @@
 // @include        http://greasefire.userscripts-mirror.org/scripts/version/*.user.js?format=txt
 // @include        file://*.user.js
 // @grant          GM_log
+// @grant          GM.log
 // @grant          GM_addStyle
+// @grant          GM.addStyle
 // @grant          GM_getValue
+// @grant          GM.getValue
 // @grant          GM_setValue
+// @grant          GM.setValue
 // @grant          GM_deleteValue
+// @grant          GM.deleteValue
 // @grant          GM_xmlhttpRequest
+// @grant          GM.xmlHttpRequest
 // @grant          GM_getResourceText
+// @grant          GM.getResourceText
 // @icon           http://gm.wesley.eti.br/icon.php?desc=58687
 // @resource       meta https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page1/58687.user.js
 // @resource       i18n https://github.com/w35l3y/userscripts/raw/master/includes/Includes_I18n/resources/default.json
 // @resource       updaterWindowHtml https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Updater/resources/default.html
 // @resource       updaterWindowCss https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Updater/resources/default.css
+// @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_HttpRequest/56489.user.js
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Translate/85618.user.js
@@ -65,48 +73,48 @@
 **************************************************************************/
 
 (function () {
-	var config = JSON.parse(GM_getValue("config", JSON.stringify({
-		highlight : false,
-	}))),
-	head = document.getElementById("heading"),
-	notice = xpath(".//p[@class = 'notice']/text()[contains(., 'the source is over 100KB')]")[0],
-	decode = document.createElement("div"),
-	deobfuscate = function (highlight) {
-		var loc = location.pathname.match(/^\/scripts\/(\w+)\/(\d+)/),
-		source = xpath({
-			"review" : "id('source')",
-			"diff" : "id('content')/pre",
-			"version" : "./html/body/pre",
-			"default" : "./body",
-		}[loc && loc[1] || "default"])[0];
-		
-		if (loc && loc[1]) {
-			source.textContent = JsCode.deobfuscate(source.textContent, JSON.parse(GM_getValue("scripts", "{}"))[loc[2]]);
-		} else {
-			var pre = document.createElement("pre");
-			pre.textContent = JsCode.deobfuscate(source.textContent);
-			source.parentNode.replaceChild(pre, source);
-		}
+    var config = JSON.parse(GM.getValue("config", JSON.stringify({
+        highlight : false,
+    }))),
+    head = document.getElementById("heading"),
+    notice = xpath(".//p[@class = 'notice']/text()[contains(., 'the source is over 100KB')]")[0],
+    decode = document.createElement("div"),
+    deobfuscate = function (highlight) {
+        var loc = location.pathname.match(/^\/scripts\/(\w+)\/(\d+)/),
+        source = xpath({
+            "review" : "id('source')",
+            "diff" : "id('content')/pre",
+            "version" : "./html/body/pre",
+            "default" : "./body",
+        }[loc && loc[1] || "default"])[0];
+        
+        if (loc && loc[1]) {
+            source.textContent = JsCode.deobfuscate(source.textContent, JSON.parse(GM.getValue("scripts", "{}"))[loc[2]]);
+        } else {
+            var pre = document.createElement("pre");
+            pre.textContent = JsCode.deobfuscate(source.textContent);
+            source.parentNode.replaceChild(pre, source);
+        }
 
-		if (highlight && !xpath("boolean(.//a/text()[contains(., 'Add Syntax Highlighting')])")) {
-			location.assign("javascript:sh_highlightDocument();");
-		}
-	};
+        if (highlight && !xpath("boolean(.//a/text()[contains(., 'Add Syntax Highlighting')])")) {
+            location.assign("javascript:sh_highlightDocument();");
+        }
+    };
 
-	if (head) {
-		decode.setAttribute("id", "install_script");
-		decode.innerHTML = '<a class="userjs" href="javascript:void(0)">Deobfuscate</a>';
+    if (head) {
+        decode.setAttribute("id", "install_script");
+        decode.innerHTML = '<a class="userjs" href="javascript:void(0)">Deobfuscate</a>';
 
-		head.parentNode.insertBefore(decode, head);
+        head.parentNode.insertBefore(decode, head);
 
-		if (notice) {
-			notice.nodeValue += ". Deobfuscating the code might freeze your browser.";
+        if (notice) {
+            notice.nodeValue += ". Deobfuscating the code might freeze your browser.";
 
-			decode.firstElementChild.addEventListener("click", function (e) {
-				deobfuscate(config.highlight);
-			}, false);
-		} else {
-			deobfuscate(true);
-		}
-	}
+            decode.firstElementChild.addEventListener("click", function (e) {
+                deobfuscate(config.highlight);
+            }, false);
+        } else {
+            deobfuscate(true);
+        }
+    }
 }());

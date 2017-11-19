@@ -12,10 +12,12 @@
 // @include        nowhere
 // @exclude        *
 // @grant          GM_xmlhttpRequest
+// @grant          GM.xmlHttpRequest
 // @contributor    sizzlemctwizzle (http://userscripts.org/guides/9)
 // @contributor    Seniltai (http://userscripts.org/topics/47687?page=2#posts-257677)
 // @contributor    ameboide (http://userscripts.org/topics/88021#posts-384155)
 // @debug          true
+// @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // ==/UserScript==
 
 /**************************************************************************
@@ -189,7 +191,7 @@ HttpRequest.open = function (params) {
 				}
 			}
 
-			this.result = GM_xmlhttpRequest(this.options);
+			this.result = GM.xmlHttpRequest(this.options);
 
 			return this;
 		}
