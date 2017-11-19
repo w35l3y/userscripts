@@ -10,6 +10,8 @@
 // @version        2.0.0.0
 // @language       en
 // @include        nowhere
+// @grant          GM_log
+// @grant          GM.log
 // @grant          GM_addStyle
 // @grant          GM.addStyle
 // @grant          GM_getValue
@@ -32,8 +34,8 @@
 // ==/UserScript==
 
 const WinConfig = function () {};
-WinConfig.loadDefaultCss = async function() {
-    await GM.addStyle(await GM.getResourceText("winConfigCss"));
+WinConfig.loadDefaultCss = function() {
+    GM.addStyle(GM.getResourceText("winConfigCss"));
 };
 WinConfig.init = function (opts) {
     return new (function (opts) {
@@ -127,10 +129,10 @@ WinConfig.init = function (opts) {
                 this.Add(name, opts[name]);
         })(buttons);
 
-        var sessions = (async function (type, prefix, load) {
+        var sessions = (function (type, prefix, load) {
             switch (type) {
                 case "prompt":
-                    return {"default":{"fields":{"text":{"value":load && await GM.getValue(prefix+"-text","")||""}}}};
+                    return {"default":{"fields":{"text":{"value":load && GM.getValue(prefix+"-text","")||""}}}};
                 default:
                     return {};
             }
@@ -167,7 +169,7 @@ WinConfig.init = function (opts) {
                         this.List = {};
 
                         this.Add = function(name, opts) {
-                            this.List[name] = new (async function Field(opts,prefix,load) {
+                            this.List[name] = new (function Field(opts,prefix,load) {
                                 /* label,value,type, ... */
                                 this.Type = opts.type||( "list" in opts ? "array" : "string" );
                                 this.Label = opts.label||"";
@@ -190,9 +192,9 @@ WinConfig.init = function (opts) {
                                         break;
                                 }
                                 if (this.Type == "array" && this.isMulti)
-                                    this.Value = opts.value||load && JSON.parse(await GM.getValue(prefix+"-"+name,"[]"))||opts.default||[];
+                                    this.Value = opts.value||load && JSON.parse(GM.getValue(prefix+"-"+name,"[]"))||opts.default||[];
                                 else
-                                    this.Value = opts.value||load && await GM.getValue(prefix+"-"+name,"")||opts.default||"";
+                                    this.Value = opts.value||load && GM.getValue(prefix+"-"+name,"")||opts.default||"";
                             })(opts,prefix,load);
                         };
 
@@ -409,7 +411,7 @@ WinConfig.init = function (opts) {
 
             return this;
         };
-        this.Save = async function () {
+        this.Save = function () {
             for ( var session_name in this.Session.List ) {
                 var session_obj = this.Session.List[session_name];
                 for ( var field_name in session_obj.Field.List ) {
@@ -457,7 +459,7 @@ WinConfig.init = function (opts) {
                         sv = obj.value;
                         break;
                     }
-                    await GM.setValue(this.Name +"-"+ field_name,sv);
+                    GM.setValue(this.Name +"-"+ field_name,sv);
                 }
             }
 
@@ -559,7 +561,7 @@ WinConfig.init({
             }
         }
     },
-    "positiveCallback": async function(w,e)
+    "positiveCallback":function(w,e)
     {
         var pets = e.form.elements.namedItem("TempTrainingList").textContent.split(/[\r\n]+/);
         var obj = {};
@@ -568,7 +570,7 @@ WinConfig.init({
             var pet = pets[ai].split(":",2);
             obj[pet[0]] = pet[1].replace(/:/g,"|");
         }
-        await GM.setValue(w.Name+"-TrainingList",JSON.stringify(obj));
+        GM.setValue(w.Name+"-TrainingList",JSON.stringify(obj));
         var pin = e.form.elements.namedItem("PinNumber").value;
         if (pin && !/^\d{4}$/.test(pin))
         {

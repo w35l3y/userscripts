@@ -10,6 +10,8 @@
 // @version        1.0.3.6
 // @language       en
 // @include        nowhere
+// @grant          GM_log
+// @grant          GM.log
 // @grant          GM_addStyle
 // @grant          GM.addStyle
 // @grant          GM_getValue
@@ -192,11 +194,11 @@ Neopets = function(doc)
 
 times = [];
 
-Neopets.addMessage = async function(msg, time)
+Neopets.addMessage = function(msg, time)
 {
-    console.log([new Date(), msg]);
+    GM.log([new Date(), msg]);
 
-    if (await GM.getValue('DisplayMessage', true))
+    if (GM.getValue('DisplayMessage', true))
     {
         var container;
         if (!(container = document.getElementById('NeopetsMessageContainer')))

@@ -13,6 +13,8 @@
 // @include        http://www.neopets.com/games/play_dicearoo.phtml
 // @connect        github.com
 // @connect        raw.githubusercontent.com
+// @grant          GM_log
+// @grant          GM.log
 // @grant          GM_addStyle
 // @grant          GM.addStyle
 // @grant          GM_getValue
@@ -69,9 +71,9 @@
 
 **************************************************************************/
 
-(async function () {
-	await GM.addStyle(await GM.getResourceText("winConfigDiceARooCss"));
+GM.addStyle(GM.getResourceText("winConfigDiceARooCss"));
 
+(function () {
 	var win = new WinConfig({
 		title	: "Dice-A-Roo Settings",
 		type	: WinConfig.WindowType.CUSTOM,
@@ -329,4 +331,4 @@
 			referer : location.href,
 		}));
 	}
-})();
+}());

@@ -11,6 +11,8 @@
 // @homepage       http://www.wesley.eti.br
 // @include        http://userscripts-mirror.org/scripts/*/*
 // @include        http://userscripts-mirror.org/home/scripts*
+// @grant          GM_log
+// @grant          GM.log
 // @grant          GM_addStyle
 // @grant          GM.addStyle
 // @grant          GM_getValue
@@ -57,20 +59,21 @@ checkForUpdate({
     'version':'1.1.4'
 });
 
-(async function() {    // script scope
+(function()
+{    // script scope
 
     var user = {
-        'delay':await GM.getValue('delay',    500),
-        'access':await GM.getValue('access',    60*60*1000)
+        'delay':GM.getValue('delay',    500),
+        'access':GM.getValue('access',    60*60*1000)
     };
 
     var script = {
-        'lastPage':await GM.getValue('lastPage',0),
+        'lastPage':GM.getValue('lastPage',0),
         'user':""+xpath("string(id('homeMenu')/li/a[contains(@href,'users')]/@href)").match(/\d+/)[0],
         'author':""+xpath("string(id('details')/span/a[contains(@href,'users')]/@href)").match(/\d+/),
-        'issues':JSON.parse(await GM.getValue('issues','{}')),
-        'retrieve':await GM.getValue('retrieve',-1),
-        'lastAccess':parseInt(await GM.getValue('lastAccess','0'))
+        'issues':JSON.parse(GM.getValue('issues','{}')),
+        'retrieve':GM.getValue('retrieve',-1),
+        'lastAccess':parseInt(GM.getValue('lastAccess','0'))
     };
 
     var id = parseInt( ""+location.href.match(/\d+/), 10);
@@ -167,8 +170,8 @@ checkForUpdate({
         var current = parseInt(new Date().valueOf(),10);
         if (script.lastAccess+user.access <= current)
         {
-            await GM.setValue('lastAccess', ""+current);
-            await GM.setValue('retrieve', 0);
+            GM.setValue('lastAccess', ""+current);
+            GM.setValue('retrieve', 0);
 
             var er_issue = new RegExp("<div><p>(\\w+) script: <a href='\/scripts\/show\/(\\d+)'>(.{1,256})<\/a>written by <a href='\/users\/"+script.user+"'>.{3,50}<\/a><\/p>(?:<p>.+?<\/p>)?<p>Reporter: <a href='\/users\/(\\d+)'>(.{3,50})<\/a><\/p>(?:<pre>(.+?)<\/pre>)?<\/div>","gi");
             var gc = 0;    // global counter
@@ -185,7 +188,7 @@ checkForUpdate({
                 }
             });
 
-            async function checkIssue(e)
+            function checkIssue(e)
             {
                 var result = e.responseText.replace(/\s{2,}|(?: \w+="[ \w:;%-]+")+/g,'');
                 for ( var m ; m = er_issue.exec(result) ; )
@@ -202,8 +205,8 @@ checkForUpdate({
                 if (r == 100)
                 {
                     r = -1;
-                    await GM.setValue('lastPage', lastPage+script.lastPage);
-                    await GM.setValue('issues', JSON.stringify(script.issues));
+                    GM.setValue('lastPage', lastPage+script.lastPage);
+                    GM.setValue('issues', JSON.stringify(script.issues));
                     var x = 0;
                     for ( var prop in script.issues[id])
                         ++x;
@@ -213,20 +216,21 @@ checkForUpdate({
                 else
                     retrieve.innerHTML = r+'%';
 
-                await GM.setValue('retrieve', r);
-                await GM.setValue('lastAccess', ""+parseInt(new Date().valueOf(),10));
+                GM.setValue('retrieve', r);
+                GM.setValue('lastAccess', ""+parseInt(new Date().valueOf(),10));
             }
         }
         else
-            (int = setInterval(async function() {
-                var r = await GM.getValue('retrieve', -1);
+            (int = setInterval(function()
+            {
+                var r = GM.getValue('retrieve', -1);
 
                 if (r == -1)
                 {
                     clearInterval(int);
 
                     var x = 0;
-                    for ( var prop in JSON.parse(await GM.getValue('issues','{}'))[id])
+                    for ( var prop in JSON.parse(GM.getValue('issues','{}'))[id])
                         ++x;
 
                     retrieve.innerHTML = x;

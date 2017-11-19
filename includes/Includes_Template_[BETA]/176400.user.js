@@ -38,15 +38,13 @@
 
 Template = {
 	get templates() {
-		return (async function () {
-			var retorno = {};
+		var retorno = {};
 
-			try {
-				retorno = JSON.parse(await GM.getResourceText("templates"));
-			} catch (e) {}
+		try {
+			retorno = JSON.parse(GM.getResourceText("templates"));
+		} catch (e) {}
 
-			return retorno;
-		})();
+		return retorno;
 	}
 };
 Template.get = function (template, context) {

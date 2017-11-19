@@ -10,6 +10,8 @@
 // @homepage       http://www.wesley.eti.br
 // @include        http://www.orkut.com.br/CommTopics.aspx?cmm=*
 // @include        http://www.orkut.com.br/Community.aspx?cmm=*
+// @grant          GM_log
+// @grant          GM.log
 // @grant          GM_addStyle
 // @grant          GM.addStyle
 // @grant          GM_getValue
@@ -63,20 +65,20 @@ checkForUpdate({
     }
 })();
 
-async function AddStar(l)
+function AddStar(l)
 {
     var img = new Image();
     var cmm = l.href.match(/cmm=(\d+)/)[1];
     var tid = l.href.match(/tid=(\d+)/)[1];
     var topic = cmm+"+"+tid+"|";
-    var stat = ( await GM.getValue("starred","").indexOf(topic) == -1 ? "off" : "on" );    
+    var stat = ( GM.getValue("starred","").indexOf(topic) == -1 ? "off" : "on" );    
     img.src = "http://mail.google.com/mail/images/star_"+stat+"_2.gif#topic"+topic;
     img.setAttribute('style','float:left;padding: 3px 10px 0px 0px;');
-    img.addEventListener("click", async function(e){
+    img.addEventListener("click",function(e){
         var stat = this.src.match(/_on_/);
-        var starred = await GM.getValue("starred","");
+        var starred = GM.getValue("starred","");
         this.src = "http://mail.google.com/mail/images/star_"+(stat ? "off" : "on")+"_2.gif#topic"+topic;
-        await GM.setValue("starred",( stat ? starred.replace(topic,"") : topic + starred ));
+        GM.setValue("starred",( stat ? starred.replace(topic,"") : topic + starred ));
     },true);
 
     l.parentNode.insertBefore(img,l);

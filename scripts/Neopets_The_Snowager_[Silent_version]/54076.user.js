@@ -18,6 +18,8 @@
 // @icon           http://gm.wesley.eti.br/icon.php?desc=54076
 // @connect        github.com
 // @connect        raw.githubusercontent.com
+// @grant          GM_log
+// @grant          GM.log
 // @grant          GM_addStyle
 // @grant          GM.addStyle
 // @grant          GM_getValue
@@ -67,29 +69,28 @@
 
 **************************************************************************/
 
+//GM.setValue("interval", 1);
 
-(async function () {
-//  await GM.setValue("interval", 1);
-
+(function () {
     var doc = Neopets.convert(document),
     usern = doc.Username();
 
     if (usern)
-    (async function recursive () {    // script scope
-        const INTERVAL = await GM.getValue("interval", 8);
+    (function recursive () {    // script scope
+        const INTERVAL = GM.getValue("interval", 8);
 
         var key = "Snowager-LastAccess-" + usern,
         curr = doc.Time(true),
         compare = new Date(curr),
         h = curr.getHours(),
-        la = new Date(await GM.getValue(key, "Sat Apr 02 2011 12:42:02 GMT-0300")),
+        la = new Date(GM.getValue(key, "Sat Apr 02 2011 12:42:02 GMT-0300")),
         sd = new Date(curr);
 
         compare.setMinutes(0, 0, 0);
         sd.setHours(h + INTERVAL - ((2 + h) % INTERVAL), 0, 30);
 
         if (la.valueOf() != compare.valueOf() && 0 === ((2 + h) % INTERVAL)) {
-            await GM.setValue(key, (la = compare).toString());
+            GM.setValue(key, (la = compare).toString());
             
             HttpRequest.open({
                 "method" : "get",
@@ -107,5 +108,5 @@
         }
 
         setTimeout(recursive, sd.valueOf() - curr.valueOf());
-    })();
-})();
+    }());
+}());

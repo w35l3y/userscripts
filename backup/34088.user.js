@@ -52,9 +52,9 @@
 
 **************************************************************************/
 
-(async function () {	// script score
+(function () {	// script score
 	var cheese = {
-		"default" : await GM.getValue("cheese", "Tyrannian Dung"),
+		"default" : GM.getValue("cheese", "Tyrannian Dung"),
 		"group" : ["Recommended", "Others"],
 		"order" : [2, 1], // from the most generic to the most specific
 		"option" : [
@@ -120,7 +120,7 @@
 		}
 
 		if (hidden) {
-			await GM.setValue("cheese", hidden.value);
+			GM.setValue("cheese", hidden.value);
 		}
 
 		for (var ai = 0, at = cheese.option.length; ai < at; ++ai) {

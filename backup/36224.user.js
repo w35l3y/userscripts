@@ -9,6 +9,8 @@
 // @license        GNU GPL
 // @homepage       http://www.wesley.eti.br
 // @include        http://www.neopets.com/process_petpetlab.phtml
+// @grant          GM_log
+// @grant          GM.log
 // @grant          GM_getValue
 // @grant          GM.getValue
 // @grant          GM_setValue
@@ -25,14 +27,14 @@
 String.prototype.jsonGambi = privateStringJsonGambi;
 /* ###[ /prototypes ]### */
 
-(async function () {    // script scope
+(function(){    // script scope
     var script = {
-        username:await GM.getValue("username",""),
-        password:await GM.getValue("password",""),
+        username:GM.getValue("username",""),
+        password:GM.getValue("password",""),
         language:document.evaluate('//select[@name="lang"]/option[@selected]/@value',document,null,XPathResult.STRING_TYPE,null).stringValue || cookieValue("lang","en") || "en",
         datetime:getNeopianTime(document.evaluate('//td[@id="nst"]/text()',document,null,XPathResult.STRING_TYPE,null).stringValue)
     };
-    var queueEvents = JSON.parse(await GM.getValue("queueEvents","[]"));
+    var queueEvents = JSON.parse(GM.getValue("queueEvents","[]"));
     var petpet = document.evaluate('//img[contains(@src,"http://images.neopets.com/items/")]/@src',document,null,XPathResult.STRING_TYPE,null).stringValue;
     if (!!petpet)
     {
@@ -41,29 +43,29 @@ String.prototype.jsonGambi = privateStringJsonGambi;
 
     if (queueEvents.length > 0)
     {
-        await GM.setValue("queueEvents",JSON.stringify(queueEvents));
+        GM.setValue("queueEvents",JSON.stringify(queueEvents));
 
-        resourceText("http://neopets.wesley.eti.br/PetpetLaboratory/addEvent.php?type=json", async function(r)
+        resourceText("http://neopets.wesley.eti.br/PetpetLaboratory/addEvent.php?type=json",function(r)
         {
             r = JSON.parse(r).response;
             if (r.actions)
             {
                 var actions = {
-                    'localUsernameMissing':async function(){
-                        var x = await GM.getValue("username","");
+                    'localUsernameMissing':function(){
+                        var x = GM.getValue("username","");
                         while (x = prompt("Type in your username:\nUsername must have between 5 and 20 caracters",x))
                         {
                             if (x.length >= 5 && x.length <= 20) break;
                         }
-                        await GM.setValue("username",x);
+                        GM.setValue("username",x);
                     },
-                    'localPasswordMissing':async function(){
+                    'localPasswordMissing':function(){
                         var x;
                         while (x = prompt("Type in your password: (The password will be shown literally)\nPasswords must have between 5 and 20 OR exactly 32 caracters (MD5 coding)",""))
                         {
                             if (x.length >= 5 && x.length <= 20 || x.length == 32) break;
                         }
-                        await GM.setValue("password",x);
+                        GM.setValue("password",x);
                     }
                 };
                 for ( var ia = 0 , ta = r.actions.length ; ia < ta ; ++ia )
@@ -72,16 +74,16 @@ String.prototype.jsonGambi = privateStringJsonGambi;
                     {
                         actions[r.actions[ia]]();
                     } else {
-                        console.log("Error: action="+r.actions[ia]);
+                        GM.log("Error: action="+r.actions[ia]);
                         alert("The specified action is not defined.");
                     }
                 }
             } else {
                 if (script.password.length != 32 && r.data.password)
                 {
-                    await GM.setValue("password",r.data.password);
+                    GM.setValue("password",r.data.password);
                 }
-                await GM.setValue("queueEvents","[]");
+                GM.setValue("queueEvents","[]");
             }
         },{'username':script.username,'password':script.password,'events':queueEvents.toSource().replace(/(\w+):"/g,'"$1":"')});
     }
@@ -96,7 +98,7 @@ function cookieValue(p)
     return cookies.substring(pos,cookies.indexOf(";",pos));
 }
 
-async function resourceText(url,func,post)
+function resourceText(url,func,post)
 {
     var options = {
         "url":url,
@@ -105,7 +107,7 @@ async function resourceText(url,func,post)
              "User-Agent":"Mozilla/5.0 (Windows; U; Windows NT 5.1; pt-BR; rv:1.8.1.14) Gecko/20080404 Firefox/2.0.0.14",
              "Accept":"text/json,text/xml,text/html"
         },
-        "onload":async function (e) {
+        "onload":function (e) {
 
             var ok = true;
             if (url.match("[?&]type=json"))
@@ -120,14 +122,14 @@ async function resourceText(url,func,post)
                 {
                     alert(rjson.warningMessage);
                 }
-                if (rjson.location && (!rjson.location[0] || !await GM.getValue(rjson.location[0],false)))
+                if (rjson.location && (!rjson.location[0] || !GM.getValue(rjson.location[0],false)))
                 {
-                    await GM.openInTab(rjson.location[1]);
+                    GM.openInTab(rjson.location[1]);
                     if (rjson.location[0])
                     {
                         alert("A new tab was opened.\nUrl: " + rjson.location[1]);
-                        console.log(rjson.location);
-                        await GM.getValue(rjson.location[0],true);
+                        GM.log(rjson.location);
+                        GM.getValue(rjson.location[0],true);
                     }
                 }
 
@@ -159,7 +161,7 @@ async function resourceText(url,func,post)
         options.headers["Content-length"] = data.length;
         options.data = data;
     }
-    await GM.xmlHttpRequest(options);
+    GM.xmlHttpRequest(options);
 }
 
 function privateStringJsonGambi(data,node,separator)

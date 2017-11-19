@@ -12,6 +12,8 @@
 // @include        http://www.neopets.com/lab2.phtml*
 // @include        http://www.neopets.com/process_lab2.phtml*
 // @include        http://lablog.sunnyneo.com/import.php*
+// @grant          GM_log
+// @grant          GM.log
 // @grant          GM_addStyle
 // @grant          GM.addStyle
 // @grant          GM_getValue
@@ -48,15 +50,15 @@
 
 **************************************************************************/
 
-(async function () {
-
-if (location.pathname == "/lab2.phtml") {
-    xpath(".//form[contains(@action, 'process_lab2.phtml')]")[0].addEventListener("submit", async function(e)
+if (location.pathname == "/lab2.phtml")
+{
+    xpath(".//form[contains(@action, 'process_lab2.phtml')]")[0].addEventListener("submit", function(e)
     {
         var lang = xpath("string(id('footer')//select[@name='lang']/option[@selected]/@value)");
-        await GM.setValue("lang", lang);
+        GM.setValue("lang", lang);
 
-        if (lang != "en" && (await GM.getValue("auto_change_lang", true) || confirm("[SunnyNeo : Lablog! : Record Zap]\nChange language to English?"))) {
+        if (lang != "en" && (GM.getValue("auto_change_lang", true) || confirm("[SunnyNeo : Lablog! : Record Zap]\nChange language to English?")))
+        {
             HttpRequest.open({
                 "url" : "http://www.neopets.com/index.phtml",
                 "method" : "post",
@@ -69,13 +71,16 @@ if (location.pathname == "/lab2.phtml") {
             e.preventDefault();
         }
     }, false);
-} else if (location.pathname == "/process_lab2.phtml") {
-    if (await GM.getValue("firstRun", true)) {
-        await GM.setValue("firstRun", false);
-        await GM.openInTab("http://lablog.sunnyneo.com/import.php");
+}
+else if (location.pathname == "/process_lab2.phtml")
+{
+    if (GM.getValue("firstRun", true))
+    {
+        GM.setValue("firstRun", false);
+        GM.openInTab("http://lablog.sunnyneo.com/import.php");
     }
 
-    var logs = JSON.parse(await GM.getValue("logs", "[]"));
+    var logs = JSON.parse(GM.getValue("logs", "[]"));
 
     if (/^(?:.+)$/.test((xpath(".//p[1]/b")[0]||{"textContent":""}).textContent))    // .+    -> petname1|petname2|petname3
     {
@@ -91,23 +96,23 @@ if (location.pathname == "/lab2.phtml") {
         logs.unshift(curr);
     }
     
-    var lang = await GM.getValue("lang", "en");
+    var lang = GM.getValue("lang", "en");
     if (lang != "en")
     HttpRequest.open({
         "url" : "http://www.neopets.com/index.phtml",
         "method" : "post"
     }).send({"lang":lang});
 
-    (async function recursive(list)
+    (function recursive(list)
     {
-        await GM.setValue("logs", JSON.stringify(list));
+        GM.setValue("logs", JSON.stringify(list));
 
         var i = list.length;
         if (i)
         HttpRequest.open({
             "method" : "post",
             "url" : "http://lablog.sunnyneo.com/submitzapprocess.php",
-            "onsuccess" : async function(params)
+            "onsuccess" : function(params)
             {
                 if (/(Your zap was recorded|There is already a zap in the database for this pet|The script could not understand your zap)/.test(params.response.text))
                 {
@@ -123,7 +128,7 @@ if (location.pathname == "/lab2.phtml") {
                     alert("[SunnyNeo : Lablog! : Record Zap]\n"+(xpath("id('main')", params.response.xml)[0]||{"textContent":"Unknown error has occurred. Try again later"}).textContent);
 
                     if (/You need to be logged/.test(params.response.text))
-                        await GM.openInTab("http://lablog.sunnyneo.com/login.php");
+                        GM.openInTab("http://lablog.sunnyneo.com/login.php");
                 }
             }
         }).send({
@@ -166,4 +171,3 @@ else if (!/You need to be logged/.test(document.body.textContent))
         }
     }).send();
 }
-})();

@@ -12,6 +12,8 @@
 // @include        nowhere
 // @exclude        *
 // @icon           http://gm.wesley.eti.br/icon.php?desc=163374
+// @grant          GM_log
+// @grant          GM.log
 // @grant          GM_addStyle
 // @grant          GM.addStyle
 // @grant          GM_getValue
@@ -43,7 +45,7 @@
 
 **************************************************************************/
 
-var WinConfig = async function (params) {
+var WinConfig = function (params) {
     this.name = ("title" in params) && params.title.replace(/[^\w]+/g, "") || "default";
     this.type = ("type" in params) && params.type || WinConfig.WindowType.CUSTOM;
     this.description = "";
@@ -54,8 +56,8 @@ var WinConfig = async function (params) {
     this.parent = null;
     this.children = [];
 
-    this.reset = async function () {
-        await GM.deleteValue("config-" + this.name);
+    this.reset = function () {
+        GM.deleteValue("config-" + this.name);
     };
     
     this.buttons = (function (type) {
@@ -145,8 +147,8 @@ var WinConfig = async function (params) {
     tb = function (t) {
         return [["button", function () {
             this.close();
-        }],["submit", async function () {
-            var _config = (async function recursive (_this) {
+        }],["submit", function () {
+            var _config = (function recursive (_this) {
                 var cfg = {};
 
                 for (var ai in _this.fields) {
@@ -292,7 +294,7 @@ var WinConfig = async function (params) {
                 }
 
                 if (_this.store) {
-                    await GM.setValue(vn, GM_info.script.version);
+                    GM.setValue(vn, GM_info.script.version);
                 }
                 
                 return cfg;
@@ -313,7 +315,7 @@ var WinConfig = async function (params) {
 
             if (xClose) {
                 if (this.store) {
-                    await GM.setValue("config-" + this.name, JSON.stringify(config = tmpConfig));
+                    GM.setValue("config-" + this.name, JSON.stringify(config = tmpConfig));
                 }
 
                 _close();
@@ -401,9 +403,9 @@ var WinConfig = async function (params) {
         this.actions.push(button);
     }
 
-    this.open = async function () {
+    this.open = function () {
         if (!Array.prototype.some.apply(document.querySelectorAll("style"), [function(a){return ~a.textContent.indexOf(".winconfig {")}])) {
-            await GM.addStyle(await GM.getResourceText("winConfigCss") + WinConfig.__customStyle);
+            GM.addStyle(GM.getResourceText("winConfigCss") + WinConfig.__customStyle);
         }
 
         WinConfig.__openedWindows.push(this);
@@ -915,9 +917,9 @@ var WinConfig = async function (params) {
 
     if (this.store) {    
         try {
-            config = JSON.parse(await GM.getValue("config-" + this.name));
+            config = JSON.parse(GM.getValue("config-" + this.name));
 
-            if (this.force || !params.keep && await GM.getValue(vn) != GM_info.script.version) {
+            if (this.force || !params.keep && GM.getValue(vn) != GM_info.script.version) {
                 this.open();
             }
         } catch (e) {
@@ -942,9 +944,9 @@ window.addEventListener("keyup", function (e) {
 WinConfig.addStyle = function (style) {
     WinConfig.__customStyle += style;
 };
-WinConfig.init = async function (params) {
+WinConfig.init = function (params) {
     if ("condition" in params) {
-        var cfg = JSON.parse(await GM.getValue("config-" + params.name, "{}")),
+        var cfg = JSON.parse(GM.getValue("config-" + params.name, "{}")),
         c = params.condition(cfg);
         params.result = c;
         if (-1 == c) {

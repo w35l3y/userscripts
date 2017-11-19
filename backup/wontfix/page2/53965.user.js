@@ -9,6 +9,8 @@
 // @homepage       http://gm.wesley.eti.br/includes
 // @version        1.3.1.1
 // @include        nowhere
+// @grant          GM_log
+// @grant          GM.log
 // @grant          GM_addStyle
 // @grant          GM.addStyle
 // @grant          GM_getValue
@@ -75,7 +77,7 @@ HttpRequest = function()
         };
     };
 
-    this.send = async function(content)
+    this.send = function(content)
     {
         if (content)
         {
@@ -147,7 +149,7 @@ HttpRequest = function()
         }
         else
         {
-            await GM.xmlHttpRequest(this.options);
+            GM.xmlHttpRequest(this.options);
         }
     };
 };

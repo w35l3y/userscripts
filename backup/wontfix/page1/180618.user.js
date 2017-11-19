@@ -128,4 +128,4 @@
 	});
 	
 	MPCat.renderEffects = function () {};
-})();
+}());

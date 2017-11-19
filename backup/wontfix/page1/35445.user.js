@@ -11,6 +11,8 @@
 // @language       en
 // @include        http*://userscripts-mirror.org/scripts/review/*
 // @include        http*://userscripts-mirror.org/scripts/versions/*
+// @grant          GM_log
+// @grant          GM.log
 // @grant          GM_addStyle
 // @grant          GM.addStyle
 // @grant          GM_getValue
@@ -75,13 +77,13 @@
 
 **************************************************************************/
 
-(async function () {    // script scope
+(function () {    // script scope
     var script = {
         "current"    : parseInt(location.href.match(/\/(\d+)/)[1], 10),
-        "stats"        : JSON.parse(await GM.getValue("stats", "{}")),
-        "users"        : JSON.parse(await GM.getValue("users", "[]")),
-        "meta"        : JSON.parse(await GM.getValue("meta", "{}")),
-        "config"    : JSON.parse(await GM.getValue("config", JSON.stringify({
+        "stats"        : JSON.parse(GM.getValue("stats", "{}")),
+        "users"        : JSON.parse(GM.getValue("users", "[]")),
+        "meta"        : JSON.parse(GM.getValue("meta", "{}")),
+        "config"    : JSON.parse(GM.getValue("config", JSON.stringify({
             internal    : {
                 diff        : true,
                 order        : [3, 0, 1, 2],    // reviews, fans, comments, installs
@@ -112,7 +114,7 @@
     }
 
     if (/\/review\//.test(location.href)) {
-        var execute = async function () {
+        var execute = function () {
             var nver = 1 + (toInt("id('content')/p/a/text()") || 0),                    // number of versions
             fans = toInt("id('script-nav')/li/a[contains(@href, 'fans')]/span/text()"),    // fans
             comm = toInt("id('script-nav')/li/a[contains(@href, 'discuss')]/span/text()"),    // comments
@@ -148,7 +150,7 @@
                 }
             }
 
-            await GM.setValue("stats", JSON.stringify(script.stats));
+            GM.setValue("stats", JSON.stringify(script.stats));
         },
         listContains = function (u) {
             for (var ai in script.users) {
@@ -166,7 +168,7 @@
 
         var activated = script.config.auto | ((script.config.auto & 1) && 2);
 
-        document.addEventListener("keyup", async function (e) {
+        document.addEventListener("keyup", function (e) {
             if (e.ctrlKey && e.altKey) {
                 for (var i in script.config.keys) {
                     var a = Math.pow(2, i);
@@ -177,7 +179,7 @@
                         if (a & 4) {    // reset
                             delete script.meta[script.current];
 
-                            await GM.setValue("meta", JSON.stringify(script.meta));
+                            GM.setValue("meta", JSON.stringify(script.meta));
 
                             alert("[" + GM_info.script.name + "]\n\nMetadata of the current script ( #" + script.current + " ) was resetted!");
                         } else {
@@ -187,7 +189,7 @@
                                 activated |= 2;
                                 script.users.push(user);
 
-                                await GM.setValue("users", JSON.stringify(script.users));
+                                GM.setValue("users", JSON.stringify(script.users));
 
                                 alert("[" + GM_info.script.name + "]\n\nActivated for the current author! ( " + user + " )");
                             } else if (a & 2) {    // script
@@ -240,14 +242,14 @@
             }
             e.parentNode.insertBefore(document.createTextNode("[ " + x.join(" | ") + " ] "), e.parentNode.firstChild);
         },
-        rmeta = async function (index, e) {
+        rmeta = function (index, e) {
             var l = e.getAttribute("href").replace("user", "meta");
 
             if (l) {
-                await GM.xmlHttpRequest({
+                GM.xmlHttpRequest({
                     method    : "get",
                     url        : l,
-                    onload    : async function (xhr) {
+                    onload    : function (xhr) {
                         if (!(index in meta)) {
                             meta[index] = {};
                         }
@@ -330,7 +332,7 @@
                         }
 
                         if (m) {
-                            await GM.setValue("meta", JSON.stringify(script.meta));
+                            GM.setValue("meta", JSON.stringify(script.meta));
                             
                             smeta(meta[index], e);
                         }
@@ -342,7 +344,7 @@
 
         stats[2] = false;
         
-        await GM.setValue("stats", JSON.stringify(script.stats));
+        GM.setValue("stats", JSON.stringify(script.stats));
 
         list.forEach(function (e, i) {
             var ii = init - i;
@@ -376,4 +378,4 @@
             }
         });
     }
-})();
+}());

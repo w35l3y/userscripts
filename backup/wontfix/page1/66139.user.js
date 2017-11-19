@@ -10,6 +10,8 @@
 // @version        2.0.5.6
 // @language       en
 // @include        http://www.neopets.com/games/play.phtml?game_id=*
+// @grant          GM_log
+// @grant          GM.log
 // @grant          GM_addStyle
 // @grant          GM.addStyle
 // @grant          GM_getValue
@@ -70,10 +72,10 @@
 
 **************************************************************************/
 
-(async function () {    // script scope
-//  await GM.setValue("cached_includes", 0);    // 0,1,2
-//  await GM.setValue("call_url", false);
+//GM.setValue("cached_includes", 0);    // 0,1,2
+//GM.setValue("call_url", false);
 
+(function () {    // script scope
     var games = {
     //    "id"  : [min_score, rnd_score, mod_score, ratio_time, avatar_gif, avatar_name],
     // + non-avatar games
@@ -222,7 +224,7 @@
                     for (var k in p.list) {
                         o.push([k, p.list[k]].join("\t"));
                     }
-                    console.log(o.join("\n"));
+                    GM.log(o.join("\n"));
                     
                     document.body.setAttribute("onbeforeunload", "");
                     document.body.removeAttribute("onbeforeunload");

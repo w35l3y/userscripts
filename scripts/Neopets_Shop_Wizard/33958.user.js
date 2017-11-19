@@ -11,6 +11,8 @@
 // @language       en
 // @include        http://www.neopets.com/market.phtml?type=wizard
 // @include        http://www.neopets.com/market.phtml
+// @grant          GM_log
+// @grant          GM.log
 // @grant          GM_addStyle
 // @grant          GM.addStyle
 // @grant          GM_getValue
@@ -60,9 +62,9 @@
 
 **************************************************************************/
 
-(async function () {	// script scope
-	await GM.addStyle(".winConfig_ShopWizardSettings .fieldType_0 {float: left;width: 50%;}.winConfig_ShopWizardSettings .fieldType_0 input {width:40%;}");
+GM.addStyle(".winConfig_ShopWizardSettings .fieldType_0 {float: left;width: 50%;}.winConfig_ShopWizardSettings .fieldType_0 input {width:40%;}");
 
+(function () {	// script scope
 	var win = new WinConfig({
 		title	: "Shop Wizard : Settings",
 		type	: WinConfig.WindowType.CUSTOM,
@@ -127,7 +129,7 @@
 		var faerieQuest = xpath(".//div[@class = 'main-icon']")[0],
 		newDiv = document.createElement("div");
 
-		newDiv.innerHTML = await GM.getResourceText("shopWizardHtml");
+		newDiv.innerHTML = GM.getResourceText("shopWizardHtml");
 		faerieQuest.parentNode.insertBefore(newDiv, faerieQuest);
 
 		if (config.fill) {
@@ -147,4 +149,4 @@
 			}, config.interval.min + Math.floor(Math.random() * config.interval.rnd));
 		}
 	}
-})();
+}());

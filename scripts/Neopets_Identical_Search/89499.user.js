@@ -11,6 +11,8 @@
 // @language       en
 // @include        http://www.neopets.com/*
 // @include        http://ncmall.neopets.com/*
+// @grant          GM_log
+// @grant          GM.log
 // @grant          GM_getValue
 // @grant          GM.getValue
 // @grant          GM_getResourceText
@@ -40,14 +42,14 @@
 
 **************************************************************************/
 
-(async function () {	// script scope
+(function () {	// script scope
 	var type = {
 		"market" : 0x01,				// wizard
 		"island/tradingpost" : 0x02,	// trading post
 		"genie" : 0x04,					// auction
 		"portal/supershopwiz" : 0x08	// super wizard
 	},
-	searchType = await GM.getValue("search", 0x0F);	// wizard + trading post + auction + super wizard
+	searchType = GM.getValue("search", 0x0F);	// wizard + trading post + auction + super wizard
 
 	if (/^\/([\w\/]+)\.phtml/i.test(location.pathname) && (searchType & type[RegExp.$1]) || (searchType & type["portal/supershopwiz"])) {
 		var opts = xpath(".//select[contains(@name, 'criteria')]/option[contains(@value, 'exact')]") || [];
@@ -56,4 +58,4 @@
 			opts[index].selected = true;
 		}
 	}
-})();
+}());

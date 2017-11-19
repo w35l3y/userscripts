@@ -10,6 +10,8 @@
 // @version        1.0.0.0
 // @language       en
 // @include        http://www.neopets.com/island/kitchen.phtml
+// @grant          GM_log
+// @grant          GM.log
 // @icon           http://gm.wesley.eti.br/icon.php?desc=126026
 // @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
@@ -61,4 +63,4 @@
         deadline : new Date().valueOf() + 1000 * (3600 * dl[0].textContent + 60 * dl[1].textContent),
         dom : dl,
     }));
-})();
+}());

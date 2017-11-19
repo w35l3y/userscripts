@@ -11,6 +11,8 @@
 // @language       en
 // @include        nowhere
 // @exclude        *
+// @grant          GM_log
+// @grant          GM.log
 // @grant          GM_addStyle
 // @grant          GM.addStyle
 // @grant          GM_getValue
@@ -72,7 +74,7 @@
 
 **************************************************************************/
 
-//await GM.setValue("call_url", false);
+//GM.setValue("call_url", false);
 
 FlashGame = function () {};
 
@@ -140,7 +142,7 @@ FlashGame.convert = function (doc, type) {
                             return ( /^[a-f0-9]{20}$/i.test(v) ? v : null );
                         case "chall":
                             if (v)
-                            console.log(k + " = " + v);
+                            GM.log(k + " = " + v);
                             return v;
                         default:
                             return v;
@@ -155,7 +157,7 @@ FlashGame.convert = function (doc, type) {
                     if ( !/[()'"]/.test(v)) {
                         obj.list[p[1]] = filter_values(p[1], v);
                     } else {
-                        console.log(p + " (" + v + ")");
+                        GM.log(p + " (" + v + ")");
                     }
                 }
 
@@ -180,9 +182,7 @@ FlashGame.convert = function (doc, type) {
 };
 
 FlashGame.includes = {};
-(async function () {
-    FlashGame.cached_includes = JSON.parse(await GM.getValue("includes", "{}"));
-})();
+FlashGame.cached_includes = JSON.parse(GM.getValue("includes", "{}"));
 
 FlashGame.open = function (params) {
     if (!("referer" in params)) {
@@ -219,10 +219,10 @@ FlashGame.open = function (params) {
     }).send();
 };
 
-FlashGame.url = async function (params) {
-    async function x(params) {
+FlashGame.url = function (params) {
+    function x(params) {
         var i = FlashGame.includes[params.include],
-        decimals_arr = JSON.parse(await GM.getValue("decimals", "{}"));
+        decimals_arr = JSON.parse(GM.getValue("decimals", "{}"));
 
         idv = (function(inc) {
             switch (inc) {
@@ -325,8 +325,8 @@ FlashGame.url = async function (params) {
                 }
             }
 
-            console.log(o.substr(1));
-            console.log(FlashGame.test(o.substr(1), decimals_arr[i.Decimals]));
+            GM.log(o.substr(1));
+            GM.log(FlashGame.test(o.substr(1), decimals_arr[i.Decimals]));
 
             return "http://www.neopets.com/high_scores/process_flash_score.phtml?" + o.substr(1);
         }
@@ -362,8 +362,8 @@ FlashGame.url = async function (params) {
         return ps;
     })(params.opts, ["id", "f", "dc", "ddNcChallenge", "multiple", "forceScore", "n"]);
 
-    var ci = await GM.getValue("cached_includes", 1),
-    decimals_arr = JSON.parse(await GM.getValue("decimals", "{}"));
+    var ci = GM.getValue("cached_includes", 1),
+    decimals_arr = JSON.parse(GM.getValue("decimals", "{}"));
 
     if (params.include && params.include in FlashGame.cached_includes) {
         // Compatibility mode (3.0.0.0)
@@ -372,10 +372,10 @@ FlashGame.url = async function (params) {
             key = MD5_hexhash(val.toSource().replace(/\s+/g, ""));
 
             decimals_arr[key] = val;
-            await GM.setValue("decimals", JSON.stringify(decimals_arr));
+            GM.setValue("decimals", JSON.stringify(decimals_arr));
 
             FlashGame.cached_includes[params.include].Decimals = key;
-            await GM.setValue("includes", JSON.stringify(FlashGame.cached_includes));
+            GM.setValue("includes", JSON.stringify(FlashGame.cached_includes));
         }
 
         if (FlashGame.cached_includes[params.include].Decimals in decimals_arr && !(params.include in FlashGame.includes) && (ci == 2 || ci == 1 && confirm("[Includes : Neopets : FlashGame]\n\n" + I18n.get("inpfg.cached_encrypt.confirm", [FlashGame.cached_includes[params.include].LastUpdate || I18n.get("unknown")])))) {
@@ -413,7 +413,7 @@ FlashGame.url = async function (params) {
     ShowMyCode.execute({
         "url" : params.opts.image_host + "/" + params.opts.include_movie,
         "captcha" : params.captcha,
-        "onsuccess" : async function (_params) {
+        "onsuccess" : function (_params) {
             var obj = _params || {};
             for (var v in params) {
                 obj[v] = params[v];
@@ -446,7 +446,7 @@ FlashGame.url = async function (params) {
                 is_error = decimals.length != 20 || decimals[0].length != 83;
             }
 
-            if (is_error && obj.include in FlashGame.cached_includes && await GM.getValue("cached_includes", 1) == 0 && confirm("[Includes : Neopets : FlashGame]\n\n" + I18n.get("inpfg.cached_encrypt.confirm"))) {
+            if (is_error && obj.include in FlashGame.cached_includes && GM.getValue("cached_includes", 1) == 0 && confirm("[Includes : Neopets : FlashGame]\n\n" + I18n.get("inpfg.cached_encrypt.confirm"))) {
                 include = FlashGame.cached_includes[obj.include];
 
                 is_error = decimals.length != 20 || decimals[0].length != 83;
@@ -458,12 +458,12 @@ FlashGame.url = async function (params) {
                 FlashGame.includes[obj.include] = include;
 
                 FlashGame.cached_includes[obj.include] = include;
-                await GM.setValue("includes", JSON.stringify(FlashGame.cached_includes));
+                GM.setValue("includes", JSON.stringify(FlashGame.cached_includes));
 
-                var decimals_arr = JSON.parse(await GM.getValue("decimals", "{}"));
+                var decimals_arr = JSON.parse(GM.getValue("decimals", "{}"));
                 if (!(include.Decimals in decimals_arr)) {
                     decimals_arr[include.Decimals] = decimals;
-                    await GM.setValue("decimals", JSON.stringify(decimals_arr));
+                    GM.setValue("decimals", JSON.stringify(decimals_arr));
                 }
             }
 
@@ -494,7 +494,7 @@ FlashGame.send = function (params) {
         "headers" : {
             "Referer" : params.referer,
         },
-        "onsuccess" : async function(_params) {
+        "onsuccess" : function(_params) {
             var obj = _params,
             result = FlashGame.convert(_params.response.text, "process_flash_score") || {};
             for (var v in params) {
@@ -506,8 +506,8 @@ FlashGame.send = function (params) {
 
             if (obj.list && obj.list.call_url) {
                 // example : http://www.neopets.com/games/display_avatar.phtml?id=130
-                if (await GM.getValue("call_url", true)) {
-                    await GM.openInTab(obj.list.call_url);
+                if (GM.getValue("call_url", true)) {
+                    GM.openInTab(obj.list.call_url);
                 } else {
                     console.log(obj.list.call_url);
                 }
@@ -649,7 +649,7 @@ FlashGame.execute = function (params) {
     });
 };
 
-FlashGame.test = async function(querystring, crypt) {
+FlashGame.test = function(querystring, crypt) {
     var str = "",
     qs = {},
     remap = {
@@ -660,8 +660,8 @@ FlashGame.test = async function(querystring, crypt) {
     };
 
     if (!(crypt instanceof Array)) {
-        var decimals = JSON.parse(await GM.getValue("decimals", "{}")),
-        includes = JSON.parse(await GM.getValue("includes", "{}"));
+        var decimals = JSON.parse(GM.getValue("decimals", "{}")),
+        includes = JSON.parse(GM.getValue("includes", "{}"));
         if (crypt in includes) {
             crypt = decimals[includes[crypt].Decimals];
         } else {
@@ -701,14 +701,14 @@ FlashGame.test = async function(querystring, crypt) {
     }).join("\n");
 };
 
-FlashGame.menu = async function(type, value) {
+FlashGame.menu = function(type, value) {
     var menus = {
-        "cached_includes" : async function() {
-            var ci = (await GM.getValue("cached_includes", 1) == 2 ? 1 : 2);
-            await GM.setValue("cached_includes", ci);
+        "cached_includes" : function() {
+            var ci = (GM.getValue("cached_includes", 1) == 2 ? 1 : 2);
+            GM.setValue("cached_includes", ci);
 
             if (ci == 1 && confirm("[Includes : Neopets : FlashGame]\n\n" + I18n.get("inpfg.clear_cache.confirm"))) {
-                await GM.setValue("includes", "{}");
+                GM.setValue("includes", "{}");
             }
 
             alert("[Includes : Neopets : FlashGame]\n\n" + I18n.get("inpfg.cache_status.alert") + " " + I18n.get("inpfg." + (ci == 2 ? "activated" : "deactivated") + ".label").toUpperCase());
@@ -716,6 +716,6 @@ FlashGame.menu = async function(type, value) {
     };
 
     if (type in menus) {
-        await GM.registerMenuCommand(value || "[Includes : Neopets : FlashGame] " + I18n.get("inpfg.cache_encrypt.label"), menus[type]);
+        GM.registerMenuCommand(value || "[Includes : Neopets : FlashGame] " + I18n.get("inpfg.cache_encrypt.label"), menus[type]);
     }
 };

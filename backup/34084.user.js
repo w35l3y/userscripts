@@ -53,17 +53,17 @@
 
 **************************************************************************/
 
-(async function recursive()
+(function recursive()
 {    // script scope
-    var last = Date.parse(await GM.getValue("lastAccess", "Mon Jun 20 2011 20:40:43 GMT-0300")),
+    var last = Date.parse(GM.getValue("lastAccess", "Mon Jun 20 2011 20:40:43 GMT-0300")),
     curr = new Date(),
     interval = 28800000;    // 8 hours
 
     curr.setMinutes(0, 0, 0);
     if (last != curr.valueOf() && /^(?:6am|2pm|10pm)$/.test(unsafeWindow.nh + unsafeWindow.na))
     {
-        await GM.setValue("lastAccess", (last = curr).toString());
-        await GM.openInTab("http://www.neopets.com/winter/snowager.phtml");
+        GM.setValue("lastAccess", (last = curr).toString());
+        GM.openInTab("http://www.neopets.com/winter/snowager.phtml");
     }
 
     setTimeout(recursive, (last - curr) + interval);

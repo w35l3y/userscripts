@@ -9,6 +9,8 @@
 // @homepage       http://gm.wesley.eti.br/includes
 // @version        1.0.2.0 BETA
 // @include        nowhere
+// @grant          GM_log
+// @grant          GM.log
 // @icon           http://gm.wesley.eti.br/icon.php?desc=54389
 // @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // ==/UserScript==

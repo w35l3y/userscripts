@@ -17,6 +17,8 @@
 // @include        http*://*/surf_ads_think.php
 // @include        http*://*/bannersurf.php
 // @include        http*://*/index.php?option=surf
+// @grant          GM_log
+// @grant          GM.log
 // @grant          GM_addStyle
 // @grant          GM.addStyle
 // @grant          GM_getValue
@@ -96,7 +98,7 @@ w.appendChild(msg);
 
 document.body.appendChild(w);
 
-async function surfAds(info, n)
+function surfAds(info, n)
 {
     var ad;
 
@@ -127,7 +129,7 @@ async function surfAds(info, n)
             h['Content-Type'] = 'application/x-www-form-urlencoded';
         }
 
-        await GM.xmlHttpRequest({
+        GM.xmlHttpRequest({
             'url':tmp.href,
             'method':( postData ? 'post' : 'get' ),
             'headers':h,
@@ -141,7 +143,7 @@ async function surfAds(info, n)
                         msg.textContent = e.finalUrl + "... " + (--t) + remain;
                     }, 1000);
 
-                    setTimeout(async function()
+                    setTimeout(function()
                     {
                         clearInterval(secs);
                         msg.textContent = e.finalUrl + "... 0" + remain;
@@ -154,7 +156,7 @@ async function surfAds(info, n)
                                 location.reload();
                             }, Math.max(info.time * 500, 10000));
 
-                            await GM.xmlHttpRequest({
+                            GM.xmlHttpRequest({
                                 'url':d+url,
                                 'method':'get',
                                 'headers':{

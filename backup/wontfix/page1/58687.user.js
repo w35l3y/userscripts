@@ -14,6 +14,8 @@
 // @include        http://userscripts-mirror.org/scripts/version/*.user.js?format=txt
 // @include        http://greasefire.userscripts-mirror.org/scripts/version/*.user.js?format=txt
 // @include        file://*.user.js
+// @grant          GM_log
+// @grant          GM.log
 // @grant          GM_addStyle
 // @grant          GM.addStyle
 // @grant          GM_getValue
@@ -70,14 +72,14 @@
 
 **************************************************************************/
 
-(async function () {
-    var config = JSON.parse(await GM.getValue("config", JSON.stringify({
+(function () {
+    var config = JSON.parse(GM.getValue("config", JSON.stringify({
         highlight : false,
     }))),
     head = document.getElementById("heading"),
     notice = xpath(".//p[@class = 'notice']/text()[contains(., 'the source is over 100KB')]")[0],
     decode = document.createElement("div"),
-    deobfuscate = async function (highlight) {
+    deobfuscate = function (highlight) {
         var loc = location.pathname.match(/^\/scripts\/(\w+)\/(\d+)/),
         source = xpath({
             "review" : "id('source')",
@@ -87,7 +89,7 @@
         }[loc && loc[1] || "default"])[0];
         
         if (loc && loc[1]) {
-            source.textContent = JsCode.deobfuscate(source.textContent, JSON.parse(await GM.getValue("scripts", "{}"))[loc[2]]);
+            source.textContent = JsCode.deobfuscate(source.textContent, JSON.parse(GM.getValue("scripts", "{}"))[loc[2]]);
         } else {
             var pre = document.createElement("pre");
             pre.textContent = JsCode.deobfuscate(source.textContent);
@@ -115,4 +117,4 @@
             deobfuscate(true);
         }
     }
-})();
+}());

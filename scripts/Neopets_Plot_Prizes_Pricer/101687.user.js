@@ -15,6 +15,8 @@
 // @include        http://www.neopets.com/desert/ldp/gift_shop.phtml
 // @include        http://www.neopets.com/water/com_prizes.phtml
 // @include        http://www.neopets.com/altador/colosseum/staff/
+// @grant          GM_log
+// @grant          GM.log
 // @grant          GM_getValue
 // @grant          GM.getValue
 // @grant          GM_setValue
@@ -61,7 +63,7 @@
 
 **************************************************************************/
 
-(async function () {
+(function () {
 	var plot = (function () {
 		switch (location.pathname) {
 			case "/altador/colosseum/2010/prizes.phtml"	: return ["Altador Cup V", 3];
@@ -75,7 +77,7 @@
 
 		return null;
 	}()) || [(/^(?:Neopets - )?(.+?) - Prize/i.test(document.title) && RegExp.$1), 3],
-	cache = JSON.parse(await GM.getValue("cache_" + location.pathname, "{}"));
+	cache = JSON.parse(GM.getValue("cache_" + location.pathname, "{}"));
 
 	function getPoints(node) {
 		var texts = xpath(".//text()", node),
@@ -106,7 +108,7 @@
 		}
 	}
 
-	async function attachPrices(list, fromCache) {
+	function attachPrices(list, fromCache) {
 		var curr = new Date(),
 		prizes = xpath(".//td[@class = 'content']//tr/td[(./*/img or ./img or .//div[contains(translate(@class, 'I', 'i'), 'image') and contains(@style, '//images.')]) and .//text()]"),
 		items = {},
@@ -134,9 +136,9 @@
 						"data" : {
 							"image" : "/" + img + ".gif"
 						},
-						"callback" : async function (obj) {
+						"callback" : function (obj) {
 							var name = "cache_" + location.pathname,
-							cache = JSON.parse(await GM.getValue(name, "{}")),
+							cache = JSON.parse(GM.getValue(name, "{}")),
 							ai;
 
 							if (obj.list.length) {
@@ -154,7 +156,7 @@
 									cache.items.push(obj.list[0]);
 								}
 
-								await GM.setValue(name, JSON.stringify(cache));
+								GM.setValue(name, JSON.stringify(cache));
 							}
 						}
 					});
@@ -165,7 +167,7 @@
 		if (!fromCache) {
 			curr.setUTCHours(32, 0, 0, 0);
 
-			await GM.setValue("cache_" + location.pathname, JSON.stringify({
+			GM.setValue("cache_" + location.pathname, JSON.stringify({
 				"date" : curr,
 				"items" : fitems,
 			}));
@@ -188,4 +190,4 @@
 	} else {
 		attachPrices([], false);
 	}
-})();
+}());

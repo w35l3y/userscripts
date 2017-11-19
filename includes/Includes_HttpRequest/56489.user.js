@@ -133,7 +133,7 @@ HttpRequest.open = function (params) {
 			}
 		}
 
-		this.send = async function (content) {
+		this.send = function (content) {
 			if (content) {
 				if (content instanceof unsafeWindow.HTMLCollection || content instanceof HTMLCollection) {
 					content = Array.prototype.slice.apply(content);
@@ -191,7 +191,7 @@ HttpRequest.open = function (params) {
 				}
 			}
 
-			this.result = await GM.xmlHttpRequest(this.options);
+			this.result = GM.xmlHttpRequest(this.options);
 
 			return this;
 		}

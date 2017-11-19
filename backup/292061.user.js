@@ -48,7 +48,7 @@ function SamsungTV (endpoint) {
         throw new SamsungTVException("Endpoint is required.");
     }
 
-    this.set = async function (obj) {
+    this.set = function (obj) {
         var urn = "urn:" + obj.service.urn + ":service:" + obj.service.name + ":1",
         content = (function r (v) {
             if (typeof v == "object") {
@@ -63,7 +63,7 @@ function SamsungTV (endpoint) {
                 return v;
             }
         }(obj.content)),
-        xhr = await GM.xmlHttpRequest({
+        xhr = GM.xmlHttpRequest({
             method    : "POST",
             url        : "http://" + endpoint + obj.service.url + "/control/" + obj.service.name,
             data    : '<?xml version="1.0" encoding="utf-8"?><s:Envelope s:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" xmlns:s="http://schemas.xmlsoap.org/soap/envelope/"><s:Body><u:' + obj.action + ' xmlns:u="' + urn + '">' + content + '</u:' + obj.action + '></s:Body></s:Envelope>',

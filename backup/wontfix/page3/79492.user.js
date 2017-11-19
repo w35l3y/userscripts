@@ -50,7 +50,6 @@
 
 **************************************************************************/
 
-(async function () {
 var table = $('#main table:eq(0)');
 
 // removing the old header and adding the new one
@@ -58,11 +57,11 @@ $('tr:eq(0)', table).remove();
 $('tbody:eq(0)', table).before('<thead><tr><th class="la">Name</th><th class="la">Rating</th><th class="la">Posts</th><th class="la">Fans</th><th class="la">Installs</th><th class="la">Last Updated</th></tr></thead>');
 
 // adding style
-await GM.addStyle(await GM.getResourceText("demo_table").replace(/\.\.\/images\/([\w ]+)\.\w+/g, function(m, f)
+GM.addStyle(GM.getResourceText("demo_table").replace(/\.\.\/images\/([\w ]+)\.\w+/g, function(m, f)
 {
-    return await GM.getResourceUrl(f) || m;
+    return GM.getResourceUrl(f) || m;
 }));
-await GM.addStyle("th {color:black}");
+GM.addStyle("th {color:black}");
 
 // creating table
 table.dataTable({
@@ -73,4 +72,3 @@ table.dataTable({
     "bInfo": false,
     "bAutoWidth": false
 });
-})();

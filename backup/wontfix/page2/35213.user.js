@@ -11,6 +11,8 @@
 // @language       en
 // @include        http://www.neopets.com/winter/snowager.phtml
 // @include        http://www.neopets.com/winter/snowager2.phtml
+// @grant          GM_log
+// @grant          GM.log
 // @grant          GM_addStyle
 // @grant          GM.addStyle
 // @grant          GM_getValue
@@ -53,11 +55,10 @@
 
 **************************************************************************/
 
+//GM.setValue("interval", "[1000, 1000]");
 
-(async function() {    // script scope
-//  await GM.setValue("interval", "[1000, 1000]");
-
-    var interval = JSON.parse(await GM.getValue("interval", "[1000, 1000]")),
+(function() {    // script scope
+    var interval = JSON.parse(GM.getValue("interval", "[1000, 1000]")),
     snowager = xpath(".//a[contains(@href, 'snowager2.phtml')]")[0];
 
     if (snowager) {

@@ -10,6 +10,8 @@
 // @version        1.0.0.2
 // @language       en
 // @include        nowhere
+// @grant          GM_log
+// @grant          GM.log
 // @grant          GM_addStyle
 // @grant          GM.addStyle
 // @grant          GM_getValue

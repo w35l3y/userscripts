@@ -39,18 +39,18 @@
 
 **************************************************************************/
 
-(async function () {	// script scope
-//	await GM.setValue("interval", "[1000, 1000]");
+//GM.setValue("interval", "[1000, 1000]");
 
-	var interval = JSON.parse(await GM.getValue("interval", "[1000, 500]")),
+(function () {	// script scope
+	var interval = JSON.parse(GM.getValue("interval", "[1000, 500]")),
 	rnd = Math.floor(interval[0] + interval[1] * Math.random());
 
 	switch (location.pathname) {
 		case "/games/hidenseek.phtml":
 			var places = xpath(".//td[@class = 'content']//tr/td/a[img and contains(@onclick, '.phtml?xfn=')]");
 
-			await GM.setValue("places", "{}");
-			await GM.setValue("total", places.length);
+			GM.setValue("places", "{}");
+			GM.setValue("total", places.length);
 
 			if (places.length) {
 				setTimeout(function (place) {
@@ -60,8 +60,8 @@
 			break;
 		case "/games/process_hideandseek.phtml":
 			if (/\?p=(\d+)&game=(\d+)/.test(location.search)) {
-				var places = JSON.parse(await GM.getValue("places", "{}")),
-				total = await GM.getValue("total", 32);
+				var places = JSON.parse(GM.getValue("places", "{}")),
+				total = GM.getValue("total", 32);
 				area = RegExp.$1,
 				board = RegExp.$2,
 				href = xpath("string(.//a/@href)");
@@ -99,12 +99,12 @@
 					}, rnd, board, next);
 				}
 
-				await GM.setValue("places", JSON.stringify(places));
+				GM.setValue("places", JSON.stringify(places));
 			}
 			break;
 		default:
 			if (/(\d+)\.phtml/.test(location.pathname)) {
-				var places = JSON.parse(await GM.getValue("places", "{}")),
+				var places = JSON.parse(GM.getValue("places", "{}")),
 				board = RegExp.$1,
 				areas = xpath(".//map/area[contains(@href, '&game=" + board + "')]");
 
@@ -124,4 +124,4 @@
 			}
 			break;
 	}
-})();
+}());

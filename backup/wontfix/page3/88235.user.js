@@ -10,6 +10,8 @@
 // @version        1.0.0.1
 // @language       en
 // @include        http://www.neopets.com/medieval/archives.phtml*
+// @grant          GM_log
+// @grant          GM.log
 // @icon           http://gm.wesley.eti.br/icon.php?desc=88235
 // @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js

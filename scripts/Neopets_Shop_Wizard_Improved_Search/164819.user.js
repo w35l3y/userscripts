@@ -14,6 +14,8 @@
 // @icon           http://gm.wesley.eti.br/icon.php?desc=164819
 // @connect        github.com
 // @connect        raw.githubusercontent.com
+// @grant          GM_log
+// @grant          GM.log
 // @grant          GM_addStyle
 // @grant          GM.addStyle
 // @grant          GM_getValue
@@ -62,9 +64,9 @@
 
 **************************************************************************/
 
-(async function () {
-	await GM.addStyle(".winConfig_ShopWizardImprovedSearchSettings .body .fieldName_group > fieldset .fieldClass_default > label {width: 50%}.winConfig_ShopWizardImprovedSearchSettings .fieldName_group > fieldset .fieldType_0 input {width: 20%}");
+GM.addStyle(".winConfig_ShopWizardImprovedSearchSettings .body .fieldName_group > fieldset .fieldClass_default > label {width: 50%}.winConfig_ShopWizardImprovedSearchSettings .fieldName_group > fieldset .fieldType_0 input {width: 20%}");
 
+(function () {
 	var win = new WinConfig({
 		title	: "Shop Wizard : Improved Search : Settings",
 		type	: WinConfig.WindowType.CUSTOM,
@@ -152,7 +154,7 @@
 
 	if (config)
 	if (/type=wizard/.test(location.search)) {
-		await GM.deleteValue("search");
+		GM.deleteValue("search");
 	} else {
 		/*
 			0x00	normal
@@ -169,7 +171,7 @@
 			doc		: document,
 		}),
 		lang = xpath("string(.//select[@name = 'lang']/option[@selected]/@value)") || "en",
-		msgs = JSON.parse(await GM.getResourceText("neopetsMessageJson"))[lang],
+		msgs = JSON.parse(GM.getResourceText("neopetsMessageJson"))[lang],
 		notFound = [msgs.itemNotFound, msgs.shopIsEmpty],
 		isWhite = true,
 		isWhite2 = false,
@@ -186,7 +188,7 @@
 				Shop.list({
 					link		: o.Link || e.target.href,
 					onsuccess	: function (obj) {
-						(async function buyItem (obj, qnty) {
+						(function buyItem (obj, qnty) {
 							if (obj.list.length && qnty) {
 								for (var ai in obj.list) {
 									var i = obj.list[ai];
@@ -216,14 +218,14 @@
 															params.row.cells[priceColumnIndex].innerHTML = o.Stock;
 														}
 
-														await GM.setValue("search", JSON.stringify(search));
+														GM.setValue("search", JSON.stringify(search));
 
 														break;
 													}
 												}
 											}
 
-											obj.onsuccess = async function (obj) {
+											obj.onsuccess = function (obj) {
 												if (--qnty) {
 													buyItem(obj, qnty);
 												} else {
@@ -236,7 +238,7 @@
 																	params.row.cells[priceColumnIndex].innerHTML = o.Stock;
 																}
 
-																await GM.setValue("search", JSON.stringify(search));
+																GM.setValue("search", JSON.stringify(search));
 
 																break;
 															}
@@ -258,7 +260,7 @@
 											};
 											obj.link = i.Link;
 
-											console.log("[" + qnty + "] Buying " + obj.referer + "...");
+											GM.log("[" + qnty + "] Buying " + obj.referer + "...");
 											setTimeout(Shop.buy, 1000, obj);
 										}
 
@@ -275,7 +277,7 @@
 										if (search[ai].Link == o.Link) {
 											params.row.cells[2].innerHTML = search[ai].Stock = o.Stock;
 
-											await GM.setValue("search", JSON.stringify(search));
+											GM.setValue("search", JSON.stringify(search));
 
 											break;
 										}
@@ -289,7 +291,7 @@
 
 								alert(obj.message.textContent);
 							} else {
-								console.log(obj.response.text);
+								GM.log(obj.response.text);
 
 								alert("Unknown error while listing items.");
 							}
@@ -299,7 +301,7 @@
 			}],
 			[0x10, "Group"],
 		],
-		search = JSON.parse(await GM.getValue("search", "[]")),
+		search = JSON.parse(GM.getValue("search", "[]")),
 		updateAttrs = function (obj) {
 			for (var bi in attrs) {
 				if ((Math.pow(2, bi) & config.columns) && obj.index <= bi) {
@@ -412,7 +414,7 @@
 				}
 			});
 
-			await GM.setValue("search", JSON.stringify(search));
+			GM.setValue("search", JSON.stringify(search));
 
 			var list = xpath(".//tbody/tr[position() > 1]", table);
 			for (var ai in doc.list) {
@@ -466,4 +468,4 @@
 			}
 		}
 	}
-})();
+}());

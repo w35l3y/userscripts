@@ -11,6 +11,8 @@
 // @include        http://www.neopets.com/games/crossword/
 // @include        http://www.neopets.com/games/crossword/index.phtml
 // @include        http://www.neopets.com/games/crossword/crossword.phtml
+// @grant          GM_log
+// @grant          GM.log
 // @grant          GM_addStyle
 // @grant          GM.addStyle
 // @grant          GM_getValue
@@ -53,10 +55,10 @@ checkForUpdate({
     'version':'1.2.4'
 });
 
-(async function(){    // script scope
+(function(){    // script scope
     var user = {
-        interval:await GM.getValue('interval',    '4000-7000').split('-').array_map(parseInt,array_fill(0,2,10)),
-        close:await GM.getValue('close',        true)
+        interval:GM.getValue('interval',    '4000-7000').split('-').array_map(parseInt,array_fill(0,2,10)),
+        close:GM.getValue('close',        true)
     };
 
     if (/\/crossword\.phtml$/g.test('/'+location.href))
@@ -64,7 +66,7 @@ checkForUpdate({
         var playAgain = xpath('//form[contains(@action,"crossword.phtml")]/input[@value="Play Again"]')[0];
         if (!!playAgain)
         {    // game over
-            await GM.setValue("position",0);
+            GM.setValue("position",0);
 
             if (user.close)
             {
@@ -73,8 +75,8 @@ checkForUpdate({
         }
         else
         {    // keep playing
-            var jsonData = JSON.parse(await GM.getValue('externalData', '{"response":{"answers":[]}}'));
-            var currentPosition = await GM.getValue("position",0);
+            var jsonData = JSON.parse(GM.getValue('externalData', '{"response":{"answers":[]}}'));
+            var currentPosition = GM.getValue("position",0);
 
             var entries = jsonData.response.answers;
             if (!!entries)
@@ -91,7 +93,7 @@ checkForUpdate({
 
                 setTimeout(function()
                 {
-                    await GM.setValue("position",++currentPosition);
+                    GM.setValue("position",++currentPosition);
                     txtAnswer.form.submit();
                 },randomValue(user.interval));
             }
@@ -99,10 +101,10 @@ checkForUpdate({
     }
     else
     {    // start playing
-        resourceText("http://gm.wesley.eti.br/neopets/FaerieCrossword/getAnswer.php?type=json&r="+Math.random(), async function(r)
+        resourceText("http://gm.wesley.eti.br/neopets/FaerieCrossword/getAnswer.php?type=json&r="+Math.random(),function(r)
         {
-            await GM.setValue("externalData",r.responseText);
-            await GM.setValue("position",0);
+            GM.setValue("externalData",r.responseText);
+            GM.setValue("position",0);
 
             if (JSON.parse(r.responseText).response.updated || confirm("The answer seems not to be updated.\nContinue anyway ?"))
             {

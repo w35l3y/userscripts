@@ -176,7 +176,7 @@ Assert.execute.bind(Assert);
     for (var n in asserts) {
         window[n] = Assert[n] = asserts[n];
     }
-})();
+}());
 
 Assert.execute(function AssertTest () {
     this.beforeClass = function () {

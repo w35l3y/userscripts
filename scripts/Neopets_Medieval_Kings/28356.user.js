@@ -61,8 +61,8 @@
 
 **************************************************************************/
 
-(async function () {	// script scope
-	var config = JSON.parse(await GM.getValue("config", JSON.stringify({
+(function () {	// script scope
+	var config = JSON.parse(GM.getValue("config", JSON.stringify({
 		kings	: {
 			// "What / do / you do if / * / fierce / Pheophins / * / has eaten too much / * / tin of olives"
 			grumpy	: [3, 8, 6, 1, 39, 118, 1, 32, 1, 143],
@@ -91,4 +91,4 @@
 			opts[0].form.submit();
 		});
 	}
-})();
+}());

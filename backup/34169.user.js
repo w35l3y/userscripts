@@ -60,9 +60,9 @@
 
 **************************************************************************/
 
-(async function recursive () {    // script scope
+(function recursive () {    // script scope
     var user = {
-        "interval" : JSON.parse(await GM.getValue("interval", "[600000, 300000]"))
+        "interval" : JSON.parse(GM.getValue("interval", "[600000, 300000]"))
     };
 
     var min = Math.floor(user.interval[0] / 60000);
@@ -70,8 +70,8 @@
     currentDate.setMinutes(min * Math.floor(currentDate.getMinutes() / min), 0, 0);
     currentDate = "" + currentDate.valueOf();
 
-    if (await GM.getValue("lastAccess", "0") != currentDate) {
-        await GM.setValue("lastAccess", currentDate);
+    if (GM.getValue("lastAccess", "0") != currentDate) {
+        GM.setValue("lastAccess", currentDate);
 
         HttpRequest.open({
             "method" : "GET",
@@ -79,12 +79,12 @@
             "headers" : {
                 "Referer" : "http://www.neopets.com/dome/neopets.phtml"
             },
-            "onsuccess" : async function (xhr) {
+            "onsuccess" : function (xhr) {
                 var r = xhr.response.text.replace(/\s+/g, "").toLowerCase();
 
                 // Auto opponent(Flaming Meerca) is there AND Punchbag Bob isn't, so Sid is!
                 if (~r.indexOf('data-oppid="1"') && !~r.indexOf('data-diffs="0;0;0"')) {
-                    await GM.openInTab("http://www.neopets.com/dome/fight.phtml");
+                    GM.openInTab("http://www.neopets.com/dome/fight.phtml");
                     alert("Apparently Sid is up for fighting!");
                 }
             }

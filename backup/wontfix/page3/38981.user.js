@@ -20,6 +20,8 @@
 // @include        http*://orkut.tld/Profile?*
 // @include        http*://orkut.tld/Messages?msg=*
 // @include        http*://orkut.tld/ProfileT?uid=*
+// @grant          GM_log
+// @grant          GM.log
 // @grant          GM_addStyle
 // @grant          GM.addStyle
 // @grant          GM_getValue
@@ -76,10 +78,10 @@
 
 typeof(CheckForUpdate)!='undefined' && CheckForUpdate.init(GM_info.scriptMetaStr);
 
+GM.addStyle(GM.getResourceText('highlight'));
 
-(async function() {    // script scope
-    await GM.addStyle(await GM.getResourceText('highlight'));
-
+(function()
+{    // script scope
 /*
     /CommMsgs?cmm=*        id('mboxfull')/table/tbody/tr[2]/td[1]/div[position()<last()]/div[2]
     /Scrapbook*            id('mboxfull')/table[2]/tbody/tr[2]/td[1]/form[1]/div/div

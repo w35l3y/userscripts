@@ -15,6 +15,8 @@
 // @exclude        http://www.neopets.com/ads/*
 // @exclude        http://www.neopets.com/games/play_flash.phtml?*
 // @exclude        http://www.neopets.com/iteminfo.phtml?*
+// @grant          GM_log
+// @grant          GM.log
 // @grant          GM_addStyle
 // @grant          GM.addStyle
 // @grant          GM_getValue
@@ -64,15 +66,15 @@
 **************************************************************************/
 
 if (NeopetsDocument.Username)
-(async function () {    // script scope
+(function () {    // script scope
     const INTERVAL = 1810000;    // 30 * 60 * 1000 + 10 * 1000 (30 minutes + 10 seconds)
 
     var n = "HealingSprings-LastAccess-" + NeopetsDocument.Username,
-    la = Date.parse(await GM.getValue(n, "Sat Apr 16 2011 08:13:43 GMT-0300")) || new Date(),
+    la = Date.parse(GM.getValue(n, "Sat Apr 16 2011 08:13:43 GMT-0300")) || new Date(),
     curr = new Date();
 
     if (la.valueOf() < curr.valueOf() - INTERVAL) {
-        await GM.setValue(n, (la = curr).toString());
+        GM.setValue(n, (la = curr).toString());
 
         HttpRequest.open({
             "method" : "post",
@@ -90,4 +92,4 @@ if (NeopetsDocument.Username)
     }
 
     setTimeout(arguments.callee, la - curr + INTERVAL * (1 + Math.random()));
-})();
+}());

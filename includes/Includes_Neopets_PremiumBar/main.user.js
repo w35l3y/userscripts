@@ -11,6 +11,8 @@
 // @language       en
 // @include        nowhere
 // @exclude        *
+// @grant          GM_log
+// @grant          GM.log
 // @grant          GM_addStyle
 // @grant          GM.addStyle
 // @grant          GM_getValue
@@ -71,14 +73,12 @@
 
 **************************************************************************/
 
-(async function (ctx) {
-
 var main = document.getElementById("main");
 if (!main) {
     throw "Content not found. Toolbar rendering skipped.";
 }
 
-await GM.addStyle(".winConfig_PremiumBarSettings .fieldName_action, .winConfig_PremiumBarSettings .fieldClass_toolbarActivity {float:left;margin-right:2px;width:49%}");
+GM.addStyle(".winConfig_PremiumBarSettings .fieldName_action, .winConfig_PremiumBarSettings .fieldClass_toolbarActivity {float:left;margin-right:2px;width:49%}");
 
 var _const = {
     OPEN    : 0,
@@ -105,9 +105,8 @@ var _const = {
     SUCCESS    : 3,
     ERROR    : 4
 },
-colors = ["grey", "cyan", "orange", "lime", "magenta"];
-
-ctx.PremiumBar = async function (activities) {
+colors = ["grey", "cyan", "orange", "lime", "magenta"],
+PremiumBar = function (activities) {
     for (var ai = 0, at = activities.length;ai < at;++ai) {
         var act = activities[ai];
         if (!act.id) {
@@ -295,7 +294,7 @@ ctx.PremiumBar = async function (activities) {
         };
     },
     _activities = {},
-    _data = JSON.parse(await GM.getValue("premium-data", "{}")),
+    _data = JSON.parse(GM.getValue("premium-data", "{}")),
     _myBar = this,
     myPage = new Neopets(document),
     myWin = new WinConfig({
@@ -343,11 +342,11 @@ ctx.PremiumBar = async function (activities) {
                 value    : obj.id
             },
             gistId    : {
-                get    : async function () {
-                    var id = await GM.getValue(gistIdKey);
+                get    : function () {
+                    var id = GM.getValue(gistIdKey);
                     if (!id) {
                         if (id = prompt("[ " + obj.title + " ]\nGist ID:\n\nIf you don't have one, create it here ( https://gist.github.com ) and paste here its id.\nNote: It isn't modifiable, so be careful.")) {
-                            await GM.setValue(gistIdKey, (/\/(\w+)$/.test(id)?RegExp.$1:id));
+                            GM.setValue(gistIdKey, (/\/(\w+)$/.test(id)?RegExp.$1:id));
                         } else {
                             throw "Gist ID is required";
                         }
@@ -377,7 +376,7 @@ ctx.PremiumBar = async function (activities) {
         nst = function (v) {
             return (v?v.toISOString().replace("T", " ").replace("Z", " NST"):"");
         },
-        _execute = async function (auto, cb, event) {
+        _execute = function (auto, cb, event) {
             if (!this.bar.page.loggedIn) {
                 this.update({
                     color    : _const.ERROR,
@@ -458,7 +457,7 @@ ctx.PremiumBar = async function (activities) {
                     message    : "Tab was opened."
                 });
 
-                await GM.openInTab(this.url);
+                GM.openInTab(this.url);
             }
 
             return true;
@@ -474,40 +473,38 @@ ctx.PremiumBar = async function (activities) {
             }
         };
         
-        this.log = async function (data) {
-            await GM.setValue(storeKey + this.id, await GM.getValue(storeKey + this.id, "") + [this.bar.page.time.toISOString(), (typeof data == "string"?data:JSON.stringify(data))].join(" ") + "\n");
+        this.log = function (data) {
+            GM.setValue(storeKey + this.id, GM.getValue(storeKey + this.id, "") + [this.bar.page.time.toISOString(), (typeof data == "string"?data:JSON.stringify(data))].join(" ") + "\n");
         };
         
-        this.store = async function (cb) {
+        this.store = function (cb) {
             var files = {},
             _idKey = storeKey + this.id,
             curr = this.id + " " + storeKey.substr(9) + " " + this.bar.page.time.toISOString();
             files[curr] = {
-                content    : await GM.getValue(_idKey, null)
+                content    : GM.getValue(_idKey, null)
             };
             console.log(files);
 
             (new Github({
                 get token () {
-                    return (async function () {
-                        var id = await GM.getValue("oauth");
-                        if (!id) {
-                            if (id = prompt("GitHub OAUTH TOKEN:\n\nIf you don't have one, then generate it here ( https://github.com/settings/tokens/new ) with scope 'gist'")) {
-                                await GM.setValue("oauth", id);
-                            } else {
-                                throw "OAUTH is required.";
-                            }
+                    var id = GM.getValue("oauth");
+                    if (!id) {
+                        if (id = prompt("GitHub OAUTH TOKEN:\n\nIf you don't have one, then generate it here ( https://github.com/settings/tokens/new ) with scope 'gist'")) {
+                            GM.setValue("oauth", id);
+                        } else {
+                            throw "OAUTH is required.";
                         }
-    
-                        return id;
-                    })();
+                    }
+
+                    return id;
                 }
             })).getGist(this.gistId).update({
                 description    : obj.title,
                 files        : files
-            }, async function (err, res) {
+            }, function (err, res) {
                 if (!err) {
-                    await GM.deleteValue(_idKey);
+                    GM.deleteValue(_idKey);
                 }
                 console.log(err, res, arguments);
                 cb({
@@ -517,8 +514,8 @@ ctx.PremiumBar = async function (activities) {
             });
         };
 
-        this.save = async function (data) {
-            _data = JSON.parse(await GM.getValue("premium-data", "{}"));
+        this.save = function (data) {
+            _data = JSON.parse(GM.getValue("premium-data", "{}"));
 
             if (data.error) {
                 this.update({
@@ -565,7 +562,7 @@ ctx.PremiumBar = async function (activities) {
                 }
             }
 
-            await GM.setValue("premium-data", JSON.stringify(_data));
+            GM.setValue("premium-data", JSON.stringify(_data));
         };
         
         this.update = function (o) {
@@ -628,8 +625,8 @@ ctx.PremiumBar = async function (activities) {
                     relative: t[1],
                     delay    : obj.delay,
                     priority: obj.priority,
-                    command    : async function (auto) {
-                        _data = JSON.parse(await GM.getValue("premium-data", "{}"));
+                    command    : function (auto) {
+                        _data = JSON.parse(GM.getValue("premium-data", "{}"));
 
                         var output = false;
                         if (!auto || cfg && _const.AUTO == cfg.auto || !cfg && _const.AUTO == obj.values[_const.EXECUTE]) {
@@ -644,7 +641,7 @@ ctx.PremiumBar = async function (activities) {
                         }
 
                         if (output) {
-                            await GM.setValue("premium-data", JSON.stringify(_data));
+                            GM.setValue("premium-data", JSON.stringify(_data));
                         }
                         
                         return output;
@@ -653,8 +650,8 @@ ctx.PremiumBar = async function (activities) {
             }
         }
     },
-    updateStocks = async function (data) {
-        return Template.get(await GM.getResourceText("toolbarStocks"), data);
+    updateStocks = function (data) {
+        return Template.get(GM.getResourceText("toolbarStocks"), data);
     },
     updateBalance = function (data) {
         return {
@@ -1064,7 +1061,7 @@ ctx.PremiumBar = async function (activities) {
             }, false);
         };
 
-        main.insertAdjacentHTML("afterend", await GM.getResourceText("toolbarCss") + Template.get(await GM.getResourceText("toolbarHtml"), {
+        main.insertAdjacentHTML("afterend", GM.getResourceText("toolbarCss") + Template.get(GM.getResourceText("toolbarHtml"), {
             activities    : activities.concat(customDailies),
             dailies        : dailies,
             featuredGame    : this.get("featuredGame", {}).game || {
@@ -1113,4 +1110,3 @@ ctx.PremiumBar = async function (activities) {
     
     console.log(_data);
 };
-})(this);

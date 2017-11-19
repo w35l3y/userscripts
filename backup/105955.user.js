@@ -37,8 +37,8 @@
 
 **************************************************************************/
 
-(async function () {
-    var sum = JSON.parse(await GM.getValue("sum", "{}")),
+(function () {
+    var sum = JSON.parse(GM.getValue("sum", "{}")),
     rounds = ["first", "second", "third", "fourth"];
 
     if ("/altador/colosseum/schedule.phtml" == location.pathname) {
@@ -82,7 +82,7 @@
                 }
             }
 
-            await GM.setValue("sum", JSON.stringify(sum));
+            GM.setValue("sum", JSON.stringify(sum));
 
             console.log(sum);
         }
@@ -116,4 +116,4 @@
             });
         });
     }
-})();
+}());

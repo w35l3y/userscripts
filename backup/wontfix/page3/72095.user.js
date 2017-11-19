@@ -10,6 +10,8 @@
 // @language       pt-BR
 // @request        http://userscripts-mirror.org/topics/48665
 // @include        http://192.168.135.1:21680/iha/abertura/atlantica/
+// @grant          GM_log
+// @grant          GM.log
 // @icon           http://gm.wesley.eti.br/icon.php?desc=72095
 // @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // ==/UserScript==
@@ -34,9 +36,11 @@
 location.href = "http://192.168.135.1:21680/iha/login/login.php?opc=1&idioma=br&idafiliado=1&conexao_tipo=d&conexao_qtde=1&senha=1009&usuario=Faria";
 
 /*
-(async function recursive(reqs) {
-    if (reqs.length) {
-        await GM.xmlHttpRequest({
+(function recursive(reqs)
+{
+    if (reqs.length)
+    {
+        GM.xmlHttpRequest({
             "url" : reqs.shift(),
             "method" : "get",
             "onload" : function(xhr)
@@ -44,7 +48,9 @@ location.href = "http://192.168.135.1:21680/iha/login/login.php?opc=1&idioma=br&
                 recursive(reqs);
             }
         });
-    } else {
+    }
+    else
+    {
         alert("Logado!");
     }
 })([

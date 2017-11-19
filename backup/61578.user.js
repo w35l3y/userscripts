@@ -50,13 +50,12 @@
 
 **************************************************************************/
 
-(async function () {
 //-------------------------------//
-//await GM.setValue("cache", 1 * 60 * 60 * 1000); // 1 hour
+//GM.setValue("cache", 1 * 60 * 60 * 1000); // 1 hour
 //-------------------------------//
 
 if (/^\/stamps\.phtml/.test(location.pathname) && /\btype=progress\b/.test(location.search)) {
-    await GM.setValue("overview", JSON.stringify({
+    GM.setValue("overview", JSON.stringify({
         "LastAccess" : "" + new Date().valueOf(),
         "Albums" : Stamp.convert(document, true)
     }));
@@ -101,7 +100,7 @@ if (/^\/stamps\.phtml/.test(location.pathname) && /\btype=progress\b/.test(locat
             });
         }
 
-        async function update (p, t) {
+        function update (p, t) {
             // I don't remember what the following statement does.
             p.progress.some(function (a) {
                 return a.Id == p.id;
@@ -113,7 +112,7 @@ if (/^\/stamps\.phtml/.test(location.pathname) && /\btype=progress\b/.test(locat
                 setTimeout(Stamp.album, t * Math.floor(500 + 500 * Math.random()), {
                     "page" : p.id,
                     "onsuccess" : function (params) {
-                        await GM.setValue("page"+params.id, JSON.stringify({
+                        GM.setValue("page"+params.id, JSON.stringify({
                             "Stamps" : params.page.Stamps
                         }));
 
@@ -124,8 +123,8 @@ if (/^\/stamps\.phtml/.test(location.pathname) && /\btype=progress\b/.test(locat
         }
 
         var pg = parseInt(RegExp.$1, 10);
-        var overview = JSON.parse(await GM.getValue("overview", '{"LastAccess":0}'));
-        var cache = JSON.parse(await GM.getValue("page" + pg, "{}"));
+        var overview = JSON.parse(GM.getValue("overview", '{"LastAccess":0}'));
+        var cache = JSON.parse(GM.getValue("page" + pg, "{}"));
         cache.Total = 0;
         cache.Stamps.forEach(function (s) {
             if(!/\/no_stamp/i.test(s.Image)) {
@@ -133,7 +132,7 @@ if (/^\/stamps\.phtml/.test(location.pathname) && /\btype=progress\b/.test(locat
             }
         });
 
-        if (parseInt(overview.LastAccess, 10) >= new Date().valueOf() - await GM.getValue("cache", 21600000))    // progress is cached
+        if (parseInt(overview.LastAccess, 10) >= new Date().valueOf() - GM.getValue("cache", 21600000))    // progress is cached
             update({
                 "id" : pg,
                 "progress" : overview.Albums,
@@ -141,9 +140,9 @@ if (/^\/stamps\.phtml/.test(location.pathname) && /\btype=progress\b/.test(locat
             }, false);
         else
             Stamp.progress({
-                "onsuccess" : async function(params)
+                "onsuccess" : function(params)
                 {
-                    await GM.setValue("overview", JSON.stringify({
+                    GM.setValue("overview", JSON.stringify({
                         "LastAccess" : "" + new Date().valueOf(),
                         "Albums" : params.progress
                     }));
@@ -157,4 +156,3 @@ if (/^\/stamps\.phtml/.test(location.pathname) && /\btype=progress\b/.test(locat
             });
     }
 }
-})();

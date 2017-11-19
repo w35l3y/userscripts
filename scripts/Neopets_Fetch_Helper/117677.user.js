@@ -10,6 +10,8 @@
 // @version        3.2.2
 // @language       en
 // @include        http://www.neopets.com/games/maze/maze.phtml*
+// @grant          GM_log
+// @grant          GM.log
 // @grant          GM_addStyle
 // @grant          GM.addStyle
 // @grant          GM_getValue
@@ -76,6 +78,25 @@
 
 **************************************************************************/
 
+GM.addStyle("#fetch_map td { font-size: 11px; line-height:1px; }");
+
+var table, queue = [], pending = {
+	"status" : false,
+	"show" : function() {
+		this.status = true;
+
+		var div = document.createElement("div"),
+		compass = xpath(".//tbody/tr/td[3]/div[.//img[@id = 'thecompass']]", table)[0];
+		div.setAttribute("style", "position:relative;");
+		div.innerHTML = '<div style="position: absolute;">&nbsp;Processing...</div>';
+		
+		compass.insertBefore(div, compass.firstElementChild.nextElementSibling);
+	},
+	"hide" : function() {
+		this.status = false;
+	}
+};
+
 function getCellPath(cell) {
 	return (/\/path_(\w+)\./.test(cell.getAttribute("background"))) && RegExp.$1;
 }
@@ -121,7 +142,7 @@ function clickMovement (moves, bx, by, cx, cy, limits, map, referer, div, size) 
 }
 
 
-async function recursive (obj) {
+function recursive (obj) {
 	var old = xpath(".//td[@class = 'content']//table[.//img[contains(@src, '/maze/blumaroo')]]", document)[0];
 
 	table = xpath(".//td[@class = 'content']//table[.//img[contains(@src, '/maze/blumaroo')]]", obj.document || document)[0];
@@ -136,7 +157,7 @@ async function recursive (obj) {
 
 		div.setAttribute("style", "border:1px solid black;padding:3px 0px;");
 
-		var map = JSON.parse(await GM.getValue("map", '{"x":0,"y":0,"start":[2,2],"limit":[0,0,0,0],"data":[]}'));
+		var map = JSON.parse(GM.getValue("map", '{"x":0,"y":0,"start":[2,2],"limit":[0,0,0,0],"data":[]}'));
 		
 		if (map.moves != moves && 0 === err.replace(/[^!]+/g, "").length % 2 && /movedir=(\d+)/.test(obj.referer)) {
 			// 0 1 2 3 : up down right left
@@ -253,7 +274,7 @@ async function recursive (obj) {
 		}
 		div.innerHTML = data += "</table>";
 		
-		await GM.setValue("map", map_str);
+		GM.setValue("map", map_str);
 
 		var bx = map.x + 2, by = map.y + 2,
 		cy = - map.limit[2], cx = - map.limit[0],
@@ -335,7 +356,7 @@ async function recursive (obj) {
 			old.parentNode.replaceChild(xpath(".//td[@class = 'content']//center[img[contains(@src, '/games/maze/')]]", obj.document)[0], old);
 		}
 
-		await GM.deleteValue("map");
+		GM.deleteValue("map");
 		
 		return false;
 	}
@@ -377,45 +398,23 @@ function recursiveQueue(e) {
 	}
 }
 
-(async function () {
-	
-	await GM.addStyle("#fetch_map td { font-size: 11px; line-height:1px; }");
-	
-	var table, queue = [], pending = {
-		"status" : false,
-		"show" : function() {
-			this.status = true;
-	
-			var div = document.createElement("div"),
-			compass = xpath(".//tbody/tr/td[3]/div[.//img[@id = 'thecompass']]", table)[0];
-			div.setAttribute("style", "position:relative;");
-			div.innerHTML = '<div style="position: absolute;">&nbsp;Processing...</div>';
-			
-			compass.insertBefore(div, compass.firstElementChild.nextElementSibling);
-		},
-		"hide" : function() {
-			this.status = false;
-		}
-	};
-	
-	recursive({
-		"referer" : location.href
-	});
+recursive({
+	"referer" : location.href
+});
 
-	document.addEventListener("keydown", function (e) {
-		switch (e.keyCode) {
-			case 37:	// 2	left
-			case 38:	// 0	up
-			case 39:	// 3	right
-			case 40:	// 1	down
-				var area = xpath(".//map[@name = 'navmap']/area[contains(@href, 'movedir=" + [2, 0, 3, 1][e.keyCode - 37] + "&')]", table)[0];
+document.addEventListener("keydown", function (e) {
+	switch (e.keyCode) {
+		case 37:	// 2	left
+		case 38:	// 0	up
+		case 39:	// 3	right
+		case 40:	// 1	down
+			var area = xpath(".//map[@name = 'navmap']/area[contains(@href, 'movedir=" + [2, 0, 3, 1][e.keyCode - 37] + "&')]", table)[0];
 
-				if (area) {
-					area.click();
-				}
+			if (area) {
+				area.click();
+			}
 
-				e.preventDefault();
-				break;
-		}
-	}, false);
-})();
+			e.preventDefault();
+			break;
+	}
+}, false);

@@ -34,9 +34,9 @@
 
 **************************************************************************/
 
-(async function () {	// script scope
+(function () {	// script scope
 	var user = {
-		interval	: JSON.parse(await GM.getValue("interval",	"[1000, 2000]"))
+		interval	: JSON.parse(GM.getValue("interval",	"[1000, 2000]"))
 	},
 	field = xpath(".//form[contains(@action, 'process_symolhole.phtml')]/select[@name = 'goin']")[0];
 	field.selectedIndex = Math.floor(100 * Math.random() * field.length % (field.length - 1));
@@ -44,4 +44,4 @@
 	setTimeout(function () {
 		field.form.submit();
 	}, Math.floor(user.interval[0] + Math.random() * user.interval[1]));
-})();
+}());

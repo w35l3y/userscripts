@@ -11,6 +11,8 @@
 // @language       en
 // @include        nowhere
 // @exclude        *
+// @grant          GM_log
+// @grant          GM.log
 // @grant          GM_getValue
 // @grant          GM.getValue
 // @grant          GM_setValue
@@ -43,7 +45,7 @@
 var Persist = function (s) {
     var service = Persist.services[s];
 
-    this.request = async function (obj) {
+    this.request = function (obj) {
         var k,
         xthis = this,
         params = function (def) {
@@ -188,7 +190,7 @@ var Persist = function (s) {
             params.headers[k] = obj.headers[k];
         }
 
-        return await GM.xmlHttpRequest(params);
+        return GM.xmlHttpRequest(params);
     };
 
     for (var k in service) {
@@ -198,11 +200,11 @@ var Persist = function (s) {
 
 Persist.services    = {
     LOCAL        : {
-        write    : async function (obj) {
+        write    : function (obj) {
             var label_keys = "persist_keys-" + obj.service,
             label_data = "persist_data-" + obj.service,
-            mapping = JSON.parse(await GM.getValue(label_keys, "{}")),
-            data = JSON.parse(await GM.getValue(label_data, "[]")),
+            mapping = JSON.parse(GM.getValue(label_keys, "{}")),
+            data = JSON.parse(GM.getValue(label_data, "[]")),
             key = obj.key;
 
             if (key in mapping) {
@@ -278,14 +280,14 @@ Persist.services    = {
                         mapping[key] = tkey;
                         obj.key = key;
 
-                        await GM.setValue(label_keys, JSON.stringify(mapping));
+                        GM.setValue(label_keys, JSON.stringify(mapping));
                     } else {
                         obj.key = tkey;
                     }
                 }
             }
 
-            await GM.setValue(label_data, JSON.stringify(data));
+            GM.setValue(label_data, JSON.stringify(data));
 
             if (typeof obj.onload != "function") {
                 obj.onload = function (obj) {
@@ -298,15 +300,15 @@ Persist.services    = {
         delete    : function (obj) {
             throw ["Not implemented"].toString();
         },
-        read    : async function (obj) {
-            var mapping = JSON.parse(await GM.getValue("persist_keys-" + obj.service, "{}")),
+        read    : function (obj) {
+            var mapping = JSON.parse(GM.getValue("persist_keys-" + obj.service, "{}")),
             key = obj.key;
 
             if (key in mapping) {
                 key = mapping[key];
             }
 
-            obj.value = JSON.parse(await GM.getValue("persist_data-" + obj.service, "[]"))[key];
+            obj.value = JSON.parse(GM.getValue("persist_data-" + obj.service, "[]"))[key];
 
             if (typeof obj.onload != "function") {
                 obj.onload = function (obj) {
@@ -319,14 +321,14 @@ Persist.services    = {
     },
     PASTEBIN    : {
         write    : function (obj) {
-            var execute = async function (x) {
+            var execute = function (x) {
                 var onload = x.onload,
                 value = x.value,
                 xthis = this,
                 p = {
                     url        : "http://pastebin.com/api/api_post.php",
                     method    : "post",
-                    adata        : JSON.parse(await GM.getValue("pastebin_adata", JSON.stringify({
+                    adata        : JSON.parse(GM.getValue("pastebin_adata", JSON.stringify({
 //                        api_dev_key            : "",    // required
 //                        api_user_key        : "",
                     }))),
@@ -434,14 +436,14 @@ Persist.services    = {
                 obj[typeof obj.onwarn == "function"?"onwarn":"onload"].apply(this, [obj]);
             }
         },
-        delete    : async function (obj) {
+        delete    : function (obj) {
             var onload = obj.onload,
             value = obj.value,
             xthis = this,
             p = {
                 url        : "http://pastebin.com/api/api_post.php",
                 method    : "post",
-                adata        : JSON.parse(await GM.getValue("pastebin_adata", JSON.stringify({
+                adata        : JSON.parse(GM.getValue("pastebin_adata", JSON.stringify({
 //                    api_dev_key            : "",    // required
 //                    api_user_key        : "",
                 }))),
@@ -474,12 +476,12 @@ Persist.services    = {
             var ovalue = obj.value,
             onload = obj.onload,
             xthis = this,
-            execute = async function (x) {
+            execute = function (x) {
                 var onload = x.onload,
                 nvalue = x.value,
                 p = {
                     method    : "post",
-                    adata    : JSON.parse(await GM.getValue("pastebin2_adata", JSON.stringify({
+                    adata    : JSON.parse(GM.getValue("pastebin2_adata", JSON.stringify({
 //                        paste_private        : "1",
                     }))),
                     pdata    : {
@@ -495,7 +497,7 @@ Persist.services    = {
                         item_key        : obj.key || "",
                         post_key        : obj.post_key || "",
                     },
-                    onload    : async function (y) {
+                    onload    : function (y) {
                         var doc = y.response.doc(),
                         url = y.response.raw().finalUrl;
 
@@ -517,9 +519,9 @@ Persist.services    = {
                                 x.captcha = xpath("id('siimage')", doc)[0];
                                 if (x.captcha) {
                                     x.value = nvalue;
-                                    console.log(ovalue);
+                                    GM.log(ovalue);
                                     alert("A new window will be opened. You must fill the captcha correctly, otherwise you will lose your data and a new paste will be created next time.");
-                                    await GM.openInTab(url);
+                                    GM.openInTab(url);
                                 } else {
                                     var code = xpath("id('paste_code')", doc)[0];
                                     x.value = code && code.textContent || "";

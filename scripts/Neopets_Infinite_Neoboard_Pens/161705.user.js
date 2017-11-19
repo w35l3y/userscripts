@@ -13,6 +13,8 @@
 // @include        http://www.neopets.com/neoboards/topic.phtml?topic=*
 // @include        http://www.neopets.com/neoboards/create_topic.phtml*
 // @include        http://www.neopets.com/guilds/guild_board.phtml?id=*&action=*
+// @grant          GM_log
+// @grant          GM.log
 // @grant          GM_addStyle
 // @grant          GM.addStyle
 // @grant          GM_getValue
@@ -59,13 +61,13 @@
 
 **************************************************************************/
 
-(async function () {
-    var config = JSON.parse(await GM.getValue("config", JSON.stringify({
+(function () {
+    var config = JSON.parse(GM.getValue("config", JSON.stringify({
         custom    : 2,
     }))),
     u = "-" + (xpath("string(id('header')//a[contains(@href, 'userlookup')]/text())") || "@"),
-    pens = JSON.parse(await GM.getValue("pens" + u, "[]")),
-    active_pens = JSON.parse(await GM.getValue("active_pens" + u, '{"d":0}')),
+    pens = JSON.parse(GM.getValue("pens" + u, "[]")),
+    active_pens = JSON.parse(GM.getValue("active_pens" + u, '{"d":0}')),
     active_pen = (/\bsetpen=(\d+)/.test(location.hash)?RegExp.$1:active_pens["d"]);
 
     if (/^\/neoboards\/preferences\.phtml/i.test(location.pathname)) {
@@ -73,8 +75,8 @@
         pens_list = "<table align='center' cellpadding='3' cellspacing='0' border='0'><tr>",
         container = document.createElement("div");
         
-        form.addEventListener("submit", async function (e) {
-            await GM.setValue("active_pens" + u, JSON.stringify(active_pens));
+        form.addEventListener("submit", function (e) {
+            GM.setValue("active_pens" + u, JSON.stringify(active_pens));
 
             for ( var ai = form.elements.length - 1 ; ~ai ; --ai ) {
                 var input = form.elements[ai];
@@ -104,7 +106,7 @@
                 pens.pop();
             }
 
-            await GM.setValue("pens" + u, JSON.stringify(pens));
+            GM.setValue("pens" + u, JSON.stringify(pens));
 
             var pn = document.getElementById("pen_name");
             if (pn) {
@@ -124,7 +126,7 @@
             "form" : {"pen_name":"Default"}
         });
 
-        await GM.addStyle("td.activePen {color:red}\ntd.activePen img {opacity:0.25};");
+        GM.addStyle("td.activePen {color:red}\ntd.activePen img {opacity:0.25};");
         for (var pen in pens) {
             pens_list += "<td align='center'><a href='/neoboards/preferences.phtml#setpen=" + pen + "'><img src='" + pens[pen].medium + "' border='0'></a><br><br><b>" + pens[pen].form.pen_name + "</b></td>";
         }
@@ -260,22 +262,22 @@
                                 "headers"    : {
                                     "Referer" : "http://www.neopets.com/neoboards/preferences.phtml",
                                 },
-                                "onsuccess"    : async function () {
+                                "onsuccess"    : function () {
                                     active_pens[keys[0]] = active_pen = parseInt(target.value, 10);
                                     if (keys[1]) {
                                         active_pens[keys[1]] = active_pen;
                                     }
 
-                                    console.log("Neopen changed from " + active_pens["d"] + " to " + active_pen);
+                                    GM.log("Neopen changed from " + active_pens["d"] + " to " + active_pen);
 
                                     active_pens["d"] = active_pen;
 
-                                    await GM.setValue("active_pens" + u, JSON.stringify(active_pens));
+                                    GM.setValue("active_pens" + u, JSON.stringify(active_pens));
                                     
                                     e.target.submit();
                                 },
                                 "onerror"    : function () {
-                                    console.log("Unable to change neopen from " + active_pens["d"] + " to " + target.value);
+                                    GM.log("Unable to change neopen from " + active_pens["d"] + " to " + target.value);
 
                                     e.target.submit();
                                 }
@@ -303,4 +305,4 @@
             }, false);
         }
     }
-})();
+}());

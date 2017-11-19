@@ -69,7 +69,7 @@ var fixedTemplate = function (xhr, findArena, findPirate) {
     };
 };
 
-parent.FoodClub = async function (page) {
+parent.FoodClub = function (page) {
     var _this = this,
     _response = function (xhr, p) {
         Object.defineProperties(xhr, {
@@ -104,7 +104,7 @@ parent.FoodClub = async function (page) {
             }
         });
     },
-    json = JSON.parse(await GM.getResourceText("foodclubJson")),
+    json = JSON.parse(GM.getResourceText("foodclubJson")),
     contains = function (foods, pFoods) {
         var output = 0;
         for (var ai = 0, at = foods.length;ai < at;++ai) {

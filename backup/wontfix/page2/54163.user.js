@@ -10,6 +10,8 @@
 // @version        1.1.1.2
 // @contributor    Steinn (http://userscripts-mirror.org/users/85134)
 // @include        nowhere
+// @grant          GM_log
+// @grant          GM.log
 // @grant          GM_addStyle
 // @grant          GM.addStyle
 // @grant          GM_getValue

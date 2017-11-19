@@ -12,6 +12,8 @@
 // @include        http://www.neopets.com/magma/
 // @include        http://www.neopets.com/magma/index.phtml
 // @include        http://www.neopets.com/magma/caves.phtml
+// @grant          GM_log
+// @grant          GM.log
 // @grant          GM_addStyle
 // @grant          GM.addStyle
 // @grant          GM_getValue
@@ -61,10 +63,9 @@
     0x03    gears + worms
 */
 
+//GM.setValue("search", 0x01);    // gears only
 
-(async function () {
-    //await GM.setValue("search", 0x01);    // gears only
-
+(function () {
     var start = true;
 
     function fsearch (s) {
@@ -80,9 +81,9 @@
         }
     }
 
-    (async function recursive (doc) {
+    (function recursive (doc) {
         var moltara = xpath(".//script[contains(text(), '/maps/magma/moltara')]", doc)[0],
-        search = await GM.getValue("search", 0x03);
+        search = GM.getValue("search", 0x03);
 
         if (moltara) {
             var re = /swf\.addVariable\(([''""])(worm\d+|material_url)\1,\1([^'"]+)/img,
@@ -91,13 +92,13 @@
             for (var line;line = re.exec(context);) {
                 if (search & fsearch(line[2])) {
                     start = false;
-                    await GM.openInTab("http://www.neopets.com" + decodeURIComponent(line[3]));
+                    GM.openInTab("http://www.neopets.com" + decodeURIComponent(line[3]));
                 }
             }
         }
 
         if (start) {
-            console.log("Nothing found!");
+            GM.log("Nothing found!");
 
             setTimeout(function () {
                 HttpRequest.open({
@@ -111,5 +112,5 @@
         } else {
             alert("Some items were found. Refresh the page in case you want to continue searching.");
         }
-    })();
-})();
+    }());
+}());

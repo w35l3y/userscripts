@@ -11,6 +11,8 @@
 // @language       en
 // @include        http://www.neopets.com/pirates/foodclub.phtml?type=bet
 // @icon           http://gm.wesley.eti.br/icon.php?desc=scripts/Neopets_Food_Club/main.user.js
+// @grant          GM_log
+// @grant          GM.log
 // @grant          GM_addStyle
 // @grant          GM.addStyle
 // @grant          GM_getValue
@@ -58,17 +60,17 @@ typeInput = xpath(".//input[@name='type' and @value='bet']")[0];
 button.setAttribute("type", "button");
 button.setAttribute("value", "Place predefined bets");
 typeInput.parentNode.insertBefore(button, typeInput);
-button.addEventListener("click", async function (e) {
+button.addEventListener("click", function (e) {
     var np = new Neopets(document),
     fc = new FoodClub(np),
     savedUrlKey = "bets-" + np.username;
-    prompt2("Url with predefined bets", await GM.getValue(savedUrlKey, "http://www.neopets.com/~"), async function (cfg) {
+    prompt2("Url with predefined bets", GM.getValue(savedUrlKey, "http://www.neopets.com/~"), function (cfg) {
         var r = fc.parse("bet"),
         url = cfg.text;
 
         if (url && r.max_bet) {    // check whether the food club is open
             fc.get(function (o) {    // retrieve the bets of a custom page
-                await GM.setValue(savedUrlKey, url);
+                GM.setValue(savedUrlKey, url);
                 var bets = o.response.list.sort(function (a, b) {    // sort and filter the list of bets
                     if (a.round == b.round) {
                         return 0;

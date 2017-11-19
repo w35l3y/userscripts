@@ -121,5 +121,5 @@ if (/^#(?:alert|console)$/.test(location.hash))
         });
     }
     
-    (location.hash == "#alert" ? alert : console.log)(output.join("\n"));
+    (location.hash == "#alert" ? alert : console && console.log || GM_log)(output.join("\n"));
 }

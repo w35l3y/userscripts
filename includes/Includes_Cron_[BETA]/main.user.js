@@ -39,7 +39,7 @@
 **************************************************************************/
 
 // http://infocenter.sybase.com/help/index.jsp?topic=/com.sybase.infocenter.dc01963.0510/doc/html/psh1360346725201.html
-var Cron = async function (id, current) {
+var Cron = function (id, current) {
     var diff = (current?current.valueOf() - Date.now():0),
     isDebug = false,
     _debug = function () {
@@ -52,7 +52,7 @@ var Cron = async function (id, current) {
     },
     createdAt = _currentDate(),
     nextAtKey = id + "-nextAt",
-    nextAt = JSON.parse(await GM.getValue(nextAtKey, "{}")),
+    nextAt = JSON.parse(GM.getValue(nextAtKey, "{}")),
     timer,
     _type = {
         SECOND    : 0,
@@ -199,7 +199,7 @@ var Cron = async function (id, current) {
             });
         };
         
-        this.update = async function (success, date) {
+        this.update = function (success, date) {
             if (!date) {
                 date = _currentDate();
                 date.setUTCMilliseconds(0);
@@ -266,7 +266,7 @@ var Cron = async function (id, current) {
 
             _debug("3 NEXT", obj.id, date);
             nextAt[obj.id] = date.valueOf();
-            await GM.setValue(nextAtKey, JSON.stringify(nextAt));
+            GM.setValue(nextAtKey, JSON.stringify(nextAt));
 
             return date;
         };
@@ -342,10 +342,10 @@ var Cron = async function (id, current) {
             n = tasks[0].next(),
             wait = Math.max(Math.min(n - cd, Math.pow(2, 31) - 1), 0);
             //console.log("1 TIMER", tasks[0].id, cd, new Date(n), n - cd, wait);
-            timer = setTimeout(async function () {
+            timer = setTimeout(function () {
                 var curr = new Date(),
                 wait2 = curr - Date.parse(localStorage.getItem(runKey));
-                nextAt = JSON.parse(await GM.getValue(nextAtKey, JSON.stringify(nextAt)));
+                nextAt = JSON.parse(GM.getValue(nextAtKey, JSON.stringify(nextAt)));
                 console.log(location.href);
                 if (wait2 < 30000) {    // tries to solve concurrent executions
                     console.log("A task is being executed in another TAB", wait2);
@@ -424,9 +424,9 @@ var Cron = async function (id, current) {
         return this;
     };
 
-    this.reset = async function () {
+    this.reset = function () {
         nextAt = {};
-        await GM.deleteValue(nextAtKey);
+        GM.deleteValue(nextAtKey);
 
         _updateTimer();
         

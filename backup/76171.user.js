@@ -46,9 +46,7 @@
 
 **************************************************************************/
 
-(async function () {
-
-//await GM.setValue("auto_prize", true);
+//GM.setValue("auto_prize", true);
 
 var user = xpath("string(id('header')//a[contains(@href, 'userlookup')]/text())");
 
@@ -57,9 +55,9 @@ if (/^(?:.+)$/.test(user))
     var prize = xpath(".//a[contains(@id, 'tarla_prize_link_')]", unsafeWindow.document)[0];
 
     if (prize)
-    setTimeout(async function()    // setTimeout is needed due to the Referer header
+    setTimeout(function()    // setTimeout is needed due to the Referer header
     {
-        if (await GM.getValue("auto_prize", false))
+        if (GM.getValue("auto_prize", false))
         {
             var c = unsafeWindow.confirm;
             unsafeWindow.confirm = function(){return true;};
@@ -74,32 +72,33 @@ if (/^(?:.+)$/.test(user))
         var next = new Date(),
         curr = Neopets.convert(document).Time(true);
         next.setHours(24 * (next.getDate() == curr.getDate()), 0, 0, 0);
-        await GM.setValue("last_access-" + user, new Date(next - curr + new Date().valueOf()).toString());
+        GM.setValue("last_access-" + user, new Date(next - curr + new Date().valueOf()).toString());
     }
 
-    (async function recursive() {
+    (function recursive()
+    {
         var current = new Date(),
-        last_access = new Date(Date.parse(await GM.getValue("last_access-" + user, "May 5 2010 00:00:00 GMT-0300"))),
+        last_access = new Date(Date.parse(GM.getValue("last_access-" + user, "May 5 2010 00:00:00 GMT-0300"))),
         interval = 50000;    // 50 seconds
 
         if (current - last_access > interval)
         {
-            await GM.setValue("last_access-" + user, (last_access = current).toString());
+            GM.setValue("last_access-" + user, (last_access = current).toString());
 
-            await GM.xmlHttpRequest({
+            GM.xmlHttpRequest({
                 "method" : "get",
                 "url" : "http://twitter.com/statuses/user_timeline/42098834.rss",
-                "onload" : async function(xhr)
+                "onload" : function(xhr)
                 {
                     var title = xpath(".//item/title[contains(translate(text(), 'ALRT', 'alrt'), 'tarla') and contains(text(), 'http')]", new DOMParser().parseFromString(xhr.responseText, "text/xml"))[0],
                     current = new Date();
-                    if (title && title.textContent != await GM.getValue("sighting-" + user) && /(https?:\/\/\S+)/.test(title.textContent))
+                    if (title && title.textContent != GM.getValue("sighting-" + user) && /(https?:\/\/\S+)/.test(title.textContent))
                     {
-                        await GM.setValue("last_access-" + user, current.toString());
-                        await GM.setValue("sighting-" + user, title.textContent);
+                        GM.setValue("last_access-" + user, current.toString());
+                        GM.setValue("sighting-" + user, title.textContent);
 
                         if (current - Date.parse(xpath("string(./ancestor::item[1]/pubDate)", title)) < 1200000)    // current - pubDate < 20 minutes
-                        await GM.openInTab(RegExp.$1);
+                        GM.openInTab(RegExp.$1);
                     }
                 }
             });
@@ -109,12 +108,10 @@ if (/^(?:.+)$/.test(user))
     })();
 }
 
-await GM.registerMenuCommand("[Neopets : Tarla's Tour of Mystery 2010] Toggle auto-click on prizes", async function()
+GM.registerMenuCommand("[Neopets : Tarla's Tour of Mystery 2010] Toggle auto-click on prizes", function()
 {
-    var ap = !await GM.getValue("auto_prize", false);
-    await GM.setValue("auto_prize", ap);
+    var ap = !GM.getValue("auto_prize", false);
+    GM.setValue("auto_prize", ap);
     
     alert("Auto-click is "+(ap?"enabled":"disabled"));
 });
-
-})();
