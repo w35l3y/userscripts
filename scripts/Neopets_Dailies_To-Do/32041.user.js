@@ -33,8 +33,6 @@
 // @include        http://www.neopets.com/winter/adventcalendar.phtml
 // @include        http://www.neopets.com/worlds/deadlydice.phtml
 // @include        http://www.neopets.com/worlds/geraptiku/tomb.phtml
-// @grant          GM_log
-// @grant          GM.log
 // @grant          GM_addStyle
 // @grant          GM.addStyle
 // @grant          GM_getValue
@@ -88,7 +86,7 @@
 
 **************************************************************************/
 
-(function () {	// script scope
+(async function () {	// script scope
 	var dailiesField = {
 		"/bank.phtml"							: [0, [[".//form[input[@name = 'type' and @value = 'interest']]"]]],
 		"/jelly/jelly.phtml"					: [1, [[".//form[input[@name = 'type' and @value = 'get_jelly']]"]]],
@@ -125,7 +123,7 @@
 	};
 
 	if (location.pathname in dailiesField) {
-		GM.addStyle(".winconfig.winConfig_DailiesToDoSettings .field.fieldName_activate .subfield > label {width:75%}");
+		await GM.addStyle(".winconfig.winConfig_DailiesToDoSettings .field.fieldName_activate .subfield > label {width:75%}");
 
 		var groups = [	// DON'T change the order of the elements
 			// default
@@ -269,4 +267,4 @@
 			});
 		}
 	}
-}());
+})();

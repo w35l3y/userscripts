@@ -5,8 +5,6 @@
 // @include        /^https?:\/\/.*\/job\/[\w% -]+\/changes$/
 // @version        2.3.3
 // @language       pt-br
-// @grant          GM_log
-// @grant          GM.log
 // @grant          GM_addStyle
 // @grant          GM.addStyle
 // @grant          GM_getValue
@@ -49,10 +47,12 @@
 // @history        1.2.1 Adicionada a possibilidade de processar builds de outras pessoas
 // ==/UserScript==
 
+(async function () {
+
 var jj = /\/job\/([^\/]+)\/changes$/.test(decodeURIComponent(location.pathname)) && [location.origin + "/", RegExp.$1],
-jobs = JSON.parse(GM.getValue("jobs", "{}")),
-jobsInfo = JSON.parse(GM.getResourceText("jobs")),
-debug = GM.getValue("debug", false),
+jobs = JSON.parse(await GM.getValue("jobs", "{}")),
+jobsInfo = JSON.parse(await GM.getResourceText("jobs")),
+debug = await GM.getValue("debug", false),
 types = ["add", "delete", "edit"],
 infos = [],
 refresh = false,
@@ -159,7 +159,7 @@ process = function (jobName, loc, doc, info) {
 			job.last = bb;
 		}
 
-		(function recursive (details, index) {
+		(async function recursive (details, index) {
 			if (index < details.length) {
 				//console.log("Reading content of details #" + details[index].index);
 
@@ -304,7 +304,7 @@ process = function (jobName, loc, doc, info) {
 									job.builds[job.last] = [];
 									//console.log(details[index]);
 
-									(function recursive2 (blocoIndex) {	// lista de blocos
+									(async function recursive2 (blocoIndex) {	// lista de blocos
 										if (blocoIndex < blocos.length) {
 											var bloco = blocos[blocoIndex];
 
@@ -493,7 +493,7 @@ process = function (jobName, loc, doc, info) {
 											});
 										} else {
 											if (!debug) {
-												GM.setValue("jobs", JSON.stringify(jobs));
+												await GM.setValue("jobs", JSON.stringify(jobs));
 											}
 
 											recursive(details, ++index);
@@ -521,7 +521,7 @@ process = function (jobName, loc, doc, info) {
 				}
 
 				if (!debug) {
-					GM.setValue("jobs", JSON.stringify(jobs));
+					await GM.setValue("jobs", JSON.stringify(jobs));
 				}
 
 				WinConfig.init({
@@ -798,3 +798,4 @@ win = new WinConfig({
 });
 
 next(win.get("group"));
+})();

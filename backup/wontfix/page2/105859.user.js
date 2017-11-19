@@ -16,8 +16,6 @@
 // @include        http://userscripts-mirror.org/users/*/comments*
 // @include        http://userscripts-mirror.org/users/*/reviews*
 // @include        http://userscripts-mirror.org/users/*/favorites*
-// @grant          GM_log
-// @grant          GM.log
 // @grant          GM_addStyle
 // @grant          GM.addStyle
 // @grant          GM_getValue
@@ -96,4 +94,4 @@
                 break;
         }
     }
-}());
+})();

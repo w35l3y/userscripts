@@ -43,14 +43,12 @@
 
 **************************************************************************/
 
-var link = GM.getValue("topic", "http://www.neopets.com/neoboards/boardlist.phtml?board=23");
-
 function proceed_success(params) {
     var replies = [-1, ""];
-    params.list.forEach(function (topic) {
+    params.list.forEach(async function (topic) {
         if (/^\*kadoat(?:ie|ery)\*KadoateryFeedingTimes&Lists(?:\*kadoat(?:ie|ery)\*)?(?:Please)?Readfirs?tposts?(?:please)?!(?:\*kadoat(?:ie|ery)\*)?$/i.test(topic.Title.replace(/\s+/g, "")) && (!~replies[0] || topic.Replies < replies[0])) {
             replies = [topic.Replies, topic.Link];
-            GM.setValue("topic", topic.Link);
+            await GM.setValue("topic", topic.Link);
         }
     });
 
@@ -58,6 +56,10 @@ function proceed_success(params) {
         params.proceed(replies[1]);
     }
 }
+
+(async function () {
+
+var link = await GM.getValue("topic", "http://www.neopets.com/neoboards/boardlist.phtml?board=23");
 
 if (/^\/neoboards\/topic\.phtml/.test(location.pathname)) {
     if (/\btopic=(\d+)/.test(link) && RegExp.$1 == location.search.match(/\btopic=(\d+)/)[1]) {
@@ -76,7 +78,7 @@ if (/^\/neoboards\/topic\.phtml/.test(location.pathname)) {
             }
         });
         else
-        GM.setValue("topic", "http://www.neopets.com/neoboards/topic.phtml?topic=" + topic + "&next=" + (1 + 20 * page.last));
+        await GM.setValue("topic", "http://www.neopets.com/neoboards/topic.phtml?topic=" + topic + "&next=" + (1 + 20 * page.last));
     }
 } else if (/^\/games\/kadoatery\/index\.phtml/.test(location.pathname)) {
     function generate_link(lnk) {
@@ -87,8 +89,8 @@ if (/^\/neoboards\/topic\.phtml/.test(location.pathname)) {
         a.href = "javascript:void(0);";
         a.target = "_blank";
         
-        a.addEventListener("click", function(e) {
-            GM.openInTab(GM.getValue("topic", lnk) || "#");
+        a.addEventListener("click", async function(e) {
+            await GM.openInTab(await GM.getValue("topic", lnk) || "#");
             e.preventDefault();
         }, false);
 
@@ -107,3 +109,4 @@ if (/^\/neoboards\/topic\.phtml/.test(location.pathname)) {
         });
     }
 }
+})();

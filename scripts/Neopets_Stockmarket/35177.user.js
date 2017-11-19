@@ -10,8 +10,6 @@
 // @version        3.0.1
 // @language       en
 // @include        http://www.neopets.com/*
-// @grant          GM_log
-// @grant          GM.log
 // @grant          GM_addStyle
 // @grant          GM.addStyle
 // @grant          GM_getValue
@@ -71,7 +69,7 @@
 
 **************************************************************************/
 
-//GM.getValue("prepend", 1);
+//await GM.getValue("prepend", 1);
 
 /** stockmarket_default **/
 var Stocks = {
@@ -168,51 +166,50 @@ function attachModule(module, prepend) {
 }
 /** /neopets_default**/
 
-(function() {    // script scope
+(async function() {    // script scope
 
     var user = {
-        "increment"    : GM.getValue("increment",        30000),    // miliseconds
-        "image"    : GM.getValue("image",            "sell.gif"),
-        "translate"    : JSON.parse(GM.getValue("translate",    JSON.stringify(["Stock Summary", "Buys", "Sells", "Ticker", "Price", "Holdings", "Refreshing...", "Options", "Buy Price", "Sell Price", "Close", "Minimum", "Maximum"])))
+        "increment"    : await GM.getValue("increment",        30000),    // miliseconds
+        "image"    : await GM.getValue("image",            "sell.gif"),
+        "translate"    : JSON.parse(await GM.getValue("translate",    JSON.stringify(["Stock Summary", "Buys", "Sells", "Ticker", "Price", "Holdings", "Refreshing...", "Options", "Buy Price", "Sell Price", "Close", "Minimum", "Maximum"])))
     };
 
-    GM.addStyle(".activePetInfo TD {background-color: inherit;};");
+    await GM.addStyle(".activePetInfo TD {background-color: inherit;};");
 
-    function executeContent(cont)
-    {
-            var content = cont.replace(/(?:<\/(?:a|td|font|b|nobr)>| [a-z]+="[#a-z0-9]+"|<(?:b|br|nobr|font)(?:\s*\/)?>|\s+)/gim, "");
+    async function executeContent(cont) {
+        var content = cont.replace(/(?:<\/(?:a|td|font|b|nobr)>| [a-z]+="[#a-z0-9]+"|<(?:b|br|nobr|font)(?:\s*\/)?>|\s+)/gim, "");
 
-            var portfolio = [],
-            matches = content.match(/=([a-z]+)">\1<ahref="stockmarket.+?%<\/tr>/gi);
-            for (var i = 0, t = matches.length ; i < t ; ++i) {
-                var match = matches[i].match(/>([a-z]+)<ahref="stockmarket\.phtml\?type=profile&(?:amp;)?company_id=(\d+)">.+?<td>(\d+)<td>(\d+)<td><font>([+-]?\d+)<td>(\d+(?:[,.]\d+)*)<td>(\d+(?:[,.]\d+)*)<td>(-?\d+(?:[,.]\d+)*)<td><font>([+-]?\d+[,.]\d+)%/i);
-                match.shift();
-                portfolio.push(match);
+        var portfolio = [],
+        matches = content.match(/=([a-z]+)">\1<ahref="stockmarket.+?%<\/tr>/gi);
+        for (var i = 0, t = matches.length ; i < t ; ++i) {
+            var match = matches[i].match(/>([a-z]+)<ahref="stockmarket\.phtml\?type=profile&(?:amp;)?company_id=(\d+)">.+?<td>(\d+)<td>(\d+)<td><font>([+-]?\d+)<td>(\d+(?:[,.]\d+)*)<td>(\d+(?:[,.]\d+)*)<td>(-?\d+(?:[,.]\d+)*)<td><font>([+-]?\d+[,.]\d+)%/i);
+            match.shift();
+            portfolio.push(match);
+        }
+        await GM.setValue("portfolio", JSON.stringify(portfolio));
+
+        var companies = [];
+
+        var matches = content.match(/company_id=\d+">.+?>[a-z]+\d+[-+]\d+/gi);
+        for (var i = 0 , t = matches.length ; i < t ; ++i) {
+            var match = matches[i].match(/company_id=(\d+)">.+?>([a-z]+)(\d+)([-+]\d+)/i);
+            match.shift();
+            if (companies[0] && companies[0][1] == match[1]) {
+                break;
             }
-            GM.setValue("portfolio", JSON.stringify(portfolio));
 
-            var companies = [];
+            companies.push(match);
+        }
+        await GM.setValue("companies", JSON.stringify(companies));
 
-            var matches = content.match(/company_id=\d+">.+?>[a-z]+\d+[-+]\d+/gi);
-            for (var i = 0 , t = matches.length ; i < t ; ++i) {
-                var match = matches[i].match(/company_id=(\d+)">.+?>([a-z]+)(\d+)([-+]\d+)/i);
-                match.shift();
-                if (companies[0] && companies[0][1] == match[1]) {
-                    break;
-                }
-
-                companies.push(match);
-            }
-            GM.setValue("companies", JSON.stringify(companies));
-
-            addModule(companies, portfolio);
+        addModule(companies, portfolio);
     }
 
-    function recursive(first) {    // script scope
+    async function recursive(first) {    // script scope
 
         var nst = new Date(),
         interval = 30 * 60 * 1000 + user.increment,
-        lastAccess = new Date(Date.parse(GM.getValue("lastAccess", "Sat Jul 16 2011 09:24:27 GMT-0300"))||0);
+        lastAccess = new Date(Date.parse(await GM.getValue("lastAccess", "Sat Jul 16 2011 09:24:27 GMT-0300"))||0);
         lastAccess.setMinutes(30 * Math.floor(lastAccess.getMinutes() / 30), 0, 0);
 
         if (!first) {
@@ -220,22 +217,22 @@ function attachModule(module, prepend) {
         }
 
         if (interval <= nst - lastAccess) {
-            GM.setValue("refreshing", true);
+            await GM.setValue("refreshing", true);
             lastAccess = nst;
-            GM.setValue("lastAccess", nst.toString());
+            await GM.setValue("lastAccess", nst.toString());
 
             HttpRequest.open({
                 "method" : "get",
                 "url" : "http://www.neopets.com/stockmarket.phtml?type=portfolio",
-                "onsuccess" : function(xhr) {
-                    GM.setValue("refreshing", false);
+                "onsuccess" : async function(xhr) {
+                    await GM.setValue("refreshing", false);
                     executeContent(xhr.response.text);
                 }
             }).send();
         } else {
-            (wait = setInterval(function() {
-                if (!GM.getValue("refreshing", false)) {
-                    addModule(JSON.parse(GM.getValue("companies", "[]")), JSON.parse(GM.getValue("portfolio", "[]")));
+            (wait = setInterval(async function() {
+                if (!await GM.getValue("refreshing", false)) {
+                    addModule(JSON.parse(await GM.getValue("companies", "[]")), JSON.parse(await GM.getValue("portfolio", "[]")));
                     clearInterval(wait);
                 }
             }, (first ? 0 : 250)));
@@ -244,11 +241,10 @@ function attachModule(module, prepend) {
         setTimeout(recursive, lastAccess - nst + interval);
     }
 
-    function addModule(companies, portfolio)
-    {
-        var pp = GM.getValue("prepend", -1);
+    async function addModule(companies, portfolio) {
+        var pp = await GM.getValue("prepend", -1);
         attachModule({
-            "title":GM.getResourceText("stockmarketModuleHtml").replace(/__([A-Z]+)__/g, function($0, $1) {
+            "title":await GM.getResourceText("stockmarketModuleHtml").replace(/__([A-Z]+)__/g, function($0, $1) {
                 switch ($1) {
                     case "TITLE":return user.translate[0];
                     case "OPTIONS":return user.translate[7];
@@ -257,14 +253,14 @@ function attachModule(module, prepend) {
                     case "CLOSE":return user.translate[10];
                     case "MINIMUM":return user.translate[11];
                     case "MAXIMUM":return user.translate[12];
-                    case "BUYMIN":return GM.getValue("buyMinimum", 15);
-                    case "BUYMAX":return GM.getValue("buyMaximum", 20);
-                    case "SELLMIN":return GM.getValue("sellMinimum", 30);
+                    case "BUYMIN":return await GM.getValue("buyMinimum", 15);
+                    case "BUYMAX":return await GM.getValue("buyMaximum", 20);
+                    case "SELLMIN":return await GM.getValue("sellMinimum", 30);
                     default:return $0;
                 }
             }),
-            "content":(function() {
-                var out = '<tr><td class="activePet sf"><img id="stockmarketRefreshImage" width="150" height="150" border="0" src="http://images.neopets.com/images/'+user.image+'" style="cursor: pointer;" /><span id="stockmarketRefreshSpan">' + strftime("%Y-%m-%d %T", Date.parse(GM.getValue("lastAccess", "Sat Jul 16 2011 09:24:27 GMT-0300")).valueOf() / 1000) + '</span></td></tr>';
+            "content":(async function() {
+                var out = '<tr><td class="activePet sf"><img id="stockmarketRefreshImage" width="150" height="150" border="0" src="http://images.neopets.com/images/'+user.image+'" style="cursor: pointer;" /><span id="stockmarketRefreshSpan">' + strftime("%Y-%m-%d %T", Date.parse(await GM.getValue("lastAccess", "Sat Jul 16 2011 09:24:27 GMT-0300")).valueOf() / 1000) + '</span></td></tr>';
 
                 function getInfo(arr,ind,find)
                 {
@@ -289,7 +285,7 @@ function attachModule(module, prepend) {
                 // BUYS
                 out += '<tr><td class="activePet sf" style="padding: 2px;"><strong>'+user.translate[1]+'</strong></td></tr><tr><td class="activePet sf"><table width="100%" cellspacing="0" cellpadding="2" border="0" class="activePetInfo">';
                 out += '<thead><tr style="background-color:#EFEFEF;"><th style="text-align:left;">'+user.translate[3]+'</th><th style="text-align:middle;">'+user.translate[4]+'</th><th style="text-align:right;">'+user.translate[5]+'</th></tr></thead><tbody>';
-                var buy = [GM.getValue("buyMinimum",15),GM.getValue("buyMaximum",20)];
+                var buy = [await GM.getValue("buyMinimum",15),await GM.getValue("buyMaximum",20)];
                 for (var i = 0, t = companies.length ; i < t ; ++i) {
                     var price = parseInt(companies[i][2],10);
                     if (price < buy[0] || price > buy[1]) {
@@ -308,7 +304,7 @@ function attachModule(module, prepend) {
                 // SELLS
                 out += '<tr><td class="activePet sf" style="padding: 2px;"><strong>'+user.translate[2]+'</strong></td></tr><tr><td class="sf"><table width="100%" cellspacing="0" cellpadding="2" border="0" class="activePetInfo">';
                 out += '<thead><tr style="background-color:#EFEFEF;"><th style="text-align:left;">'+user.translate[3]+'</th><th style="text-align:middle;">'+user.translate[4]+'</th><th style="text-align:right;">'+user.translate[5]+'</th></tr></thead><tbody>';
-                var sell = [GM.getValue("sellMinimum",30)];
+                var sell = [await GM.getValue("sellMinimum",30)];
                 for (var i = 0 , t = portfolio.length ; i < t && parseInt(portfolio[i][3],10) >= sell[0] ; ++i) {
                     var color = (parseInt(portfolio[i][3],10) < 15 ? "#FFF5F5" : "#FFFFFF" );
                     out += '<tr bgcolor="'+color+'" id="stockmarketSell'+portfolio[i][1]+'" onmouseover="this.style.backgroundColor=\'#FFFFD5\';" onmouseout="this.style.backgroundColor=\''+color+'\';"><td style="text-align: left;cursor: pointer;">'+portfolio[i][0]+'</a></td><td style="cursor: pointer;">'+portfolio[i][3]+'</td><td style="text-align: right;cursor: pointer;">'+portfolio[i][5]+'</td></tr>';
@@ -337,33 +333,33 @@ function attachModule(module, prepend) {
         });
 
         xpath(".//tr[contains(@id, 'stockmarketSell')]").forEach(function(elem) {
-            elem.addEventListener("click", function(event) {
+            elem.addEventListener("click", async function(event) {
                 var company = elem.id.match(/(\d+)$/)[1];
 
                 location.replace("/stockmarket.phtml?type=portfolio#" + company + "disclosure");
 
                 if (/\/stockmarket\.phtml\?type=portfolio/.test(location.href)) {
-                    var x = GM.getValue("lastSell");
+                    var x = await GM.getValue("lastSell");
                     if (x && company != x) {
                         location.replace("javascript:disclose('" + x + "');disclose('" + company + "');");
                     }
                 }
-                GM.setValue("lastSell", company);
+                await GM.setValue("lastSell", company);
             }, false);
         });
         xpath("id('stockmarketOption')")[0].addEventListener("click", function(event) {
             xpath("id('stockmarketDiv')")[0].style.display = "block";
         }, false);
-        xpath("id('stockmarketFormOption')")[0].addEventListener("submit", function(event) {
-            GM.setValue("buyMinimum", event.target.elements[0].value || 15);
-            GM.setValue("buyMaximum", event.target.elements[1].value || 20);
-            GM.setValue("sellMinimum", event.target.elements[2].value || 30);
+        xpath("id('stockmarketFormOption')")[0].addEventListener("submit", async function(event) {
+            await GM.setValue("buyMinimum", event.target.elements[0].value || 15);
+            await GM.setValue("buyMaximum", event.target.elements[1].value || 20);
+            await GM.setValue("sellMinimum", event.target.elements[2].value || 30);
             xpath("id('stockmarketDiv')")[0].style.display = "none";
             event.preventDefault();
-            addModule(JSON.parse(GM.getValue("companies", "([])")), JSON.parse(GM.getValue("portfolio", "([])")));
+            addModule(JSON.parse(await GM.getValue("companies", "([])")), JSON.parse(await GM.getValue("portfolio", "([])")));
         }, false);
-        xpath("id('stockmarketRefreshImage')")[0].addEventListener("click", function(event) {
-            GM.setValue("lastAccess", "Sat Jul 16 2011 09:24:27 GMT-0300");
+        xpath("id('stockmarketRefreshImage')")[0].addEventListener("click", async function(event) {
+            await GM.setValue("lastAccess", "Sat Jul 16 2011 09:24:27 GMT-0300");
             recursive();
         }, false);
     }
@@ -382,7 +378,7 @@ function attachModule(module, prepend) {
     }
 
     if (/\/stockmarket\.phtml\?type=portfolio/.test(location.href)) {
-        GM.setValue("lastAccess", new Date().toString());
+        await GM.setValue("lastAccess", new Date().toString());
         executeContent(document.body.innerHTML);
     } else if (xpath("id('content')/table/tbody/tr/td[@class='sidebar']")[0]) {
         recursive(true);

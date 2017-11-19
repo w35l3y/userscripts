@@ -48,9 +48,10 @@
 
 **************************************************************************/
 
-GM.addStyle(".winConfig_StyleRemoverSettings .fieldName_enable .subfield {width: 50%;}.winConfig_StyleRemoverSettings .fieldName_enable .subfield > label {width: 60%;}");
 
-(function () {
+(async function () {
+    await GM.addStyle(".winConfig_StyleRemoverSettings .fieldName_enable .subfield {width: 50%;}.winConfig_StyleRemoverSettings .fieldName_enable .subfield > label {width: 60%;}");
+
     var page = {
         "/browseshop.phtml"    : [0x01, ".//td[@class = 'content']/*[preceding-sibling::comment()[contains(., 'desc start')] and following-sibling::comment()[contains(., 'desc end')]]"],
         "/userlookup.phtml"    : [0x02, ".//td[@class = 'content']/table[1]/preceding-sibling::div[1]"],
@@ -100,4 +101,4 @@ GM.addStyle(".winConfig_StyleRemoverSettings .fieldName_enable .subfield {width:
             root[ai].parentNode.removeChild(root[ai]);
         }
     }
-}());
+})();

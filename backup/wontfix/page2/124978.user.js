@@ -102,4 +102,4 @@
     };
 
     recursive(document);
-}());
+})();

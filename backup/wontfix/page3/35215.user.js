@@ -9,8 +9,6 @@
 // @license        GNU GPL
 // @homepage       http://www.wesley.eti.br
 // @include        http://userscripts-mirror.org/users?*
-// @grant          GM_log
-// @grant          GM.log
 // @grant          GM_addStyle
 // @grant          GM.addStyle
 // @grant          GM_getValue
@@ -57,14 +55,13 @@ checkForUpdate({
     'version':'1.0.3'
 });
 
-(function()
-{    // script scope
+(async function() {    // script scope
 
     var user = {
-        'pages':GM.getValue('pages',            5),
-        'update': GM.getValue('update',        Update.Manual),    // != Update.Automatic
-        'position':GM.getValue('position',        Position.Absolute),    // != Position.Relative
-        'ranking':GM.getValue('ranking',        'scripts;comments;posts').toLowerCase().split(';')
+        'pages':await GM.getValue('pages',            5),
+        'update': await GM.getValue('update',        Update.Manual),    // != Update.Automatic
+        'position':await GM.getValue('position',        Position.Absolute),    // != Position.Relative
+        'ranking':await GM.getValue('ranking',        'scripts;comments;posts').toLowerCase().split(';')
     };    
 
     var script = {
@@ -96,9 +93,9 @@ checkForUpdate({
                 btn.setAttribute('href',location.href);
                 btn.setAttribute('style','float:right;');
                 btn.innerHTML='Update rank';
-                btn.addEventListener('click', function(event)
+                btn.addEventListener('click', async function(event)
                 {
-                    var ranking = JSON.parse(GM.getValue(qs.sort,'{}'));
+                    var ranking = JSON.parse(await GM.getValue(qs.sort,'{}'));
                     xpath('//table/tbody/tr/td[1]/a').forEach(function(elem, index)
                     {
                         var uid = elem.href.match(/\d+/);
@@ -114,7 +111,7 @@ checkForUpdate({
                             x.innerHTML = ( uid in ranking ? '+0' : '?' );
                         }
                     });
-                    GM.setValue(qs.sort, JSON.stringify(ranking));
+                    await GM.setValue(qs.sort, JSON.stringify(ranking));
                     event.preventDefault();
                 }, true);
                 elem.insertBefore(btn,elem.firstChild);
@@ -125,7 +122,7 @@ checkForUpdate({
         rank.innerHTML = '<a>Rank</a>'
         xpath('//table/tbody/tr[1]')[0].appendChild(rank);
         var cp = parseInt(qs.page,10);
-        var ranking = JSON.parse(GM.getValue(qs.sort,'{}'));
+        var ranking = JSON.parse(await GM.getValue(qs.sort,'{}'));
 
         xpath('//table/tbody/tr/td[1]/a').forEach(function(elem, index)
         {
@@ -169,6 +166,6 @@ checkForUpdate({
             elem.parentNode.parentNode.appendChild(nc);
         });
 
-        GM.setValue(qs.sort, JSON.stringify(ranking));
+        await GM.setValue(qs.sort, JSON.stringify(ranking));
     }
 })();

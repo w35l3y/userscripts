@@ -58,15 +58,15 @@
 
 **************************************************************************/
 
-(function () {	// script scope
+(async function () {	// script scope
 	var user = {
-		"interval" : JSON.parse(GM.getValue("interval",	"[3000, 1000]")),
-		"disable" : JSON.parse(GM.getValue("disable", "[]"))
+		"interval" : JSON.parse(await GM.getValue("interval",	"[3000, 1000]")),
+		"disable" : JSON.parse(await GM.getValue("disable", "[]"))
 	},
 	script = {
- 		"firstPet" : GM.getValue("firstPet", ""),
+ 		"firstPet" : await GM.getValue("firstPet", ""),
 		"currentPet" : xpath("string(.//tr[1]/td/a[contains(@href, 'quickref')]/b/text())"),
-		"nextPet" : GM.getValue("nextPet", "")
+		"nextPet" : await GM.getValue("nextPet", "")
 	};
 
 	function nextAction (f) {
@@ -81,16 +81,16 @@
 					reelIn.form.submit();
 				});
 			} else if (script.currentPet == script.firstPet) {
-				GM.deleteValue("firstPet");
-				GM.deleteValue("nextPet");
+				await GM.deleteValue("firstPet");
+				await GM.deleteValue("nextPet");
 			} else if (script.nextPet) {
 				nextAction(function () {
 					location.replace("http://www.neopets.com/process_changepet.phtml?new_active_pet=" + script.nextPet);
 				});
 			}
 		} else {
-			GM.setValue("firstPet", script.currentPet);
-			GM.deleteValue("nextPet");
+			await GM.setValue("firstPet", script.currentPet);
+			await GM.deleteValue("nextPet");
 
 			nextAction(function () {
 				location.replace("http://www.neopets.com/quickref.phtml");
@@ -117,7 +117,7 @@
 		}
 		
 		if (~nextPet) {
-			GM.setValue("nextPet", nextPet = arr_pets[nextPet % (at = arr_pets.length)]);
+			await GM.setValue("nextPet", nextPet = arr_pets[nextPet % (at = arr_pets.length)]);
 
 			if (script.nextPet || at == 1) {
 				nextAction(function () {
@@ -129,8 +129,8 @@
 				);
 			}
 		} else {
-			GM.deleteValue("firstPet");
-			GM.deleteValue("nextPet");
+			await GM.deleteValue("firstPet");
+			await GM.deleteValue("nextPet");
 		}
 	}
-}());
+})();

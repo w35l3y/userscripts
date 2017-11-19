@@ -58,8 +58,8 @@
 
 **************************************************************************/
 
-(function() {	// script scope
-	var interval = JSON.parse(GM.getValue("interval", "[4000, 3000]")),
+(async function() {	// script scope
+	var interval = JSON.parse(await GM.getValue("interval", "[4000, 3000]")),
 	answer = (8 + Math.round(document.body.innerHTML.match(/angleKreludor=(\d+)/)[1] / 22.5)) % 16,
 	shadow = xpath(".//form[contains(@action, 'results.phtml')]/table/tbody/tr/td/input[@name = 'phase_choice']")[answer];
 
@@ -68,4 +68,4 @@
 			shadow.click();
 		}, interval[0] + Math.floor(Math.random() * interval[1]));
 	}
-}());
+})();

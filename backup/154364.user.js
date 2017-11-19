@@ -15,8 +15,6 @@
 // @exclude        http://www.neopets.com/neomail_block_check.phtml?*
 // @exclude        http://www.neopets.com/iteminfo.phtml?*
 // @exclude        http://www.neopets.com/~*
-// @grant          GM_log
-// @grant          GM.log
 // @grant          GM_getValue
 // @grant          GM.getValue
 // @grant          GM_setValue

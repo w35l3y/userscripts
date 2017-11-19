@@ -12,13 +12,17 @@
 
 //BlobBuilder = window.MozBlobBuilder || window.WebKitBlobBuilder || window.BlobBuilder;
 
+(async function () {
 var url = prompt("SWF url");
-url && GM.xmlHttpRequest({
-	method	: "get",
-	overrideMimeType	: "text/plain; charset=x-user-defined",
-	url		: url,
-	onload	: function (response) {
-		//console.log(typeof response.responseText);
-		alert(AtoJ.compileActionScript2(response.responseText, {}, 10));
-	}
-});
+if (url) {
+	await GM.xmlHttpRequest({
+		method	: "get",
+		overrideMimeType	: "text/plain; charset=x-user-defined",
+		url		: url,
+		onload	: function (response) {
+			//console.log(typeof response.responseText);
+			alert(AtoJ.compileActionScript2(response.responseText, {}, 10));
+		}
+	});
+}
+})();

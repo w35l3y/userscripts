@@ -64,7 +64,7 @@
 // for compatibility only
 var Updater = {};
 
-(function () {    // script scope
+(async function () {    // script scope
     var parseHeader = function (text) {
         var output = {"resources" : {}, "histories" : {}},
         re = /^\/\/ @([\w:]+)\s+(.+)$/gm,
@@ -107,9 +107,9 @@ var Updater = {};
         return output;
     };
 
-    if (GM.getValue("cfuw_enabled", true)) {
-        (function recursive (new_header) {
-            var last = Date.parse(GM.getValue("cfuw_last_check", "Sat Oct 9 2010 20:10:26 GMT-0300")),
+    if (await GM.getValue("cfuw_enabled", true)) {
+        (async function recursive (new_header) {
+            var last = Date.parse(await GM.getValue("cfuw_last_check", "Sat Oct 9 2010 20:10:26 GMT-0300")),
             curr = new Date(),
             interval = 86400000; // 24 * 60 * 60 * 1000 = 1 day
             
@@ -117,15 +117,15 @@ var Updater = {};
                 var old_header = null;
 
                 try {
-                    old_header = parseHeader(GM.getResourceText("meta"));
+                    old_header = parseHeader(await GM.getResourceText("meta"));
                 } catch (e) {
                     console.warn('Resource META is required for the script "' + GM_info.script.name + '".\nUpdate checking was ignored!');
                 }
 
                 if (old_header) {
-                    GM.setValue("cfuw_last_check", (last = new Date(curr - interval + 310000)).toString());
+                    await GM.setValue("cfuw_last_check", (last = new Date(curr - interval + 310000)).toString());
 
-                    function nextstep(new_header) {
+                    async function nextstep(new_header) {
                         var parent = document.createElement("div"),
                         params = {
                             "id" : old_header["uso:script"] || "",
@@ -158,7 +158,7 @@ var Updater = {};
                             params.history += "</ul>";
                         }
 
-                        parent.innerHTML = GM.getResourceText("updaterWindowHtml").replace(/{([\w.]+)}/g, function ($0, $1) {
+                        parent.innerHTML = await GM.getResourceText("updaterWindowHtml").replace(/{([\w.]+)}/g, function ($0, $1) {
                             return ($1 in params ? params[$1] : $0)
                         });
                     
@@ -185,12 +185,12 @@ var Updater = {};
                             btn.addEventListener("click", function (e) {
                                 parent.parentNode.removeChild(parent);
                                 clearTimeout(closeWin);
-                                GM.setValue("cfuw_last_check", new Date().toString());
+                                await GM.setValue("cfuw_last_check", new Date().toString());
                             }, false);
                         });
                     
                         xpath(win+"//td[@class='disable']/input")[0].addEventListener("click", function (e) {
-                            GM.setValue("cfuw_enabled", !e.target.checked);
+                            await GM.setValue("cfuw_enabled", !e.target.checked);
                         }, false);
 
                         setTimeout(recursive, last - curr + interval, new_header);
@@ -199,22 +199,22 @@ var Updater = {};
                     if (new_header) {
                         nextstep(new_header);
                     } else {
-                        GM.xmlHttpRequest({
+                        await GM.xmlHttpRequest({
                             "method" : "get",
                             "url" : old_header.resources.meta,
                             "onerror" : function (xhr) {
                                 setTimeout(recursive, last - curr + interval);
                             },
-                            "onload" : function (xhr) {
+                            "onload" : async function (xhr) {
                                 var new_header = parseHeader(xhr.responseText),
                                 curr = new Date();
 
                                 if (/^2/.test(xhr.status) && "" + old_header["uso:hash"] != "" + new_header["uso:hash"]) {
-                                    GM.addStyle(GM.getResourceText("updaterWindowCss"));
+                                    await GM.addStyle(await GM.getResourceText("updaterWindowCss"));
 
                                     nextstep(new_header);
                                 } else {
-                                    GM.setValue("cfuw_last_check", curr.toString());
+                                    await GM.setValue("cfuw_last_check", curr.toString());
 
                                     setTimeout(recursive, interval);
                                 }
@@ -225,6 +225,6 @@ var Updater = {};
             } else {
                 setTimeout(recursive, last - curr + interval);
             }
-        }());
+        })();
     }
-}());
+})();

@@ -57,10 +57,10 @@
 
 **************************************************************************/
 
-//GM.setValue("interval", "[5000, 2000]");
+(async function () {    // script scope
+//  await GM.setValue("interval", "[5000, 2000]");
 
-(function () {    // script scope
-    var interval = JSON.parse(GM.getValue("interval", "[5000, 2000]")),
+    var interval = JSON.parse(await GM.getValue("interval", "[5000, 2000]")),
     input = xpath(".//form[contains(@action, 'potatocounter.phtml')]/input[@name = 'guess' or @type = 'submit'][1]")[0];
 
     if (input) {
@@ -85,4 +85,4 @@
             }
         }(), Math.ceil(interval[0] + interval[1] * Math.random()));
     }
-}());
+})();

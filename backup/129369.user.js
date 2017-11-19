@@ -69,9 +69,9 @@
     0x020    pound (adopt + abandon)
 */
 
-(function () {    // script scope
+(async function () {    // script scope
     var np = parseInt(xpath("string(id('npanchor')/text())").replace(/\D+/g, ""), 10),
-    opt = JSON.parse(GM.getValue("options", JSON.stringify({
+    opt = JSON.parse(await GM.getValue("options", JSON.stringify({
         alert    : true,
         type    : 0x003,
         shop    : 0x02F,
@@ -167,7 +167,7 @@
         "/objects.phtml"    : "/browseshop.phtml",
         "/auctions.phtml"    : "/haggle.phtml",
     },
-    withdrawAndBuy = function (e, cb) {
+    withdrawAndBuy = async function (e, cb) {
         e.stopPropagation();
         
         var obj = {
@@ -186,7 +186,7 @@
                 console.log(1);
                 Bank.withdraw({
                     amount        : Math.ceil(price - np * page.pdiff),
-                    pin            : GM.getValue("pin", ""),
+                    pin            : await GM.getValue("pin", ""),
                     parameters    : {
                         obj        : obj,
                     },
@@ -246,4 +246,4 @@
             }(cb, node));
         });
     }
-}());
+})();

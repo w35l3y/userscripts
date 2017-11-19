@@ -4,13 +4,12 @@
 // @include        http://92.48.103.52/fantasy/*
 // ==/UserScript==
 
-(function()
-{    // script scope
+(async function() {    // script scope
 
     // your Player Id
-    var id = GM.getValue('PlayerId');
+    var id = await GM.getValue('PlayerId');
     if (!id)
-        GM.setValue('PlayerId', prompt('What is your Player ID?'));
+        await GM.setValue('PlayerId', prompt('What is your Player ID?'));
 
     // ordered by position of key on the keyboard
     const Shortcut = {

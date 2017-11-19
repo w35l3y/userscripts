@@ -11,8 +11,6 @@
 // @include        http://userscripts-mirror.org/forums/*
 // @include        http://userscripts-mirror.org/forums
 // @include        http://userscripts-mirror.org/scripts/discuss/*
-// @grant          GM_log
-// @grant          GM.log
 // @grant          GM_addStyle
 // @grant          GM.addStyle
 // @grant          GM_getValue
@@ -57,10 +55,9 @@
 
 typeof(CheckForUpdate)!='undefined' && CheckForUpdate.init(GM_info.scriptMetaStr);
 
-(function()
-{    // script scope
+(async function() {    // script scope
 
-    function MarkAsRead(posts, tries)
+    async function MarkAsRead(posts, tries)
     {
         if (tries == 3)
         {
@@ -68,7 +65,7 @@ typeof(CheckForUpdate)!='undefined' && CheckForUpdate.init(GM_info.scriptMetaStr
         }
         else if (posts.length)
         {
-            GM.xmlHttpRequest({
+            await GM.xmlHttpRequest({
                 'url':posts[0][0].href,
                 'method':'get',
                 'onload':function(e)
@@ -133,20 +130,20 @@ typeof(CheckForUpdate)!='undefined' && CheckForUpdate.init(GM_info.scriptMetaStr
             document
             .evaluate("id('new_topic') | id('reply')//form[1]", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null)
             .singleNodeValue
-            .addEventListener('submit', function(e)
+            .addEventListener('submit', async function(e)
             {
-                GM.setValue('posts', JSON.stringify([forum.href]));
+                await GM.setValue('posts', JSON.stringify([forum.href]));
             }, false);
 
-            var posts = JSON.parse(GM.getValue('posts','[]'));
+            var posts = JSON.parse(await GM.getValue('posts','[]'));
             if (posts.length)
             {
                 var read = [];
                 var update = function(e)
                 {
-                    var posts = JSON.parse(GM.getValue('posts','[]'));
+                    var posts = JSON.parse(await GM.getValue('posts','[]'));
                     posts.pop();
-                    GM.setValue('posts', JSON.stringify(posts));
+                    await GM.setValue('posts', JSON.stringify(posts));
                 };
                 for ( var i = posts.length ; i-- ; )
                 {

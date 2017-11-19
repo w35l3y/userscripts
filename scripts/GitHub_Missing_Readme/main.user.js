@@ -30,7 +30,8 @@
 // @grant          GM.getResourceText
 // ==/UserScript==
 
-//GM.setValue("oauth", ""); // https://github.com/settings/tokens/new (execute this row once)
+(async function () {
+//await GM.setValue("oauth", ""); // https://github.com/settings/tokens/new (execute this row once)
 
 if (/^\/(\w+)\/(\w+)\/tree\/(\w+)\/(.+)/.test(location.pathname) && confirm("Update README.md?")) {
     var info = {
@@ -40,7 +41,7 @@ if (/^\/(\w+)\/(\w+)\/tree\/(\w+)\/(.+)/.test(location.pathname) && confirm("Upd
         Path        : RegExp.$4,
     },
     github = new Github({
-      token: GM.getValue("oauth", "OAUTH_TOKEN"),
+      token: await GM.getValue("oauth", "OAUTH_TOKEN"),
       auth: "oauth",
     }),
     issu = github.getIssues(info.Username, info.Reponame),
@@ -219,11 +220,11 @@ if (/^\/(\w+)\/(\w+)\/tree\/(\w+)\/(.+)/.test(location.pathname) && confirm("Upd
 
                         path.files = scripts;
                         
-                        function getTemplate (name, cb) {
+                        async function getTemplate (name, cb) {
                             if (path[name]) {
                                 repo.getBlob(path[name].sha, cb);
                             } else {
-                                cb(null, GM.getResourceText(name));
+                                cb(null, await GM.getResourceText(name));
                             }
                         }
 
@@ -267,14 +268,14 @@ if (/^\/(\w+)\/(\w+)\/tree\/(\w+)\/(.+)/.test(location.pathname) && confirm("Upd
                 repo.getBlob(info.Sha, function (err, data) {
                     var meta = processMeta(data);
 
-                    issu.list({state:"all"}, function (err, issues) {
+                    issu.list({state:"all"}, async function (err, issues) {
                         var path = decodeURIComponent(info.Path) + "/README.md";
 
                         writeContent([{
                             path    : path,
                             mode    : "100644",
                             type    : "blob",
-                            content    : Template.get(GM.getResourceText("template"), {
+                            content    : Template.get(await GM.getResourceText("template"), {
                                 meta    : meta,
                                 info    : info,
                                 file    : {
@@ -308,3 +309,4 @@ if (/^\/(\w+)\/(\w+)\/tree\/(\w+)\/(.+)/.test(location.pathname) && confirm("Upd
         });
     }
 }
+})();

@@ -14,8 +14,6 @@
 // @icon           http://gm.wesley.eti.br/icon.php?desc=161251
 // @connect        github.com
 // @connect        raw.githubusercontent.com
-// @grant          GM_log
-// @grant          GM.log
 // @grant          GM_addStyle
 // @grant          GM.addStyle
 // @grant          GM_getValue
@@ -74,16 +72,18 @@
 
 **************************************************************************/
 
-GM.addStyle(GM.getResourceText("winConfigBattledomeCss"));
-//GM.deleteValue("config-players-username");
+(async function () {
 
-setTimeout(function () {
-	var plays = GM.getValue("plays", 0),
+await GM.addStyle(await GM.getResourceText("winConfigBattledomeCss"));
+//await GM.deleteValue("config-players-username");
+
+setTimeout(async function () {
+	var plays = await GM.getValue("plays", 0),
 	text = $("script:contains('#p1name')").text(),
 	p1name = (/#p1name.+['"]([-,.\s\w]+)/.test(text)) && RegExp.$1 || "",
 	p2name = (/#p2name.+['"]([-,.\s\w]+)/.test(text)) && RegExp.$1 || "",
 	pk = "players-" + p1name,
-	players = JSON.parse(GM.getValue("config-" + pk, "{}")),
+	players = JSON.parse(await GM.getValue("config-" + pk, "{}")),
 	key = p2name/*.toLowerCase().replace(/\s+/g, "_")*/,
 	opp = new WinConfig({
 		name	: pk,
@@ -248,10 +248,10 @@ setTimeout(function () {
 	execute = function (k) {
 		var r = (0 < plays || 0 < (plays = prompt("How many times to fight?", config.play))),
 		player = players[k],
-		list = [["#start:visible"], ["#p1hp:visible", 0, function () {
+		list = [["#start:visible"], ["#p1hp:visible", 0, async function () {
 			$("<img />", {
 				id : "shp",
-				src : GM.getResourceUrl("hpBar"),
+				src : await GM.getResourceUrl("hpBar"),
 				style : "position:absolute;z-index:14;top:112px;left:8px;display:none;",
 			}).insertBefore("#p1hp");
 			
@@ -348,7 +348,7 @@ setTimeout(function () {
 				}, "[style *= 'cursor:']");
 
 				var tmp = "#fight.caction:not(.inactive):visible, button.end_ack:visible";
-				list.push([tmp, 0, function recursive3 (l, x, p) {
+				list.push([tmp, 0, async function recursive3 (l, x, p) {
 					if (x.hasClass("caction")) {
 						l.unshift(
 							["#skipreplay:not(.replay):visible", 0, function () {
@@ -369,8 +369,8 @@ setTimeout(function () {
 
 						if (x.hasClass("collect")) {
 							l.unshift(
-								["#bdplayagain:visible", 0, function (l) {
-									GM.setValue("plays", --plays);
+								["#bdplayagain:visible", 0, async function (l) {
+									await GM.setValue("plays", --plays);
 									
 									if (0 < plays) {
 										return true;
@@ -382,7 +382,7 @@ setTimeout(function () {
 								}]
 							);
 						} else if (x.hasClass("exit") && !config.exit) {
-							GM.setValue("plays", --plays);
+							await GM.setValue("plays", --plays);
 							
 							if (0 < plays) {
 								l.unshift([".defeatPlayAgain:visible"]);
@@ -460,10 +460,11 @@ setTimeout(function () {
 				l.push(s);
 				players[key][c] = l;
 
-				setTimeout(function (p) {
-					GM.setValue("config-" + pk, JSON.stringify(p));
+				setTimeout(async function (p) {
+					await GM.setValue("config-" + pk, JSON.stringify(p));
 				}, 0, players);
 			});
 		}
 	}
 }, 0);
+})();

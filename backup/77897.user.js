@@ -10,8 +10,6 @@
 // @version        3.0.1
 // @language       en
 // @include        http://www.neopets.com/neoboards/topic.phtml?topic=*
-// @grant          GM_log
-// @grant          GM.log
 // @grant          GM_addStyle
 // @grant          GM.addStyle
 // @grant          GM_getValue
@@ -62,19 +60,21 @@
 
 **************************************************************************/
 
-//GM.setValue("cache", 3600000);    // 1 hour
-//GM.setValue("history_cups", 0);
+(async function () {
+
+//await GM.setValue("cache", 3600000);    // 1 hour
+//await GM.setValue("history_cups", 0);
 
 // Altador Cup Neoboard
 if (xpath("string(id('content')//td//a[contains(@href, 'boardlist') and contains(text(), 'Altador')]/@href)")) {
     var teams = ["Unknown", "Altador", "Brightvale", "Darigan Citadel", "Faerieland", "Haunted Woods", "Kreludor", "Krawk Island", "Shenkuu", "Lost Desert", "Maraqua", "Meridell", "Mystery Island", "Roo Island", "Terror Mountain", "Tyrannia", "Virtupets", "Kiko Lake", "Moltara"],
     players = [['"Trapper" Remis'],['"Squeaky" Tressif'],['Layton Vickles'],['Kakoni Worrill'],['Krell Vitor'],['Derlyn Fonnet'],['Garven Hale'],['Mirsha Grelinek'],['Leera Heggle'],['Elon "The Black Hole" Hughlis'],['"Wizard" Windelle'],['Volgoth'],['Lilo Blumario'],['Prytariel'],['Loryche'],['Keetra Deile'],['"Poke" Cellers'],['Aldric Beign']],
-    cache_time = GM.getValue("cache", 7200000),    // 2 hours
-    history_cups = GM.getValue("history_cups", 3),
+    cache_time = await GM.getValue("cache", 7200000),    // 2 hours
+    history_cups = await GM.getValue("history_cups", 3),
     current = new Date(),
     cyear = current.getFullYear(),
     signup = new Date(cyear, 4, 25),    // May 25th
-    positions = JSON.parse(GM.getValue("positions", "{}"));
+    positions = JSON.parse(await GM.getValue("positions", "{}"));
     
     var upd_positions = !((cyear-1) in positions);
 
@@ -82,9 +82,9 @@ if (xpath("string(id('content')//td//a[contains(@href, 'boardlist') and contains
         --cyear;
     }
 
-    if (GM.getValue("year") != cyear) {
-        GM.setValue("year", cyear);
-        GM.deleteValue("users");
+    if (await GM.getValue("year") != cyear) {
+        await GM.setValue("year", cyear);
+        await GM.deleteValue("users");
 
         upd_positions = true;
     }
@@ -128,8 +128,8 @@ if (xpath("string(id('content')//td//a[contains(@href, 'boardlist') and contains
         return null;
     }
 
-    function ac(p, l, yr, isCache, hc) {
-        var users = JSON.parse(GM.getValue("users", "{}")),
+    async function ac(p, l, yr, isCache, hc) {
+        var users = JSON.parse(await GM.getValue("users", "{}")),
         info = users[l],
         history = xpath(".//div[@class='cup_history']", p)[0];
 
@@ -174,12 +174,12 @@ if (xpath("string(id('content')//td//a[contains(@href, 'boardlist') and contains
         }
     }
     
-    function init() {
-        var users = JSON.parse(GM.getValue("users", "{}")),
+    async function init() {
+        var users = JSON.parse(await GM.getValue("users", "{}")),
         wait = {},
         update_users = [];
         
-        xpath("id('boards_table')//td//td/a[contains(@href, 'userlookup')]").forEach(function (user) {
+        xpath("id('boards_table')//td//td/a[contains(@href, 'userlookup')]").forEach(async function (user) {
             var login = /user=(\w+)/.test(user.href) && RegExp.$1,
             p = xpath("./ancestor::tbody[1]", user)[0];
 
@@ -193,7 +193,7 @@ if (xpath("string(id('content')//td//a[contains(@href, 'boardlist') and contains
                     img.setAttribute("style", "display:none;width:0;height:0");
                     img.setAttribute("src", "http://www.obyneo.net/ac/2013/calc.png?u=" + login);
                     document.body.appendChild(img);
-                    GM.log("Updated " + login);
+                    console.log("Updated " + login);
 
                     update_users.push(login);
                     wait[login] = [p];
@@ -201,14 +201,14 @@ if (xpath("string(id('content')//td//a[contains(@href, 'boardlist') and contains
             }
         });
 
-        (function recursive(yr, list) {
-            var users = JSON.parse(GM.getValue("users", "{}"));
+        (async function recursive(yr, list) {
+            var users = JSON.parse(await GM.getValue("users", "{}"));
 
             if (!list.length) {
                 if (cyear - yr < history_cups) {
                     setTimeout(recursive, 777 + 477 * Math.random(), yr - 1, JSON.parse(update_users.toSource()));
                 } else {
-                    GM.log("Teams updated!");
+                    console.log("Teams updated!");
                 }
             } else if (yr != cyear && list[0] in users && yr in users[list[0]].cups) {
                 // no need to update old tournaments
@@ -228,9 +228,9 @@ if (xpath("string(id('content')//td//a[contains(@href, 'boardlist') and contains
                     "headers" : {
                         "Referer" : "http://www.neopets.com/userlookup.phtml?user=" + list[0]
                     },
-                    "onsuccess" : function(xhr) {
+                    "onsuccess" : async function(xhr) {
                         var l = list[0],
-                        users = JSON.parse(GM.getValue("users", "{}")),
+                        users = JSON.parse(await GM.getValue("users", "{}")),
                         t = /\/team_(\d+)\./.test(xhr.response.text) && RegExp.$1;
 
                         if (!(l in users)) {
@@ -277,7 +277,7 @@ if (xpath("string(id('content')//td//a[contains(@href, 'boardlist') and contains
                                 users[l].cups[yr].rank = -1;
                             }
 
-                            GM.setValue("users", JSON.stringify(users));
+                            await GM.setValue("users", JSON.stringify(users));
 
                             if (l in wait) {
                                 wait[l].forEach(function (row) {
@@ -287,7 +287,7 @@ if (xpath("string(id('content')//td//a[contains(@href, 'boardlist') and contains
                         } else {
                             users[l].cups[yr] = {};
 
-                            GM.setValue("users", JSON.stringify(users));
+                            await GM.setValue("users", JSON.stringify(users));
                         }
 
                         list.shift();
@@ -307,7 +307,7 @@ if (xpath("string(id('content')//td//a[contains(@href, 'boardlist') and contains
             "headers" : {
                 "Referer" : "http://www.jellyneo.net/?go=altadorcup11"
             },
-            "onsuccess" : function(xhr) {
+            "onsuccess" : async function(xhr) {
                 var yr = 2005,
                 iteams = {},
                 index = -1,
@@ -336,7 +336,7 @@ if (xpath("string(id('content')//td//a[contains(@href, 'boardlist') and contains
                     delete positions[ai];
                 }
 
-                GM.setValue("positions", JSON.stringify(positions));
+                await GM.setValue("positions", JSON.stringify(positions));
 
                 init();
             }
@@ -345,3 +345,4 @@ if (xpath("string(id('content')//td//a[contains(@href, 'boardlist') and contains
         init();
     }
 }
+})();

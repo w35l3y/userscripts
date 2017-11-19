@@ -12,8 +12,6 @@
 // @include        http://www.neopets.com/quickstock.phtml
 // @include        http://www.neopets.com/quickstock.phtml?r=*
 // @icon           http://gm.wesley.eti.br/icon.php?desc=33964
-// @grant          GM_log
-// @grant          GM.log
 // @grant          GM_addStyle
 // @grant          GM.addStyle
 // @grant          GM_getValue
@@ -264,4 +262,4 @@
 			});
 		};
 	}
-}());
+})();

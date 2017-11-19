@@ -74,7 +74,7 @@
 
 **************************************************************************/
 
-(function () {	// script scope
+(async function () {	// script scope
 	// missing themes: 1, 2, 44
 	var themes = { // value : [css, name, random_images]
 		"10"	: ["010_acp_6ffcb", "Altador Cup", 16],
@@ -143,7 +143,7 @@
 
 	if (css_link && username) {
 		var def_theme = /\/((\d+)\w+)\.css/.test(css_link.href) && ["" + parseInt(RegExp.$2, 10), RegExp.$1] || ["0", "000_def_f65b1"],
-		selectedTheme = GM.getValue(username + "-css", def_theme[0]);
+		selectedTheme = await GM.getValue(username + "-css", def_theme[0]);
 
 		if (!(selectedTheme in themes)) {
 			selectedTheme = def_theme[0];
@@ -187,28 +187,28 @@
 				}
 			}
 
-			user_theme.addEventListener("change", function(e) {	// automatically changes the theme
+			user_theme.addEventListener("change", async function(e) {	// automatically changes the theme
 				var themeId = e.target.options[e.target.selectedIndex].getAttribute("data-value");
 
 				if (themeId in themes) {
 					changeTheme(css_link, themeId);
 				} else {
-					GM.deleteValue(username + "-css");
+					await GM.deleteValue(username + "-css");
 					e.target.form.submit();
 				}
 			}, false);
 
 			// stores the selected theme
-			xpath(".//td[@class = 'content']/div/form//input[@type = 'submit']")[0].form.addEventListener("submit", function (e) {
+			xpath(".//td[@class = 'content']/div/form//input[@type = 'submit']")[0].form.addEventListener("submit", async function (e) {
 				var themeId = user_theme.options[user_theme.selectedIndex].getAttribute("data-value");
 
 				if (themeId in themes) {
-					GM.setValue(username + "-css", themeId);
+					await GM.setValue(username + "-css", themeId);
 				} else {
-					GM.deleteValue(username + "-css");
+					await GM.deleteValue(username + "-css");
 				}
 			}, false);
 		}
 	}
 	});
-}());
+})();

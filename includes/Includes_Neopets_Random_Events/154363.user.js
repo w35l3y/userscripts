@@ -12,8 +12,6 @@
 // @include        nowhere
 // @exclude        *
 // @icon           http://gm.wesley.eti.br/icon.php?desc=154363
-// @grant          GM_log
-// @grant          GM.log
 // @grant          GM_getValue
 // @grant          GM.getValue
 // @grant          GM_setValue
@@ -69,8 +67,8 @@ var Content = {
         Persist.read({
             service    : "LOCAL",
             key        : obj.key,
-            onload    : function (a) {
-                var data = GM.getValue(obj.key, "");
+            onload    : async function (a) {
+                var data = await GM.getValue(obj.key, "");
 
                 if (obj.value) {
                     if (-1 == mode) {    // prepend
@@ -81,7 +79,7 @@ var Content = {
                         data = obj.value;
                     }
 
-                    GM.setValue(obj.key, data);
+                    await GM.setValue(obj.key, data);
                 }
 
                 if (!obj.value || obj.immediate) {
@@ -94,14 +92,14 @@ var Content = {
                             paste_name    : obj.title,
                         },
                         mode    : mode,
-                        onload    : function (b) {
+                        onload    : async function (b) {
                             b.onload = obj.onload;
                             a.value = b.key;
                             delete a.onload;
 
                             Persist.write(a);
 
-                            GM.deleteValue(obj.key);
+                            await GM.deleteValue(obj.key);
 
                             obj.onload(b);
                         },
@@ -154,11 +152,12 @@ var Content = {
             }
         });
     },
-},
-RandomEvents = {
+};
+(async function (ctx) {
+ctx.RandomEvents = {
     title    : "Random Events",
-    enable    : GM.getValue("types", 0x017),
-    events    : GM.getResourceText("random_events").split("\n"),
+    enable    : await GM.getValue("types", 0x017),
+    events    : await GM.getResourceText("random_events").split("\n"),
     types    : {
         "#ffffcc" : 0x001,    // normal
         "#ccccff" : 0x002,    // winter
@@ -169,7 +168,7 @@ RandomEvents = {
         "#ffccff" : 0x040,    // reserved (faerie quests)
     },
     process : function (obj) {
-        var processEvent = function (obj) {
+        var processEvent = async function (obj) {
             var type = obj.type,
             image = obj.image.replace("http://images.neopets.com", ""),
             text = obj.text,
@@ -212,7 +211,7 @@ RandomEvents = {
                 if (str == event[3]) {
                     var p = event[4].split(","),
                     ppp = [],
-                    private_params = JSON.parse(GM.getValue("private_params", "[]")),
+                    private_params = JSON.parse(await GM.getValue("private_params", "[]")),
                     sum = -1,
                     out = "";
 
@@ -261,7 +260,7 @@ RandomEvents = {
                     found = true;
 
                     if ((Math.pow(2, event[1]) & RandomEvents.enable) > 0) {
-                        GM.setValue("private_params", JSON.stringify(private_params));
+                        await GM.setValue("private_params", JSON.stringify(private_params));
 
                         out = output2 + ppp.join(",") + ";" + (!event[2] || event[2] != image?image:"") + ";" + event[0] + "\n";
                     }
@@ -346,6 +345,7 @@ RandomEvents = {
         }
     },
 };
+})(this);
 
 document.addEventListener("keyup", function (e) {
     if (e.ctrlKey && e.altKey && e.keyCode == "H".charCodeAt(0)) {
@@ -353,7 +353,7 @@ document.addEventListener("keyup", function (e) {
             key            : "random_events",
             title    : RandomEvents.title,
             mode    : -1,
-            onload    : function (obj) {
+            onload    : async function (obj) {
                 var kvalues = {},
                 values = [];
                 if (obj.value.length) {
@@ -375,7 +375,7 @@ document.addEventListener("keyup", function (e) {
                         type = -1,
                         types = RandomEvents.types,
                         revents = RandomEvents.events,
-                        private_params = JSON.parse(GM.getValue("private_params", "[]"));
+                        private_params = JSON.parse(await GM.getValue("private_params", "[]"));
                         
                         if (/^\[.*\]$/.test(t)) {
                             o[4] = t.substr(1, t.length - 2).split(";");    // content
@@ -487,12 +487,12 @@ document.addEventListener("keyup", function (e) {
                         return (x[0] in vars?r(vars, 0):$0);
                     });
                 },
-                html = template(GM.getResourceText("randomEventsHtml"), {
+                html = template(await GM.getResourceText("randomEventsHtml"), {
                     script    : GM_info.script,
                     row        : values,
                 });
 
-                GM.openInTab("data:text/html;charset=utf-8," + encodeURIComponent(html));
+                await GM.openInTab("data:text/html;charset=utf-8," + encodeURIComponent(html));
             },
             onerror    : function (obj) {
                 alert(obj.value);

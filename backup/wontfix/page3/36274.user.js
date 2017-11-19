@@ -48,4 +48,6 @@
 
 **************************************************************************/
 
-GM.addStyle(GM.getResourceText('css'));
+(async function () {
+    await GM.addStyle(await GM.getResourceText('css'));
+})();

@@ -67,14 +67,16 @@ var Notify = {
         subject : "message[subject]",
         body    : "message[body]",
         get params () {
-            return {
-                "message[user_id]"    : (/@(?:uso:)?author\s+(?:.+?[\/ ])?(\d+)$/m.test(GM_info.scriptMetaStr) && RegExp.$1 || null),
-                authenticity_token    : unsafeWindow.auth_token || (/var auth_token = "([\w+=])"/.test(GM.xmlHttpRequest({
-                    method        : "get",
-                    url           : "//userscripts.org/messages",
-                    synchronous   : true,
-                }).responseText) && RegExp.$1 || null),
-            };
+            return (async function () {
+                return {
+                    "message[user_id]"    : (/@(?:uso:)?author\s+(?:.+?[\/ ])?(\d+)$/m.test(GM_info.scriptMetaStr) && RegExp.$1 || null),
+                    authenticity_token    : unsafeWindow.auth_token || (/var auth_token = "([\w+=])"/.test(await GM.xmlHttpRequest({
+                        method        : "get",
+                        url           : "//userscripts.org/messages",
+                        synchronous   : true,
+                    }).responseText) && RegExp.$1 || null),
+                };
+            })();
         },
         process    : function (value) {
             return "<pre>" + value + "</pre>";
@@ -114,7 +116,7 @@ var Notify = {
                 b.reports = this.reports;
                 b = JSON.stringify(b, null, "\t");
 
-                (function recursive (index, p) {
+                (async function recursive (index, p) {
                     if (index < p.services.length) {
                         var s = p.services[index],
                         data = s.params || {};
@@ -143,7 +145,7 @@ var Notify = {
                                 dataStr += "&" + k + "=" + encodeURIComponent(data[k]);
                             }
 
-                            GM.xmlHttpRequest({
+                            await GM.xmlHttpRequest({
                                 method    : s.method || "post",
                                 url       : s.action,
                                 headers   : {

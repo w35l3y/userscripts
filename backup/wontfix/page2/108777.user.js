@@ -10,8 +10,6 @@
 // @version        1.0.0.1
 // @language       en
 // @include        http://www.neopets.com/pirates/disappearance/inside-ship.phtml
-// @grant          GM_log
-// @grant          GM.log
 // @grant          GM_addStyle
 // @grant          GM.addStyle
 // @grant          GM_getValue
@@ -65,6 +63,7 @@ http://images.neopets.com/pirates/disappearance/balance/h8d42s.png
 http://images.neopets.com/pirates/disappearance/balance/9vp032.png
 */
 
+(async function () {
 if (!xpath("id('popup-ship-message')")[0]) {
     function occupiedSeat (c) {
         return function (seat) {
@@ -276,7 +275,7 @@ if (!xpath("id('popup-ship-message')")[0]) {
     }
 
     // Retrieving input...
-    GM.xmlHttpRequest({
+    await GM.xmlHttpRequest({
         "method" : "get",
         "url" : "http://pastebin.com/raw/4FTXByRZ",
         "onload" : function (xhr) {
@@ -287,3 +286,4 @@ if (!xpath("id('popup-ship-message')")[0]) {
         }
     });
 }
+})();

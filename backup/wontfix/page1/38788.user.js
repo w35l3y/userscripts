@@ -43,7 +43,7 @@ CheckForUpdate.changelog = function(oheader, nheader, source)
 {
     return ( oheader['cfu:changelog'] ? eval(oheader['cfu:changelog'][0]+'(oheader, nheader, source)') : '' );
 }
-CheckForUpdate.init = function(header, callback)
+CheckForUpdate.init = async function(header, callback)
 {
     if (typeof header == 'xml')
         header = meta2object(header);
@@ -52,11 +52,11 @@ CheckForUpdate.init = function(header, callback)
         alert('@cfu:url and @cfu:timestamp/@cfu:version is required.');
     else
     {
-        function update(header, manual, purl)
+        async function update(header, manual, purl)
         {
             var tint = '1 week';
             var interval = eval((header['cfu:interval'] || tint).toString().replace(/week[s]?/,'* 7 days').replace(/day[s]?/g,'* 24 hours').replace(/hour[s]?/g,'* 60 minutes').replace(/minute[s]?/g,'* 60 seconds').replace(/second[s]?/g,'* 1000').replace(/[^\d*]+/g,''));
-            var lastCheck = parseInt(GM.getValue('lastCheck-'+header.namespace+header.name, '0'), 10);
+            var lastCheck = parseInt(await GM.getValue('lastCheck-'+header.namespace+header.name, '0'), 10);
             var currentDate = new Date().valueOf();
             var c = CheckForUpdate.CallbackResponse.Waiting;
             if (currentDate-lastCheck < 120000)    // 2 * 60 * 1000
@@ -68,7 +68,7 @@ CheckForUpdate.init = function(header, callback)
             }
             else if ((interval > 0 && lastCheck+interval < currentDate) || manual)
             {
-                GM.setValue('lastCheck-'+header.namespace+header.name, ''+currentDate);
+                await GM.setValue('lastCheck-'+header.namespace+header.name, ''+currentDate);
         
                 purl = parseInt(purl, 10) || 0;
             
@@ -80,9 +80,9 @@ CheckForUpdate.init = function(header, callback)
                     var curl = urls[purl].replace('@cfu:id',header['cfu:id'] && (header[header['cfu:id'][0]][0] || header['cfu:id'][0]) || '');
 
                     c = null;
-                    GM.log('Checking for updates... ' + curl);
+                    console.log('Checking for updates... ' + curl);
 
-                    GM.xmlHttpRequest({
+                    await GM.xmlHttpRequest({
                         'url':curl + ( ~curl.indexOf('?') ? '&' : '?' ) + 'rand=' + Math.random(),
                         'method':'get',
                         'headers':{
@@ -90,7 +90,7 @@ CheckForUpdate.init = function(header, callback)
                             'Pragma':        'no-cache',
                             'Expires':        '0'
                         },
-                        'onload':function (e)
+                        'onload': async function (e)
                         {
                             if (/^2/.test(e.status))
                             {
@@ -125,9 +125,9 @@ CheckForUpdate.init = function(header, callback)
                                         '\n'+CheckForUpdate.changelog(header, h, e.responseText)+
                                                 (header.name[0] != h.name[0] || header.namespace[0] != h.namespace[0] ? '\nName and/or namespace has changed.\nYou should uninstall the current version manually.\n' : '')+
                                                 '\nInstall the lastest version now?'))
-                                            GM.openInTab(header['cfu:url'][0].replace('@cfu:id',header['cfu:id'] && (header[header['cfu:id'][0]][0] || header['cfu:id'][0]) || ''));
+                                            await GM.openInTab(header['cfu:url'][0].replace('@cfu:id',header['cfu:id'] && (header[header['cfu:id'][0]][0] || header['cfu:id'][0]) || ''));
                                         else if (confirm('Would you like to be reminded tomorrow?'))
-                                            GM.setValue('lastCheck-'+header.namespace+header.name, '' + (currentDate - 518400000)); // 6 * 24 * 60 * 60 * 1000
+                                            await GM.setValue('lastCheck-'+header.namespace+header.name, '' + (currentDate - 518400000)); // 6 * 24 * 60 * 60 * 1000
                                         else
                                             alert((interval > 0 ? 'You will be reminded again in '+(header['cfu:interval'] || tint) : 'You won\'t be reminded again.' ));
                                     }
@@ -151,7 +151,7 @@ CheckForUpdate.init = function(header, callback)
                     });
                 }
                 else
-                    GM.log('An error has occurred while checking for updates.');
+                    console.log('An error has occurred while checking for updates.');
             }
             else if (interval <= 0)
                 c = CheckForUpdate.CallbackResponse.NoReminder;
@@ -161,7 +161,7 @@ CheckForUpdate.init = function(header, callback)
         }
 
         if (typeof(callback)!='boolean')
-            GM.registerMenuCommand('[' + header.name + '] Check for Updates', function()
+            await GM.registerMenuCommand('[' + header.name + '] Check for Updates', function()
             {
                 update(header, true);
             });

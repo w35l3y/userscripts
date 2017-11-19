@@ -9,8 +9,6 @@
 // @homepage	   http://gm.wesley.eti.br/includes/neopets
 // @version		   3.1.1
 // @include		   http://www.neopets.com/*
-// @grant		   GM_log
-// @grant		   GM.log
 // @grant		   GM_addStyle
 // @grant		   GM.addStyle
 // @grant		   GM_getValue
@@ -55,13 +53,13 @@
 
 **************************************************************************/
 
-(function (window) {
+(async function (window) {
 	'use strict';
 	/*jslint indent: 4, maxerr: 50, browser: true, vars: true, nomen: true, plusplus: true, regexp: true, newcap: true */
 
-	GM.addStyle(GM.getResourceText("winConfigQuickSDBCheckerCss"));
+	await GM.addStyle(await GM.getResourceText("winConfigQuickSDBCheckerCss"));
 
-	function execute(obj) {
+	async function execute(obj) {
 		var sel;
 
 		if ((sel = window.getSelection()).rangeCount) {
@@ -71,11 +69,11 @@
 
 				if (range.toString().length) {
 					var current = new Date().valueOf(),
-					next = parseInt(GM.getValue("nextAccess", "0"), 10),
+					next = parseInt(await GM.getValue("nextAccess", "0"), 10),
 					time = Math.max(0, next - current),
 					params = obj.parameters(range) || [];
 
-					GM.setValue("nextAccess", String(obj.time() + (time ? next : current)));
+					await GM.setValue("nextAccess", String(obj.time() + (time ? next : current)));
 
 					params.unshift(obj.callback, time);
 

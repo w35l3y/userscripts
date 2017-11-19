@@ -38,7 +38,7 @@
 
 **************************************************************************/
 
-(function () {
+(async function () {
     var shape_colors = [
         "http://images.neopets.com/medieval/shapeshifter/square.gif", // red
         "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAIAAAACUFjqAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAABZJREFUKFNjlDoix4AHAKXxIIYRKg0AeeNZlkrfNgYAAAAASUVORK5CYII=", // green
@@ -52,7 +52,7 @@
     old_board = [],
     shapes = xpath("id('content')//td[@class='content']/center[3]//table[tbody/tr/td/img]");
     enabled = false,
-    cache = JSON.parse(GM.getValue("position", '{"offset":0, "length":0}')),
+    cache = JSON.parse(await GM.getValue("position", '{"offset":0, "length":0}')),
     hint = xpath("id('content')/table/tbody/tr/td[2]/table[tbody/tr[1]/td[@colspan] and tbody/tr[2]/td[1]/img]")[0];
     
     if (hint) {
@@ -147,9 +147,9 @@
         })(ai), false);
     }
     
-    GM.setValue("position", JSON.stringify(cache));
+    await GM.setValue("position", JSON.stringify(cache));
 
-    function toggle_board(id) {
+    async function toggle_board(id) {
         board = xpath(".//td[@class = 'content']/table[tbody/tr/td//img and position() = last()]")[0];
 
         if (enabled) {
@@ -227,7 +227,7 @@
                             
                             shapes_status[shape_active].position = p;
                             cache[shape_active+cache.offset] = p;
-                            GM.setValue("position", JSON.stringify(cache));
+                            await GM.setValue("position", JSON.stringify(cache));
                             toggle_shape(shape_active);
                             change_shape_color(shape_active, 1);
 
@@ -252,7 +252,7 @@
             enabled = true;
         }
 /*
-        GM.registerMenuCommand("[Neopets : Shapeshifter Helper] Toggle shapes", function () {
+        await GM.registerMenuCommand("[Neopets : Shapeshifter Helper] Toggle shapes", function () {
             setTimeout(function() {
                 var rev = shapes_status[0].active;
                 for (var a = ai = 0, at = shapes.length;ai < at;++ai, ++a) {
@@ -315,4 +315,4 @@
             }
         }
     }
-}());
+})();

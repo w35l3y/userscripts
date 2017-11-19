@@ -41,9 +41,9 @@
 
 **************************************************************************/
 
-var Neopets = function (doc) {
+var Neopets = async function (doc) {
 	var createdAt = new Date(),
-	diff = GM.getValue("neopets-diff", 28800000),	// UTC-0800
+	diff = await GM.getValue("neopets-diff", 28800000),	// UTC-0800
 	_b = function (v) {
 		return xpath("boolean(" + v + ")", doc);
 	},
@@ -190,7 +190,7 @@ var Neopets = function (doc) {
 			headers		: {
 				Referer	: obj.referer || obj.action
 			},
-			onsuccess	: function (xhr) {
+			onsuccess	: async function (xhr) {
 				var format = (obj.format || "xml").toLowerCase(),
 				_doc = xhr.response[~["xml", "json"].indexOf(format)?format:"text"],
 				data;
@@ -222,7 +222,7 @@ var Neopets = function (doc) {
 				}
 
 				if (data.error && / pin /i.test(data.errmsg.toLowerCase())) {
-					GM.deleteValue(_this.username + "-pinNumber");
+					await GM.deleteValue(_this.username + "-pinNumber");
 				}
 
 				obj.callback(data);
@@ -260,7 +260,7 @@ var Neopets = function (doc) {
 		)),
 		diff = Date.now() - createdAt;
 
-		GM.setValue("neopets-diff", diff);
+		await GM.setValue("neopets-diff", diff);
 	} else {
 		createdAt.setUTCMilliseconds(createdAt.getUTCMilliseconds() - diff);
 	}
@@ -550,8 +550,8 @@ var Neopets = function (doc) {
 	};
 	
 	var userKey = "neopets-" + this.username,
-	_userTmp = JSON.parse(GM.getValue(userKey, "{}")),
-	_userTmpCache = JSON.parse(GM.getValue(userKey + "_cache", "{}"));
+	_userTmp = JSON.parse(await GM.getValue(userKey, "{}")),
+	_userTmpCache = JSON.parse(await GM.getValue(userKey + "_cache", "{}"));
 	
 	this.getUserData = function (key) {
 		if (key in _userTmpCache && new Date() - _userTmpCache[key][0] > _userTmpCache[key][1]) {
@@ -561,20 +561,20 @@ var Neopets = function (doc) {
 		return _userTmp[key];
 	};
 	
-	this.deleteUserData = function (key) {
+	this.deleteUserData = async function (key) {
 		delete _userTmp[key];
 		delete _userTmpCache[key]
-		GM.setValue(userKey, JSON.stringify(_userTmp));
-		GM.setValue(userKey + "_cache", JSON.stringify(_userTmpCache));
+		await GM.setValue(userKey, JSON.stringify(_userTmp));
+		await GM.setValue(userKey + "_cache", JSON.stringify(_userTmpCache));
 	};
 
-	this.setUserData = function (key, value, cache) {
+	this.setUserData = async function (key, value, cache) {
 		if (cache) {
 			_userTmpCache[key] = [new Date().valueOf(), cache];
-			GM.setValue(userKey + "_cache", JSON.stringify(_userTmpCache));
+			await GM.setValue(userKey + "_cache", JSON.stringify(_userTmpCache));
 		}
 		_userTmp[key] = value;
-		GM.setValue(userKey, JSON.stringify(_userTmp));
+		await GM.setValue(userKey, JSON.stringify(_userTmp));
 	};
 	
 	this.document = doc;

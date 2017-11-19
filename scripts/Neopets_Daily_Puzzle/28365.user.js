@@ -65,10 +65,10 @@
 
 **************************************************************************/
 
-(function () {	// script scope
+(async function () {	// script scope
     "use strict";
 
-    var interval = JSON.parse(GM.getValue("interval",	"[2000, 1000]")),
+    var interval = JSON.parse(await GM.getValue("interval",	"[2000, 1000]")),
 	language = xpath("string(.//select[@name = 'lang']/option[@selected]/@value)") || "en",
 	sources = [
 		["http://www.jellyneo.net/?go=dailypuzzle", "string(id('contentshell')/div/center/div/span/text())"],
@@ -113,4 +113,4 @@
 			}).send();
 		}
 	}(sources));
-}());
+})();

@@ -14,9 +14,12 @@
 // @require        https://gist.github.com/w35l3y/f824897032ae38af9595/raw/main.js
 // @require        https://github.com/w35l3y/JSAMF/raw/master/web/web/amf.js
 // ==/UserScript==
-//GM.deleteValue("last_access");
+
+(async function () {
+
+//await GM.deleteValue("last_access");
 var proxy = new RemotingProxy("http://www.neopets.com/amfphp/gateway.php" , "WheelService", amf.ObjectEncoding.AMF3),
-la = JSON.parse(GM.getValue("last_access", "{}")),
+la = JSON.parse(await GM.getValue("last_access", "{}")),
 wheels = [{
 	id			: "5",	// monotony
 	automatic	: false,
@@ -225,6 +228,7 @@ proxy.addHandler("startMonotony", resultCallback(function (body, ctx) {
 		wheels[0].execute(ctx);
 	}, 5000);
 }), statusCallback);
+})();
 
 //proxy.spinWheel("1");		// Wheel of Knowledge
 //proxy.spinWheel("2");		// Wheel of Excitement
@@ -232,7 +236,7 @@ proxy.addHandler("startMonotony", resultCallback(function (body, ctx) {
 //proxy.startMonotony();	// Wheel of Monotony
 //proxy.spinWheel("5");		// Wheel of Monotony
 
-(function recursive (list, index) {
+(async function recursive (list, index) {
 	if (index < list.length) {
 		var wheel = list[index],
 		curr = new Date();
@@ -246,7 +250,7 @@ proxy.addHandler("startMonotony", resultCallback(function (body, ctx) {
 			recursive(list, ++index);
 		}
 	} else {
-		GM.setValue("last_access", JSON.stringify(la));
+		await GM.setValue("last_access", JSON.stringify(la));
 	}
 }(wheels, 0));
 

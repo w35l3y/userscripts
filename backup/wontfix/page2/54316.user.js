@@ -11,8 +11,6 @@
 // @language       en
 // @contributor    Steinn (http://userscripts-mirror.org/users/85134)
 // @include        nowhere
-// @grant          GM_log
-// @grant          GM.log
 // @grant          GM_addStyle
 // @grant          GM.addStyle
 // @grant          GM_getValue
@@ -357,7 +355,7 @@ Inventory.list(function(list)
         {
             setTimeout(Inventory.process, ++action * 2500, item, "safetydeposit", function(a,b,c)
             {
-                GM.log(a.responseText);
+                console.log(a.responseText);
                 alert(["Erro? " + b,"Message: " + c].join("\n"));
             });
         }

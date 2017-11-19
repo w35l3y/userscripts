@@ -12,8 +12,6 @@
 // @include        nowhere
 // @exclude        *
 // @icon           http://gm.wesley.eti.br/icon.php?desc=includes/Includes_Message/main.user.js
-// @grant          GM_log
-// @grant          GM.log
 // @grant          GM_addStyle
 // @grant          GM.addStyle
 // @grant          GM_getValue
@@ -44,12 +42,12 @@
 
 **************************************************************************/
 
-Message = function () {
+Message = async function () {
 	var _this = this;
 
-	switch (GM.getValue("MessageType", 0)) {
+	switch (await GM.getValue("MessageType", 0)) {
 		case 0:
-			GM.addStyle(GM.getResourceText("messageContainerCss"));
+			await GM.addStyle(await GM.getResourceText("messageContainerCss"));
 			var container = document.createElement("div"),
 			timedMessage = function (ctx) {
 				var sum = 1;
@@ -102,7 +100,7 @@ Message = function () {
 						created_at	: new Date(),
 						parent	: (group[0] == msg?null:group[0]),
 					};
-					GM.log([cm.created_at, msg]);
+					console.log([cm.created_at, msg]);
 					if (!cm.opts.fixed) {
 						cm.timer = setTimeout(function (cm) {
 							timedMessage.call(_this, cm);
@@ -114,7 +112,7 @@ Message = function () {
 			break;
 		case 1:
 			_this._add = function () {
-				GM.log([new Date()].concat(Array.prototype.slice.apply(arguments)));
+				console.log([new Date()].concat(Array.prototype.slice.apply(arguments)));
 			};
 			break;
 		case 2:

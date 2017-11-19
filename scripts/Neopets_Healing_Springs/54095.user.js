@@ -50,15 +50,15 @@
 var np = new Neopets(document);
 
 if (np.username)
-(function recursive () {    // script scope
+(async function recursive () {    // script scope
     const INTERVAL = 1810000;    // 30 * 60 * 1000 + 10 * 1000 (30 minutes + 10 seconds)
 
     var n = "HealingSprings-LastAccess-" + np.username,
-    la = Date.parse(GM.getValue(n, "Sat Apr 16 2011 08:13:43 GMT-0300")) || 0,
+    la = Date.parse(await GM.getValue(n, "Sat Apr 16 2011 08:13:43 GMT-0300")) || 0,
     curr = new Date();
 
     if (curr - la > INTERVAL) {
-        GM.setValue(n, (la = curr).toString());
+        await GM.setValue(n, (la = curr).toString());
 
         HttpRequest.open({
             method        : "POST",
@@ -77,4 +77,4 @@ if (np.username)
     }
 
     setTimeout(recursive, la - curr + INTERVAL + Math.ceil(10 * Math.random()));
-}());
+})();

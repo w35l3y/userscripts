@@ -10,8 +10,6 @@
 // @version        1.1.0
 // @language       en
 // @include        http://www.neopets.com/games/neoquest/neoquest.phtml*
-// @grant          GM_log
-// @grant          GM.log
 // @grant          GM_addStyle
 // @grant          GM.addStyle
 // @grant          GM_getValue
@@ -49,8 +47,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 **************************************************************************/
-
-GM.addStyle(".winConfig_NeoQuestHelperSettings .fieldClass_hotkey {float:left;margin-right:2px;width:33%}");
 
 function ViewMonitor (obj) {
     var _this = this,
@@ -117,6 +113,9 @@ function ViewMonitor (obj) {
     
     this.refresh();
 }
+
+(async function () {
+await GM.addStyle(".winConfig_NeoQuestHelperSettings .fieldClass_hotkey {float:left;margin-right:2px;width:33%}");
 
 var area = new ViewMonitor({
     view    : ".//td[@class = 'content']/div[div[@class = 'frame']]",
@@ -228,7 +227,7 @@ groups = [{
     ],
 }];
 
-//GM.deleteValue("config-NeoQuestHelperSettings");
+//await GM.deleteValue("config-NeoQuestHelperSettings");
 WinConfig.init({
     title    : "NeoQuest Helper : Settings",
     type    : WinConfig.WindowType.CUSTOM,
@@ -278,3 +277,4 @@ WinConfig.init({
         };
     })),
 });
+})();

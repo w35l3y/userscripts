@@ -61,7 +61,7 @@ Shop.check = function (obj) {
         obj.data = {};
     }
     
-    (function recursive1 (obj) {
+    (async function recursive1 (obj) {
         console.log("recursive1 " + obj.indexes[0]);
         if (obj.indexes[0] < obj.list.length) {
             (function recursive2 (obj) {
@@ -157,7 +157,7 @@ Shop.check = function (obj) {
                 console.log("total " + total);
                 console.log(obj);
                 
-                var items = JSON.parse(GM.getValue("items", "{}")),
+                var items = JSON.parse(await GM.getValue("items", "{}")),
                 sum_price = function (a, b) {
                     return a + b.Price;
                 },
@@ -189,7 +189,7 @@ Shop.check = function (obj) {
                     sdb[1][sdb[0][o.name]][1] += o.quantity;
                 }
 
-                GM.setValue("items", JSON.stringify(items));
+                await GM.setValue("items", JSON.stringify(items));
 
                 if (total > np || total > obj.limit) {
                     obj.callback({
@@ -199,7 +199,7 @@ Shop.check = function (obj) {
                 } else {
                     SDB.remove({
                         items : sdb[1],
-                        pin : GM.getValue("pin", ""),
+                        pin : await GM.getValue("pin", ""),
                         onsuccess : function (params) {
                             window.setTimeout(Inventory.list, obj.wait(), {
                                 onsuccess : function (params) {

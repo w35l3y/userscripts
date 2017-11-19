@@ -48,23 +48,27 @@
 
 var I18n = {
     get locale() {
-        return GM.getValue("locale", navigator.language) || "";
+        return (async function () {
+            return await GM.getValue("locale", navigator.language) || "";
+        })();
     },
     set locale(value) {
-        GM.setValue("locale", value);
+        (async function () {
+            await GM.setValue("locale", value);
+        })();
     },
-    get    : function (item_str, item, obj, callback) {
+    get    : async function (item_str, item, obj, callback) {
         var section = I18n.locale.toLowerCase().replace(/[_-]+/g, "-").split(",").map(function ($0) {
             return (~$0.indexOf("-") ? $0.substring(0, $0.indexOf("-")) : $0);
         }),
-        i18n = JSON.parse(GM.getValue("i18n") || '{"version" : -1, "languages" : {}}'),
+        i18n = JSON.parse(await GM.getValue("i18n") || '{"version" : -1, "languages" : {}}'),
         res = {
             "version"    : 0,
             "languages"    : {}
         };
         
         if (!("languages" in i18n)) {
-            GM.deleteValue("i18n");
+            await GM.deleteValue("i18n");
             i18n = {
                 "version" : -1,
                 "languages" : {}
@@ -108,7 +112,7 @@ var I18n = {
 
         // For compatibility with v2.0.1.0
         try {
-            res = JSON.parse(GM.getResourceText("i18n").replace(/^\(|\)$/g, "") || "{}");
+            res = JSON.parse(await GM.getResourceText("i18n").replace(/^\(|\)$/g, "") || "{}");
             
             if (!("languages" in res)) {
                 res.version = 0;
@@ -119,7 +123,7 @@ var I18n = {
         if (i18n.version < res.version) {
             i18n.version = res.version;
             i18n.languages = {};
-            GM.setValue("i18n", JSON.stringify(i18n));
+            await GM.setValue("i18n", JSON.stringify(i18n));
         }
 
         if (section.length) {
@@ -136,16 +140,16 @@ var I18n = {
             meta = typeof GM_info != "undefined" && GM_info.scriptMetaStr || "";
             
             try {
-                meta = GM.getResourceText("meta");
+                meta = await GM.getResourceText("meta");
             } catch (e) { }
 
             meta += "\n// @language " + def;
             
             var metaLang = /^\/\/ @language\s+(\w+)/m.test(meta) && RegExp.$1,
             translate = function (text, from, to, item) {
-                Translate.execute(text.replace(/\n/g, "<br />"), from, to, function (result) {
+                Translate.execute(text.replace(/\n/g, "<br />"), from, to, async function (result) {
                     if (result.translation) {
-                        var data = JSON.parse(GM.getValue("i18n") || '{"version":0,"languages":{}}');
+                        var data = JSON.parse(await GM.getValue("i18n") || '{"version":0,"languages":{}}');
 
                         if (!(to in data.languages)) {
                             data.languages[to] = {};
@@ -153,7 +157,7 @@ var I18n = {
 
                         data.languages[to][item] = result.translation.replace(/\s*<br\s*\/?>\s*/g, "\n");
                         
-                        GM.setValue("i18n", JSON.stringify(data));
+                        await GM.setValue("i18n", JSON.stringify(data));
                         
                         return cb(data.languages[to][item]);
                     }

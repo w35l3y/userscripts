@@ -9,8 +9,6 @@
 // @homepage       http://gm.wesley.eti.br/neopets
 // @version        3.3.0
 // @include        http://www.neopets.com/*
-// @grant          GM_log
-// @grant          GM.log
 // @grant          GM_addStyle
 // @grant          GM.addStyle
 // @grant          GM_getValue
@@ -58,11 +56,11 @@
 
 **************************************************************************/
 
-GM.addStyle(GM.getResourceText("winConfigQuickPriceCheckerCss"));
+(async function () {
+	await GM.addStyle(await GM.getResourceText("winConfigQuickPriceCheckerCss"));
 
-(function () {
 	function execute (config, fn) {
-		(function (obj) {
+		(async function (obj) {
 			var sel;
 
 			if ((sel = window.getSelection()).rangeCount) {
@@ -71,11 +69,11 @@ GM.addStyle(GM.getResourceText("winConfigQuickPriceCheckerCss"));
 
 					if (range.toString().length) {
 						var current = new Date().valueOf(),
-						next = parseInt(GM.getValue("nextAccess", "0"), 10),
+						next = parseInt(await GM.getValue("nextAccess", "0"), 10),
 						time = Math.max(0, next - current),
 						params = obj.parameters(range) || [];
 
-						GM.setValue("nextAccess", obj.time() + (time ? next : current) + "");
+						await GM.setValue("nextAccess", obj.time() + (time ? next : current) + "");
 
 						params.unshift(obj.function, time);
 
@@ -289,4 +287,4 @@ GM.addStyle(GM.getResourceText("winConfigQuickPriceCheckerCss"));
 			}],
 		}],
 	});
-}());
+})();

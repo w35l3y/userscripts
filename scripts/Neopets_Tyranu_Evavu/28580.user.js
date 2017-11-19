@@ -53,13 +53,13 @@
 
 **************************************************************************/
 
-(function () {	// script scope
-	var interval = JSON.parse(GM.getValue("interval", "[3000, 2000]")),
+(async function () {	// script scope
+	var interval = JSON.parse(await GM.getValue("interval", "[3000, 2000]")),
 	actionButton = xpath(".//form[contains(@action, 'tyranuevavu.phtml')]/input[@type = 'submit']")[0];
 
 	if (!actionButton && /(\d+)_(\w+)/.test(xpath("string(.//img[contains(@src, 'games/cards/')]/@src[contains(., '_')])"))) {	// keep playing
 		var suit = ["spades", "hearts", "clubs", "diamonds"].indexOf(RegExp.$2),
-		cards = JSON.parse(GM.getValue("cards", "[]")) || [],
+		cards = JSON.parse(await GM.getValue("cards", "[]")) || [],
 		at = cards.length,
 		evavu = (RegExp.$1 - 1) << 2,
 		tyranu = 55 - at - evavu;
@@ -77,13 +77,13 @@
 		}
 		evavu -= ai;
 
-		GM.setValue("cards", JSON.stringify(cards));
+		await GM.setValue("cards", JSON.stringify(cards));
 
 		function nextAction () {
 			location.replace(xpath("string(.//a[contains(@href, '" + ["higher", "lower"][0|(evavu > tyranu)] + "') and img[contains(@src, '/prehistoric/')]]/@href)"));
 		}		
 	} else {
-		GM.setValue("cards", "[]");
+		await GM.setValue("cards", "[]");
 
 		function nextAction () {
 			actionButton.click();
@@ -91,4 +91,4 @@
 	}
 
 	window.setTimeout(nextAction, interval[0] + Math.floor(Math.random() * interval[1]));
-}());
+})();

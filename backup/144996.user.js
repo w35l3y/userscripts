@@ -10,8 +10,6 @@
 // @version        1.0.0.1
 // @include        nowhere
 // @exclude        *
-// @grant          GM_log
-// @grant          GM.log
 // @icon           http://gm.wesley.eti.br/icon.php?desc=144996
 // @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // ==/UserScript==
@@ -94,7 +92,7 @@ QueuedList = function (wait) {
                         _this.end.apply(_this, []);
                     }
                 }
-            }());
+            })();
         }
     };
 

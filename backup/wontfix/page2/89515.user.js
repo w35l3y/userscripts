@@ -34,7 +34,7 @@
 
 **************************************************************************/
 
-function AspxPostBackRequest(opts)
+async function AspxPostBackRequest(opts)
 {
     var data = {
         "__ASYNCPOST" : "true",
@@ -55,7 +55,7 @@ function AspxPostBackRequest(opts)
         return output.substr(1);
     })(data);
 
-    GM.xmlHttpRequest({
+    await GM.xmlHttpRequest({
         "url" : opts.url,
         "method" : "post",
         "headers" : {

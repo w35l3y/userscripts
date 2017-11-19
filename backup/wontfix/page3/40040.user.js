@@ -10,8 +10,6 @@
 // @version        1.0.0.2
 // @include        http://userscripts-mirror.org/forums/*
 // @include        http://userscripts-mirror.org/scripts/discuss/*
-// @grant          GM_log
-// @grant          GM.log
 // @grant          GM_addStyle
 // @grant          GM.addStyle
 // @grant          GM_getValue
@@ -47,9 +45,9 @@ typeof(CheckForUpdate)!='undefined' && CheckForUpdate.init(GM_info.scriptMetaStr
 
     if (topics.snapshotLength)
     {
-        function displayTopics(topics, link)
+        async function displayTopics(topics, link)
         {
-            var isHidden = !link.textContent && GM.getValue('isHidden', true) || /^Un/.test(link.textContent);
+            var isHidden = !link.textContent && await GM.getValue('isHidden', true) || /^Un/.test(link.textContent);
             link.textContent = ( isHidden ? 'H' : 'Unh' ) + 'ide topics'; // Hide/Unhide topics
     
             for ( var topic, i = topics.snapshotLength ; topic = topics.snapshotItem(--i) ; )
@@ -60,7 +58,7 @@ typeof(CheckForUpdate)!='undefined' && CheckForUpdate.init(GM_info.scriptMetaStr
                     topic.style.display = ( isHidden ? 'table-row' : 'none' );
             }
 
-            GM.setValue('isHidden', isHidden);
+            await GM.setValue('isHidden', isHidden);
         }
 
         var ahide = document.createElement('a');

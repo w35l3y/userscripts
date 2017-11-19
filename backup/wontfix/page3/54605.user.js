@@ -11,8 +11,6 @@
 // @language       en
 // @include        http://www.neopets.com/pirates/academy.phtml?type=status
 // @include        http://www.neopets.com/island/training.phtml?type=status
-// @grant          GM_log
-// @grant          GM.log
 // @grant          GM_addStyle
 // @grant          GM.addStyle
 // @grant          GM_getValue

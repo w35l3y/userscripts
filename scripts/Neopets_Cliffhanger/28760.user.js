@@ -10,8 +10,6 @@
 // @version        5.0.3
 // @language       en
 // @include        http://www.neopets.com/games/cliffhanger/cliffhanger.phtml
-// @grant          GM_log
-// @grant          GM.log
 // @grant          GM_addStyle
 // @grant          GM.addStyle
 // @grant          GM_getValue
@@ -75,8 +73,8 @@
 
 **************************************************************************/
 
-(function () {    //script scope
-    var options = JSON.parse(GM.getValue("options", JSON.stringify({
+(async function () {    //script scope
+    var options = JSON.parse(await GM.getValue("options", JSON.stringify({
         at_once    : true,
         random    : [5000, 1500],
         repeat    : 10,
@@ -89,13 +87,13 @@
             HttpRequest.open({
                 method        : "get",
                 url            : s[0],
-                onsuccess    : function (xhr) {
+                onsuccess    : async function (xhr) {
                     var answers = xpath(s[1], xhr.response.xml).map(function (v) {
                         return v.textContent.replace(/^\s+|\s+$/g, "");
                     });
 
                     if (answers.length) {
-                        GM.setValue("answers", JSON.stringify(answers));
+                        await GM.setValue("answers", JSON.stringify(answers));
                         obj.callback(obj);
                     } else {
                         get_answers(obj);
@@ -151,7 +149,7 @@
     RandomEvents.title = "Random Events - Cliffhanger";
     RandomEvents.location = "/games/cliffhanger/cliffhanger.phtml";
     
-    (function recursive (obj) {
+    (async function recursive (obj) {
         var skill = xpath(".//form[contains(@action, 'process_cliffhanger.phtml')]/input[@name = 'game_skill' and @value = '3']")[0];
 
         obj.callback = recursive;
@@ -165,7 +163,7 @@
                 next(obj);
             }
         } else {
-            var answers = JSON.parse(GM.getValue("answers", "[]"));
+            var answers = JSON.parse(await GM.getValue("answers", "[]"));
 
             if (answers.length) {
                 var pattern = new RegExp("^" + xpath(".//tbody/tr/td[@bgcolor= 'skyblue' and @colspan = '2' and contains(b/text(), '_')]")[0].innerHTML.replace(/<br>/g, "&nbsp;").replace(/\s+|<(?:\/?\w+|\w+(?:\s+\w+="\w+")+)>/g, "").replace(/_/g, "\\w").replace(/(?:&nbsp;|<br(?: *\/?)>)/g, " ").replace(/^\s+|\s+$/g, "") + "$", "gim"),
@@ -225,4 +223,4 @@
             ["http://quagthistle.org/neopets/Games/CliffhangerTable.html", ".//td[2]/text()"]
         ],
     }));
-}());
+})();

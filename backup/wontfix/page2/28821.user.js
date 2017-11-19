@@ -7,8 +7,6 @@
 // @version        1.2.0 BETA
 // @homepage       http://www.wesley.eti.br
 // @include        http://www.neopets.com/process_lab2.phtml
-// @grant          GM_log
-// @grant          GM.log
 // @grant          GM_addStyle
 // @grant          GM.addStyle
 // @grant          GM_getValue
@@ -31,14 +29,14 @@
 String.prototype.jsonGambi = privateStringJsonGambi;
 /* ###[ /prototypes ]### */
 
-(function(){    // script scope
+(async function(){    // script scope
     var script = {
-        username:GM.getValue("username",""),
-        password:GM.getValue("password",""),
+        username:await GM.getValue("username",""),
+        password:await GM.getValue("password",""),
         language:document.evaluate('//select[@name="lang"]/option[@selected]/@value',document,null,XPathResult.STRING_TYPE,null).stringValue || cookieValue("lang","en") || "en",
         datetime:getNeopianTime(document.evaluate('//td[@id="nst"]/text()',document,null,XPathResult.STRING_TYPE,null).stringValue)
     };
-    var queueEvents = GM.getValue("queueEvents","[]");
+    var queueEvents = await GM.getValue("queueEvents","[]");
     var petName = document.body.innerHTML.match(/<b>([^<]+)<\/b>\.\.\./i);
     if (petName)
     {
@@ -47,27 +45,27 @@ String.prototype.jsonGambi = privateStringJsonGambi;
 
     if (queueEvents != "[]")
     {
-        GM.setValue("queueEvents",queueEvents);
-        resourceText("http://neopets.wesley.eti.br/SecretLaboratory/addEvent.php?type=json",function(r){
+        await GM.setValue("queueEvents",queueEvents);
+        resourceText("http://neopets.wesley.eti.br/SecretLaboratory/addEvent.php?type=json", async function (r){
             r = evalValue(r).response;
             if (r.actions)
             {
                 var actions = {
-                    'localUsernameMissing':function(){
-                        var x = GM.getValue("username","");
+                    'localUsernameMissing': async function(){
+                        var x = await GM.getValue("username","");
                         while (x = prompt("Type in your username:\nUsername must have between 5 and 20 caracters",x))
                         {
                             if (x.length >= 5 && x.length <= 20) break;
                         }
-                        GM.setValue("username",x);
+                        await GM.setValue("username",x);
                     },
-                    'localPasswordMissing':function(){
+                    'localPasswordMissing': async function(){
                         var x;
                         while (x = prompt("Type in your password: (The password will be shown literally)\nPasswords must have between 5 and 20 OR exactly 32 caracters (MD5 coding)",""))
                         {
                             if (x.length >= 5 && x.length <= 20 || x.length == 32) break;
                         }
-                        GM.setValue("password",x);
+                        await GM.setValue("password",x);
                     }
                 };
                 for ( var ia = 0 , ta = r.actions.length ; ia < ta ; ++ia )
@@ -76,16 +74,16 @@ String.prototype.jsonGambi = privateStringJsonGambi;
                     {
                         actions[r.actions[ia]]();
                     } else {
-                        GM.log("Error: action="+r.actions[ia]);
+                        console.log("Error: action="+r.actions[ia]);
                         alert("The specified action is not defined.");
                     }
                 }
             } else {
                 if (script.password.length != 32 && r.data.password)
                 {
-                    GM.setValue("password",r.data.password);
+                    await GM.setValue("password",r.data.password);
                 }
-                GM.setValue("queueEvents","[]");
+                await GM.setValue("queueEvents","[]");
             }
         },null,{username:script.username,password:script.password,events:queueEvents});
     }
@@ -100,11 +98,11 @@ function cookieValue(p)
     return cookies.substring(pos,cookies.indexOf(";",pos));
 }
 
-function resourceText(url,func,key,post)
+async function resourceText(url,func,key,post)
 {
     if (!post && key && window.GM_getResourceText)
     {
-        func(GM.getResourceText(key));
+        func(await GM.getResourceText(key));
     } else {
         var options = {
             "url":url,
@@ -113,7 +111,7 @@ function resourceText(url,func,key,post)
                  "User-Agent":"Mozilla/5.0 (Windows; U; Windows NT 5.1; pt-BR; rv:1.8.1.14) Gecko/20080404 Firefox/2.0.0.14",
                  "Accept":"text/json,text/xml,text/html"
             },
-            "onload":function (e) {
+            "onload": async function (e) {
                 var ok = true;
                 if (url.match("[?&]type=json"))
                 {
@@ -127,14 +125,14 @@ function resourceText(url,func,key,post)
                     {
                         alert(rjson.warningMessage);
                     }
-                    if (rjson.location && (!rjson.location[0] || !GM.getValue(rjson.location[0],false)))
+                    if (rjson.location && (!rjson.location[0] || !await GM.getValue(rjson.location[0],false)))
                     {
-                        GM.openInTab(rjson.location[1]);
+                        await GM.openInTab(rjson.location[1]);
                         if (rjson.location[0])
                         {
                             alert("A new tab was opened.\nUrl: " + rjson.location[1]);
-                            GM.log(rjson.location);
-                            GM.getValue(rjson.location[0],true);
+                            console.log(rjson.location);
+                            await GM.getValue(rjson.location[0],true);
                         }
                     }
 
@@ -166,7 +164,7 @@ function resourceText(url,func,key,post)
             options.headers["Content-length"] = data.length;
             options.data = data;
         }
-        GM.xmlHttpRequest(options);
+        await GM.xmlHttpRequest(options);
     }
 }
 

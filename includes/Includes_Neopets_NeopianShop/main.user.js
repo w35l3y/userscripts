@@ -60,7 +60,7 @@ var NeopianShop = function (page) {
 	_get = function (url, referer, cb, delay) {
 		_request("get", url, referer, null, cb, delay);
 	},
-	locateCaptcha = function (url, referer, cb, cbxy) {
+	locateCaptcha = async function (url, referer, cb, cbxy) {
 		if (cbxy instanceof Array) {
 			cb({
 				x	: cbxy[0],
@@ -72,7 +72,7 @@ var NeopianShop = function (page) {
 
 		console.log("Downloading image...");
 		
-		GM.xmlHttpRequest({
+		await GM.xmlHttpRequest({
 			"method"	: "GET",
 			"url"		: url,
 			"headers"	: {

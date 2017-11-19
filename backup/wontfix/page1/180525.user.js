@@ -6,8 +6,6 @@
 // @exclude        *
 // @version        1.2.2
 // @language       pt-br
-// @grant          GM_log
-// @grant          GM.log
 // @grant          GM_addStyle
 // @grant          GM.addStyle
 // @grant          GM_getValue
@@ -35,7 +33,7 @@
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_WinConfig/163374.user.js
 // ==/UserScript==
 
-(function () {    // script scope
+(async function () {    // script scope
     var h = xpath(".//thead/tr/th[@class = 'cabecalhoPrincipal' and contains(text(), 'NIT')]")[0];
     if (h) {
         var keyChanged = false,
@@ -121,7 +119,7 @@
             }]
         }),
         opts = win.get("group"),
-        cachedNits = JSON.parse(GM.getValue("registros", '["2013-10-23T14:12:55.770Z", []]'));
+        cachedNits = JSON.parse(await GM.getValue("registros", '["2013-10-23T14:12:55.770Z", []]'));
 
         function processaListaNits(lista) {
             xpath(".//tr/td[" + (1 + h.cellIndex) + "]/text()", h.parentNode.parentNode.parentNode).forEach(function (row) {
@@ -131,12 +129,12 @@
             });
         }
 
-        function forceReset (opts, cb) {
-            GM.xmlHttpRequest({
+        async function forceReset (opts, cb) {
+            await GM.xmlHttpRequest({
                 method    : "get",
                 url            : "https://spreadsheets.google.com/tq?tqx=responseHandler:myHandlerFunction&tq=select+A&key=" + opts.sheet.key,
                 onload    : function (xhr) {
-                    var myHandlerFunction = function (data) {
+                    var myHandlerFunction = async function (data) {
                         if ("ok" == data.status) {
                             var nits = [];
                             data.table.rows.forEach(function (row) {
@@ -144,7 +142,7 @@
                             });
 
                             if (nits.length) {
-                                GM.setValue("registros", JSON.stringify([new Date(), nits]));
+                                await GM.setValue("registros", JSON.stringify([new Date(), nits]));
                                 processaListaNits(nits);
                             }
 
@@ -167,4 +165,4 @@
             forceReset(opts);
         }
     }
-}());
+})();

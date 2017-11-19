@@ -59,19 +59,21 @@
 
 **************************************************************************/
 
+(async function () {
+
 if (/^\/process_market\.phtml/i.test(location.pathname)) {	// something went wrong
-	GM.deleteValue("StockTemp");
+	await GM.deleteValue("StockTemp");
 } else {
 	var items = xpath(".//td[@class='content']//td[5]/input");
-	var stocktemp = JSON.parse(GM.getValue("StockTemp", "{}")),
-	stock = JSON.parse(GM.getValue("Stock", "{}"));
+	var stocktemp = JSON.parse(await GM.getValue("StockTemp", "{}")),
+	stock = JSON.parse(await GM.getValue("Stock", "{}"));
 
 	for (var item in stocktemp) {
 		stock[item] = stocktemp[item]; // stores the temporary prices definitely
 	}
 
-	GM.deleteValue("StockTemp");
-	GM.setValue("Stock", JSON.stringify(stock));
+	await GM.deleteValue("StockTemp");
+	await GM.setValue("Stock", JSON.stringify(stock));
 
 	items.forEach(function (item) {
 		var pos = item.name.match(/\d+$/)[0],
@@ -95,7 +97,7 @@ if (/^\/process_market\.phtml/i.test(location.pathname)) {	// something went wro
 	});
 
 	if (items.length)	// list is not empty
-	items[0].form.addEventListener("submit", function (e) {
+	items[0].form.addEventListener("submit", async function (e) {
 		var stocktemp = {};
 
 		items.forEach(function (item) {
@@ -107,6 +109,7 @@ if (/^\/process_market\.phtml/i.test(location.pathname)) {	// something went wro
 			}
 		});
 
-		GM.setValue("StockTemp", JSON.stringify(stocktemp));
+		await GM.setValue("StockTemp", JSON.stringify(stocktemp));
 	}, false);
 }
+})();

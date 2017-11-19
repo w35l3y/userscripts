@@ -11,8 +11,6 @@
 // @language       en
 // @include        nowhere
 // @exclude        *
-// @grant          GM_log
-// @grant          GM.log
 // @grant          GM_addStyle
 // @grant          GM.addStyle
 // @grant          GM_getValue
@@ -61,9 +59,9 @@
 
 **************************************************************************/
 
-//GM.setValue("call_url", false);
-//GM.setValue("rnd_time", "[2000, 1000]");
-//GM.setValue("tries", 3);
+//await GM.setValue("call_url", false);
+//await GM.setValue("rnd_time", "[2000, 1000]");
+//await GM.setValue("tries", 3);
 
 FlashGame = function () {};
 
@@ -192,7 +190,9 @@ FlashGame.convert = function (doc, type) {
 };
 
 FlashGame.includes = {};
-FlashGame.cached_includes = JSON.parse(GM.getValue("includes", "{}"));
+(async function () {
+    FlashGame.cached_includes = JSON.parse(await GM.getValue("includes", "{}"));
+})();
 
 FlashGame.open = function (obj) {
     if (obj.elements instanceof Array) {
@@ -212,7 +212,7 @@ FlashGame.open = function (obj) {
     },
     tmpx = {
         game    : params.game_id,
-        tries   : GM.getValue("tries", 3)
+        tries   : await GM.getValue("tries", 3)
     };
 
     if (!obj.url) {
@@ -251,19 +251,19 @@ FlashGame.open = function (obj) {
         "headers"   : {
             "Referer" : obj.referer
         },
-        "onsuccess"    : function (xhr) {
+        "onsuccess"    : async function (xhr) {
             var tmp = obj.merge || obj,
             result = FlashGame.convert(xhr.response.xml, "play_flash") || {},
             key = "plays-" + result.list.username,
-            plays = JSON.parse(GM.getValue(key, '{"last":0,"games":{}}')),
-            ratios = JSON.parse(GM.getValue("ratios", "{}")),
+            plays = JSON.parse(await GM.getValue(key, '{"last":0,"games":{}}')),
+            ratios = JSON.parse(await GM.getValue("ratios", "{}")),
             x = Math.round(1000 / result.list.n);
             for (var v in tmpx) {
                 tmp[v] = tmpx[v];
             }
             if (ratios[tmp.game] != x) {
                 ratios[tmp.game] = x;
-                GM.setValue("ratios", JSON.stringify(ratios));
+                await GM.setValue("ratios", JSON.stringify(ratios));
             }
 
             for (var p in result) {
@@ -290,7 +290,7 @@ FlashGame.open = function (obj) {
                 }
                 plays.last = curr.valueOf();
                 plays.games = {};
-                GM.setValue(key, JSON.stringify(plays));
+                await GM.setValue(key, JSON.stringify(plays));
             }
 
             tmp.plays = result.list.sp || plays.games[tmp.game] || 0;
@@ -303,7 +303,7 @@ FlashGame.open = function (obj) {
             }
 
             if (!tmp.max_score) {
-                var review = JSON.parse(GM.getValue("reviews", "{}"))[tmp.game],
+                var review = JSON.parse(await GM.getValue("reviews", "{}"))[tmp.game],
                 min = (review >= 0?[review]:[]);
 
                 min.push(tmp.array_score[0] + tmp.array_score[1] * tmp.array_score[2]);
@@ -330,7 +330,7 @@ FlashGame.url = function (obj) {
     var nan = ["id", "f", "dc", "ddNcChallenge", "multiple", "forceScore", "n"].filter(function (v) {
         return (v in obj.options && isNaN(obj.options[v]));
     }),
-    decimals_arr = JSON.parse(GM.getValue("decimals", "{}"));
+    decimals_arr = JSON.parse(await GM.getValue("decimals", "{}"));
 
     if (nan.length) {
         console.log(nan);
@@ -388,7 +388,7 @@ FlashGame.url = function (obj) {
             FlashGame.includes[obj.include] = FlashGame.cached_includes[obj.include];
         }
         
-        var next = function (obj) {
+        var next = async function (obj) {
             delete obj.captcha;
 
             if (obj.session === true) {
@@ -404,7 +404,7 @@ FlashGame.url = function (obj) {
                 }, 900000, obj);
             }
             var i = obj.movie,
-            decimals_arr = JSON.parse(GM.getValue("decimals", "{}")),
+            decimals_arr = JSON.parse(await GM.getValue("decimals", "{}")),
             idv = (function (inc) {
                 switch (inc) {
                     case "np6_include_v16":
@@ -591,7 +591,7 @@ FlashGame.url = function (obj) {
                 ShowMyCode.execute({
                     "url"        : obj.options.image_host + "/" + obj.options.include_movie,
                     "captcha"    : obj.captcha,
-                    "onsuccess"  : function (xhr) {
+                    "onsuccess"  : async function (xhr) {
                         var ini = /^\s+(?:public )?class (?:np\.projects\.(?:np\d+\.classCrypt|include\.Strings)|NP9_Score_Encryption {)/mi,
                         include = {
                             "LastUpdate"    : new Date().toString(),
@@ -600,7 +600,7 @@ FlashGame.url = function (obj) {
                         },
                         is_error = true,
                         decimals = [],
-                        decimals_arr = JSON.parse(GM.getValue("decimals", "{}"));
+                        decimals_arr = JSON.parse(await GM.getValue("decimals", "{}"));
                         
                         if (ini.test(xhr.response.text)) {
                             var content = RegExp.rightContext.replace(/^\s+|[\t ]+/g, "");
@@ -642,12 +642,12 @@ FlashGame.url = function (obj) {
                             FlashGame.includes[obj.include] = include;
                             FlashGame.cached_includes[obj.include] = include;
 
-                            GM.setValue("includes", JSON.stringify(FlashGame.cached_includes));
+                            await GM.setValue("includes", JSON.stringify(FlashGame.cached_includes));
 
                             if (!(include.Decimals in decimals_arr)) {
                                 decimals_arr[include.Decimals] = decimals;
 
-                                GM.setValue("decimals", JSON.stringify(decimals_arr));
+                                await GM.setValue("decimals", JSON.stringify(decimals_arr));
                             }
                         } else {
                             obj.onerror({
@@ -702,11 +702,11 @@ FlashGame.send = function (obj) {
         "headers"    : {
             "Referer" : obj.referer
         },
-        "onsuccess"    : function (xhr) {
+        "onsuccess"    : async function (xhr) {
             //console.log(xhr.response.text);
             var result = FlashGame.convert(xhr.response.text, "process_flash_score") || {},
             key = "plays-" + obj.options.username,
-            plays = JSON.parse(GM.getValue(key, '{"last":0,"games":{}}'));
+            plays = JSON.parse(await GM.getValue(key, '{"last":0,"games":{}}'));
             if (result.list.plays) {
                 plays.games[obj.game] = parseInt(result.list.plays, 10);
             } else {
@@ -718,7 +718,7 @@ FlashGame.send = function (obj) {
                 }
             }
             obj.plays = plays.games[obj.game];
-            GM.setValue(key, JSON.stringify(plays));
+            await GM.setValue(key, JSON.stringify(plays));
             for (var k in result) {
                 if ("list" == k) {
                     for (var k in result.list) {
@@ -766,10 +766,10 @@ FlashGame.send = function (obj) {
             
             switch (result.list.errcode) {
                 case 15:
-                    var reviews = JSON.parse(GM.getValue("reviews", "{}"));
+                    var reviews = JSON.parse(await GM.getValue("reviews", "{}"));
                     if (undefined == reviews[obj.game] || obj.score < reviews[obj.game]) {
                         reviews[obj.game] = obj.score - 1;
-                        GM.setValue("reviews", JSON.stringify(reviews));
+                        await GM.setValue("reviews", JSON.stringify(reviews));
                     }
                     break;
             }
@@ -783,8 +783,8 @@ FlashGame.send = function (obj) {
                     }
                     url = "http://www.neopets.com" + url;
                 }
-                if (GM.getValue("call_url", true)) {
-                    GM.openInTab(url);
+                if (await GM.getValue("call_url", true)) {
+                    await GM.openInTab(url);
                 } else {
                     console.log(url);
                 }
@@ -825,11 +825,11 @@ FlashGame.send = function (obj) {
             }
 
             if (obj.onsuccess(obj)) {
-                window.setTimeout(obj.recursive, (function () {
-                    var x = JSON.parse(GM.getValue("rnd_time", "[2000, 1000]"));
+                window.setTimeout(obj.recursive, (async function () {
+                    var x = JSON.parse(await GM.getValue("rnd_time", "[2000, 1000]"));
 
                     return Math.floor(x[0] + x[1] * Math.random());
-                }()), obj);
+                })(), obj);
             }
         }
     }).send({"onData" : "{}"}); // "{}"|"[type Function]"
@@ -975,7 +975,7 @@ FlashGame.execute = function (obj) {
     }
 };
 
-FlashGame.test = function(querystring, crypt) {
+FlashGame.test = async function(querystring, crypt) {
     var str = "",
     qs = {},
     remap = {
@@ -986,8 +986,8 @@ FlashGame.test = function(querystring, crypt) {
     };
 
     if (!(crypt instanceof Array)) {
-        var decimals = JSON.parse(GM.getValue("decimals", "{}")),
-        includes = JSON.parse(GM.getValue("includes", "{}"));
+        var decimals = JSON.parse(await GM.getValue("decimals", "{}")),
+        includes = JSON.parse(await GM.getValue("includes", "{}"));
         if (crypt in includes) {
             crypt = decimals[includes[crypt].Decimals];
         } else {

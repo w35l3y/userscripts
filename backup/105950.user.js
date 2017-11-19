@@ -163,4 +163,4 @@
             date.parentNode.removeChild(date);
         }
     });
-}());
+})();

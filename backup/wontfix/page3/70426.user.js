@@ -4,8 +4,6 @@
 // @description    Examples of interactions among tabs
 // @include        http://translate.google.tld/?sl=auto&tl=pt#userscripts-mirror.org
 // @include        http://userscripts-mirror.org/topics/*
-// @grant          GM_log
-// @grant          GM.log
 // @grant          GM_getValue
 // @grant          GM.getValue
 // @grant          GM_setValue
@@ -21,21 +19,21 @@
 
 if (location.hostname == "userscripts-mirror.org")
 {
-    xpath("id('post_body')")[0].addEventListener("change", function(e)
+    xpath("id('post_body')")[0].addEventListener("change", async function (e)
     {
-        GM.setValue("post_body.text", e.target.value);
+        await GM.setValue("post_body.text", e.target.value);
     }, false);
 
-    window.addEventListener("unload", function(e)
+    window.addEventListener("unload", async function(e)
     {
-        GM.deleteValue("post_body.text");
+        await GM.deleteValue("post_body.text");
     }, false);
 }
 else if (/^translate\.google\./.test(location.hostname))
 {
-    function fill(e)
+    async function fill(e)
     {
-        var value = GM.getValue("post_body.text");
+        var value = await GM.getValue("post_body.text");
         if (value)
         xpath("id('source')")[0].value = value;
     }
@@ -48,15 +46,15 @@ else if (/^translate\.google\./.test(location.hostname))
 ///[ EXAMPLE 2 ]///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // this should be executed ONCE every minute, even if 2+ tabs are opened at once or in a interval lesser than 1 minute
 
-function every_n_secs(recursive, secs)
+async function every_n_secs(recursive, secs)
 {
     var current = new Date(),
     ms = Math.max(1000 * secs, 1000),
-    lr = new Date(Date.parse(GM.getValue("lastRun", "Wed Mar 03 2010 19:18:04 GMT-0300")));    // the default value doesnt really matter, it just should be any time in the past
+    lr = new Date(Date.parse(await GM.getValue("lastRun", "Wed Mar 03 2010 19:18:04 GMT-0300")));    // the default value doesnt really matter, it just should be any time in the past
 
     if ( current - lr > ms )
     {
-        GM.setValue("lastRun", (lr = current).toString());
+        await GM.setValue("lastRun", (lr = current).toString());
         
         recursive(current, lr, ms);
     }
@@ -66,5 +64,5 @@ function every_n_secs(recursive, secs)
 
 every_n_secs(function(current, last_run, interval)
 {
-    GM.log(current);
+    console.log(current);
 }, 60);

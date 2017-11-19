@@ -45,7 +45,7 @@
 AjaxUpdate.init({
 	root		: ".//td[@class = 'content']//div/div[@class = 'frame']",
 	triggers	: ".//a[contains(@href, '?action=')]|.//form[contains(@action, 'pyramids')]",
-	onsuccess	: function (obj) {
+	onsuccess	: async function (obj) {
 		let x = xpath(".//a[contains(@href, 'action=collect')]|.//form[contains(@action, 'pyramids.phtml')]", obj.document)[0],
 		next = function (p) {
 			return setTimeout(obj.next, 564 + Math.ceil(239 * Math.random()), p);
@@ -65,7 +65,7 @@ AjaxUpdate.init({
 			}
 
 			if (start) {
-				GM.deleteValue("cards");
+				await GM.deleteValue("cards");
 			}
 
 			if (1 != start) {
@@ -75,7 +75,7 @@ AjaxUpdate.init({
 			if (/\/(\d+)_(\w)/.test(xpath("string(.//tr[2]/td/table/tbody/tr[1]/td/img[last()]/@src)", obj.document))) {
 				let value = parseInt(RegExp.$1, 10),
 				pile = "cdhs".indexOf(RegExp.$2[0]) + 4 * (value - 2),
-				cards = JSON.parse(GM.getValue("cards", "{}")),
+				cards = JSON.parse(await GM.getValue("cards", "{}")),
 				draw = xpath(".//a[contains(@href, 'action=draw')]", obj.document)[0],
 				acards = [],
 				choices = [];
@@ -177,7 +177,7 @@ AjaxUpdate.init({
 					});
 				}
 
-				GM.setValue("cards", JSON.stringify(cards));
+				await GM.setValue("cards", JSON.stringify(cards));
 			}
 		}
 	},

@@ -78,19 +78,7 @@
 
 **************************************************************************/
 
-//GM.setValue("call_url", false);
-//GM.setValue("stored", false);
-//GM.setValue("mod_change", 1);
-//GM.setValue("beep", false);
-//GM.setValue("generic", true);
-//GM.setValue("sp", 5);
-
-GM.addStyle(GM.getResourceText("css_gamesroom"));
-GM.addStyle(GM.getResourceText("gamesSettingsCss"));
-GM.addStyle(GM.getResourceText("css_colorbox"));
-GM.addStyle(GM.getResourceText("avatarPopupCss"));
-
-function init (doc) {	// script scope
+async function init (doc) {	// script scope
 	//alert(doc.toSource());
 
 	var games = {
@@ -140,8 +128,8 @@ function init (doc) {	// script scope
 	},
 	id = parseInt(doc.id || /game_id=(\d+)/.test(location.search) && RegExp.$1, 10);
 
-	if (!doc.error && !doc.link && !isNaN(id) && (id in games || GM.getValue("generic", false)) && (!doc.shockwave || GM.getValue("scoresender", false))) {
-		var list = JSON.parse(GM.getValue("games", "{}")),
+	if (!doc.error && !doc.link && !isNaN(id) && (id in games || await GM.getValue("generic", false)) && (!doc.shockwave || await GM.getValue("scoresender", false))) {
+		var list = JSON.parse(await GM.getValue("games", "{}")),
 		usern = xpath("string(.//a[contains(@href, '/userlookup.phtml?user=')]/text())"),
 		slist = ("#gmc" == location.hash?[].concat((prompt("List of games", xpath(".//a[contains(@href, 'game_id=')]/@href").map(function (x) {
 			return (/game_id=(\d+)/.test(x.nodeValue)?RegExp.$1:null);
@@ -151,7 +139,7 @@ function init (doc) {	// script scope
 			return x > 0;
 		}):[]),
 		play = {},
-		ss = JSON.parse(GM.getValue("ss", "[]")) || [],
+		ss = JSON.parse(await GM.getValue("ss", "[]")) || [],
 		efn = function (v) {
 			if (v instanceof Function) {
 				return v;
@@ -175,8 +163,8 @@ function init (doc) {	// script scope
 			}
 			return result.substr(1);
 		},
-		data_g = function (id) {
-			var x = GM.getValue("stored", true) && games[id] || list[id] || games[id] || [0, 0, 0, 100];
+		data_g = async function (id) {
+			var x = await GM.getValue("stored", true) && games[id] || list[id] || games[id] || [0, 0, 0, 100];
 			if (games[id] && games[id][6]) {
 				x[6] = efn(games[id][6]);
 			}
@@ -229,10 +217,10 @@ function init (doc) {	// script scope
 		copy = {
 			"gr-ctp-settings-btn" : {
 				rename : ["settings", "avatar"],
-				execute : function (node, p) {
+				execute : async function (node, p) {
 					if (!p) {
 						p = xpath(".//a[contains(@href, '/neoboards/boardlist.phtml?board=')]/following-sibling::*[1]")[0];
-						GM.addStyle(GM.getResourceText("avatarPopup2Css"));
+						await GM.addStyle(await GM.getResourceText("avatarPopup2Css"));
 					}
 					
 					return p;
@@ -289,11 +277,11 @@ function init (doc) {	// script scope
 						return document.body.firstElementChild;
 					}
 				},
-				code : GM.getResourceText("avatarPopupHtml"),
+				code : await GM.getResourceText("avatarPopupHtml"),
 			},
 		},
 		first = true,
-		ratios = JSON.parse(GM.getValue("ratios", "{}")),
+		ratios = JSON.parse(await GM.getValue("ratios", "{}")),
 		slistEmpty = !slist.length;
 
 		if (slistEmpty) {
@@ -360,7 +348,7 @@ function init (doc) {	// script scope
 		if (!doc.shockwave && (!~ss.indexOf(id) || !slistEmpty)) {
 			if (ratios[id] != 1000 * doc.ratio) {
 				ratios[id] = 1000 * doc.ratio;
-				GM.setValue("ratios", JSON.stringify(ratios));
+				await GM.setValue("ratios", JSON.stringify(ratios));
 			}
 			$(".confirmation-2").show();
 			$(document).ready(function (e) {
@@ -378,10 +366,10 @@ function init (doc) {	// script scope
 					$(this).attr("src", "http://www.showmycode.com/?c#r" + Math.random());
 					$("#field_captcha").focus();
 				});
-				$("#field_score").change(function (e) {
+				$("#field_score").change(async function (e) {
 					var mod = [],
 					v = parseInt($(this).val(), 10),
-					mc = GM.getValue("mod_change", 3),
+					mc = await GM.getValue("mod_change", 3),
 					mods = [100, 50, 25, 20, 10, 8, 5, 2, 1];
 
 					$("#field_time").val(Math.ceil(data[2] * (1 + 0.1 * Math.random()) * (v - (data[2] < 0?2 * (data[0] + data[1] * data[3]):0)) + 1000 * Math.random())).change();
@@ -412,7 +400,7 @@ function init (doc) {	// script scope
 				$("#ctp-avatar-save-2").hide(function (e) {	
 					$("#ctp-message").show();
 				});
-				$("#ctp-avatar-save").click(function (e) {
+				$("#ctp-avatar-save").click(async function (e) {
 					e.preventDefault();
 					var c = $("#field_captcha"),
 					captcha = c.val(),
@@ -449,7 +437,7 @@ function init (doc) {	// script scope
 							cache		: cache,
 							captcha		: captcha,
 							extrafn		: efn(data[6] || $("#field_extra").val()),
-							beep		: GM.getValue("beep", true),
+							beep		: await GM.getValue("beep", true),
 							session		: true,
 							tick		: function (obj, ms) {
 								$("#ctp-message").text(ms <= 0?"Wait...":obj.timer.toString());
@@ -488,7 +476,7 @@ function init (doc) {	// script scope
 
 								alert(e.message || e);
 							},
-							onsuccess	: function (obj) {
+							onsuccess	: async function (obj) {
 								$("#ctp-message").text(obj.message);
 
 								if (-1 != [0, 3, 11, 26].indexOf(parseInt(obj.list.errcode, 10))) {
@@ -513,7 +501,7 @@ function init (doc) {	// script scope
 
 									list[id] = data.slice(0, 4);
 
-									GM.setValue("games", JSON.stringify(list));
+									await GM.setValue("games", JSON.stringify(list));
 									
 									if (!slistEmpty) {
 										updateGame(slist.shift());
@@ -529,8 +517,8 @@ function init (doc) {	// script scope
 				updateGame(slist.shift());
 			});
 		} else if (slist.length) {
-			var rs = GM.getValue("ratio_score", true),
-			sp = GM.getValue("sp", 3);
+			var rs = await GM.getValue("ratio_score", true),
+			sp = await GM.getValue("sp", 3);
 
 			slist.sort(function (a, b) {
 				if (ratios[a]) {
@@ -573,7 +561,7 @@ function init (doc) {	// script scope
 				if (slist.length) {
 					data = data_g(id = slist.shift());
 
-					window.setTimeout(function () {
+					window.setTimeout(async function () {
 						FlashGame.execute({
 							game		: id,
 							array_score	: [data[0], data[1], data[3], data[7]],
@@ -583,7 +571,7 @@ function init (doc) {	// script scope
 							ratio_time	: true,
 							cache		: true,
 							extrafn		: efn(data[6] || ""),
-							beep		: GM.getValue("beep", true),
+							beep		: await GM.getValue("beep", true),
 							session		: true,
 							tick		: function (obj, ms) {
 								$("#ctp-message").text(ms <= 0?"Wait...":obj.timer.toString());
@@ -666,29 +654,43 @@ function init (doc) {	// script scope
 								return false;
 							},
 						});
-					}, (function () {
-						var x = JSON.parse(GM.getValue("rnd_time", "[2000, 1000]"));
+					}, (async function () {
+						var x = JSON.parse(await GM.getValue("rnd_time", "[2000, 1000]"));
 
 						return Math.floor(x[0] + x[1] * Math.random());
-					}()));
+					})());
 				} else {
 					$("#ctp-message").text("Finished!");
 				}
-			}());
+			})();
 		}
 	}
 }
 
-var frame = document.getElementById("game_frame");
+(async function () {
+	
+	//await GM.setValue("call_url", false);
+	//await GM.setValue("stored", false);
+	//await GM.setValue("mod_change", 1);
+	//await GM.setValue("beep", false);
+	//await GM.setValue("generic", true);
+	//await GM.setValue("sp", 5);
+	
+	await GM.addStyle(await GM.getResourceText("css_gamesroom"));
+	await GM.addStyle(await GM.getResourceText("gamesSettingsCss"));
+	await GM.addStyle(await GM.getResourceText("css_colorbox"));
+	await GM.addStyle(await GM.getResourceText("avatarPopupCss"));
+	
+	var frame = document.getElementById("game_frame");
 
-if (frame) {
-	frame.addEventListener("load", function (e) {
-		init(FlashGame.convert(e.target.contentWindow.document, "play_flash"));
-	});
-} else {
-	init(FlashGame.convert(document, "play"));
-}
-
+	if (frame) {
+		frame.addEventListener("load", function (e) {
+			init(FlashGame.convert(e.target.contentWindow.document, "play_flash"));
+		});
+	} else {
+		init(FlashGame.convert(document, "play"));
+	}
+})();
 /*
 	"1106" : [980, 16, 39, 14, "altadorcupplayer.gif", "Shootout Showdown", function (score) {
 		return {

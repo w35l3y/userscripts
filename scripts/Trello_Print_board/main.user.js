@@ -49,7 +49,7 @@ onAuthorize = function () {
 			lists	: "all",
 			card_checklists: "all",
 			members	: "all",
-		}, function (board) {
+		}, async function (board) {
 			debug && console.log(board);
 			var members = {},
 			$ulList = $("<ul>"),
@@ -117,12 +117,12 @@ onAuthorize = function () {
 			} else {
 				throw "Not implemented yet";
 				/*
-				GM.openInTab("#").addEventListener("load", function (e) {
+				await GM.openInTab("#").addEventListener("load", function (e) {
 					var win = e.relatedTarget;
 
 					$(win.document.head).append($("<style>", {
 						type	: "text/css"
-					}).append(GM.getResourceText("core")).append(GM.getResourceText("normalize")).append(GM.getResourceText("print-boardCss")));
+					}).append(await GM.getResourceText("core")).append(await GM.getResourceText("normalize")).append(await GM.getResourceText("print-boardCss")));
 					$(win.document.body).html($ulList);
 
 					win.print();
@@ -168,13 +168,13 @@ $("#content").one("DOMNodeInserted", "#permission-level", function (e) {
 
 		debug && $("#print-document").css("width", "800px").css("height", "400px").show();
 
-		$("#print-document").load(function () {
+		$("#print-document").load(async function () {
 			$("#print-document")
 			.contents()
 			.find("head")
 			.append($("<style>", {
 				type	: "text/css"
-			}).append(GM.getResourceText("core")).append(GM.getResourceText("normalize")).append(GM.getResourceText("print-boardCss")));
+			}).append(await GM.getResourceText("core")).append(await GM.getResourceText("normalize")).append(await GM.getResourceText("print-boardCss")));
 
 			$("#print-board").show();
 		});

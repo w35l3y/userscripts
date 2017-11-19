@@ -14,8 +14,6 @@
 // @icon           http://gm.wesley.eti.br/icon.php?desc=164819
 // @connect        github.com
 // @connect        raw.githubusercontent.com
-// @grant          GM_log
-// @grant          GM.log
 // @grant          GM_addStyle
 // @grant          GM.addStyle
 // @grant          GM_getValue
@@ -64,9 +62,9 @@
 
 **************************************************************************/
 
-GM.addStyle(".winConfig_ShopWizardImprovedSearchSettings .body .fieldName_group > fieldset .fieldClass_default > label {width: 50%}.winConfig_ShopWizardImprovedSearchSettings .fieldName_group > fieldset .fieldType_0 input {width: 20%}");
+(async function () {
+	await GM.addStyle(".winConfig_ShopWizardImprovedSearchSettings .body .fieldName_group > fieldset .fieldClass_default > label {width: 50%}.winConfig_ShopWizardImprovedSearchSettings .fieldName_group > fieldset .fieldType_0 input {width: 20%}");
 
-(function () {
 	var win = new WinConfig({
 		title	: "Shop Wizard : Improved Search : Settings",
 		type	: WinConfig.WindowType.CUSTOM,
@@ -154,7 +152,7 @@ GM.addStyle(".winConfig_ShopWizardImprovedSearchSettings .body .fieldName_group 
 
 	if (config)
 	if (/type=wizard/.test(location.search)) {
-		GM.deleteValue("search");
+		await GM.deleteValue("search");
 	} else {
 		/*
 			0x00	normal
@@ -171,7 +169,7 @@ GM.addStyle(".winConfig_ShopWizardImprovedSearchSettings .body .fieldName_group 
 			doc		: document,
 		}),
 		lang = xpath("string(.//select[@name = 'lang']/option[@selected]/@value)") || "en",
-		msgs = JSON.parse(GM.getResourceText("neopetsMessageJson"))[lang],
+		msgs = JSON.parse(await GM.getResourceText("neopetsMessageJson"))[lang],
 		notFound = [msgs.itemNotFound, msgs.shopIsEmpty],
 		isWhite = true,
 		isWhite2 = false,
@@ -188,7 +186,7 @@ GM.addStyle(".winConfig_ShopWizardImprovedSearchSettings .body .fieldName_group 
 				Shop.list({
 					link		: o.Link || e.target.href,
 					onsuccess	: function (obj) {
-						(function buyItem (obj, qnty) {
+						(async function buyItem (obj, qnty) {
 							if (obj.list.length && qnty) {
 								for (var ai in obj.list) {
 									var i = obj.list[ai];
@@ -218,14 +216,14 @@ GM.addStyle(".winConfig_ShopWizardImprovedSearchSettings .body .fieldName_group 
 															params.row.cells[priceColumnIndex].innerHTML = o.Stock;
 														}
 
-														GM.setValue("search", JSON.stringify(search));
+														await GM.setValue("search", JSON.stringify(search));
 
 														break;
 													}
 												}
 											}
 
-											obj.onsuccess = function (obj) {
+											obj.onsuccess = async function (obj) {
 												if (--qnty) {
 													buyItem(obj, qnty);
 												} else {
@@ -238,7 +236,7 @@ GM.addStyle(".winConfig_ShopWizardImprovedSearchSettings .body .fieldName_group 
 																	params.row.cells[priceColumnIndex].innerHTML = o.Stock;
 																}
 
-																GM.setValue("search", JSON.stringify(search));
+																await GM.setValue("search", JSON.stringify(search));
 
 																break;
 															}
@@ -260,7 +258,7 @@ GM.addStyle(".winConfig_ShopWizardImprovedSearchSettings .body .fieldName_group 
 											};
 											obj.link = i.Link;
 
-											GM.log("[" + qnty + "] Buying " + obj.referer + "...");
+											console.log("[" + qnty + "] Buying " + obj.referer + "...");
 											setTimeout(Shop.buy, 1000, obj);
 										}
 
@@ -277,7 +275,7 @@ GM.addStyle(".winConfig_ShopWizardImprovedSearchSettings .body .fieldName_group 
 										if (search[ai].Link == o.Link) {
 											params.row.cells[2].innerHTML = search[ai].Stock = o.Stock;
 
-											GM.setValue("search", JSON.stringify(search));
+											await GM.setValue("search", JSON.stringify(search));
 
 											break;
 										}
@@ -291,7 +289,7 @@ GM.addStyle(".winConfig_ShopWizardImprovedSearchSettings .body .fieldName_group 
 
 								alert(obj.message.textContent);
 							} else {
-								GM.log(obj.response.text);
+								console.log(obj.response.text);
 
 								alert("Unknown error while listing items.");
 							}
@@ -301,7 +299,7 @@ GM.addStyle(".winConfig_ShopWizardImprovedSearchSettings .body .fieldName_group 
 			}],
 			[0x10, "Group"],
 		],
-		search = JSON.parse(GM.getValue("search", "[]")),
+		search = JSON.parse(await GM.getValue("search", "[]")),
 		updateAttrs = function (obj) {
 			for (var bi in attrs) {
 				if ((Math.pow(2, bi) & config.columns) && obj.index <= bi) {
@@ -414,7 +412,7 @@ GM.addStyle(".winConfig_ShopWizardImprovedSearchSettings .body .fieldName_group 
 				}
 			});
 
-			GM.setValue("search", JSON.stringify(search));
+			await GM.setValue("search", JSON.stringify(search));
 
 			var list = xpath(".//tbody/tr[position() > 1]", table);
 			for (var ai in doc.list) {
@@ -468,4 +466,4 @@ GM.addStyle(".winConfig_ShopWizardImprovedSearchSettings .body .fieldName_group 
 			}
 		}
 	}
-}());
+})();

@@ -39,8 +39,6 @@
 // @include        http*://www.neopets.com/medieval/earthfaerie.phtml
 // @include        http*://www.neopets.com/faerieland/darkfaerie.phtml
 // @include        http*://www.neopets.com/space/coincidence.phtml
-// @grant          GM_log
-// @grant          GM.log
 // @grant          GM_addStyle
 // @grant          GM.addStyle
 // @grant          GM_getValue
@@ -160,9 +158,9 @@
 	0x4000	/winter/igloo2.phtml
 */
 
-GM.addStyle(GM.getResourceText("winConfigPriceCheckerCss"));
+(async function () {	// script scope
+	await GM.addStyle(await GM.getResourceText("winConfigPriceCheckerCss"));
 
-(function () {	// script scope
 	var win = new WinConfig({
 		title	: "Price Checker : Settings",
 		type	: WinConfig.WindowType.CUSTOM,
@@ -720,7 +718,7 @@ GM.addStyle(GM.getResourceText("winConfigPriceCheckerCss"));
 		}
 
 		return null;
-	}());
+	})();
 
 	if (config && obj && obj.key & config.enable) {
 		if (typeof obj.append == "undefined") {
@@ -735,7 +733,7 @@ GM.addStyle(GM.getResourceText("winConfigPriceCheckerCss"));
 		listButtons = [],
 		buy = function (_this) {
 			_this.target.style.color = "#CC8800";
-			GM.log("Buying " + _this.previous.Item + "...");
+			console.log("Buying " + _this.previous.Item + "...");
 
 			setTimeout(Shop.list, _w(), {
 				link		: _this.previous.Link,
@@ -1054,4 +1052,4 @@ GM.addStyle(GM.getResourceText("winConfigPriceCheckerCss"));
 			});
 		}
 	}
-}());
+})();

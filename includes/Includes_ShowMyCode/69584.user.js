@@ -11,8 +11,6 @@
 // @language       en
 // @include        nowhere
 // @exclude        *
-// @grant          GM_log
-// @grant          GM.log
 // @grant          GM_addStyle
 // @grant          GM.addStyle
 // @grant          GM_getValue

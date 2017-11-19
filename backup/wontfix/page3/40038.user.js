@@ -9,8 +9,6 @@
 // @homepage       http://www.wesley.eti.br
 // @version        1.0.1.2
 // @include        http://userscripts-mirror.org/*
-// @grant          GM_log
-// @grant          GM.log
 // @grant          GM_addStyle
 // @grant          GM.addStyle
 // @grant          GM_getValue
@@ -58,7 +56,7 @@
 
 typeof(CheckForUpdate)!='undefined' && CheckForUpdate.init(GM_info.scriptMetaStr);
 
-(function()
+(async function()
 {    // script scope
 
     var installs = document
@@ -66,9 +64,9 @@ typeof(CheckForUpdate)!='undefined' && CheckForUpdate.init(GM_info.scriptMetaStr
     // contains(@href,'.user.js') and not(substring-after(@href,'.user.js')) simulates ends-with(@href,'.user.js')
 
     // This will be called everytime you click to install an script (Not necessarily the Install button)
-    function onInstall(e)
+    async function onInstall(e)
     {
-        var scripts = JSON.parse(GM.getValue('scripts', '[]'));
+        var scripts = JSON.parse(await GM.getValue('scripts', '[]'));
         var script = parseInt((e.target.href || e.target.parentNode.href).match(/(\d+)\.user\.js/)[1]);
 
         // Checks if the current script was added already
@@ -78,7 +76,7 @@ typeof(CheckForUpdate)!='undefined' && CheckForUpdate.init(GM_info.scriptMetaStr
         {
             scripts.push(script);
 
-            GM.setValue('scripts', JSON.stringify(scripts));
+            await GM.setValue('scripts', JSON.stringify(scripts));
         }
     }
 
@@ -88,7 +86,7 @@ typeof(CheckForUpdate)!='undefined' && CheckForUpdate.init(GM_info.scriptMetaStr
 
     var name = '[' + GM_HEADER.match(/^\/\/\s+@name\s+(.+)/m)[1] + '] ';
 
-    function installScripts(scripts)
+    async function installScripts(scripts)
     {
         var i = scripts[2].length;
         if (i)
@@ -97,25 +95,25 @@ typeof(CheckForUpdate)!='undefined' && CheckForUpdate.init(GM_info.scriptMetaStr
             {
                 while ( ~--i )
                 {
-                    GM.openInTab('https://github.com/w35l3y/userscripts/raw/master/scripts/' + scripts[2][i] + '.user.js');
+                    await GM.openInTab('https://github.com/w35l3y/userscripts/raw/master/scripts/' + scripts[2][i] + '.user.js');
                     scripts[0].push(scripts[2][i]);
                 }
 
-                GM.setValue('scripts', JSON.stringify(scripts[0]));
+                await GM.setValue('scripts', JSON.stringify(scripts[0]));
             }
         }
         else
             alert('No new script was found.');
     }
 
-    GM.registerMenuCommand(name + 'Import from list...', function()
+    await GM.registerMenuCommand(name + 'Import from list...', function()
     {
         var code = prompt('Enter the url of the list:');
         if (code)
         {
             Persist.get(code, function(e)
             {
-                var scripts = [JSON.parse(GM.getValue('scripts', '[]')), [], []];
+                var scripts = [JSON.parse(await GM.getValue('scripts', '[]')), [], []];
 
                 for ( var script ; script = /\/scripts\/source\/(\d+)\.user\.js["'\r\n]/gi.exec(e.responseText) ; )
                 {
@@ -134,17 +132,17 @@ typeof(CheckForUpdate)!='undefined' && CheckForUpdate.init(GM_info.scriptMetaStr
         }
     });
 
-    GM.registerMenuCommand(name + 'Import from pastebin...', function()
+    await GM.registerMenuCommand(name + 'Import from pastebin...', function()
     {
         var code = prompt('Enter the numeric code:');
         if (/^\d+$/.test(code))
         {
-            Persist.get('http://pastebin.mozilla.org/?dl=' + code, function(e)
+            Persist.get('http://pastebin.mozilla.org/?dl=' + code, async function(e)
             {
                 // Checks if the content has the desired pattern (an array json)
                 if (/^\[\d+(?:,\d+)*\]$/.test(e.responseText.replace(/\s+/g,'')))
                 {
-                    var scripts = [JSON.parse(GM.getValue('scripts', '[]')), JSON.parse(e.responseText), []];
+                    var scripts = [JSON.parse(await GM.getValue('scripts', '[]')), JSON.parse(e.responseText), []];
 
                     for ( var i = scripts[1].length ; ~--i ; )
                     {
@@ -168,16 +166,16 @@ typeof(CheckForUpdate)!='undefined' && CheckForUpdate.init(GM_info.scriptMetaStr
             alert('The code must be a number.');
     });
 
-    GM.registerMenuCommand(name + 'Export to pastebin', function()
+    await GM.registerMenuCommand(name + 'Export to pastebin', async function()
     {
-        var scripts = GM.getValue('scripts', '[]');
+        var scripts = await GM.getValue('scripts', '[]');
 
         var installs = JSON.parse(scripts).length;
         var current = new Date().valueOf();
-        var code = GM.getValue('lastCode', '');
+        var code = await GM.getValue('lastCode', '');
 
         // Checks if the number of installed versions changed or if the current date is greater than the last access date + 2 minutes
-        if (installs != GM.getValue('lastExport', 0) || current > 120000 + parseInt(GM.getValue('lastAccess', '0'))) // 2 * 60 * 1000
+        if (installs != await GM.getValue('lastExport', 0) || current > 120000 + parseInt(await GM.getValue('lastAccess', '0'))) // 2 * 60 * 1000
         {
             Persist.set('http://pastebin.mozilla.org/', {
                 'format':'text',
@@ -187,15 +185,13 @@ typeof(CheckForUpdate)!='undefined' && CheckForUpdate.init(GM_info.scriptMetaStr
                 'remember':'1',
                 'parent_pid':code,
                 'code2':scripts
-            }, function(e)
-            {
-                GM.setValue('lastAccess', '' + new Date().valueOf());
-                GM.setValue('lastExport', installs);
-                GM.setValue('lastCode', code = '' + e.finalUrl.match(/\d+/));
+            }, async function(e) {
+                await GM.setValue('lastAccess', '' + new Date().valueOf());
+                await GM.setValue('lastExport', installs);
+                await GM.setValue('lastCode', code = '' + e.finalUrl.match(/\d+/));
 
                 alert('Take a note of this number: ' + code + '\n\nThis will be used to import your scripts later and will be available for 1 month.');
-            }, function(e)
-            {
+            }, function(e) {
                 alert('An error has occurred. Try again later.');
             });
         }

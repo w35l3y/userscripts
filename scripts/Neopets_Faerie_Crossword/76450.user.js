@@ -10,8 +10,6 @@
 // @version        3.0.6
 // @language       en
 // @include        http://www.neopets.com/games/crossword/*
-// @grant          GM_log
-// @grant          GM.log
 // @grant          GM_addStyle
 // @grant          GM.addStyle
 // @grant          GM_getValue
@@ -65,22 +63,24 @@
 
 **************************************************************************/
 
+(async function () {
+
 if ("/games/crossword/crossword.phtml" == location.pathname) {
     if (xpath("boolean(id('content')/table/tbody/tr/td[2]//center/center/img)")) {
-        GM.deleteValue("crossword");
-        GM.deleteValue("status");
-        GM.deleteValue("multiple");
+        await GM.deleteValue("crossword");
+        await GM.deleteValue("status");
+        await GM.deleteValue("multiple");
     } else {
         var curr = Neopets.convert(document).Time(true),
-        last = Date.parse(GM.getValue("last", "Wed May 12 2010 00:00:00 GMT-0300"));
+        last = Date.parse(await GM.getValue("last", "Wed May 12 2010 00:00:00 GMT-0300"));
         curr.setHours(0, 0, 0, 0);
         if (curr - last) {
-            GM.setValue("crossword", "[]");
-            GM.setValue("last", curr.toString());
+            await GM.setValue("crossword", "[]");
+            await GM.setValue("last", curr.toString());
         }
 
-        (function recursive (crossword) {
-            var status = GM.getValue("status", 0);
+        (async function recursive (crossword) {
+            var status = await GM.getValue("status", 0);
             
             if (crossword.length) {
                 var x = crossword.shift(),
@@ -89,14 +89,14 @@ if ("/games/crossword/crossword.phtml" == location.pathname) {
                 xpath(".//a[starts-with(@onclick, '" + x[0].replace(/,/g, ", ") + "')]")[0].click();
 
                 if (x[1] instanceof Array) {
-                    var m = JSON.parse(GM.getValue("multiple", "{}"));
+                    var m = JSON.parse(await GM.getValue("multiple", "{}"));
                     if (x[0] in m) {
                         ++m[x[0]];
                     } else {
                         m[x[0]] = 0;
                     }
                     m[x[0]] %= x[1].length;
-                    GM.setValue("multiple", JSON.stringify(m));
+                    await GM.setValue("multiple", JSON.stringify(m));
 
                     word.value = x[1][m[x[0]]];
                 } else {
@@ -104,12 +104,12 @@ if ("/games/crossword/crossword.phtml" == location.pathname) {
                 }
                 
                 window.setTimeout(function() {
-                    GM.setValue("crossword", JSON.stringify(crossword));
+                    await GM.setValue("crossword", JSON.stringify(crossword));
 
                     word.form.submit();
                 }, 4000 + Math.floor(3000 * Math.random()));
             } else {
-                var answers = JSON.parse(GM.getValue("answers", "{}")),
+                var answers = JSON.parse(await GM.getValue("answers", "{}")),
                 missing = [],
                 missing2 = [];
                 xpath("id('content')//td[2]//center/table/tbody/tr/td/a[contains(@onclick, 'set_clue')]").forEach(function (answer) {
@@ -194,9 +194,9 @@ if ("/games/crossword/crossword.phtml" == location.pathname) {
                                         }
                                     }
                                     
-                                    GM.setValue("answers", JSON.stringify(answers));
+                                    await GM.setValue("answers", JSON.stringify(answers));
                                     
-                                    GM.setValue("status", 1);
+                                    await GM.setValue("status", 1);
                                     
                                     recursive([]);
                                 }
@@ -205,29 +205,30 @@ if ("/games/crossword/crossword.phtml" == location.pathname) {
                     }).send();
                     break;
                     case 1:
-                    if (GM.getValue("always_continue", false) || confirm("[Neopets : Faerie Crossword]\n\nSome answers are missing:\n+ " + missing.join("\n+ ") + "\n\nContinue?")) {
-                        GM.setValue("status", 2);
+                    if (await GM.getValue("always_continue", false) || confirm("[Neopets : Faerie Crossword]\n\nSome answers are missing:\n+ " + missing.join("\n+ ") + "\n\nContinue?")) {
+                        await GM.setValue("status", 2);
 
                         recursive(crossword);
                     } else {
-                        GM.deleteValue("crossword");
-                        GM.deleteValue("status");
+                        await GM.deleteValue("crossword");
+                        await GM.deleteValue("status");
                     }
                     break;
                     case 2:
                     alert("[Neopets : Faerie Crossword]\n\nSome answers are missing:\n+ " + missing.join("\n+ "));
-                    if (!GM.getValue("always_alert", true)) {
-                        GM.setValue("status", 3);
+                    if (!await GM.getValue("always_alert", true)) {
+                        await GM.setValue("status", 3);
                     }
                     break;
                 } else {
                     recursive(crossword);
                 }
             }
-        })(JSON.parse(GM.getValue("crossword", "[]")));
+        })(JSON.parse(await GM.getValue("crossword", "[]")));
     }
 } else {
-    GM.deleteValue("status");
+    await GM.deleteValue("status");
     
     xpath(".//form[contains(@action, 'crossword.phtml')]/input[@type = 'submit']")[0].form.submit();
 }
+})();

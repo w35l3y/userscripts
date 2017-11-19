@@ -12,8 +12,6 @@
 // @include        http://userscripts-mirror.org/scripts/show/*
 // @include        http://userscripts-mirror.org/scripts/search?q=*
 // @include        http://userscripts-mirror.org/scripts
-// @grant          GM_log
-// @grant          GM.log
 // @grant          GM_addStyle
 // @grant          GM.addStyle
 // @grant          GM_getValue
@@ -60,16 +58,15 @@ checkForUpdate({
     'version':'1.4.0'
 });
 
-(function()
-{    // script scope
+(async function() {    // script scope
     var user = {
-        watch:JSON.parse(GM.getValue('watch',        JSON.stringify(['Watch script','Watching script']))),
-        owner:JSON.parse(GM.getValue('owner',        Watch.All&~Watch.Name)),    // = Watch.Comments|Watch.Installs|Watch.Fans (scripts you owns)
-        other:JSON.parse(GM.getValue('other',        Watch.All&~Watch.Installs))    // = Watch.Name|Watch.Comments|Watch.Fans (other scripts)
+        watch:JSON.parse(await GM.getValue('watch',        JSON.stringify(['Watch script','Watching script']))),
+        owner:JSON.parse(await GM.getValue('owner',        Watch.All&~Watch.Name)),    // = Watch.Comments|Watch.Installs|Watch.Fans (scripts you owns)
+        other:JSON.parse(await GM.getValue('other',        Watch.All&~Watch.Installs))    // = Watch.Name|Watch.Comments|Watch.Fans (other scripts)
     };
 
     var script = {
-        list:JSON.parse(GM.getValue('list','{}')),
+        list:JSON.parse(await GM.getValue('list','{}')),
         'author':xpath("string(//div[1]/span/a[contains(@href,'/users/')]/text())"),
         'user':xpath("string(id('mainmenu')/li/a[contains(@href,'/home')]/text())")
     };
@@ -89,7 +86,7 @@ checkForUpdate({
         var monitor = xpath("id('monitor_checkbox')")[0];
         monitor.addEventListener("click",function(e)
         {
-            var list = JSON.parse(GM.getValue('list','{}'));
+            var list = JSON.parse(await GM.getValue('list','{}'));
             var script = showScript[1];
             xpath('id("monitor_label")')[0].innerHTML = user.watch[(e.target.checked ? 1 : 0)];
             if (e.target.checked)
@@ -101,14 +98,14 @@ checkForUpdate({
             {
                 delete list[script];
             }
-            GM.setValue('list', JSON.stringify(list));
+            await GM.setValue('list', JSON.stringify(list));
         },false);
 
         var curr = showScript[1];
         if (curr in script.list && script.list[curr][0])
         {
             script.list[curr][0] = false;
-            GM.setValue('list', JSON.stringify(script.list));
+            await GM.setValue('list', JSON.stringify(script.list));
         }
     }
     else
@@ -165,6 +162,6 @@ checkForUpdate({
             }
         }
 
-        GM.setValue('list', JSON.stringify(script.list));
+        await GM.setValue('list', JSON.stringify(script.list));
     }
 })();

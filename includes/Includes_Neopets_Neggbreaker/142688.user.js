@@ -11,8 +11,6 @@
 // @language       en
 // @include        nowhere
 // @exclude        *
-// @grant          GM_log
-// @grant          GM.log
 // @icon           http://gm.wesley.eti.br/icon.php?desc=142688
 // @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @require        http://images.neopets.com/js/jquery-1.7.1.min.js?v=1

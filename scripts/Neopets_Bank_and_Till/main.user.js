@@ -44,27 +44,29 @@ function get_np(p, n) {
 	return xpath("string(" + n + ")", p).replace(/\snp$/ig, "");
 }
 
+(async function () {
+
 // bank
 if (location.pathname == "/bank.phtml") {
-	GM.setValue("bank", get_np(document, ".//td[@class = 'content']/div/table/tbody/tr[2]/td/table/tbody/tr[2]/td[2]"));
+	await GM.setValue("bank", get_np(document, ".//td[@class = 'content']/div/table/tbody/tr[2]/td/table/tbody/tr[2]/td[2]"));
 }
 
 // till
 var current = new Date().valueOf();
 if (location.pathname == "/market.phtml" && /[&?]type=till\b/.test(location.search)) {
-	GM.setValue("LastAccess", "" + current);
+	await GM.setValue("LastAccess", "" + current);
 	
-	GM.setValue("till", get_np(document, ".//td[@class = 'content']/p[1]/b"));
+	await GM.setValue("till", get_np(document, ".//td[@class = 'content']/p[1]/b"));
 } else {
 	const INTERVAL = 1 * 60 * 60 * 1000; // 1 hour
-	if (parseInt(GM.getValue("LastAccess", "0"), 10) + INTERVAL < current) {
-		GM.setValue("LastAccess", "" + current);
+	if (parseInt(await GM.getValue("LastAccess", "0"), 10) + INTERVAL < current) {
+		await GM.setValue("LastAccess", "" + current);
 		
 		HttpRequest.open({
 			"method" : "get",
 			"url" : "http://www.neopets.com/market.phtml",
-			"onsuccess" : function (params) {
-				GM.setValue("till", get_np(params.response.xml, ".//td[@class = 'content']/p[1]/b"));
+			"onsuccess" : async function (params) {
+				await GM.setValue("till", get_np(params.response.xml, ".//td[@class = 'content']/p[1]/b"));
 			}
 		}).send({
 			"type" : "till"
@@ -75,6 +77,7 @@ if (location.pathname == "/market.phtml" && /[&?]type=till\b/.test(location.sear
 var nav = xpath("id('header')/table/tbody/tr[1]/td[3]/a[1]")[0];
 if (nav) {
 	var span = document.createElement("span");
-	span.innerHTML = ['','Bank: <a href="http://www.neopets.com/bank.phtml">' + (GM.getValue("bank", "0") || "0") +'</a>', 'Till: <a href="http://www.neopets.com/market.phtml?type=till">' + (GM.getValue("till", "0") || "0") + '</a>'].join(' <span style="font-weight: normal;">|</span> ');
+	span.innerHTML = ['','Bank: <a href="http://www.neopets.com/bank.phtml">' + (await GM.getValue("bank", "0") || "0") +'</a>', 'Till: <a href="http://www.neopets.com/market.phtml?type=till">' + (await GM.getValue("till", "0") || "0") + '</a>'].join(' <span style="font-weight: normal;">|</span> ');
 	nav.parentNode.insertBefore(span, nav.nextSibling);
 }
+})();

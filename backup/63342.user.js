@@ -11,8 +11,6 @@
 // @language       en
 // @include        http://www.neopets.com/objects.phtml?type=inventory#alert
 // @include        http://www.neopets.com/objects.phtml?type=inventory#console
-// @grant          GM_log
-// @grant          GM.log
 // @grant          GM_xmlhttpRequest
 // @grant          GM.xmlHttpRequest
 // @icon           http://gm.wesley.eti.br/icon.php?desc=63342
@@ -90,5 +88,5 @@ if (location.pathname == "/objects.phtml" && /\btype=inventory\b/.test(location.
         output.push([item.Id, item.Name, item.Image, item.Description].join("\n"));
     });
     
-    ( location.hash == "#alert" ? alert : console && console.log || GM_log )(output.join("\n\n"));
+    ( location.hash == "#alert" ? alert : console.log )(output.join("\n\n"));
 }

@@ -9,8 +9,6 @@
 // @homepage       http://www.wesley.eti.br
 // @version        1.0.0.0
 // @include        nowhere
-// @grant          GM_log
-// @grant          GM.log
 // @grant          GM_getValue
 // @grant          GM.getValue
 // @grant          GM_setValue
@@ -50,13 +48,13 @@ typeof(CheckForUpdate)!='undefined' && CheckForUpdate.init(GM_info.scriptMetaStr
 **************************************************************************/
 
 const Persist = {
-    'set':function(service, data, onLoad, onError)
+    'set':async function(service, data, onLoad, onError)
     {
         var postData = '';
         for ( var name in data )
             postData += '&' + name + '=' + encodeURIComponent(data[name])
 
-        GM.xmlHttpRequest({
+        await GM.xmlHttpRequest({
             'url':service,
             'method':'post',
             'headers':{
@@ -74,9 +72,9 @@ const Persist = {
         });
 
     },
-    'get':function(url, onLoad, onError)
+    'get':async function(url, onLoad, onError)
     {
-        GM.xmlHttpRequest({
+        await GM.xmlHttpRequest({
             'url':url,
             'method':'get',
             'onload':function(e)

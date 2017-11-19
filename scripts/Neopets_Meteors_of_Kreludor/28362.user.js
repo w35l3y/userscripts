@@ -58,12 +58,12 @@
 
 **************************************************************************/
 
-//GM.setValue("interval", "[1000, 1000]");
+(async function () {	// script scope
+//	await GM.setValue("interval", "[1000, 1000]");
 
-(function () {	// script scope
 	var field = xpath(".//form[@name = 'meteorselect']/select[@name = 'pickstep'][1]")[0],
-	rnd = function (fn) {
-		var interval = JSON.parse(GM.getValue("interval", "[1000, 1000]"));
+	rnd = async function (fn) {
+		var interval = JSON.parse(await GM.getValue("interval", "[1000, 1000]"));
 		setTimeout(fn, Math.ceil(interval[0] + interval[1] * Math.random()));
 	};
 	
@@ -74,4 +74,4 @@
 			field.form.submit();
 		});
 	}
-}());
+})();

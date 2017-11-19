@@ -2,8 +2,6 @@
 // @name           Examples : Self Reference
 // @namespace      http://gm.wesley.eti.br/examples
 // @include        http://userscripts-mirror.org/scripts/review/87693
-// @grant          GM_log
-// @grant          GM.log
 // @grant          GM_addStyle
 // @grant          GM.addStyle
 // @grant          GM_getValue
@@ -31,4 +29,6 @@
 // @history        1.0.0 Test2
 // ==/UserScript==
 
-alert(GM.getResourceText("meta"));
+(async function () {
+    alert(await GM.getResourceText("meta"));
+})();
