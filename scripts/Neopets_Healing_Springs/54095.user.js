@@ -17,12 +17,8 @@
 // @exclude        http://www.neopets.com/iteminfo.phtml?*
 // @icon           http://gm.wesley.eti.br/icon.php?desc=54095
 // @grant          GM_getValue
-// @grant          GM.getValue
 // @grant          GM_setValue
-// @grant          GM.setValue
 // @grant          GM_xmlhttpRequest
-// @grant          GM.xmlHttpRequest
-// @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @require        https://github.com/w35l3y/localStorageDB/raw/master/localstoragedb.js
 // @require        ../../includes/Includes_XPath/63808.user.js
 // @require        ../../includes/Includes_HttpRequest/56489.user.js
@@ -50,31 +46,31 @@
 var np = new Neopets(document);
 
 if (np.username)
-(function recursive () {    // script scope
-    const INTERVAL = 1810000;    // 30 * 60 * 1000 + 10 * 1000 (30 minutes + 10 seconds)
+(function recursive () {	// script scope
+	const INTERVAL = 1810000;	// 30 * 60 * 1000 + 10 * 1000 (30 minutes + 10 seconds)
 
-    var n = "HealingSprings-LastAccess-" + np.username,
-    la = Date.parse(GM.getValue(n, "Sat Apr 16 2011 08:13:43 GMT-0300")) || 0,
-    curr = new Date();
+	var n = "HealingSprings-LastAccess-" + np.username,
+	la = Date.parse(GM_getValue(n, "Sat Apr 16 2011 08:13:43 GMT-0300")) || 0,
+	curr = new Date();
 
-    if (curr - la > INTERVAL) {
-        GM.setValue(n, (la = curr).toString());
+	if (curr - la > INTERVAL) {
+		GM_setValue(n, (la = curr).toString());
 
-        HttpRequest.open({
-            method        : "POST",
-            url        : "http://www.neopets.com/faerieland/springs.phtml",
-            headers        : {
-                "Referer" : "http://www.neopets.com/faerieland/springs.phtml"
-            },
-            onsuccess    : function(xhr) {
-                var msg = xpath(".//td[@class = 'content']//div[@class = 'errormess' and b] | .//td[@class = 'content']//center[1]", xhr.response.xml)[0];
+		HttpRequest.open({
+			method		: "POST",
+			url		: "http://www.neopets.com/faerieland/springs.phtml",
+			headers		: {
+				"Referer" : "http://www.neopets.com/faerieland/springs.phtml"
+			},
+			onsuccess	: function(xhr) {
+				var msg = xpath(".//td[@class = 'content']//div[@class = 'errormess' and b] | .//td[@class = 'content']//center[1]", xhr.response.xml)[0];
 
-                np.console.log("Healing Springs : " + msg.textContent);
-            }
-        }).send({
-            type    : "heal"
-        });
-    }
+				np.console.log("Healing Springs : " + msg.textContent);
+			}
+		}).send({
+			type	: "heal"
+		});
+	}
 
-    setTimeout(recursive, la - curr + INTERVAL + Math.ceil(10 * Math.random()));
+	setTimeout(recursive, la - curr + INTERVAL + Math.ceil(10 * Math.random()));
 }());

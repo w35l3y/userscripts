@@ -10,23 +10,15 @@
 // @version        3.3.0
 // @include        http://www.neopets.com/*
 // @grant          GM_log
-// @grant          GM.log
 // @grant          GM_addStyle
-// @grant          GM.addStyle
 // @grant          GM_getValue
-// @grant          GM.getValue
 // @grant          GM_setValue
-// @grant          GM.setValue
 // @grant          GM_deleteValue
-// @grant          GM.deleteValue
 // @grant          GM_xmlhttpRequest
-// @grant          GM.xmlHttpRequest
 // @grant          GM_getResourceText
-// @grant          GM.getResourceText
 // @icon           http://gm.wesley.eti.br/icon.php?desc=61379
 // @resource       winConfigCss ../../includes/Includes_WinConfig/resources/default.css
 // @resource       winConfigQuickPriceCheckerCss resources/default.css
-// @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @require        ../../includes/Includes_XPath/63808.user.js
 // @require        ../../includes/Includes_HttpRequest/56489.user.js
 // @require        ../../includes/Includes_Neopets_Shop_Wizard/56503.user.js
@@ -58,7 +50,7 @@
 
 **************************************************************************/
 
-GM.addStyle(GM.getResourceText("winConfigQuickPriceCheckerCss"));
+GM_addStyle(GM_getResourceText("winConfigQuickPriceCheckerCss"));
 
 (function () {
 	function execute (config, fn) {
@@ -71,11 +63,11 @@ GM.addStyle(GM.getResourceText("winConfigQuickPriceCheckerCss"));
 
 					if (range.toString().length) {
 						var current = new Date().valueOf(),
-						next = parseInt(GM.getValue("nextAccess", "0"), 10),
+						next = parseInt(GM_getValue("nextAccess", "0"), 10),
 						time = Math.max(0, next - current),
 						params = obj.parameters(range) || [];
 
-						GM.setValue("nextAccess", obj.time() + (time ? next : current) + "");
+						GM_setValue("nextAccess", obj.time() + (time ? next : current) + "");
 
 						params.unshift(obj.function, time);
 

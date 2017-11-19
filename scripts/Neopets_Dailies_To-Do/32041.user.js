@@ -34,19 +34,12 @@
 // @include        http://www.neopets.com/worlds/deadlydice.phtml
 // @include        http://www.neopets.com/worlds/geraptiku/tomb.phtml
 // @grant          GM_log
-// @grant          GM.log
 // @grant          GM_addStyle
-// @grant          GM.addStyle
 // @grant          GM_getValue
-// @grant          GM.getValue
 // @grant          GM_setValue
-// @grant          GM.setValue
 // @grant          GM_deleteValue
-// @grant          GM.deleteValue
 // @grant          GM_xmlhttpRequest
-// @grant          GM.xmlHttpRequest
 // @grant          GM_getResourceText
-// @grant          GM.getResourceText
 // @icon           http://gm.wesley.eti.br/icon.php?desc=32041
 // @connect        github.com
 // @connect        raw.githubusercontent.com
@@ -55,7 +48,6 @@
 // @resource       updaterWindowHtml ../../includes/Includes_Updater/resources/default.html
 // @resource       updaterWindowCss ../../includes/Includes_Updater/resources/default.css
 // @resource       winConfigCss ../../includes/Includes_WinConfig/resources/default.css
-// @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @require        ../../includes/Includes_XPath/63808.user.js
 // @require        ../../includes/Includes_HttpRequest/56489.user.js
 // @require        ../../includes/Includes_Translate/85618.user.js
@@ -125,7 +117,7 @@
 	};
 
 	if (location.pathname in dailiesField) {
-		GM.addStyle(".winconfig.winConfig_DailiesToDoSettings .field.fieldName_activate .subfield > label {width:75%}");
+		GM_addStyle(".winconfig.winConfig_DailiesToDoSettings .field.fieldName_activate .subfield > label {width:75%}");
 
 		var groups = [	// DON'T change the order of the elements
 			// default

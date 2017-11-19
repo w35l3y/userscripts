@@ -13,22 +13,15 @@
 // @exclude        *
 // @icon           http://gm.wesley.eti.br/icon.php?desc=87942
 // @grant          GM_addStyle
-// @grant          GM.addStyle
 // @grant          GM_getValue
-// @grant          GM.getValue
 // @grant          GM_setValue
-// @grant          GM.setValue
 // @grant          GM_deleteValue
-// @grant          GM.deleteValue
 // @grant          GM_xmlhttpRequest
-// @grant          GM.xmlHttpRequest
 // @grant          GM_getResourceText
-// @grant          GM.getResourceText
 // @resource       meta https://github.com/w35l3y/userscripts/raw/master/includes/Includes__Updater/87942.user.js
 // @resource       i18n ../../includes/Includes_I18n/resources/default.json
 // @resource       updaterWindowHtml ../../includes/Includes_Updater/resources/default.html
 // @resource       updaterWindowCss ../../includes/Includes_Updater/resources/default.css
-// @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @require        ../../includes/Includes_XPath/63808.user.js
 // @require        ../../includes/Includes_HttpRequest/56489.user.js
 // @require        ../../includes/Includes_Translate/85618.user.js
@@ -64,167 +57,167 @@
 // for compatibility only
 var Updater = {};
 
-(function () {    // script scope
-    var parseHeader = function (text) {
-        var output = {"resources" : {}, "histories" : {}},
-        re = /^\/\/ @([\w:]+)\s+(.+)$/gm,
-        item;
+(function () {	// script scope
+	var parseHeader = function (text) {
+		var output = {"resources" : {}, "histories" : {}},
+		re = /^\/\/ @([\w:]+)\s+(.+)$/gm,
+		item;
 
-        while (item = re.exec(text)) {
-            var k = item[1].toLowerCase();
+		while (item = re.exec(text)) {
+			var k = item[1].toLowerCase();
 
-            if ("resource" == k) {
-                if (/^([\w:.]+)\s+(.+)/.test(item[2])) {
-                    output.resources[RegExp.$1] = RegExp.$2;
-                }
-            } else if ("history" == k) {
-                if (/^([\w:.]+)\s+(.+)/.test(item[2])) {
-                    if (RegExp.$1 in output.histories) {
-                        output.histories[RegExp.$1].push(RegExp.$2);
-                    } else {
-                        output.histories[RegExp.$1] = [RegExp.$2];
-                    }
-                }
-            } else {
-                if (~["include", "exclude"].indexOf(k)) {
-                    k += "s";
-                } else if (~["match"].indexOf(k)) {
-                    k += "es";
-                }
+			if ("resource" == k) {
+				if (/^([\w:.]+)\s+(.+)/.test(item[2])) {
+					output.resources[RegExp.$1] = RegExp.$2;
+				}
+			} else if ("history" == k) {
+				if (/^([\w:.]+)\s+(.+)/.test(item[2])) {
+					if (RegExp.$1 in output.histories) {
+						output.histories[RegExp.$1].push(RegExp.$2);
+					} else {
+						output.histories[RegExp.$1] = [RegExp.$2];
+					}
+				}
+			} else {
+				if (~["include", "exclude"].indexOf(k)) {
+					k += "s";
+				} else if (~["match"].indexOf(k)) {
+					k += "es";
+				}
 
-                if (k in output) {
-                    if (!(output[k] instanceof Array)) {
-                        output[k] = [output[k]];
-                    }
+				if (k in output) {
+					if (!(output[k] instanceof Array)) {
+						output[k] = [output[k]];
+					}
 
-                    output[k].push(item[2]);
-                } else {
-                    output[k] = item[2];
-                }
-            }
-        }
+					output[k].push(item[2]);
+				} else {
+					output[k] = item[2];
+				}
+			}
+		}
 
-        return output;
-    };
+		return output;
+	};
 
-    if (GM.getValue("cfuw_enabled", true)) {
-        (function recursive (new_header) {
-            var last = Date.parse(GM.getValue("cfuw_last_check", "Sat Oct 9 2010 20:10:26 GMT-0300")),
-            curr = new Date(),
-            interval = 86400000; // 24 * 60 * 60 * 1000 = 1 day
-            
-            if (curr - interval > last) {
-                var old_header = null;
+	if (GM_getValue("cfuw_enabled", true)) {
+		(function recursive (new_header) {
+			var last = Date.parse(GM_getValue("cfuw_last_check", "Sat Oct 9 2010 20:10:26 GMT-0300")),
+			curr = new Date(),
+			interval = 86400000; // 24 * 60 * 60 * 1000 = 1 day
+			
+			if (curr - interval > last) {
+				var old_header = null;
 
-                try {
-                    old_header = parseHeader(GM.getResourceText("meta"));
-                } catch (e) {
-                    console.warn('Resource META is required for the script "' + GM_info.script.name + '".\nUpdate checking was ignored!');
-                }
+				try {
+					old_header = parseHeader(GM_getResourceText("meta"));
+				} catch (e) {
+					console.warn('Resource META is required for the script "' + GM_info.script.name + '".\nUpdate checking was ignored!');
+				}
 
-                if (old_header) {
-                    GM.setValue("cfuw_last_check", (last = new Date(curr - interval + 310000)).toString());
+				if (old_header) {
+					GM_setValue("cfuw_last_check", (last = new Date(curr - interval + 310000)).toString());
 
-                    function nextstep(new_header) {
-                        var parent = document.createElement("div"),
-                        params = {
-                            "id" : old_header["uso:script"] || "",
-                            "name" : old_header.name || "",
-                            "old_version" : old_header.version || old_header["uso:version"] || I18n.get("cfuw.version.unknown"),
-                            "new_version" : new_header.version || new_header["uso:version"] || I18n.get("cfuw.version.unknown"),
-                            "history" : "",
-                            "i18n.title" : I18n.get("cfuw.title"), //New version available for 
-                            "i18n.cversion" : I18n.get("cfuw.cversion.label"), //Current version
-                            "i18n.lversion" : I18n.get("cfuw.lversion.label"), //Lastest version
-                            "i18n.install" : I18n.get("cfuw.install.label"), // Install
-                            "i18n.visit" : I18n.get("cfuw.visit.label"), // Visit
-                            "i18n.cancel" : I18n.get("cfuw.cancel.label"), // Cancel
-                            "i18n.disable" : I18n.get("cfuw.disable.label"), // Don't ask me again for this script
-                        };
+					function nextstep(new_header) {
+						var parent = document.createElement("div"),
+						params = {
+							"id" : old_header["uso:script"] || "",
+							"name" : old_header.name || "",
+							"old_version" : old_header.version || old_header["uso:version"] || I18n.get("cfuw.version.unknown"),
+							"new_version" : new_header.version || new_header["uso:version"] || I18n.get("cfuw.version.unknown"),
+							"history" : "",
+							"i18n.title" : I18n.get("cfuw.title"), //New version available for 
+							"i18n.cversion" : I18n.get("cfuw.cversion.label"), //Current version
+							"i18n.lversion" : I18n.get("cfuw.lversion.label"), //Lastest version
+							"i18n.install" : I18n.get("cfuw.install.label"), // Install
+							"i18n.visit" : I18n.get("cfuw.visit.label"), // Visit
+							"i18n.cancel" : I18n.get("cfuw.cancel.label"), // Cancel
+							"i18n.disable" : I18n.get("cfuw.disable.label"), // Don't ask me again for this script
+						};
 
-                        for (let key in old_header.histories) {
-                            if (key in new_header.histories) {
-                                delete new_header.histories[key];
-                            }
-                        }
+						for (let key in old_header.histories) {
+							if (key in new_header.histories) {
+								delete new_header.histories[key];
+							}
+						}
 
-                        for (let key in new_header.histories) {
-                            params.history += "<span>" + key + "</span><ul>";
+						for (let key in new_header.histories) {
+							params.history += "<span>" + key + "</span><ul>";
 
-                            new_header.histories[key].forEach(function (item) {
-                                params.history += "<li>" + item + "</li>";
-                            });
+							new_header.histories[key].forEach(function (item) {
+								params.history += "<li>" + item + "</li>";
+							});
 
-                            params.history += "</ul>";
-                        }
+							params.history += "</ul>";
+						}
 
-                        parent.innerHTML = GM.getResourceText("updaterWindowHtml").replace(/{([\w.]+)}/g, function ($0, $1) {
-                            return ($1 in params ? params[$1] : $0)
-                        });
-                    
-                        document.body.appendChild(parent);
-                    
-                        var closeWin = setTimeout(function (w) {
-                            if (w) {
-                                w.parentNode.removeChild(w);
-                            }
-                        }, 120000, parent),
-                        win = "id('cfuw_" + old_header["uso:script"] + "')";
+						parent.innerHTML = GM_getResourceText("updaterWindowHtml").replace(/{([\w.]+)}/g, function ($0, $1) {
+							return ($1 in params ? params[$1] : $0)
+						});
+					
+						document.body.appendChild(parent);
+					
+						var closeWin = setTimeout(function (w) {
+							if (w) {
+								w.parentNode.removeChild(w);
+							}
+						}, 120000, parent),
+						win = "id('cfuw_" + old_header["uso:script"] + "')";
 
-                        if (params.history.length) {
-                            xpath(win + "//div[@class='history']")[0].style.visibility = "visible";
-                        }
-                    
-                        if (old_header.name + old_header.namespace != new_header.name + new_header.namespace) {
-                            xpath(win + "//a[contains(@class,'install')]")[0].addEventListener("click", function (e) {
-                                I18n.get("cfuw.uninstall.msg.error", alert); // The script name/namespace has changed.\nYou will need to uninstall the old version manually.
-                            }, true);
-                        }
+						if (params.history.length) {
+							xpath(win + "//div[@class='history']")[0].style.visibility = "visible";
+						}
+					
+						if (old_header.name + old_header.namespace != new_header.name + new_header.namespace) {
+							xpath(win + "//a[contains(@class,'install')]")[0].addEventListener("click", function (e) {
+								I18n.get("cfuw.uninstall.msg.error", alert); // The script name/namespace has changed.\nYou will need to uninstall the old version manually.
+							}, true);
+						}
 
-                        xpath(win + "//a[contains(@class,'close')]").forEach(function (btn) {
-                            btn.addEventListener("click", function (e) {
-                                parent.parentNode.removeChild(parent);
-                                clearTimeout(closeWin);
-                                GM.setValue("cfuw_last_check", new Date().toString());
-                            }, false);
-                        });
-                    
-                        xpath(win+"//td[@class='disable']/input")[0].addEventListener("click", function (e) {
-                            GM.setValue("cfuw_enabled", !e.target.checked);
-                        }, false);
+						xpath(win + "//a[contains(@class,'close')]").forEach(function (btn) {
+							btn.addEventListener("click", function (e) {
+								parent.parentNode.removeChild(parent);
+								clearTimeout(closeWin);
+								GM_setValue("cfuw_last_check", new Date().toString());
+							}, false);
+						});
+					
+						xpath(win+"//td[@class='disable']/input")[0].addEventListener("click", function (e) {
+							GM_setValue("cfuw_enabled", !e.target.checked);
+						}, false);
 
-                        setTimeout(recursive, last - curr + interval, new_header);
-                    }
+						setTimeout(recursive, last - curr + interval, new_header);
+					}
 
-                    if (new_header) {
-                        nextstep(new_header);
-                    } else {
-                        GM.xmlHttpRequest({
-                            "method" : "get",
-                            "url" : old_header.resources.meta,
-                            "onerror" : function (xhr) {
-                                setTimeout(recursive, last - curr + interval);
-                            },
-                            "onload" : function (xhr) {
-                                var new_header = parseHeader(xhr.responseText),
-                                curr = new Date();
+					if (new_header) {
+						nextstep(new_header);
+					} else {
+						GM_xmlhttpRequest({
+							"method" : "get",
+							"url" : old_header.resources.meta,
+							"onerror" : function (xhr) {
+								setTimeout(recursive, last - curr + interval);
+							},
+							"onload" : function (xhr) {
+								var new_header = parseHeader(xhr.responseText),
+								curr = new Date();
 
-                                if (/^2/.test(xhr.status) && "" + old_header["uso:hash"] != "" + new_header["uso:hash"]) {
-                                    GM.addStyle(GM.getResourceText("updaterWindowCss"));
+								if (/^2/.test(xhr.status) && "" + old_header["uso:hash"] != "" + new_header["uso:hash"]) {
+									GM_addStyle(GM_getResourceText("updaterWindowCss"));
 
-                                    nextstep(new_header);
-                                } else {
-                                    GM.setValue("cfuw_last_check", curr.toString());
+									nextstep(new_header);
+								} else {
+									GM_setValue("cfuw_last_check", curr.toString());
 
-                                    setTimeout(recursive, interval);
-                                }
-                            }
-                        });
-                    }
-                }
-            } else {
-                setTimeout(recursive, last - curr + interval);
-            }
-        }());
-    }
+									setTimeout(recursive, interval);
+								}
+							}
+						});
+					}
+				}
+			} else {
+				setTimeout(recursive, last - curr + interval);
+			}
+		}());
+	}
 }());

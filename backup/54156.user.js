@@ -11,19 +11,12 @@
 // @contributor    Steinn (http://userscripts-mirror.org/users/85134)
 // @include        nowhere
 // @grant          GM_addStyle
-// @grant          GM.addStyle
 // @grant          GM_getValue
-// @grant          GM.getValue
 // @grant          GM_setValue
-// @grant          GM.setValue
 // @grant          GM_openInTab
-// @grant          GM.openInTab
 // @grant          GM_deleteValue
-// @grant          GM.deleteValue
 // @grant          GM_xmlhttpRequest
-// @grant          GM.xmlHttpRequest
 // @icon           http://gm.wesley.eti.br/icon.php?desc=54156
-// @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @require        https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page3/54389.user.js
 // @require        https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page2/53965.user.js
 // ==/UserScript==
@@ -48,56 +41,56 @@
 Bank = function(){};
 Bank.process = function(data, onLoadCallback)
 {
-    var req = new HttpRequest();
-    //nr.options.headers['Referer'] = 'http://www.neopets.com/bank.phtml';
-    var xargs = array_slice(arguments, 2)||[];
-    xargs.unshift("POST", "http://www.neopets.com/process_bank.phtml", function(e)
-    {
-        //    https://addons.mozilla.org/en-US/firefox/addon/10636
-        //    Description    Bank Process
-        //    URL            ^http:\/\/www\.neopets\.com\/process_bank\.phtml
-        //    Function    referrer to specified site
-        //    Config...    http://www.neopets.com/bank.phtml
+	var req = new HttpRequest();
+	//nr.options.headers['Referer'] = 'http://www.neopets.com/bank.phtml';
+	var xargs = array_slice(arguments, 2)||[];
+	xargs.unshift("POST", "http://www.neopets.com/process_bank.phtml", function(e)
+	{
+		//	https://addons.mozilla.org/en-US/firefox/addon/10636
+		//	Description	Bank Process
+		//	URL			^http:\/\/www\.neopets\.com\/process_bank\.phtml
+		//	Function	referrer to specified site
+		//	Config...	http://www.neopets.com/bank.phtml
 
-        var msg = e.responseXML.evaluate("//div[@class='errormess' and b]", e.responseXML, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+		var msg = e.responseXML.evaluate("//div[@class='errormess' and b]", e.responseXML, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
 
-        if (typeof onLoadCallback == "function")
-        {
-            var xargs = array_slice(arguments, 1)||[];
-            xargs.unshift(e, /\/bank\.phtml$/.test(e.finaUrl), msg);    // response, has_error, message node
-            onLoadCallback.apply(this, xargs);
-        }
-    })
-    req.open.apply(req, xargs);
+		if (typeof onLoadCallback == "function")
+		{
+			var xargs = array_slice(arguments, 1)||[];
+			xargs.unshift(e, /\/bank\.phtml$/.test(e.finaUrl), msg);	// response, has_error, message node
+			onLoadCallback.apply(this, xargs);
+		}
+	})
+	req.open.apply(req, xargs);
 
-    req.send(data);
+	req.send(data);
 };
 Bank.collect = function(onLoadCallback)
 {
-    var xargs = array_slice(arguments, 0)||[];
-    xargs.unshift({"type":"interest"});
-    Bank.process.apply(this, xargs);
+	var xargs = array_slice(arguments, 0)||[];
+	xargs.unshift({"type":"interest"});
+	Bank.process.apply(this, xargs);
 };
 Bank.deposit = function(amount, onLoadCallback)
 {
-    var xargs = array_slice(arguments, 1)||[];
-    xargs.unshift({"type":"deposit", "amount":Math.abs(amount)});
-    Bank.process.apply(this, xargs);
+	var xargs = array_slice(arguments, 1)||[];
+	xargs.unshift({"type":"deposit", "amount":Math.abs(amount)});
+	Bank.process.apply(this, xargs);
 };
 Bank.withdraw = function(amount, pin, onLoadCallback)
 {
-    var xargs = array_slice(arguments, 2)||[];
-    xargs.unshift({"type":"withdraw", "amount":Math.abs(amount), "pin":pin||""});
-    Bank.process.apply(this, xargs);
+	var xargs = array_slice(arguments, 2)||[];
+	xargs.unshift({"type":"withdraw", "amount":Math.abs(amount), "pin":pin||""});
+	Bank.process.apply(this, xargs);
 };
 Bank.upgrade = function(amount, type, onLoadCallback)
 {
-    var xargs = array_slice(arguments, 2)||[];
-    xargs.unshift({"type":"upgrade", "amount":Math.abs(amount), "account_type":type});
-    Bank.process.apply(this, xargs);
+	var xargs = array_slice(arguments, 2)||[];
+	xargs.unshift({"type":"upgrade", "amount":Math.abs(amount), "account_type":type});
+	Bank.process.apply(this, xargs);
 };
 
 //Bank.deposit(1, function(e)
 //{
-//    alert("NPs on hand: " + e.responseXML.evaluate("string(id('header')//td/a[contains(@href,'?type=inventory')]/text())", e.responseXML, null, XPathResult.STRING_TYPE, null).stringValue);
+//	alert("NPs on hand: " + e.responseXML.evaluate("string(id('header')//td/a[contains(@href,'?type=inventory')]/text())", e.responseXML, null, XPathResult.STRING_TYPE, null).stringValue);
 //});

@@ -11,9 +11,7 @@
 // @language       en
 // @include        nowhere
 // @grant          GM_xmlhttpRequest
-// @grant          GM.xmlHttpRequest
 // @icon           http://gm.wesley.eti.br/icon.php?desc=SCRIPTNAME
-// @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_HttpRequest/56489.user.js
 // ==/UserScript==
@@ -39,42 +37,42 @@ NeoBoard = function(){};
 
 NeoBoard.convert = function(doc, type)
 {
-    var output = {
-        "current" : parseInt(xpath("string(id('boards_table')/tbody/tr[1]/td/table/tbody/tr/td[2]/span)", doc), 10) - 1 || 0,
-        "last" : parseInt(xpath("string((id('boards_table')/tbody/tr[1]/td/table/tbody/tr/td[2]/a|id('boards_table')/tbody/tr[1]/td/table/tbody/tr/td[2]/span)[position()=last()-1 and contains(following-sibling::text()[1], '|') or position()=last() and not(contains(following-sibling::text()[1], '|'))][1])", doc), 10) - 1 || 0,
-        "list" : []
-    };
-    
-    switch (type)
-    {
-        case "boardlist" :
-            output.message = xpath(".//td[@class='content']/strong[2]/following-sibling::text()[1]", doc)[0];
+	var output = {
+		"current" : parseInt(xpath("string(id('boards_table')/tbody/tr[1]/td/table/tbody/tr/td[2]/span)", doc), 10) - 1 || 0,
+		"last" : parseInt(xpath("string((id('boards_table')/tbody/tr[1]/td/table/tbody/tr/td[2]/a|id('boards_table')/tbody/tr[1]/td/table/tbody/tr/td[2]/span)[position()=last()-1 and contains(following-sibling::text()[1], '|') or position()=last() and not(contains(following-sibling::text()[1], '|'))][1])", doc), 10) - 1 || 0,
+		"list" : []
+	};
+	
+	switch (type)
+	{
+		case "boardlist" :
+			output.message = xpath(".//td[@class='content']/strong[2]/following-sibling::text()[1]", doc)[0];
 
-            xpath(".//td[@class='content']/div[4]/table/tbody/tr[.//a/span]", doc).forEach(function (topic) {
-                var title = xpath("./td[1]/a[span]", topic)[0],
-                link = (xpath(".//a[contains(@href, 'next=')]", topic)[0] || title).getAttribute("href");
+			xpath(".//td[@class='content']/div[4]/table/tbody/tr[.//a/span]", doc).forEach(function (topic) {
+				var title = xpath("./td[1]/a[span]", topic)[0],
+				link = (xpath(".//a[contains(@href, 'next=')]", topic)[0] || title).getAttribute("href");
 
-                output.list.push({
-                    "Link" : ( /^http:/i.test(link) ? "" : "http://www.neopets.com/neoboards/") + link,
-                    "Title" : xpath("./span", title)[0].innerHTML.replace(/(?:<img(?: \w+="\w+")* src=[""'']http:\/\/images\.neopets\.com\/neoboards\/smilies\/|\.gif[""''](?: \w+="\w+")* ?\/?>)/ig, "*").replace(/&(\w+);?/g, function($0, $1)
-                    {
-                        var entities = {
-                            "amp" : "&"
-                        };
-                        
-                        return ( $1 in entities ? entities[$1] : $0 );
-                    }),
-                    "Author" : xpath("string(./td[1]/div/a/b/text())", topic),
-                    "Replies" : parseInt(xpath("string(./td[2]/text())", topic).replace(/[,.]+/g, ""), 10),
-                    "LastPost" : xpath("string(./td[3]//span[1]/text())", topic)
-                });
-            });
-            break;
-        case "topic" :
-            output.message = xpath(".//td[@class='content' and not(b/a)]/strong/following-sibling::text()[1]", doc)[0];
-            
-            xpath("id('boards_table')/tbody/tr[position() mod 3 = 0 and position() < last()]", doc).forEach(function (message) {
-    			output.list.push({
+				output.list.push({
+					"Link" : ( /^http:/i.test(link) ? "" : "http://www.neopets.com/neoboards/") + link,
+					"Title" : xpath("./span", title)[0].innerHTML.replace(/(?:<img(?: \w+="\w+")* src=[""'']http:\/\/images\.neopets\.com\/neoboards\/smilies\/|\.gif[""''](?: \w+="\w+")* ?\/?>)/ig, "*").replace(/&(\w+);?/g, function($0, $1)
+					{
+						var entities = {
+							"amp" : "&"
+						};
+						
+						return ( $1 in entities ? entities[$1] : $0 );
+					}),
+					"Author" : xpath("string(./td[1]/div/a/b/text())", topic),
+					"Replies" : parseInt(xpath("string(./td[2]/text())", topic).replace(/[,.]+/g, ""), 10),
+					"LastPost" : xpath("string(./td[3]//span[1]/text())", topic)
+				});
+			});
+			break;
+		case "topic" :
+			output.message = xpath(".//td[@class='content' and not(b/a)]/strong/following-sibling::text()[1]", doc)[0];
+			
+			xpath("id('boards_table')/tbody/tr[position() mod 3 = 0 and position() < last()]", doc).forEach(function (message) {
+				output.list.push({
 					"Author" : "",
 					"Message" : ""
 				});

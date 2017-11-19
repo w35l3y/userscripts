@@ -11,8 +11,6 @@
 // @language       en
 // @include        nowhere
 // @grant          GM_xmlhttpRequest
-// @grant          GM.xmlHttpRequest
-// @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @require        ../../includes/Includes_HttpRequest/56489.user.js
 // ==/UserScript==
 
@@ -34,118 +32,118 @@
 **************************************************************************/
 
 var Translate = {
-    version        : 1,
-    key            : "",
-    execute        : function (text, from, to, cb) {
-        var args = Array.prototype.slice.apply(arguments);
+	version		: 1,
+	key			: "",
+	execute		: function (text, from, to, cb) {
+		var args = Array.prototype.slice.apply(arguments);
 
-        if (!Translate.key) {
-            // Google Translate API (deprecated)
-            var v = function (from, text2) {
-                switch (Translate.version) {
-                    case 2:    // v2
-                        var text_arr = [];
-                        if (text2 instanceof Array) {
-                            for (var index in text2) {
-                                text_arr.push({
-                                    "translatedText" : (from == to ? text[index] : text2[index])
-                                });
-                            }
-                        } else {
-                            text_arr.push({
-                                "translatedText" : (from == to ? text : text2)
-                            });
-                        }
+		if (!Translate.key) {
+			// Google Translate API (deprecated)
+			var v = function (from, text2) {
+				switch (Translate.version) {
+					case 2:	// v2
+						var text_arr = [];
+						if (text2 instanceof Array) {
+							for (var index in text2) {
+								text_arr.push({
+									"translatedText" : (from == to ? text[index] : text2[index])
+								});
+							}
+						} else {
+							text_arr.push({
+								"translatedText" : (from == to ? text : text2)
+							});
+						}
 
-                        return {
-                            "data" : { "translations" : text_arr }
-                        };
-                    case 1:    // v1
-                        return {
-                            "translation" : (from == to ? text : text2)
-                        };
-                    default:
-                        break;
-                }
-            };
+						return {
+							"data" : { "translations" : text_arr }
+						};
+					case 1:	// v1
+						return {
+							"translation" : (from == to ? text : text2)
+						};
+					default:
+						break;
+				}
+			};
 
-            if (from == to) {
-                cb(v(from, text), args);
-            } else {
-                HttpRequest.open({
-                    "method" : "GET",
-                    "url" : "https://translate.google.com.br/translate_a/single",
-                    "onsuccess" : function (xhr) {
-                        var r = [[[""]],,from];
+			if (from == to) {
+				cb(v(from, text), args);
+			} else {
+				HttpRequest.open({
+					"method" : "GET",
+					"url" : "https://translate.google.com.br/translate_a/single",
+					"onsuccess" : function (xhr) {
+						var r = [[[""]],,from];
 
-                        try {
-                            r = xhr.response.json || JSON.parse(xhr.response.text.replace(/,(?=,)/g, ',null'));
-                        } catch (e) {
-                            console.log("Translate : Error parsing result... JSON.parse", e, args);
-                            try {
-                                r = eval(xhr.response.text);
+						try {
+							r = xhr.response.json || JSON.parse(xhr.response.text.replace(/,(?=,)/g, ',null'));
+						} catch (e) {
+							console.log("Translate : Error parsing result... JSON.parse", e, args);
+							try {
+								r = eval(xhr.response.text);
 
-                                cb(v(r[2], r[0][0][0]), args);
-                            } catch (e) {
-                                console.log("Translate : Error parsing result... eval", e, args);
+								cb(v(r[2], r[0][0][0]), args);
+							} catch (e) {
+								console.log("Translate : Error parsing result... eval", e, args);
 
-                                cb(v(from, text), args);
-                            }
-                        }
-                    }
-                }).send({
-                    "client"    : "t",
-                    "sl"        : from,
-                    "tl"        : to,
-                    "ie"        : "UTF-8",
-                    "oe"        : "UTF-8",
-                    "q"            : text
-                });
-            }
-        } else if (!from) {
-            Translate.to(text, to, cb);
-        } else {
-            HttpRequest.open({
-                "method" : "POST",
-                "url" : "https://www.googleapis.com/language/translate/v2",
-                "headers" : {
-                    "X-HTTP-Method-Override" : "GET"
-                },
-                "onsuccess" : function (xhr) {
-                    cb(xhr.response.json, args);
-                }
-            }).send({
-                "key" : Translate.key,
-                "source" : from,
-                "target" : to,
-                "q" : text
-            });
-        }
-    },
-    to            : function(text, to, cb) {
-        if (!Translate.key) {
-            // Google Translate API (deprecated)
-            Translate.execute(text, "-", to, cb);
-        } else {
-            HttpRequest.open({
-                "method" : "POST",
-                "url" : "https://www.googleapis.com/language/translate/v2/detect",
-                "headers" : {
-                    "X-HTTP-Method-Override" : "GET"
-                },
-                "onsuccess" : function (xhr) {
-                    if (/^2/.test(xhr.response.raw.status)) {
-                        data.detections.sort(function (a, b) {
-                            return a.confidence - b.confidence;
-                        });
+								cb(v(from, text), args);
+							}
+						}
+					}
+				}).send({
+					"client"	: "t",
+					"sl"		: from,
+					"tl"		: to,
+					"ie"		: "UTF-8",
+					"oe"		: "UTF-8",
+					"q"			: text
+				});
+			}
+		} else if (!from) {
+			Translate.to(text, to, cb);
+		} else {
+			HttpRequest.open({
+				"method" : "POST",
+				"url" : "https://www.googleapis.com/language/translate/v2",
+				"headers" : {
+					"X-HTTP-Method-Override" : "GET"
+				},
+				"onsuccess" : function (xhr) {
+					cb(xhr.response.json, args);
+				}
+			}).send({
+				"key" : Translate.key,
+				"source" : from,
+				"target" : to,
+				"q" : text
+			});
+		}
+	},
+	to			: function(text, to, cb) {
+		if (!Translate.key) {
+			// Google Translate API (deprecated)
+			Translate.execute(text, "-", to, cb);
+		} else {
+			HttpRequest.open({
+				"method" : "POST",
+				"url" : "https://www.googleapis.com/language/translate/v2/detect",
+				"headers" : {
+					"X-HTTP-Method-Override" : "GET"
+				},
+				"onsuccess" : function (xhr) {
+					if (/^2/.test(xhr.response.raw.status)) {
+						data.detections.sort(function (a, b) {
+							return a.confidence - b.confidence;
+						});
 
-                        Translate.execute(text, data.detections[0].language, to, cb);
-                    }
-                }
-            }).send({
-                "key" : Translate.key,
-                "q" : text
-            });
-        }
-    }
+						Translate.execute(text, data.detections[0].language, to, cb);
+					}
+				}
+			}).send({
+				"key" : Translate.key,
+				"q" : text
+			});
+		}
+	}
 };

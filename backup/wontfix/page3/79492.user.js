@@ -10,11 +10,8 @@
 // @version        1.0.0
 // @language       en
 // @grant          GM_addStyle
-// @grant          GM.addStyle
 // @grant          GM_getResourceURL
-// @grant          GM.getResourceUrl
 // @grant          GM_getResourceText
-// @grant          GM.getResourceText
 // @icon           http://gm.wesley.eti.br/icon.php?desc=79492
 // @include        http://userscripts-mirror.org/users/*/scripts
 // @include        http://userscripts-mirror.org/users/*/scripts?*
@@ -28,7 +25,6 @@
 // @resource       sort_asc_disabled http://www.datatables.net/release-datatables/media/images/sort_asc_disabled.png
 // @resource       sort_desc_disabled http://www.datatables.net/release-datatables/media/images/sort_desc_disabled.png
 // @resource       demo_table http://www.datatables.net/release-datatables/media/css/demo_table.css
-// @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @require        http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js
 // @require        http://datatables.net/release-datatables/media/js/jquery.dataTables.js
 // ==/UserScript==
@@ -57,18 +53,18 @@ $('tr:eq(0)', table).remove();
 $('tbody:eq(0)', table).before('<thead><tr><th class="la">Name</th><th class="la">Rating</th><th class="la">Posts</th><th class="la">Fans</th><th class="la">Installs</th><th class="la">Last Updated</th></tr></thead>');
 
 // adding style
-GM.addStyle(GM.getResourceText("demo_table").replace(/\.\.\/images\/([\w ]+)\.\w+/g, function(m, f)
+GM_addStyle(GM_getResourceText("demo_table").replace(/\.\.\/images\/([\w ]+)\.\w+/g, function(m, f)
 {
-    return GM.getResourceUrl(f) || m;
+	return GM_getResourceURL(f) || m;
 }));
-GM.addStyle("th {color:black}");
+GM_addStyle("th {color:black}");
 
 // creating table
 table.dataTable({
-    "bPaginate": false,
-    "bLengthChange": false,
-    "bFilter": false,
-    "bSort": true,
-    "bInfo": false,
-    "bAutoWidth": false
+	"bPaginate": false,
+	"bLengthChange": false,
+	"bFilter": false,
+	"bSort": true,
+	"bInfo": false,
+	"bAutoWidth": false
 });

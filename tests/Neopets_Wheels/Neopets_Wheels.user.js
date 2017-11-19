@@ -2,21 +2,16 @@
 // @name           Neopets : Wheels
 // @namespace      http://gm.wesley.eti.br
 // @include        http://www.neopets.com/inventory.phtml
-// @grant          GM_getValue
-// @grant          GM.getValue
-// @grant          GM_setValue
-// @grant          GM.setValue
-// @grant          GM_deleteValue
-// @grant          GM.deleteValue
-// @grant          GM_xmlhttpRequest
-// @grant          GM.xmlHttpRequest
-// @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
-// @require        https://gist.github.com/w35l3y/f824897032ae38af9595/raw/main.js
+// @require     https://gist.github.com/w35l3y/f824897032ae38af9595/raw/main.js
 // @require        https://github.com/w35l3y/JSAMF/raw/master/web/web/amf.js
+// @grant          GM_getValue
+// @grant          GM_setValue
+// @grant          GM_deleteValue
+// @grant          GM_xmlhttpRequest
 // ==/UserScript==
-//GM.deleteValue("last_access");
+//GM_deleteValue("last_access");
 var proxy = new RemotingProxy("http://www.neopets.com/amfphp/gateway.php" , "WheelService", amf.ObjectEncoding.AMF3),
-la = JSON.parse(GM.getValue("last_access", "{}")),
+la = JSON.parse(GM_getValue("last_access", "{}")),
 wheels = [{
 	id			: "5",	// monotony
 	automatic	: false,
@@ -246,7 +241,7 @@ proxy.addHandler("startMonotony", resultCallback(function (body, ctx) {
 			recursive(list, ++index);
 		}
 	} else {
-		GM.setValue("last_access", JSON.stringify(la));
+		GM_setValue("last_access", JSON.stringify(la));
 	}
 }(wheels, 0));
 

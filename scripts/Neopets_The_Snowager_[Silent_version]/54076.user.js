@@ -19,25 +19,17 @@
 // @connect        github.com
 // @connect        raw.githubusercontent.com
 // @grant          GM_log
-// @grant          GM.log
 // @grant          GM_addStyle
-// @grant          GM.addStyle
 // @grant          GM_getValue
-// @grant          GM.getValue
 // @grant          GM_setValue
-// @grant          GM.setValue
 // @grant          GM_deleteValue
-// @grant          GM.deleteValue
 // @grant          GM_xmlhttpRequest
-// @grant          GM.xmlHttpRequest
 // @grant          GM_getResourceText
-// @grant          GM.getResourceText
 // @resource       i18n ../../includes/Includes_I18n/resources/default.json
 // @resource       meta https://github.com/w35l3y/userscripts/raw/master/scripts/Neopets_The_Snowager_%5BSilent_version%5D/54076.user.js
 // @resource       updaterWindowHtml ../../includes/Includes_Updater/resources/default.html
 // @resource       updaterWindowCss ../../includes/Includes_Updater/resources/default.css
 // @resource       messageContainerCss ../../includes/Includes_Message/resources/css/messageContainer.css
-// @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @require        ../../includes/Includes_XPath/63808.user.js
 // @require        ../../includes/Includes_Message/main.user.js
 // @require        ../../includes/Includes_HttpRequest/56489.user.js
@@ -69,44 +61,44 @@
 
 **************************************************************************/
 
-//GM.setValue("interval", 1);
+//GM_setValue("interval", 1);
 
 (function () {
-    var doc = Neopets.convert(document),
-    usern = doc.Username();
+	var doc = Neopets.convert(document),
+	usern = doc.Username();
 
-    if (usern)
-    (function recursive () {    // script scope
-        const INTERVAL = GM.getValue("interval", 8);
+	if (usern)
+	(function recursive () {	// script scope
+		const INTERVAL = GM_getValue("interval", 8);
 
-        var key = "Snowager-LastAccess-" + usern,
-        curr = doc.Time(true),
-        compare = new Date(curr),
-        h = curr.getHours(),
-        la = new Date(GM.getValue(key, "Sat Apr 02 2011 12:42:02 GMT-0300")),
-        sd = new Date(curr);
+		var key = "Snowager-LastAccess-" + usern,
+		curr = doc.Time(true),
+		compare = new Date(curr),
+		h = curr.getHours(),
+		la = new Date(GM_getValue(key, "Sat Apr 02 2011 12:42:02 GMT-0300")),
+		sd = new Date(curr);
 
-        compare.setMinutes(0, 0, 0);
-        sd.setHours(h + INTERVAL - ((2 + h) % INTERVAL), 0, 30);
+		compare.setMinutes(0, 0, 0);
+		sd.setHours(h + INTERVAL - ((2 + h) % INTERVAL), 0, 30);
 
-        if (la.valueOf() != compare.valueOf() && 0 === ((2 + h) % INTERVAL)) {
-            GM.setValue(key, (la = compare).toString());
-            
-            HttpRequest.open({
-                "method" : "get",
-                "url" : "http://www.neopets.com/winter/snowager2.phtml",
-                "headers" : {
-                    "Referer" : "http://www.neopets.com/winter/snowager.phtml"
-                },
-                "onsuccess" : function (xhr) {
-                    var msg = xpath(".//td[@class = 'content']//div[@class = 'errormess' and b] | .//td[@class = 'content']//center//b", xhr.response.xml)[0],
-                    v = msg ? msg.textContent : "Error " + (new Date().toISOString());
+		if (la.valueOf() != compare.valueOf() && 0 === ((2 + h) % INTERVAL)) {
+			GM_setValue(key, (la = compare).toString());
+			
+			HttpRequest.open({
+				"method" : "get",
+				"url" : "http://www.neopets.com/winter/snowager2.phtml",
+				"headers" : {
+					"Referer" : "http://www.neopets.com/winter/snowager.phtml"
+				},
+				"onsuccess" : function (xhr) {
+					var msg = xpath(".//td[@class = 'content']//div[@class = 'errormess' and b] | .//td[@class = 'content']//center//b", xhr.response.xml)[0],
+					v = msg ? msg.textContent : "Error " + (new Date().toISOString());
 
-                    Message.add(['<span class="warn">[The Snowager]</span>', v], {error:!msg, content:xhr.response.text});
-                }
-            }).send();
-        }
+					Message.add(['<span class="warn">[The Snowager]</span>', v], {error:!msg, content:xhr.response.text});
+				}
+			}).send();
+		}
 
-        setTimeout(recursive, sd.valueOf() - curr.valueOf());
-    }());
+		setTimeout(recursive, sd.valueOf() - curr.valueOf());
+	}());
 }());

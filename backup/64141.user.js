@@ -13,25 +13,16 @@
 // @include        http://www.neopets.com/magma/index.phtml
 // @include        http://www.neopets.com/magma/caves.phtml
 // @grant          GM_log
-// @grant          GM.log
 // @grant          GM_addStyle
-// @grant          GM.addStyle
 // @grant          GM_getValue
-// @grant          GM.getValue
 // @grant          GM_setValue
-// @grant          GM.setValue
 // @grant          GM_openInTab
-// @grant          GM.openInTab
 // @grant          GM_deleteValue
-// @grant          GM.deleteValue
 // @grant          GM_xmlhttpRequest
-// @grant          GM.xmlHttpRequest
 // @grant          GM_getResourceText
-// @grant          GM.getResourceText
 // @icon           http://gm.wesley.eti.br/icon.php?desc=64141
 // @resource       meta https://github.com/w35l3y/userscripts/raw/master/backup/64141.user.js
 // @resource       i18n https://github.com/w35l3y/userscripts/raw/master/includes/Includes_I18n/resources/default.json
-// @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Translate/85618.user.js
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_I18n/87940.user.js
@@ -58,59 +49,59 @@
 **************************************************************************/
 
 /*
-    0x01    gears
-    0x02    worms
-    0x03    gears + worms
+	0x01	gears
+	0x02	worms
+	0x03	gears + worms
 */
 
-//GM.setValue("search", 0x01);    // gears only
+//GM_setValue("search", 0x01);	// gears only
 
 (function () {
-    var start = true;
+	var start = true;
 
-    function fsearch (s) {
-        switch (s) {
-            case "material_url":
-                return 0x01;    // gears
-        }
+	function fsearch (s) {
+		switch (s) {
+			case "material_url":
+				return 0x01;	// gears
+		}
 
-        if (/worm\d+/.test(s)) {
-            return 0x02;    // worms
-        } else {
-            return 0x00;    // disabled
-        }
-    }
+		if (/worm\d+/.test(s)) {
+			return 0x02;	// worms
+		} else {
+			return 0x00;	// disabled
+		}
+	}
 
-    (function recursive (doc) {
-        var moltara = xpath(".//script[contains(text(), '/maps/magma/moltara')]", doc)[0],
-        search = GM.getValue("search", 0x03);
+	(function recursive (doc) {
+		var moltara = xpath(".//script[contains(text(), '/maps/magma/moltara')]", doc)[0],
+		search = GM_getValue("search", 0x03);
 
-        if (moltara) {
-            var re = /swf\.addVariable\(([''""])(worm\d+|material_url)\1,\1([^'"]+)/img,
-            context = moltara.textContent.replace(/\s+/gm, "");
+		if (moltara) {
+			var re = /swf\.addVariable\(([''""])(worm\d+|material_url)\1,\1([^'"]+)/img,
+			context = moltara.textContent.replace(/\s+/gm, "");
 
-            for (var line;line = re.exec(context);) {
-                if (search & fsearch(line[2])) {
-                    start = false;
-                    GM.openInTab("http://www.neopets.com" + decodeURIComponent(line[3]));
-                }
-            }
-        }
+			for (var line;line = re.exec(context);) {
+				if (search & fsearch(line[2])) {
+					start = false;
+					GM_openInTab("http://www.neopets.com" + decodeURIComponent(line[3]));
+				}
+			}
+		}
 
-        if (start) {
-            GM.log("Nothing found!");
+		if (start) {
+			GM_log("Nothing found!");
 
-            setTimeout(function () {
-                HttpRequest.open({
-                    "method" : "get",
-                    "url" : location.href,
-                    "onsuccess" : function (xhr) {
-                        recursive(xhr.response.xml);
-                    }
-                }).send();
-            }, 1200 + Math.floor(700 * Math.random()));
-        } else {
-            alert("Some items were found. Refresh the page in case you want to continue searching.");
-        }
-    }());
+			setTimeout(function () {
+				HttpRequest.open({
+					"method" : "get",
+					"url" : location.href,
+					"onsuccess" : function (xhr) {
+						recursive(xhr.response.xml);
+					}
+				}).send();
+			}, 1200 + Math.floor(700 * Math.random()));
+		} else {
+			alert("Some items were found. Refresh the page in case you want to continue searching.");
+		}
+	}());
 }());

@@ -17,22 +17,15 @@
 // @connect        github.com
 // @connect        raw.githubusercontent.com
 // @grant          GM_addStyle
-// @grant          GM.addStyle
 // @grant          GM_getValue
-// @grant          GM.getValue
 // @grant          GM_setValue
-// @grant          GM.setValue
 // @grant          GM_deleteValue
-// @grant          GM.deleteValue
 // @grant          GM_xmlhttpRequest
-// @grant          GM.xmlHttpRequest
 // @grant          GM_getResourceText
-// @grant          GM.getResourceText
 // @resource       meta https://github.com/w35l3y/userscripts/raw/master/scripts/Neopets_Stock_Helper/60748.user.js
 // @resource       i18n ../../includes/Includes_I18n/resources/default.json
 // @resource       updaterWindowHtml ../../includes/Includes_Updater/resources/default.html
 // @resource       updaterWindowCss ../../includes/Includes_Updater/resources/default.css
-// @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @require        ../../includes/Includes_XPath/63808.user.js
 // @require        ../../includes/Includes_HttpRequest/56489.user.js
 // @require        ../../includes/Includes_Translate/85618.user.js
@@ -60,18 +53,18 @@
 **************************************************************************/
 
 if (/^\/process_market\.phtml/i.test(location.pathname)) {	// something went wrong
-	GM.deleteValue("StockTemp");
+	GM_deleteValue("StockTemp");
 } else {
 	var items = xpath(".//td[@class='content']//td[5]/input");
-	var stocktemp = JSON.parse(GM.getValue("StockTemp", "{}")),
-	stock = JSON.parse(GM.getValue("Stock", "{}"));
+	var stocktemp = JSON.parse(GM_getValue("StockTemp", "{}")),
+	stock = JSON.parse(GM_getValue("Stock", "{}"));
 
 	for (var item in stocktemp) {
 		stock[item] = stocktemp[item]; // stores the temporary prices definitely
 	}
 
-	GM.deleteValue("StockTemp");
-	GM.setValue("Stock", JSON.stringify(stock));
+	GM_deleteValue("StockTemp");
+	GM_setValue("Stock", JSON.stringify(stock));
 
 	items.forEach(function (item) {
 		var pos = item.name.match(/\d+$/)[0],
@@ -107,6 +100,6 @@ if (/^\/process_market\.phtml/i.test(location.pathname)) {	// something went wro
 			}
 		});
 
-		GM.setValue("StockTemp", JSON.stringify(stocktemp));
+		GM_setValue("StockTemp", JSON.stringify(stocktemp));
 	}, false);
 }

@@ -11,19 +11,12 @@
 // @language       en
 // @include        http://www.neopets.com/games/maze/maze.phtml*
 // @grant          GM_log
-// @grant          GM.log
 // @grant          GM_addStyle
-// @grant          GM.addStyle
 // @grant          GM_getValue
-// @grant          GM.getValue
 // @grant          GM_setValue
-// @grant          GM.setValue
 // @grant          GM_deleteValue
-// @grant          GM.deleteValue
 // @grant          GM_xmlhttpRequest
-// @grant          GM.xmlHttpRequest
 // @grant          GM_getResourceText
-// @grant          GM.getResourceText
 // @icon           http://gm.wesley.eti.br/icon.php?desc=117677
 // @connect        neopets.com
 // @connect        github.com
@@ -32,7 +25,6 @@
 // @resource       i18n ../../includes/Includes_I18n/resources/default.json
 // @resource       updaterWindowCss ../../includes/Includes_Updater/resources/default.css
 // @resource       updaterWindowHtml ../../includes/Includes_Updater/resources/default.html
-// @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @require        ../../includes/Includes_XPath/63808.user.js
 // @require        ../../includes/Includes_HttpRequest/56489.user.js
 // @require        ../../includes/Includes_Translate/85618.user.js
@@ -78,7 +70,7 @@
 
 **************************************************************************/
 
-GM.addStyle("#fetch_map td { font-size: 11px; line-height:1px; }");
+GM_addStyle("#fetch_map td { font-size: 11px; line-height:1px; }");
 
 var table, queue = [], pending = {
 	"status" : false,
@@ -157,7 +149,7 @@ function recursive (obj) {
 
 		div.setAttribute("style", "border:1px solid black;padding:3px 0px;");
 
-		var map = JSON.parse(GM.getValue("map", '{"x":0,"y":0,"start":[2,2],"limit":[0,0,0,0],"data":[]}'));
+		var map = JSON.parse(GM_getValue("map", '{"x":0,"y":0,"start":[2,2],"limit":[0,0,0,0],"data":[]}'));
 		
 		if (map.moves != moves && 0 === err.replace(/[^!]+/g, "").length % 2 && /movedir=(\d+)/.test(obj.referer)) {
 			// 0 1 2 3 : up down right left
@@ -274,7 +266,7 @@ function recursive (obj) {
 		}
 		div.innerHTML = data += "</table>";
 		
-		GM.setValue("map", map_str);
+		GM_setValue("map", map_str);
 
 		var bx = map.x + 2, by = map.y + 2,
 		cy = - map.limit[2], cx = - map.limit[0],
@@ -356,7 +348,7 @@ function recursive (obj) {
 			old.parentNode.replaceChild(xpath(".//td[@class = 'content']//center[img[contains(@src, '/games/maze/')]]", obj.document)[0], old);
 		}
 
-		GM.deleteValue("map");
+		GM_deleteValue("map");
 		
 		return false;
 	}

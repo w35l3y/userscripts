@@ -11,9 +11,7 @@
 // @language       en
 // @include        http://explosm.net/comics/*
 // @grant          GM_xmlhttpRequest
-// @grant          GM.xmlHttpRequest
 // @icon           http://gm.wesley.eti.br/icon.php?desc=124978
-// @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_HttpRequest/56489.user.js
 // ==/UserScript==
@@ -43,63 +41,63 @@
 
 **************************************************************************/
 
-(function () {    // script scope
-    document.addEventListener("keydown", function (e) {
-        if (/^(?:37|39)$/.test(e.keyCode)) {
-            e.stopPropagation();
-        }
-    }, true);
+(function () {	// script scope
+	document.addEventListener("keydown", function (e) {
+		if (/^(?:37|39)$/.test(e.keyCode)) {
+			e.stopPropagation();
+		}
+	}, true);
 
-    document.addEventListener("keyup", function (e) {
-        var b;
-        if (/^(?:37|39|70|78|82)$/.test(e.keyCode) && (b = document.getElementById("nav_" + {
-                37 : "previous",
-                39 : "next",
-                70 : "first",
-                78 : "newest",
-                82 : "random",
-            }[e.keyCode]))) {
-            
-            b.click();
+	document.addEventListener("keyup", function (e) {
+		var b;
+		if (/^(?:37|39|70|78|82)$/.test(e.keyCode) && (b = document.getElementById("nav_" + {
+				37 : "previous",
+				39 : "next",
+				70 : "first",
+				78 : "newest",
+				82 : "random",
+			}[e.keyCode]))) {
+			
+			b.click();
 
-            e.preventDefault();
-            //e.stopPropagation();
-        }
-    }, false);
+			e.preventDefault();
+			//e.stopPropagation();
+		}
+	}, false);
 
-    xpath(".//div/div/div[4]/div[2]/table")[0].setAttribute("height", 600);
+	xpath(".//div/div/div[4]/div[2]/table")[0].setAttribute("height", 600);
 
-    function click (e) {
-        HttpRequest.open({
-            "method" : "get",
-            "url" : e.target.href,
-            "onsuccess" : function (xhr) {
-                var o = xpath(".//div/div/div[4]/div[2]/div[2]", document)[0],
-                n = xpath(".//div/div/div[4]/div[2]/div[2]", xhr.response.xml)[0],
-                t = xpath("string(.//title/text())", xhr.response.xml);
-                
-                o.parentNode.replaceChild(n, o);
+	function click (e) {
+		HttpRequest.open({
+			"method" : "get",
+			"url" : e.target.href,
+			"onsuccess" : function (xhr) {
+				var o = xpath(".//div/div/div[4]/div[2]/div[2]", document)[0],
+				n = xpath(".//div/div/div[4]/div[2]/div[2]", xhr.response.xml)[0],
+				t = xpath("string(.//title/text())", xhr.response.xml);
+				
+				o.parentNode.replaceChild(n, o);
 
-                n.setAttribute("id", "top");
-                location.hash = "#top";
+				n.setAttribute("id", "top");
+				location.hash = "#top";
 
-                document.title = t;
-                window.history.pushState({}, t, e.target.href);
+				document.title = t;
+				window.history.pushState({}, t, e.target.href);
 
-                recursive(n);
-            }
-        }).send();
+				recursive(n);
+			}
+		}).send();
 
-        e.preventDefault();
-    }
+		e.preventDefault();
+	}
 
-    function recursive (doc) {
-        xpath(".//table/tbody/tr/td[2]/nobr//a[not(contains(@href, 'archive'))]", doc).forEach(function (nav) {
-            nav.setAttribute("id", "nav_" + nav.textContent.replace(/\W+/g, "").toLowerCase());
+	function recursive (doc) {
+		xpath(".//table/tbody/tr/td[2]/nobr//a[not(contains(@href, 'archive'))]", doc).forEach(function (nav) {
+			nav.setAttribute("id", "nav_" + nav.textContent.replace(/\W+/g, "").toLowerCase());
 
-            nav.addEventListener("click", click, false);
-        });
-    };
+			nav.addEventListener("click", click, false);
+		});
+	};
 
-    recursive(document);
+	recursive(document);
 }());

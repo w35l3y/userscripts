@@ -18,17 +18,11 @@
 // @connect        github.com
 // @connect        raw.githubusercontent.com
 // @grant          GM_addStyle
-// @grant          GM.addStyle
 // @grant          GM_getValue
-// @grant          GM.getValue
 // @grant          GM_setValue
-// @grant          GM.setValue
 // @grant          GM_deleteValue
-// @grant          GM.deleteValue
 // @grant          GM_xmlhttpRequest
-// @grant          GM.xmlHttpRequest
 // @grant          GM_getResourceText
-// @grant          GM.getResourceText
 // @resource       meta https://github.com/w35l3y/userscripts/raw/master/scripts/Neopets_Avatars_Flash_Games_%5BBETA%5D/127882.user.js
 // @resource       i18n ../../includes/Includes_I18n/resources/default.json
 // @resource       updaterWindowHtml ../../includes/Includes_Updater/resources/default.html
@@ -39,7 +33,6 @@
 // @resource       avatarPopup2Css resources/default1.css
 // @resource       gamesSettingsCss resources/default2.css
 // @resource       css_gamesroom http://www.neopets.com/games/css/gamesroom_redux.css?v=2
-// @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @require        http://www.onicos.com/staff/iz/amuse/javascript/expert/md5.txt
 // @require        ../../includes/Includes_XPath/63808.user.js
 // @require        ../../includes/Includes_HttpRequest/56489.user.js
@@ -78,17 +71,17 @@
 
 **************************************************************************/
 
-//GM.setValue("call_url", false);
-//GM.setValue("stored", false);
-//GM.setValue("mod_change", 1);
-//GM.setValue("beep", false);
-//GM.setValue("generic", true);
-//GM.setValue("sp", 5);
+//GM_setValue("call_url", false);
+//GM_setValue("stored", false);
+//GM_setValue("mod_change", 1);
+//GM_setValue("beep", false);
+//GM_setValue("generic", true);
+//GM_setValue("sp", 5);
 
-GM.addStyle(GM.getResourceText("css_gamesroom"));
-GM.addStyle(GM.getResourceText("gamesSettingsCss"));
-GM.addStyle(GM.getResourceText("css_colorbox"));
-GM.addStyle(GM.getResourceText("avatarPopupCss"));
+GM_addStyle(GM_getResourceText("css_gamesroom"));
+GM_addStyle(GM_getResourceText("gamesSettingsCss"));
+GM_addStyle(GM_getResourceText("css_colorbox"));
+GM_addStyle(GM_getResourceText("avatarPopupCss"));
 
 function init (doc) {	// script scope
 	//alert(doc.toSource());
@@ -140,8 +133,8 @@ function init (doc) {	// script scope
 	},
 	id = parseInt(doc.id || /game_id=(\d+)/.test(location.search) && RegExp.$1, 10);
 
-	if (!doc.error && !doc.link && !isNaN(id) && (id in games || GM.getValue("generic", false)) && (!doc.shockwave || GM.getValue("scoresender", false))) {
-		var list = JSON.parse(GM.getValue("games", "{}")),
+	if (!doc.error && !doc.link && !isNaN(id) && (id in games || GM_getValue("generic", false)) && (!doc.shockwave || GM_getValue("scoresender", false))) {
+		var list = JSON.parse(GM_getValue("games", "{}")),
 		usern = xpath("string(.//a[contains(@href, '/userlookup.phtml?user=')]/text())"),
 		slist = ("#gmc" == location.hash?[].concat((prompt("List of games", xpath(".//a[contains(@href, 'game_id=')]/@href").map(function (x) {
 			return (/game_id=(\d+)/.test(x.nodeValue)?RegExp.$1:null);
@@ -151,7 +144,7 @@ function init (doc) {	// script scope
 			return x > 0;
 		}):[]),
 		play = {},
-		ss = JSON.parse(GM.getValue("ss", "[]")) || [],
+		ss = JSON.parse(GM_getValue("ss", "[]")) || [],
 		efn = function (v) {
 			if (v instanceof Function) {
 				return v;
@@ -176,7 +169,7 @@ function init (doc) {	// script scope
 			return result.substr(1);
 		},
 		data_g = function (id) {
-			var x = GM.getValue("stored", true) && games[id] || list[id] || games[id] || [0, 0, 0, 100];
+			var x = GM_getValue("stored", true) && games[id] || list[id] || games[id] || [0, 0, 0, 100];
 			if (games[id] && games[id][6]) {
 				x[6] = efn(games[id][6]);
 			}
@@ -232,7 +225,7 @@ function init (doc) {	// script scope
 				execute : function (node, p) {
 					if (!p) {
 						p = xpath(".//a[contains(@href, '/neoboards/boardlist.phtml?board=')]/following-sibling::*[1]")[0];
-						GM.addStyle(GM.getResourceText("avatarPopup2Css"));
+						GM_addStyle(GM_getResourceText("avatarPopup2Css"));
 					}
 					
 					return p;
@@ -289,11 +282,11 @@ function init (doc) {	// script scope
 						return document.body.firstElementChild;
 					}
 				},
-				code : GM.getResourceText("avatarPopupHtml"),
+				code : GM_getResourceText("avatarPopupHtml"),
 			},
 		},
 		first = true,
-		ratios = JSON.parse(GM.getValue("ratios", "{}")),
+		ratios = JSON.parse(GM_getValue("ratios", "{}")),
 		slistEmpty = !slist.length;
 
 		if (slistEmpty) {
@@ -360,7 +353,7 @@ function init (doc) {	// script scope
 		if (!doc.shockwave && (!~ss.indexOf(id) || !slistEmpty)) {
 			if (ratios[id] != 1000 * doc.ratio) {
 				ratios[id] = 1000 * doc.ratio;
-				GM.setValue("ratios", JSON.stringify(ratios));
+				GM_setValue("ratios", JSON.stringify(ratios));
 			}
 			$(".confirmation-2").show();
 			$(document).ready(function (e) {
@@ -381,7 +374,7 @@ function init (doc) {	// script scope
 				$("#field_score").change(function (e) {
 					var mod = [],
 					v = parseInt($(this).val(), 10),
-					mc = GM.getValue("mod_change", 3),
+					mc = GM_getValue("mod_change", 3),
 					mods = [100, 50, 25, 20, 10, 8, 5, 2, 1];
 
 					$("#field_time").val(Math.ceil(data[2] * (1 + 0.1 * Math.random()) * (v - (data[2] < 0?2 * (data[0] + data[1] * data[3]):0)) + 1000 * Math.random())).change();
@@ -449,7 +442,7 @@ function init (doc) {	// script scope
 							cache		: cache,
 							captcha		: captcha,
 							extrafn		: efn(data[6] || $("#field_extra").val()),
-							beep		: GM.getValue("beep", true),
+							beep		: GM_getValue("beep", true),
 							session		: true,
 							tick		: function (obj, ms) {
 								$("#ctp-message").text(ms <= 0?"Wait...":obj.timer.toString());
@@ -513,7 +506,7 @@ function init (doc) {	// script scope
 
 									list[id] = data.slice(0, 4);
 
-									GM.setValue("games", JSON.stringify(list));
+									GM_setValue("games", JSON.stringify(list));
 									
 									if (!slistEmpty) {
 										updateGame(slist.shift());
@@ -529,8 +522,8 @@ function init (doc) {	// script scope
 				updateGame(slist.shift());
 			});
 		} else if (slist.length) {
-			var rs = GM.getValue("ratio_score", true),
-			sp = GM.getValue("sp", 3);
+			var rs = GM_getValue("ratio_score", true),
+			sp = GM_getValue("sp", 3);
 
 			slist.sort(function (a, b) {
 				if (ratios[a]) {
@@ -583,7 +576,7 @@ function init (doc) {	// script scope
 							ratio_time	: true,
 							cache		: true,
 							extrafn		: efn(data[6] || ""),
-							beep		: GM.getValue("beep", true),
+							beep		: GM_getValue("beep", true),
 							session		: true,
 							tick		: function (obj, ms) {
 								$("#ctp-message").text(ms <= 0?"Wait...":obj.timer.toString());
@@ -667,7 +660,7 @@ function init (doc) {	// script scope
 							},
 						});
 					}, (function () {
-						var x = JSON.parse(GM.getValue("rnd_time", "[2000, 1000]"));
+						var x = JSON.parse(GM_getValue("rnd_time", "[2000, 1000]"));
 
 						return Math.floor(x[0] + x[1] * Math.random());
 					}()));

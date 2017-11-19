@@ -11,23 +11,16 @@
 // @language       en
 // @include        http://www.neopets.com/medieval/potatocounter.phtml*
 // @grant          GM_addStyle
-// @grant          GM.addStyle
 // @grant          GM_getValue
-// @grant          GM.getValue
 // @grant          GM_setValue
-// @grant          GM.setValue
 // @grant          GM_deleteValue
-// @grant          GM.deleteValue
 // @grant          GM_xmlhttpRequest
-// @grant          GM.xmlHttpRequest
 // @grant          GM_getResourceText
-// @grant          GM.getResourceText
 // @icon           http://gm.wesley.eti.br/icon.php?desc=28364
 // @resource       meta https://github.com/w35l3y/userscripts/raw/master/backup/28364.user.js
 // @resource       i18n https://github.com/w35l3y/userscripts/raw/master/includes/Includes_I18n/resources/default.json
 // @resource       updaterWindowHtml https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Updater/resources/default.html
 // @resource       updaterWindowCss https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Updater/resources/default.css
-// @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_HttpRequest/56489.user.js
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Translate/85618.user.js
@@ -57,32 +50,32 @@
 
 **************************************************************************/
 
-//GM.setValue("interval", "[5000, 2000]");
+//GM_setValue("interval", "[5000, 2000]");
 
-(function () {    // script scope
-    var interval = JSON.parse(GM.getValue("interval", "[5000, 2000]")),
-    input = xpath(".//form[contains(@action, 'potatocounter.phtml')]/input[@name = 'guess' or @type = 'submit'][1]")[0];
+(function () {	// script scope
+	var interval = JSON.parse(GM_getValue("interval", "[5000, 2000]")),
+	input = xpath(".//form[contains(@action, 'potatocounter.phtml')]/input[@name = 'guess' or @type = 'submit'][1]")[0];
 
-    if (input) {
-        setTimeout(function () {
-            switch (input.name.toLowerCase()) {
-                case "guess":    // guess!
-                    input.value = xpath("count(.//table/tbody/tr/td/img[contains(@src, '/medieval/potato')])");
-                    
-                    if (input.value > 80) {
-                        return function () {
-                            alert("Wow! There are too many potatoes.");
-                        };
-                    } else {
-                        return function () {
-                            input.form.submit();
-                        };
-                    }
-                default:    // play again!
-                    return function () {
-                        input.click();
-                    };
-            }
-        }(), Math.ceil(interval[0] + interval[1] * Math.random()));
-    }
+	if (input) {
+		setTimeout(function () {
+			switch (input.name.toLowerCase()) {
+				case "guess":	// guess!
+					input.value = xpath("count(.//table/tbody/tr/td/img[contains(@src, '/medieval/potato')])");
+					
+					if (input.value > 80) {
+						return function () {
+							alert("Wow! There are too many potatoes.");
+						};
+					} else {
+						return function () {
+							input.form.submit();
+						};
+					}
+				default:	// play again!
+					return function () {
+						input.click();
+					};
+			}
+		}(), Math.ceil(interval[0] + interval[1] * Math.random()));
+	}
 }());

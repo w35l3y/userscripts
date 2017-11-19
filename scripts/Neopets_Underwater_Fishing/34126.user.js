@@ -15,22 +15,15 @@
 // @connect        github.com
 // @connect        raw.githubusercontent.com
 // @grant          GM_addStyle
-// @grant          GM.addStyle
 // @grant          GM_getValue
-// @grant          GM.getValue
 // @grant          GM_setValue
-// @grant          GM.setValue
 // @grant          GM_deleteValue
-// @grant          GM.deleteValue
 // @grant          GM_xmlhttpRequest
-// @grant          GM.xmlHttpRequest
 // @grant          GM_getResourceText
-// @grant          GM.getResourceText
 // @resource       meta https://github.com/w35l3y/userscripts/raw/master/scripts/Neopets_Underwater_Fishing/34126.user.js
 // @resource       i18n ../../includes/Includes_I18n/resources/default.json
 // @resource       updaterWindowHtml ../../includes/Includes_Updater/resources/default.html
 // @resource       updaterWindowCss ../../includes/Includes_Updater/resources/default.css
-// @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @require        ../../includes/Includes_XPath/63808.user.js
 // @require        ../../includes/Includes_HttpRequest/56489.user.js
 // @require        ../../includes/Includes_Translate/85618.user.js
@@ -60,13 +53,13 @@
 
 (function () {	// script scope
 	var user = {
-		"interval" : JSON.parse(GM.getValue("interval",	"[3000, 1000]")),
-		"disable" : JSON.parse(GM.getValue("disable", "[]"))
+		"interval" : JSON.parse(GM_getValue("interval",	"[3000, 1000]")),
+		"disable" : JSON.parse(GM_getValue("disable", "[]"))
 	},
 	script = {
- 		"firstPet" : GM.getValue("firstPet", ""),
+ 		"firstPet" : GM_getValue("firstPet", ""),
 		"currentPet" : xpath("string(.//tr[1]/td/a[contains(@href, 'quickref')]/b/text())"),
-		"nextPet" : GM.getValue("nextPet", "")
+		"nextPet" : GM_getValue("nextPet", "")
 	};
 
 	function nextAction (f) {
@@ -81,16 +74,16 @@
 					reelIn.form.submit();
 				});
 			} else if (script.currentPet == script.firstPet) {
-				GM.deleteValue("firstPet");
-				GM.deleteValue("nextPet");
+				GM_deleteValue("firstPet");
+				GM_deleteValue("nextPet");
 			} else if (script.nextPet) {
 				nextAction(function () {
 					location.replace("http://www.neopets.com/process_changepet.phtml?new_active_pet=" + script.nextPet);
 				});
 			}
 		} else {
-			GM.setValue("firstPet", script.currentPet);
-			GM.deleteValue("nextPet");
+			GM_setValue("firstPet", script.currentPet);
+			GM_deleteValue("nextPet");
 
 			nextAction(function () {
 				location.replace("http://www.neopets.com/quickref.phtml");
@@ -117,7 +110,7 @@
 		}
 		
 		if (~nextPet) {
-			GM.setValue("nextPet", nextPet = arr_pets[nextPet % (at = arr_pets.length)]);
+			GM_setValue("nextPet", nextPet = arr_pets[nextPet % (at = arr_pets.length)]);
 
 			if (script.nextPet || at == 1) {
 				nextAction(function () {
@@ -129,8 +122,8 @@
 				);
 			}
 		} else {
-			GM.deleteValue("firstPet");
-			GM.deleteValue("nextPet");
+			GM_deleteValue("firstPet");
+			GM_deleteValue("nextPet");
 		}
 	}
 }());

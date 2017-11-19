@@ -16,25 +16,17 @@
 // @include        http://www.neopets.com/water/com_prizes.phtml
 // @include        http://www.neopets.com/altador/colosseum/staff/
 // @grant          GM_log
-// @grant          GM.log
 // @grant          GM_getValue
-// @grant          GM.getValue
 // @grant          GM_setValue
-// @grant          GM.setValue
 // @grant          GM_deleteValue
-// @grant          GM.deleteValue
 // @grant          GM_openInTab
-// @grant          GM.openInTab
 // @grant          GM_getResourceText
-// @grant          GM.getResourceText
 // @grant          GM_xmlhttpRequest
-// @grant          GM.xmlHttpRequest
 // @icon           http://gm.wesley.eti.br/icon.php?desc=101687
 // @connect        jellyneo.net
 // @connect        neopets.com
 // @connect        github.com
 // @connect        raw.githubusercontent.com
-// @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @require        ../../includes/Includes_HttpRequest/56489.user.js
 // @require        ../../includes/Includes_XPath/63808.user.js
 // @require        ../../includes/Includes_JellyNeo_[BETA]/101685.user.js
@@ -77,7 +69,7 @@
 
 		return null;
 	}()) || [(/^(?:Neopets - )?(.+?) - Prize/i.test(document.title) && RegExp.$1), 3],
-	cache = JSON.parse(GM.getValue("cache_" + location.pathname, "{}"));
+	cache = JSON.parse(GM_getValue("cache_" + location.pathname, "{}"));
 
 	function getPoints(node) {
 		var texts = xpath(".//text()", node),
@@ -138,7 +130,7 @@
 						},
 						"callback" : function (obj) {
 							var name = "cache_" + location.pathname,
-							cache = JSON.parse(GM.getValue(name, "{}")),
+							cache = JSON.parse(GM_getValue(name, "{}")),
 							ai;
 
 							if (obj.list.length) {
@@ -156,7 +148,7 @@
 									cache.items.push(obj.list[0]);
 								}
 
-								GM.setValue(name, JSON.stringify(cache));
+								GM_setValue(name, JSON.stringify(cache));
 							}
 						}
 					});
@@ -167,7 +159,7 @@
 		if (!fromCache) {
 			curr.setUTCHours(32, 0, 0, 0);
 
-			GM.setValue("cache_" + location.pathname, JSON.stringify({
+			GM_setValue("cache_" + location.pathname, JSON.stringify({
 				"date" : curr,
 				"items" : fitems,
 			}));

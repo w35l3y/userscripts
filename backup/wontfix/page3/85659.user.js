@@ -11,9 +11,7 @@
 // @language       en
 // @include        nowhere
 // @grant          GM_log
-// @grant          GM.log
 // @icon           http://gm.wesley.eti.br/icon.php?desc=85659
-// @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // ==/UserScript==
 
 /**************************************************************************
@@ -36,24 +34,24 @@
 FileIni = function(){};
 FileIni.read = function(str, section, item)
 {
-    var x = str.replace(/\r/g, "");
+	var x = str.replace(/\r/g, "");
 
-    for (var ai = 0,s = 0,at = 0;(ai = x.toLowerCase().indexOf("\n" + item + "=", at)) > -1 && (s = x.toLowerCase().indexOf("\n[" + section + "]\n", at)) > -1;at = ai)
-    if (s > ai)
-    ai = s;
-    else
-    {
-        ai += 2 + item.length;
+	for (var ai = 0,s = 0,at = 0;(ai = x.toLowerCase().indexOf("\n" + item + "=", at)) > -1 && (s = x.toLowerCase().indexOf("\n[" + section + "]\n", at)) > -1;at = ai)
+	if (s > ai)
+	ai = s;
+	else
+	{
+		ai += 2 + item.length;
 
-        var p = x.indexOf("\n", ai),
-        pp = x.indexOf("\n[", 2 + s);
+		var p = x.indexOf("\n", ai),
+		pp = x.indexOf("\n[", 2 + s);
 
-        if (s > -1 && (pp == -1 || pp > ai))
-        if (p > -1)
-        return x.substring(ai, p);
-        else
-        return x.substr(ai);
-    }
+		if (s > -1 && (pp == -1 || pp > ai))
+		if (p > -1)
+		return x.substring(ai, p);
+		else
+		return x.substr(ai);
+	}
 
-    return null;
+	return null;
 };

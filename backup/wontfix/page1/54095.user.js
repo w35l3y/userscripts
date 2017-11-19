@@ -16,25 +16,17 @@
 // @exclude        http://www.neopets.com/games/play_flash.phtml?*
 // @exclude        http://www.neopets.com/iteminfo.phtml?*
 // @grant          GM_log
-// @grant          GM.log
 // @grant          GM_addStyle
-// @grant          GM.addStyle
 // @grant          GM_getValue
-// @grant          GM.getValue
 // @grant          GM_setValue
-// @grant          GM.setValue
 // @grant          GM_deleteValue
-// @grant          GM.deleteValue
 // @grant          GM_xmlhttpRequest
-// @grant          GM.xmlHttpRequest
 // @grant          GM_getResourceText
-// @grant          GM.getResourceText
 // @icon           http://gm.wesley.eti.br/icon.php?desc=54095
 // @resource       i18n https://github.com/w35l3y/userscripts/raw/master/includes/Includes_I18n/resources/default.json
 // @resource       meta https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page1/54095.user.js
 // @resource       updaterWindowHtml https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Updater/resources/default.html
 // @resource       updaterWindowCss https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Updater/resources/default.css
-// @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_HttpRequest/56489.user.js
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Translate/85618.user.js
@@ -66,30 +58,30 @@
 **************************************************************************/
 
 if (NeopetsDocument.Username)
-(function () {    // script scope
-    const INTERVAL = 1810000;    // 30 * 60 * 1000 + 10 * 1000 (30 minutes + 10 seconds)
+(function () {	// script scope
+	const INTERVAL = 1810000;	// 30 * 60 * 1000 + 10 * 1000 (30 minutes + 10 seconds)
 
-    var n = "HealingSprings-LastAccess-" + NeopetsDocument.Username,
-    la = Date.parse(GM.getValue(n, "Sat Apr 16 2011 08:13:43 GMT-0300")) || new Date(),
-    curr = new Date();
+	var n = "HealingSprings-LastAccess-" + NeopetsDocument.Username,
+	la = Date.parse(GM_getValue(n, "Sat Apr 16 2011 08:13:43 GMT-0300")) || new Date(),
+	curr = new Date();
 
-    if (la.valueOf() < curr.valueOf() - INTERVAL) {
-        GM.setValue(n, (la = curr).toString());
+	if (la.valueOf() < curr.valueOf() - INTERVAL) {
+		GM_setValue(n, (la = curr).toString());
 
-        HttpRequest.open({
-            "method" : "post",
-            "url" : "http://www.neopets.com/faerieland/springs.phtml",
-            "headers" : {
-                "Referer" : "http://www.neopets.com/faerieland/springs.phtml"
-            },
-            "onsuccess" : function(xhr) {
-                var msg = xpath(".//td[@class = 'content']//div[@class = 'errormess' and b] | .//td[@class = 'content']//center[1]", xhr.response.xml)[0];
+		HttpRequest.open({
+			"method" : "post",
+			"url" : "http://www.neopets.com/faerieland/springs.phtml",
+			"headers" : {
+				"Referer" : "http://www.neopets.com/faerieland/springs.phtml"
+			},
+			"onsuccess" : function(xhr) {
+				var msg = xpath(".//td[@class = 'content']//div[@class = 'errormess' and b] | .//td[@class = 'content']//center[1]", xhr.response.xml)[0];
 
-                Neopets.addMessage('<span style="color:red">[Healing Springs]</span>');
-                Neopets.addMessage(msg.textContent);
-            }
-        }).send({"type" : "heal"});
-    }
+				Neopets.addMessage('<span style="color:red">[Healing Springs]</span>');
+				Neopets.addMessage(msg.textContent);
+			}
+		}).send({"type" : "heal"});
+	}
 
-    setTimeout(arguments.callee, la - curr + INTERVAL * (1 + Math.random()));
+	setTimeout(arguments.callee, la - curr + INTERVAL * (1 + Math.random()));
 }());

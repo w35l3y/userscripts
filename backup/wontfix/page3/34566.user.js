@@ -11,23 +11,14 @@
 // @include        http://www.orkut.com.br/CommTopics.aspx?cmm=*
 // @include        http://www.orkut.com.br/Community.aspx?cmm=*
 // @grant          GM_log
-// @grant          GM.log
 // @grant          GM_addStyle
-// @grant          GM.addStyle
 // @grant          GM_getValue
-// @grant          GM.getValue
 // @grant          GM_setValue
-// @grant          GM.setValue
 // @grant          GM_openInTab
-// @grant          GM.openInTab
 // @grant          GM_deleteValue
-// @grant          GM.deleteValue
 // @grant          GM_xmlhttpRequest
-// @grant          GM.xmlHttpRequest
 // @grant          GM_getResourceText
-// @grant          GM.getResourceText
 // @icon           http://gm.wesley.eti.br/icon.php?desc=34566
-// @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @require        http://www.wesley.eti.br/includes/js/php.js
 // @require        http://www.wesley.eti.br/includes/js/php2js.js
 // ==/UserScript==
@@ -50,36 +41,36 @@
 **************************************************************************/
 
 checkForUpdate({
-    'file':'https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page3/34566.user.js',
-    'name':'Orkut : Starred Topics',
-    'namespace':'http://gm.wesley.eti.br/orkut',
-    'version':'1.0.1'
+	'file':'https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page3/34566.user.js',
+	'name':'Orkut : Starred Topics',
+	'namespace':'http://gm.wesley.eti.br/orkut',
+	'version':'1.0.1'
 });
 
-(function(){    // script scope
-    var path = ( /\/Community\.aspx/i.test(location.href) ? "id('mbox')/table[3]/tbody/tr[2]/td[1]/form/table/tbody/tr/td[2]/a" : "id('mboxfull')/table/tbody/tr[2]/td[1]/form/table/tbody/tr/td[2]/a" );
-    var topics = document.evaluate(path,document,null,XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE,null);
-    for ( var i = 0 , t = topics.snapshotLength ; i < t ; ++i )
-    {
-        AddStar(topics.snapshotItem(i));
-    }
+(function(){	// script scope
+	var path = ( /\/Community\.aspx/i.test(location.href) ? "id('mbox')/table[3]/tbody/tr[2]/td[1]/form/table/tbody/tr/td[2]/a" : "id('mboxfull')/table/tbody/tr[2]/td[1]/form/table/tbody/tr/td[2]/a" );
+	var topics = document.evaluate(path,document,null,XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE,null);
+	for ( var i = 0 , t = topics.snapshotLength ; i < t ; ++i )
+	{
+		AddStar(topics.snapshotItem(i));
+	}
 })();
 
 function AddStar(l)
 {
-    var img = new Image();
-    var cmm = l.href.match(/cmm=(\d+)/)[1];
-    var tid = l.href.match(/tid=(\d+)/)[1];
-    var topic = cmm+"+"+tid+"|";
-    var stat = ( GM.getValue("starred","").indexOf(topic) == -1 ? "off" : "on" );    
-    img.src = "http://mail.google.com/mail/images/star_"+stat+"_2.gif#topic"+topic;
-    img.setAttribute('style','float:left;padding: 3px 10px 0px 0px;');
-    img.addEventListener("click",function(e){
-        var stat = this.src.match(/_on_/);
-        var starred = GM.getValue("starred","");
-        this.src = "http://mail.google.com/mail/images/star_"+(stat ? "off" : "on")+"_2.gif#topic"+topic;
-        GM.setValue("starred",( stat ? starred.replace(topic,"") : topic + starred ));
-    },true);
+	var img = new Image();
+	var cmm = l.href.match(/cmm=(\d+)/)[1];
+	var tid = l.href.match(/tid=(\d+)/)[1];
+	var topic = cmm+"+"+tid+"|";
+	var stat = ( GM_getValue("starred","").indexOf(topic) == -1 ? "off" : "on" );	
+	img.src = "http://mail.google.com/mail/images/star_"+stat+"_2.gif#topic"+topic;
+	img.setAttribute('style','float:left;padding: 3px 10px 0px 0px;');
+	img.addEventListener("click",function(e){
+		var stat = this.src.match(/_on_/);
+		var starred = GM_getValue("starred","");
+		this.src = "http://mail.google.com/mail/images/star_"+(stat ? "off" : "on")+"_2.gif#topic"+topic;
+		GM_setValue("starred",( stat ? starred.replace(topic,"") : topic + starred ));
+	},true);
 
-    l.parentNode.insertBefore(img,l);
+	l.parentNode.insertBefore(img,l);
 }

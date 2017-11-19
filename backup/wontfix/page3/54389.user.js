@@ -10,9 +10,7 @@
 // @version        1.0.2.0 BETA
 // @include        nowhere
 // @grant          GM_log
-// @grant          GM.log
 // @icon           http://gm.wesley.eti.br/icon.php?desc=54389
-// @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // ==/UserScript==
 
 /**************************************************************************
@@ -34,27 +32,27 @@
 
 function array_slice(arr, offs, len, preserve_keys)
 {
-    var result = [];
-    var at = arr.length;
-    if (offs < 0)
-        offs += at;
-    if (typeof len == "undefined")
-        len = at;
-    len += offs;
+	var result = [];
+	var at = arr.length;
+	if (offs < 0)
+		offs += at;
+	if (typeof len == "undefined")
+		len = at;
+	len += offs;
 
-    for ( var ai = 0 ; ai < at ; ++ai )
-    if (ai >= offs && ai <= len)
-    if (preserve_keys)
-        result[ai] = arr[ai];
-    else
-        result.push(arr[ai]);
+	for ( var ai = 0 ; ai < at ; ++ai )
+	if (ai >= offs && ai <= len)
+	if (preserve_keys)
+		result[ai] = arr[ai];
+	else
+		result.push(arr[ai]);
 
-    return result;
+	return result;
 }
 function in_array(needle, haystack, strict)
 {
-    for ( var key in haystack)
-        if (strict && haystack[key] === needle || !strict && haystack[key] == needle)
-            return true;
-    return false;
+	for ( var key in haystack)
+		if (strict && haystack[key] === needle || !strict && haystack[key] == needle)
+			return true;
+	return false;
 }

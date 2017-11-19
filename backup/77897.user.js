@@ -11,25 +11,17 @@
 // @language       en
 // @include        http://www.neopets.com/neoboards/topic.phtml?topic=*
 // @grant          GM_log
-// @grant          GM.log
 // @grant          GM_addStyle
-// @grant          GM.addStyle
 // @grant          GM_getValue
-// @grant          GM.getValue
 // @grant          GM_setValue
-// @grant          GM.setValue
 // @grant          GM_deleteValue
-// @grant          GM.deleteValue
 // @grant          GM_xmlhttpRequest
-// @grant          GM.xmlHttpRequest
 // @grant          GM_getResourceText
-// @grant          GM.getResourceText
 // @icon           http://gm.wesley.eti.br/icon.php?desc=77897
 // @resource       meta https://github.com/w35l3y/userscripts/raw/master/backup/77897.user.js
 // @resource       i18n https://github.com/w35l3y/userscripts/raw/master/includes/Includes_I18n/resources/default.json
 // @resource       updaterWindowHtml https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Updater/resources/default.html
 // @resource       updaterWindowCss https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Updater/resources/default.css
-// @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_HttpRequest/56489.user.js
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Translate/85618.user.js
@@ -62,286 +54,286 @@
 
 **************************************************************************/
 
-//GM.setValue("cache", 3600000);    // 1 hour
-//GM.setValue("history_cups", 0);
+//GM_setValue("cache", 3600000);	// 1 hour
+//GM_setValue("history_cups", 0);
 
 // Altador Cup Neoboard
 if (xpath("string(id('content')//td//a[contains(@href, 'boardlist') and contains(text(), 'Altador')]/@href)")) {
-    var teams = ["Unknown", "Altador", "Brightvale", "Darigan Citadel", "Faerieland", "Haunted Woods", "Kreludor", "Krawk Island", "Shenkuu", "Lost Desert", "Maraqua", "Meridell", "Mystery Island", "Roo Island", "Terror Mountain", "Tyrannia", "Virtupets", "Kiko Lake", "Moltara"],
-    players = [['"Trapper" Remis'],['"Squeaky" Tressif'],['Layton Vickles'],['Kakoni Worrill'],['Krell Vitor'],['Derlyn Fonnet'],['Garven Hale'],['Mirsha Grelinek'],['Leera Heggle'],['Elon "The Black Hole" Hughlis'],['"Wizard" Windelle'],['Volgoth'],['Lilo Blumario'],['Prytariel'],['Loryche'],['Keetra Deile'],['"Poke" Cellers'],['Aldric Beign']],
-    cache_time = GM.getValue("cache", 7200000),    // 2 hours
-    history_cups = GM.getValue("history_cups", 3),
-    current = new Date(),
-    cyear = current.getFullYear(),
-    signup = new Date(cyear, 4, 25),    // May 25th
-    positions = JSON.parse(GM.getValue("positions", "{}"));
-    
-    var upd_positions = !((cyear-1) in positions);
+	var teams = ["Unknown", "Altador", "Brightvale", "Darigan Citadel", "Faerieland", "Haunted Woods", "Kreludor", "Krawk Island", "Shenkuu", "Lost Desert", "Maraqua", "Meridell", "Mystery Island", "Roo Island", "Terror Mountain", "Tyrannia", "Virtupets", "Kiko Lake", "Moltara"],
+	players = [['"Trapper" Remis'],['"Squeaky" Tressif'],['Layton Vickles'],['Kakoni Worrill'],['Krell Vitor'],['Derlyn Fonnet'],['Garven Hale'],['Mirsha Grelinek'],['Leera Heggle'],['Elon "The Black Hole" Hughlis'],['"Wizard" Windelle'],['Volgoth'],['Lilo Blumario'],['Prytariel'],['Loryche'],['Keetra Deile'],['"Poke" Cellers'],['Aldric Beign']],
+	cache_time = GM_getValue("cache", 7200000),	// 2 hours
+	history_cups = GM_getValue("history_cups", 3),
+	current = new Date(),
+	cyear = current.getFullYear(),
+	signup = new Date(cyear, 4, 25),	// May 25th
+	positions = JSON.parse(GM_getValue("positions", "{}"));
+	
+	var upd_positions = !((cyear-1) in positions);
 
-    if (current < signup) {
-        --cyear;
-    }
+	if (current < signup) {
+		--cyear;
+	}
 
-    if (GM.getValue("year") != cyear) {
-        GM.setValue("year", cyear);
-        GM.deleteValue("users");
+	if (GM_getValue("year") != cyear) {
+		GM_setValue("year", cyear);
+		GM_deleteValue("users");
 
-        upd_positions = true;
-    }
+		upd_positions = true;
+	}
 
-    function rank2str(rank) {
-        switch (rank) {
-            case -1    : return 'Unknown';
-            case 0    : return 'Beginner';
-            case 20    : return 'All Star';
-            default    : return 'Level ' + rank;
-        }
-    }
+	function rank2str(rank) {
+		switch (rank) {
+			case -1	: return 'Unknown';
+			case 0	: return 'Beginner';
+			case 20	: return 'All Star';
+			default	: return 'Level ' + rank;
+		}
+	}
 
-    function calculatedRank(text) {
-        if (/(\w+)_(engrave|\w+gem)\.png/.test(text)) {
-            var groups = ["wood", "stone", "bronze", "silver", "gold"].indexOf(RegExp.$1),
-            gems = ["yellowgem", "redgem", "greengem", "bluegem"].indexOf(RegExp.$2);
+	function calculatedRank(text) {
+		if (/(\w+)_(engrave|\w+gem)\.png/.test(text)) {
+			var groups = ["wood", "stone", "bronze", "silver", "gold"].indexOf(RegExp.$1),
+			gems = ["yellowgem", "redgem", "greengem", "bluegem"].indexOf(RegExp.$2);
 
-            if (~groups) {
-                return 1 + 4 * groups + gems;
-            }
-        }
+			if (~groups) {
+				return 1 + 4 * groups + gems;
+			}
+		}
 
-        var ranks = [50, 100, 150, 200, 275, 350, 425, 500, 600, 700, 800, 900, 1025, 1150, 1275, 1400, 1550, 1700, 1850, 2000],
-        indexes = {"1":1, "2":2, "4":2, "6":12, "8":12},
-        ai = 0,
-        sum = 0,
-        at = ranks.length;
-        for (var v, re = /<td style='text-align: right; font-weight: bold;'>(\d+(?:[,.]\d{3})*)<\/td>/gi;v = re.exec(text); ++ai) {
-            if (ai in indexes && (sum += parseInt(v[1].replace(/[,.]+/g, ""), 10) * (1/indexes[ai])) >= ranks[at - 1]) {
-                return at;
-            }
-        }
+		var ranks = [50, 100, 150, 200, 275, 350, 425, 500, 600, 700, 800, 900, 1025, 1150, 1275, 1400, 1550, 1700, 1850, 2000],
+		indexes = {"1":1, "2":2, "4":2, "6":12, "8":12},
+		ai = 0,
+		sum = 0,
+		at = ranks.length;
+		for (var v, re = /<td style='text-align: right; font-weight: bold;'>(\d+(?:[,.]\d{3})*)<\/td>/gi;v = re.exec(text); ++ai) {
+			if (ai in indexes && (sum += parseInt(v[1].replace(/[,.]+/g, ""), 10) * (1/indexes[ai])) >= ranks[at - 1]) {
+				return at;
+			}
+		}
 
-        if (ai) {
-            for (ai = 0; ai < at && ranks[ai] <= sum; ++ai);
+		if (ai) {
+			for (ai = 0; ai < at && ranks[ai] <= sum; ++ai);
 
-            return ai;
-        }
+			return ai;
+		}
 
-        return null;
-    }
+		return null;
+	}
 
-    function ac(p, l, yr, isCache, hc) {
-        var users = JSON.parse(GM.getValue("users", "{}")),
-        info = users[l],
-        history = xpath(".//div[@class='cup_history']", p)[0];
+	function ac(p, l, yr, isCache, hc) {
+		var users = JSON.parse(GM_getValue("users", "{}")),
+		info = users[l],
+		history = xpath(".//div[@class='cup_history']", p)[0];
 
-        if (yr in info.cups && "team" in info.cups[yr]) {
-            var pos = "",
-            ordpos = ["th", "st", "nd", "rd"];
+		if (yr in info.cups && "team" in info.cups[yr]) {
+			var pos = "",
+			ordpos = ["th", "st", "nd", "rd"];
 
-            if (yr in positions) {
-                for (var ai in positions[yr]) {
-                    if (positions[yr][ai] == info.cups[yr].team) {
-                        pos = " (" + (++ai) + ordpos[(!/1[12]$/.test(ai) && /(\d)$/.test(ai) && RegExp.$1 < 4) ? RegExp.$1 : 0] + " " + yr + ")";
-                        break;
-                    }
-                }
-            }
+			if (yr in positions) {
+				for (var ai in positions[yr]) {
+					if (positions[yr][ai] == info.cups[yr].team) {
+						pos = " (" + (++ai) + ordpos[(!/1[12]$/.test(ai) && /(\d)$/.test(ai) && RegExp.$1 < 4) ? RegExp.$1 : 0] + " " + yr + ")";
+						break;
+					}
+				}
+			}
 
-            if (history) {
-                history.innerHTML += '<a href="http://www.neopets.com/altador/colosseum/' + yr + '/trophy.phtml?username=' + l + '" target="_blank"><img height="20" style="border: 1px solid #000000;" alt="' + teams[info.cups[yr].team] + '" title="' + rank2str(info.cups[yr].rank) + pos + '" src="http://images.neopets.com/altador/altadorcup/team_logos/' + teams[info.cups[yr].team].replace(/\s+/g, '').toLowerCase() + '_50.gif" /></a> ';
-//                history.innerHTML += '<a href="http://www.neopets.com/altador/colosseum/' + yr + '/trophy.phtml?username=' + l + '" target="_blank"><img height="20" style="border: 1px solid #000000;padding: 1px" alt="' + teams[info.cups[yr].team] + '" title="' + rank2str(info.cups[yr].rank) + pos + '" src="http://images.neopets.com/neoboards/smilies/' + teams[info.cups[yr].team].replace(/\s+/g, '').toLowerCase() + '.gif" /></a> ';
-//                history.innerHTML += '<a href="http://www.neopets.com/altador/colosseum/' + yr + '/trophy.phtml?username=' + l + '" target="_blank"><img width="22" height="22" style="border: 1px solid #000000;" alt="' + teams[info.cups[yr].team] + '" title="' + rank2str(info.cups[yr].rank) + pos + '" src="http://images.neopets.com/altador/altadorcup/team_logos/' + teams[info.cups[yr].team].replace(/\s+/g, '').toLowerCase() + '_50.gif" /></a> ';
-            } else {
-                hr = document.createElement("tr"),
-                acx = document.createElement("tr");
+			if (history) {
+				history.innerHTML += '<a href="http://www.neopets.com/altador/colosseum/' + yr + '/trophy.phtml?username=' + l + '" target="_blank"><img height="20" style="border: 1px solid #000000;" alt="' + teams[info.cups[yr].team] + '" title="' + rank2str(info.cups[yr].rank) + pos + '" src="http://images.neopets.com/altador/altadorcup/team_logos/' + teams[info.cups[yr].team].replace(/\s+/g, '').toLowerCase() + '_50.gif" /></a> ';
+//				history.innerHTML += '<a href="http://www.neopets.com/altador/colosseum/' + yr + '/trophy.phtml?username=' + l + '" target="_blank"><img height="20" style="border: 1px solid #000000;padding: 1px" alt="' + teams[info.cups[yr].team] + '" title="' + rank2str(info.cups[yr].rank) + pos + '" src="http://images.neopets.com/neoboards/smilies/' + teams[info.cups[yr].team].replace(/\s+/g, '').toLowerCase() + '.gif" /></a> ';
+//				history.innerHTML += '<a href="http://www.neopets.com/altador/colosseum/' + yr + '/trophy.phtml?username=' + l + '" target="_blank"><img width="22" height="22" style="border: 1px solid #000000;" alt="' + teams[info.cups[yr].team] + '" title="' + rank2str(info.cups[yr].rank) + pos + '" src="http://images.neopets.com/altador/altadorcup/team_logos/' + teams[info.cups[yr].team].replace(/\s+/g, '').toLowerCase() + '_50.gif" /></a> ';
+			} else {
+				hr = document.createElement("tr"),
+				acx = document.createElement("tr");
 
-                hr.appendChild(document.createElement("td"));
-                hr.firstChild.setAttribute("colspan", "2");
-                hr.firstChild.innerHTML = '<hr color="#d1d1d1" size="1" noshade="noshade" />';
-                p.appendChild(hr);
+				hr.appendChild(document.createElement("td"));
+				hr.firstChild.setAttribute("colspan", "2");
+				hr.firstChild.innerHTML = '<hr color="#d1d1d1" size="1" noshade="noshade" />';
+				p.appendChild(hr);
 
-                acx.appendChild(document.createElement("td"));
-                acx.firstChild.innerHTML = '<a href="http://www.neopets.com/altador/colosseum/' + yr + '/trophy.phtml?username=' + l + '" target="_blank"><img width="50" height="50" style="border: 1px solid #' + (yr == cyear ? '00' : 'FF') + '0000;" alt="' + teams[info.cups[yr].team] + '" title="' + rank2str(info.cups[yr].rank) + pos + '" src="http://images.neopets.com/altador/altadorcup/team_logos/' + teams[info.cups[yr].team].replace(/\s+/g, '').toLowerCase() + '_50.gif" /></a>';
-                acx.appendChild(document.createElement("td"));
-                acx.childNodes[1].setAttribute("class", "sf");
-                acx.childNodes[1].innerHTML = '<b>' + teams[info.cups[yr].team] + '</b><br />' + rank2str(info.cups[yr].rank) + '<div style="margin-top: 4px;" class="cup_history"></div>';
-//                acx.childNodes[1].innerHTML = '<img width="50" height="50" alt="' + rank2str(info.cups[yr].rank) + '" title="Level ' + info[yr].rank + '" src="http://images.neopets.com/altador/altadorcup/' + yr + '/badges/' + info.cups[yr].rank + '.png" />';
-                p.appendChild(acx);
-            }
-        }
+				acx.appendChild(document.createElement("td"));
+				acx.firstChild.innerHTML = '<a href="http://www.neopets.com/altador/colosseum/' + yr + '/trophy.phtml?username=' + l + '" target="_blank"><img width="50" height="50" style="border: 1px solid #' + (yr == cyear ? '00' : 'FF') + '0000;" alt="' + teams[info.cups[yr].team] + '" title="' + rank2str(info.cups[yr].rank) + pos + '" src="http://images.neopets.com/altador/altadorcup/team_logos/' + teams[info.cups[yr].team].replace(/\s+/g, '').toLowerCase() + '_50.gif" /></a>';
+				acx.appendChild(document.createElement("td"));
+				acx.childNodes[1].setAttribute("class", "sf");
+				acx.childNodes[1].innerHTML = '<b>' + teams[info.cups[yr].team] + '</b><br />' + rank2str(info.cups[yr].rank) + '<div style="margin-top: 4px;" class="cup_history"></div>';
+//				acx.childNodes[1].innerHTML = '<img width="50" height="50" alt="' + rank2str(info.cups[yr].rank) + '" title="Level ' + info[yr].rank + '" src="http://images.neopets.com/altador/altadorcup/' + yr + '/badges/' + info.cups[yr].rank + '.png" />';
+				p.appendChild(acx);
+			}
+		}
 
-        if (isCache && hc < history_cups) {
-            ac(p, l, --yr, isCache, ++hc);
-        }
-    }
-    
-    function init() {
-        var users = JSON.parse(GM.getValue("users", "{}")),
-        wait = {},
-        update_users = [];
-        
-        xpath("id('boards_table')//td//td/a[contains(@href, 'userlookup')]").forEach(function (user) {
-            var login = /user=(\w+)/.test(user.href) && RegExp.$1,
-            p = xpath("./ancestor::tbody[1]", user)[0];
+		if (isCache && hc < history_cups) {
+			ac(p, l, --yr, isCache, ++hc);
+		}
+	}
+	
+	function init() {
+		var users = JSON.parse(GM_getValue("users", "{}")),
+		wait = {},
+		update_users = [];
+		
+		xpath("id('boards_table')//td//td/a[contains(@href, 'userlookup')]").forEach(function (user) {
+			var login = /user=(\w+)/.test(user.href) && RegExp.$1,
+			p = xpath("./ancestor::tbody[1]", user)[0];
 
-            if (login) {
-                if (login in users && current - cache_time < Date.parse(users[login].update)) {
-                    ac(p, login, cyear, true, 0);
-                } else if (login in wait) {
-                    wait[login].push(p);
-                } else {
-                    var img = document.createElement("img");
-                    img.setAttribute("style", "display:none;width:0;height:0");
-                    img.setAttribute("src", "http://www.obyneo.net/ac/2013/calc.png?u=" + login);
-                    document.body.appendChild(img);
-                    GM.log("Updated " + login);
+			if (login) {
+				if (login in users && current - cache_time < Date.parse(users[login].update)) {
+					ac(p, login, cyear, true, 0);
+				} else if (login in wait) {
+					wait[login].push(p);
+				} else {
+					var img = document.createElement("img");
+					img.setAttribute("style", "display:none;width:0;height:0");
+					img.setAttribute("src", "http://www.obyneo.net/ac/2013/calc.png?u=" + login);
+					document.body.appendChild(img);
+					GM_log("Updated " + login);
 
-                    update_users.push(login);
-                    wait[login] = [p];
-                }
-            }
-        });
+					update_users.push(login);
+					wait[login] = [p];
+				}
+			}
+		});
 
-        (function recursive(yr, list) {
-            var users = JSON.parse(GM.getValue("users", "{}"));
+		(function recursive(yr, list) {
+			var users = JSON.parse(GM_getValue("users", "{}"));
 
-            if (!list.length) {
-                if (cyear - yr < history_cups) {
-                    setTimeout(recursive, 777 + 477 * Math.random(), yr - 1, JSON.parse(update_users.toSource()));
-                } else {
-                    GM.log("Teams updated!");
-                }
-            } else if (yr != cyear && list[0] in users && yr in users[list[0]].cups) {
-                // no need to update old tournaments
-                var l = list.shift();
+			if (!list.length) {
+				if (cyear - yr < history_cups) {
+					setTimeout(recursive, 777 + 477 * Math.random(), yr - 1, JSON.parse(update_users.toSource()));
+				} else {
+					GM_log("Teams updated!");
+				}
+			} else if (yr != cyear && list[0] in users && yr in users[list[0]].cups) {
+				// no need to update old tournaments
+				var l = list.shift();
 
-                if (l in wait && users[l].cups[yr].team) {
-                    wait[l].forEach(function (row) {
-                        ac(row, l, yr, false, 0);
-                    });
-                }
+				if (l in wait && users[l].cups[yr].team) {
+					wait[l].forEach(function (row) {
+						ac(row, l, yr, false, 0);
+					});
+				}
 
-                recursive(yr, list);
-            } else {
-                HttpRequest.open({
-                    "method" : "get",
-                    "url" : "http://www.neopets.com/altador/colosseum/" + yr + "/trophy.phtml",
-                    "headers" : {
-                        "Referer" : "http://www.neopets.com/userlookup.phtml?user=" + list[0]
-                    },
-                    "onsuccess" : function(xhr) {
-                        var l = list[0],
-                        users = JSON.parse(GM.getValue("users", "{}")),
-                        t = /\/team_(\d+)\./.test(xhr.response.text) && RegExp.$1;
+				recursive(yr, list);
+			} else {
+				HttpRequest.open({
+					"method" : "get",
+					"url" : "http://www.neopets.com/altador/colosseum/" + yr + "/trophy.phtml",
+					"headers" : {
+						"Referer" : "http://www.neopets.com/userlookup.phtml?user=" + list[0]
+					},
+					"onsuccess" : function(xhr) {
+						var l = list[0],
+						users = JSON.parse(GM_getValue("users", "{}")),
+						t = /\/team_(\d+)\./.test(xhr.response.text) && RegExp.$1;
 
-                        if (!(l in users)) {
-                            users[l] = {
-                                "cups" : {}
-                            };
-                        }
+						if (!(l in users)) {
+							users[l] = {
+								"cups" : {}
+							};
+						}
 
-                        if (!t) {
-                            if (/Team ([\w ]+)/i.test(xhr.response.text)) {
-                                for (var ai in teams) {
-                                    if (teams[ai] == RegExp.$1) {
-                                        t = ai;
-                                        break;
-                                    }
-                                }
-                            } else {
-                                var tf = 0;
-                                a:for (var ai in players) {
-                                    for (var bi in players[ai]) {
-                                        if (xhr.response.text.indexOf(players[ai][bi]) > -1) {
-                                            tf = 1+parseInt(ai, 10);
-                                            break a;
-                                        }
-                                    }
-                                }
-                                if (tf) {
-                                    t = tf;
-                                }
-                            }
-                        }
-                        
-                        if (yr == cyear) {
-                            users[l].update = new Date().toString().replace(/\s+\(.+\)/g, "");
-                        }
+						if (!t) {
+							if (/Team ([\w ]+)/i.test(xhr.response.text)) {
+								for (var ai in teams) {
+									if (teams[ai] == RegExp.$1) {
+										t = ai;
+										break;
+									}
+								}
+							} else {
+								var tf = 0;
+								a:for (var ai in players) {
+									for (var bi in players[ai]) {
+										if (xhr.response.text.indexOf(players[ai][bi]) > -1) {
+											tf = 1+parseInt(ai, 10);
+											break a;
+										}
+									}
+								}
+								if (tf) {
+									t = tf;
+								}
+							}
+						}
+						
+						if (yr == cyear) {
+							users[l].update = new Date().toString().replace(/\s+\(.+\)/g, "");
+						}
 
-                        if (t) {
-                            users[l].cups[yr] = {
-                                "team" : parseInt(t, 10) || 0,
-                                "rank" : parseInt(/\/(?:badges\/|levelshields_?\d+_)(\d+)\./.test(xhr.response.text) && RegExp.$1 || calculatedRank(xhr.response.text), 10)
-                            };
+						if (t) {
+							users[l].cups[yr] = {
+								"team" : parseInt(t, 10) || 0,
+								"rank" : parseInt(/\/(?:badges\/|levelshields_?\d+_)(\d+)\./.test(xhr.response.text) && RegExp.$1 || calculatedRank(xhr.response.text), 10)
+							};
 
-                            if (isNaN(users[l].cups[yr].rank)) {
-                                users[l].cups[yr].rank = -1;
-                            }
+							if (isNaN(users[l].cups[yr].rank)) {
+								users[l].cups[yr].rank = -1;
+							}
 
-                            GM.setValue("users", JSON.stringify(users));
+							GM_setValue("users", JSON.stringify(users));
 
-                            if (l in wait) {
-                                wait[l].forEach(function (row) {
-                                    ac(row, l, yr, false, 0);
-                                });
-                            }
-                        } else {
-                            users[l].cups[yr] = {};
+							if (l in wait) {
+								wait[l].forEach(function (row) {
+									ac(row, l, yr, false, 0);
+								});
+							}
+						} else {
+							users[l].cups[yr] = {};
 
-                            GM.setValue("users", JSON.stringify(users));
-                        }
+							GM_setValue("users", JSON.stringify(users));
+						}
 
-                        list.shift();
-                        setTimeout(recursive, 838 + 338 * Math.random(), yr, list);
-                    }
-                }).send({
-                    "username" : list[0]
-                });
-            }
-        }(cyear, JSON.parse(update_users.toSource())));
-    }
+						list.shift();
+						setTimeout(recursive, 838 + 338 * Math.random(), yr, list);
+					}
+				}).send({
+					"username" : list[0]
+				});
+			}
+		}(cyear, JSON.parse(update_users.toSource())));
+	}
 
-    if (upd_positions) {
-        HttpRequest.open({
-            "url" : "http://bookofages.jellyneo.net/events/altador-cup/",
-            "method" : "get",
-            "headers" : {
-                "Referer" : "http://www.jellyneo.net/?go=altadorcup11"
-            },
-            "onsuccess" : function(xhr) {
-                var yr = 2005,
-                iteams = {},
-                index = -1,
-                parent;
+	if (upd_positions) {
+		HttpRequest.open({
+			"url" : "http://bookofages.jellyneo.net/events/altador-cup/",
+			"method" : "get",
+			"headers" : {
+				"Referer" : "http://www.jellyneo.net/?go=altadorcup11"
+			},
+			"onsuccess" : function(xhr) {
+				var yr = 2005,
+				iteams = {},
+				index = -1,
+				parent;
 
-                for (var ai in teams) {
-                    iteams[teams[ai]] = ai;
-                }
+				for (var ai in teams) {
+					iteams[teams[ai]] = ai;
+				}
 
-                xpath(".//ol[not(li[contains(text(), '(')])]/li", xhr.response.xml).forEach(function (result) {
-                    if (parent != result.parentNode) {
-                        parent = result.parentNode;
-                        index = -1;
-                        ++yr;
-                    }
+				xpath(".//ol[not(li[contains(text(), '(')])]/li", xhr.response.xml).forEach(function (result) {
+					if (parent != result.parentNode) {
+						parent = result.parentNode;
+						index = -1;
+						++yr;
+					}
 
-                    if (!(yr in positions)) {
-                        positions[yr] = new Array(16);    // 16 teams
-                    }
+					if (!(yr in positions)) {
+						positions[yr] = new Array(16);	// 16 teams
+					}
 
-                    positions[yr][++index] = iteams[result.textContent];
-                });
+					positions[yr][++index] = iteams[result.textContent];
+				});
 
-                // removes positions older than `1 + history_cups` years ago
-                for (var ai = yr - (1 + history_cups); ai >= 2006; --ai) {
-                    delete positions[ai];
-                }
+				// removes positions older than `1 + history_cups` years ago
+				for (var ai = yr - (1 + history_cups); ai >= 2006; --ai) {
+					delete positions[ai];
+				}
 
-                GM.setValue("positions", JSON.stringify(positions));
+				GM_setValue("positions", JSON.stringify(positions));
 
-                init();
-            }
-        }).send();
-    } else {
-        init();
-    }
+				init();
+			}
+		}).send();
+	} else {
+		init();
+	}
 }

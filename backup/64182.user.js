@@ -11,17 +11,11 @@
 // @language       en
 // @include        http://www.neopets.com/pin_prefs.phtml*
 // @grant          GM_log
-// @grant          GM.log
 // @grant          GM_getValue
-// @grant          GM.getValue
 // @grant          GM_setValue
-// @grant          GM.setValue
 // @grant          GM_deleteValue
-// @grant          GM.deleteValue
 // @grant          GM_xmlhttpRequest
-// @grant          GM.xmlHttpRequest
 // @icon           http://gm.wesley.eti.br/icon.php?desc=64182
-// @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @require        http://www.neopets.com/process_pin_prefs.phtml
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_HttpRequest/56489.user.js
@@ -47,178 +41,178 @@
 Pin = function () {};
 
 Pin.convert = function (doc) {
-    var msg = xpath(".//div[@class = 'errormess' and b]")[0],
-    obj = {
-        "error": (msg ? 1 : 0),
-        "message": msg,
-        "list" : {}
-    };
-    
-    xpath(".//td[@class='content']//form[2]//tbody/tr/td/div/input[@type = 'checkbox']", doc).forEach(function (area) {
-        obj.list[area.name] = area.checked;
-    });
+	var msg = xpath(".//div[@class = 'errormess' and b]")[0],
+	obj = {
+		"error": (msg ? 1 : 0),
+		"message": msg,
+		"list" : {}
+	};
+	
+	xpath(".//td[@class='content']//form[2]//tbody/tr/td/div/input[@type = 'checkbox']", doc).forEach(function (area) {
+		obj.list[area.name] = area.checked;
+	});
 
-    return obj;
+	return obj;
 };
 
 Pin.process = function (params) {
-    if (params.old) {
-        params.pin = params.old;
-    } else if (!params.pin) {
-        if (params["new"]) {
-            params.pin = params["new"];
-        } else {
-            params.pin = GM.getValue("pin", "") || prompt("[Neopets : Pin]\nType in your current PIN number:");
-        }
-    }
-        
-    if (!params.data) {
-        params.data = {};
-    }
+	if (params.old) {
+		params.pin = params.old;
+	} else if (!params.pin) {
+		if (params["new"]) {
+			params.pin = params["new"];
+		} else {
+			params.pin = GM_getValue("pin", "") || prompt("[Neopets : Pin]\nType in your current PIN number:");
+		}
+	}
+		
+	if (!params.data) {
+		params.data = {};
+	}
 
-    params.data.pin_posted = params.pin;
-    
-    if (params.action == "create_pin") {
-        params.data.pin_posted_confirm = params.pin;
-    }
-    
-    params.data.dowhat = params.action;
+	params.data.pin_posted = params.pin;
+	
+	if (params.action == "create_pin") {
+		params.data.pin_posted_confirm = params.pin;
+	}
+	
+	params.data.dowhat = params.action;
 
-    HttpRequest.open({
-        "method" : "post",
-        "url" : "http://www.neopets.com/process_pin_prefs.phtml",
-        "headers" : {
-            "Referer" : "http://www.neopets.com/pin_prefs.phtml",
-        },
-        "onsuccess" : function (params) {
-            var obj = Pin.convert(params.response.xml) || {};
+	HttpRequest.open({
+		"method" : "post",
+		"url" : "http://www.neopets.com/process_pin_prefs.phtml",
+		"headers" : {
+			"Referer" : "http://www.neopets.com/pin_prefs.phtml",
+		},
+		"onsuccess" : function (params) {
+			var obj = Pin.convert(params.response.xml) || {};
 
-            for (var p in params.parameters) {
-                obj[p] = params.parameters[p];
-            }
+			for (var p in params.parameters) {
+				obj[p] = params.parameters[p];
+			}
 
-            obj.response = params.response;
-            
-            if (typeof params.onsuccess == "function") {
-                params.onsuccess(obj);
-            }
-        },
-        "paramaters" : params
-    }).send(params.data);
+			obj.response = params.response;
+			
+			if (typeof params.onsuccess == "function") {
+				params.onsuccess(obj);
+			}
+		},
+		"paramaters" : params
+	}).send(params.data);
 };
 
 Pin.create = function (params) {
-    if (!params.pin) {
-        alert("[Includes : Neopets : Pin : create]\nParameter 'pin' is wrong/missing.");
-    } else {
-        params.action = "create_pin";
+	if (!params.pin) {
+		alert("[Includes : Neopets : Pin : create]\nParameter 'pin' is wrong/missing.");
+	} else {
+		params.action = "create_pin";
 
-        delete params["new"];
-        delete params.old;
+		delete params["new"];
+		delete params.old;
 
-        Pin.process(params);
-    }
+		Pin.process(params);
+	}
 };
 
 Pin.change = function (params) {
-    if (!params["new"]) {
-        alert("[Includes : Neopets : Pin : create]\nParameter 'new' is wrong/missing.");
-    } else {
-        params.action = "change_pin";
+	if (!params["new"]) {
+		alert("[Includes : Neopets : Pin : create]\nParameter 'new' is wrong/missing.");
+	} else {
+		params.action = "change_pin";
 
-        if (!params.data) {
-            params.data = {};
-        }
+		if (!params.data) {
+			params.data = {};
+		}
 
-        params.data.pin_posted_change = params.data.pin_posted_change_confirm = params["new"];
+		params.data.pin_posted_change = params.data.pin_posted_change_confirm = params["new"];
 
-        delete params["new"];
+		delete params["new"];
 
-        Pin.process(params);
-    }
+		Pin.process(params);
+	}
 };
 
 Pin.areas = function (params) {
-    if (!params.list) {
-        alert("[Includes : Neopets : Pin : areas]\nParameter 'areas' is wrong/missing.");
-    } else {
-        params.action = "set_areas";
+	if (!params.list) {
+		alert("[Includes : Neopets : Pin : areas]\nParameter 'areas' is wrong/missing.");
+	} else {
+		params.action = "set_areas";
 
-        if (!params.data) {
-            params.data = {};
-        }
+		if (!params.data) {
+			params.data = {};
+		}
 
-        params.list.forEach(function (area) {
-            params.data[area] = "1";
-        });
+		params.list.forEach(function (area) {
+			params.data[area] = "1";
+		});
 
-        Pin.process(params);
-    }
+		Pin.process(params);
+	}
 };
 
 Pin.disable = function (params) {
-    if (!params) {
-        params = {};
-    }
+	if (!params) {
+		params = {};
+	}
 
-    params.action = "disable";
+	params.action = "disable";
 
-    if (!params.data) {
-        params.data = {};
-    }
+	if (!params.data) {
+		params.data = {};
+	}
 
-    params.data.checktodelete = "on";
-    
-    Pin.process(params);
+	params.data.checktodelete = "on";
+	
+	Pin.process(params);
 };
 
 Pin.execute = function (type, def) {
-    if (!type) {
-        alert("[Includes : Neopets : Pin : execute]\nParameter 'type' is wrong/missing.");
-    } else {
-        switch (type) {
-            case "pin_request":
-            if (!GM.getValue("pin_isset", !!GM.getValue("pin", ""))) {
-                var pin = def || prompt("Type in your Pin number");
+	if (!type) {
+		alert("[Includes : Neopets : Pin : execute]\nParameter 'type' is wrong/missing.");
+	} else {
+		switch (type) {
+			case "pin_request":
+			if (!GM_getValue("pin_isset", !!GM_getValue("pin", ""))) {
+				var pin = def || prompt("Type in your Pin number");
 
-                if (pin != null) {
-                    GM.setValue("pin", pin);
-                    GM.setValue("pin_isset", true);
-                    GM.deleteValue("pin_pending");
-                    
-                    return true;
-                }
+				if (pin != null) {
+					GM_setValue("pin", pin);
+					GM_setValue("pin_isset", true);
+					GM_deleteValue("pin_pending");
+					
+					return true;
+				}
 
-                return false;
-            }
+				return false;
+			}
 
-            return true;
-        }
-    }
+			return true;
+		}
+	}
 };
 
 if (location.pathname == "/process_pin_prefs.phtml") {
-    GM.deleteValue("pin_pending");
+	GM_deleteValue("pin_pending");
 } else if (location.pathname == "/pin_prefs.phtml") {
-    xpath(".//td[@class='content']//form[1]")[0].addEventListener("submit", function(e) {
-        GM.setValue("pin_pending", (e.target.elements.namedItem("pin_posted_change")||e.target.elements.namedItem("pin_posted_confirm")).value);
-    }, false);
-    
-    if (GM.getValue("pin_pending")) {
-        GM.setValue("pin", GM.getValue("pin_pending"));
-        GM.setValue("pin_isset", true);
-        GM.deleteValue("pin_pending");
-    }
+	xpath(".//td[@class='content']//form[1]")[0].addEventListener("submit", function(e) {
+		GM_setValue("pin_pending", (e.target.elements.namedItem("pin_posted_change")||e.target.elements.namedItem("pin_posted_confirm")).value);
+	}, false);
+	
+	if (GM_getValue("pin_pending")) {
+		GM_setValue("pin", GM_getValue("pin_pending"));
+		GM_setValue("pin_isset", true);
+		GM_deleteValue("pin_pending");
+	}
 
-    var areas = Pin.convert(document).list;
-    GM.setValue("pin_areas", JSON.stringify(areas));
+	var areas = Pin.convert(document).list;
+	GM_setValue("pin_areas", JSON.stringify(areas));
 
-    if (/^#(?:alert|console)$/.test(location.hash)) {
-        var output = [];
+	if (/^#(?:alert|console)$/.test(location.hash)) {
+		var output = [];
 
-        for ( var area in areas)
-        output.push([area, areas[area]]);
-        
-        (location.hash == "#alert" ? alert : console && console.log || GM_log)(output.join("\n"));
-    }
+		for ( var area in areas)
+		output.push([area, areas[area]]);
+		
+		(location.hash == "#alert" ? alert : console && console.log || GM_log)(output.join("\n"));
+	}
 }

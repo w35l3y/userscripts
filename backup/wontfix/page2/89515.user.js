@@ -11,9 +11,7 @@
 // @language       en
 // @include        nowhere
 // @grant          GM_xmlhttpRequest
-// @grant          GM.xmlHttpRequest
 // @icon           http://gm.wesley.eti.br/icon.php?desc=89515
-// @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
 // ==/UserScript==
 
@@ -36,36 +34,36 @@
 
 function AspxPostBackRequest(opts)
 {
-    var data = {
-        "__ASYNCPOST" : "true",
-        "__EVENTTARGET" : opts.eventTarget
-    };
-    data[opts.manager] = "|" + opts.eventTarget;
-    
-    for (var key in opts.data)
-    data[key] = opts.data[key];
+	var data = {
+		"__ASYNCPOST" : "true",
+		"__EVENTTARGET" : opts.eventTarget
+	};
+	data[opts.manager] = "|" + opts.eventTarget;
+	
+	for (var key in opts.data)
+	data[key] = opts.data[key];
 
-    var strdata = (function(obj)
-    {
-        var output = "";
+	var strdata = (function(obj)
+	{
+		var output = "";
 
-        for (var key in obj)
-        output += "&" + encodeURIComponent(key) + "=" + encodeURIComponent(obj[key]);
+		for (var key in obj)
+		output += "&" + encodeURIComponent(key) + "=" + encodeURIComponent(obj[key]);
 
-        return output.substr(1);
-    })(data);
+		return output.substr(1);
+	})(data);
 
-    GM.xmlHttpRequest({
-        "url" : opts.url,
-        "method" : "post",
-        "headers" : {
-            "Content-Type" : "application/x-www-form-urlencoded",
-            "Content-Length" : strdata.length
-        },
-        "data" : strdata,
-        "onload" : function(xhr)
-        {
-            opts.callback(xhr);
-        }
-    });
+	GM_xmlhttpRequest({
+		"url" : opts.url,
+		"method" : "post",
+		"headers" : {
+			"Content-Type" : "application/x-www-form-urlencoded",
+			"Content-Length" : strdata.length
+		},
+		"data" : strdata,
+		"onload" : function(xhr)
+		{
+			opts.callback(xhr);
+		}
+	});
 };

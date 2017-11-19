@@ -16,23 +16,15 @@
 // @exclude        http://www.neopets.com/iteminfo.phtml?*
 // @exclude        http://www.neopets.com/~*
 // @grant          GM_log
-// @grant          GM.log
 // @grant          GM_getValue
-// @grant          GM.getValue
 // @grant          GM_setValue
-// @grant          GM.setValue
 // @grant          GM_openInTab
-// @grant          GM.openInTab
 // @grant          GM_deleteValue
-// @grant          GM.deleteValue
 // @grant          GM_xmlhttpRequest
-// @grant          GM.xmlHttpRequest
 // @grant          GM_getResourceText
-// @grant          GM.getResourceText
 // @icon           http://gm.wesley.eti.br/icon.php?desc=154364
 // @resource       random_events https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Neopets_Random_Events/resources/default.csv
 // @resource       randomEventsHtml https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Neopets_Random_Events/resources/default.html
-// @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Persist_[BETA]/154322.user.js
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Neopets_Random_Events/154363.user.js
@@ -58,10 +50,10 @@
 **************************************************************************/
 
 RandomEvents.process({
-    onload    : function (obj) {
-        alert("Random events saved successfully");
-    },
-    onerror    : function (obj) {
-        alert(obj.value);
-    },
+	onload	: function (obj) {
+		alert("Random events saved successfully");
+	},
+	onerror	: function (obj) {
+		alert(obj.value);
+	},
 });

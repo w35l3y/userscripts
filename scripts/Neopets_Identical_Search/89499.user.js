@@ -12,13 +12,9 @@
 // @include        http://www.neopets.com/*
 // @include        http://ncmall.neopets.com/*
 // @grant          GM_log
-// @grant          GM.log
 // @grant          GM_getValue
-// @grant          GM.getValue
 // @grant          GM_getResourceText
-// @grant          GM.getResourceText
 // @icon           http://gm.wesley.eti.br/icon.php?desc=89499
-// @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @require        ../../includes/Includes_XPath/63808.user.js
 // @history        2.1.2 Added missing @icon
 // @history        2.1.0 Added Includes Checker (due to the recent problems with userscripts.org)
@@ -49,7 +45,7 @@
 		"genie" : 0x04,					// auction
 		"portal/supershopwiz" : 0x08	// super wizard
 	},
-	searchType = GM.getValue("search", 0x0F);	// wizard + trading post + auction + super wizard
+	searchType = GM_getValue("search", 0x0F);	// wizard + trading post + auction + super wizard
 
 	if (/^\/([\w\/]+)\.phtml/i.test(location.pathname) && (searchType & type[RegExp.$1]) || (searchType & type["portal/supershopwiz"])) {
 		var opts = xpath(".//select[contains(@name, 'criteria')]/option[contains(@value, 'exact')]") || [];

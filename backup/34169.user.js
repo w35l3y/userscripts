@@ -16,23 +16,15 @@
 // @exclude        http://www.neopets.com/neomail_block_check.phtml?*
 // @exclude        http://www.neopets.com/iteminfo.phtml?*
 // @grant          GM_addStyle
-// @grant          GM.addStyle
 // @grant          GM_getValue
-// @grant          GM.getValue
 // @grant          GM_setValue
-// @grant          GM.setValue
 // @grant          GM_openInTab
-// @grant          GM.openInTab
 // @grant          GM_deleteValue
-// @grant          GM.deleteValue
 // @grant          GM_xmlhttpRequest
-// @grant          GM.xmlHttpRequest
 // @grant          GM_getResourceText
-// @grant          GM.getResourceText
 // @icon           http://gm.wesley.eti.br/icon.php?desc=34169
 // @resource       meta https://github.com/w35l3y/userscripts/raw/master/backup/34169.user.js
 // @resource       i18n https://github.com/w35l3y/userscripts/raw/master/includes/Includes_I18n/resources/default.json
-// @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_HttpRequest/56489.user.js
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Translate/85618.user.js
@@ -60,36 +52,36 @@
 
 **************************************************************************/
 
-(function recursive () {    // script scope
-    var user = {
-        "interval" : JSON.parse(GM.getValue("interval", "[600000, 300000]"))
-    };
+(function recursive () {	// script scope
+	var user = {
+		"interval" : JSON.parse(GM_getValue("interval", "[600000, 300000]"))
+	};
 
-    var min = Math.floor(user.interval[0] / 60000);
-    var currentDate = new Date();
-    currentDate.setMinutes(min * Math.floor(currentDate.getMinutes() / min), 0, 0);
-    currentDate = "" + currentDate.valueOf();
+	var min = Math.floor(user.interval[0] / 60000);
+	var currentDate = new Date();
+	currentDate.setMinutes(min * Math.floor(currentDate.getMinutes() / min), 0, 0);
+	currentDate = "" + currentDate.valueOf();
 
-    if (GM.getValue("lastAccess", "0") != currentDate) {
-        GM.setValue("lastAccess", currentDate);
+	if (GM_getValue("lastAccess", "0") != currentDate) {
+		GM_setValue("lastAccess", currentDate);
 
-        HttpRequest.open({
-            "method" : "GET",
-            "url" : "http://www.neopets.com/dome/fight.phtml",
-            "headers" : {
-                "Referer" : "http://www.neopets.com/dome/neopets.phtml"
-            },
-            "onsuccess" : function (xhr) {
-                var r = xhr.response.text.replace(/\s+/g, "").toLowerCase();
+		HttpRequest.open({
+			"method" : "GET",
+			"url" : "http://www.neopets.com/dome/fight.phtml",
+			"headers" : {
+				"Referer" : "http://www.neopets.com/dome/neopets.phtml"
+			},
+			"onsuccess" : function (xhr) {
+				var r = xhr.response.text.replace(/\s+/g, "").toLowerCase();
 
-                // Auto opponent(Flaming Meerca) is there AND Punchbag Bob isn't, so Sid is!
-                if (~r.indexOf('data-oppid="1"') && !~r.indexOf('data-diffs="0;0;0"')) {
-                    GM.openInTab("http://www.neopets.com/dome/fight.phtml");
-                    alert("Apparently Sid is up for fighting!");
-                }
-            }
-        }).send();
-    }
+				// Auto opponent(Flaming Meerca) is there AND Punchbag Bob isn't, so Sid is!
+				if (~r.indexOf('data-oppid="1"') && !~r.indexOf('data-diffs="0;0;0"')) {
+					GM_openInTab("http://www.neopets.com/dome/fight.phtml");
+					alert("Apparently Sid is up for fighting!");
+				}
+			}
+		}).send();
+	}
 
-    setTimeout(recursive, user.interval[0] + user.interval[1] * Math.random());
+	setTimeout(recursive, user.interval[0] + user.interval[1] * Math.random());
 })();

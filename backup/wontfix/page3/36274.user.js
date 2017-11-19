@@ -15,12 +15,9 @@
 // @include        http://*.wikiversity.tld/*
 // @include        http://*.wiktionary.tld/*
 // @grant          GM_addStyle
-// @grant          GM.addStyle
 // @grant          GM_getResourceText
-// @grant          GM.getResourceText
 // @icon           http://gm.wesley.eti.br/icon.php?desc=36274
 // @resource       css http://userstyles.org/styles/1365.css?v=1
-// @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // ==/UserScript==
 
 /**************************************************************************
@@ -48,4 +45,4 @@
 
 **************************************************************************/
 
-GM.addStyle(GM.getResourceText('css'));
+GM_addStyle(GM_getResourceText('css'));

@@ -12,19 +12,12 @@
 // @include        http://www.neopets.com/market.phtml?type=wizard
 // @include        http://www.neopets.com/market.phtml
 // @grant          GM_log
-// @grant          GM.log
 // @grant          GM_addStyle
-// @grant          GM.addStyle
 // @grant          GM_getValue
-// @grant          GM.getValue
 // @grant          GM_setValue
-// @grant          GM.setValue
 // @grant          GM_deleteValue
-// @grant          GM.deleteValue
 // @grant          GM_xmlhttpRequest
-// @grant          GM.xmlHttpRequest
 // @grant          GM_getResourceText
-// @grant          GM.getResourceText
 // @icon           http://gm.wesley.eti.br/icon.php?desc=33958
 // @connect        github.com
 // @connect        raw.githubusercontent.com
@@ -32,7 +25,6 @@
 // @resource       i18n ../../includes/Includes_I18n/resources/default.json
 // @resource       shopWizardHtml resources/default.html
 // @resource       winConfigCss ../../includes/Includes_WinConfig/resources/default.css
-// @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @require        ../../includes/Includes_XPath/63808.user.js
 // @require        ../../includes/Includes_Translate/85618.user.js
 // @require        ../../includes/Includes_I18n/87940.user.js
@@ -62,7 +54,7 @@
 
 **************************************************************************/
 
-GM.addStyle(".winConfig_ShopWizardSettings .fieldType_0 {float: left;width: 50%;}.winConfig_ShopWizardSettings .fieldType_0 input {width:40%;}");
+GM_addStyle(".winConfig_ShopWizardSettings .fieldType_0 {float: left;width: 50%;}.winConfig_ShopWizardSettings .fieldType_0 input {width:40%;}");
 
 (function () {	// script scope
 	var win = new WinConfig({
@@ -129,7 +121,7 @@ GM.addStyle(".winConfig_ShopWizardSettings .fieldType_0 {float: left;width: 50%;
 		var faerieQuest = xpath(".//div[@class = 'main-icon']")[0],
 		newDiv = document.createElement("div");
 
-		newDiv.innerHTML = GM.getResourceText("shopWizardHtml");
+		newDiv.innerHTML = GM_getResourceText("shopWizardHtml");
 		faerieQuest.parentNode.insertBefore(newDiv, faerieQuest);
 
 		if (config.fill) {

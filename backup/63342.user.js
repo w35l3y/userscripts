@@ -12,11 +12,8 @@
 // @include        http://www.neopets.com/objects.phtml?type=inventory#alert
 // @include        http://www.neopets.com/objects.phtml?type=inventory#console
 // @grant          GM_log
-// @grant          GM.log
 // @grant          GM_xmlhttpRequest
-// @grant          GM.xmlHttpRequest
 // @icon           http://gm.wesley.eti.br/icon.php?desc=63342
-// @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_HttpRequest/56489.user.js
 // ==/UserScript==
@@ -41,54 +38,54 @@
 Inventory = function () {};
 
 Inventory.convert = function (doc) {
-    var output = {
-        "list" : []
-    },
-    items = xpath(".//td[@class='content']/div[2]/table/tbody/tr/td/div/table/tbody/tr[2]/td/table/tbody/tr/td/text()", doc);
+	var output = {
+		"list" : []
+	},
+	items = xpath(".//td[@class='content']/div[2]/table/tbody/tr/td/div/table/tbody/tr[2]/td/table/tbody/tr/td/text()", doc);
 
-    for (var ai = items.length ; ai-- ; ) {
-        var item = items[ai],
-        img = item.parentNode.getElementsByTagName("img")[0];
+	for (var ai = items.length ; ai-- ; ) {
+		var item = items[ai],
+		img = item.parentNode.getElementsByTagName("img")[0];
 
-        output.list.push({
-            "Id" : /(\d+)/.test(img.parentNode.getAttribute("onclick")) && RegExp.$1 || NaN,
-            "Name" : item.textContent,
-            "Image" : img.src,
-            "Description" : img.alt || img.title
-        });
-    }
+		output.list.push({
+			"Id" : /(\d+)/.test(img.parentNode.getAttribute("onclick")) && RegExp.$1 || NaN,
+			"Name" : item.textContent,
+			"Image" : img.src,
+			"Description" : img.alt || img.title
+		});
+	}
 
-    return output;
+	return output;
 };
 
 Inventory.list = function (params) {
-    if (typeof params.onsuccess != "function")
-        alert("[Includes : Neopets : Inventory : list]\nParameter 'onsuccess' is wrong/missing.");
-    else
-    HttpRequest.open({
-        "method" : "get",
-        "url" : "http://www.neopets.com/objects.phtml",
-        "onsuccess" : function (params) {
-            var obj = Inventory.convert(params.response.xml) || {};
+	if (typeof params.onsuccess != "function")
+		alert("[Includes : Neopets : Inventory : list]\nParameter 'onsuccess' is wrong/missing.");
+	else
+	HttpRequest.open({
+		"method" : "get",
+		"url" : "http://www.neopets.com/objects.phtml",
+		"onsuccess" : function (params) {
+			var obj = Inventory.convert(params.response.xml) || {};
 
-            for (var p in params.parameters)
-            obj[p] = params.parameters[p];
+			for (var p in params.parameters)
+			obj[p] = params.parameters[p];
 
-            obj.response = params.response;
+			obj.response = params.response;
 
-            params.onsuccess(obj);
-        },
-        "parameters" : params
-    }).send({
-        "type" : "inventory"
-    });
+			params.onsuccess(obj);
+		},
+		"parameters" : params
+	}).send({
+		"type" : "inventory"
+	});
 };
 
 if (location.pathname == "/objects.phtml" && /\btype=inventory\b/.test(location.search) && /^#(?:alert|console)$/.test(location.hash)) {
-    var output = [];
-    Inventory.convert(document).list.forEach(function (item) {
-        output.push([item.Id, item.Name, item.Image, item.Description].join("\n"));
-    });
-    
-    ( location.hash == "#alert" ? alert : console && console.log || GM_log )(output.join("\n\n"));
+	var output = [];
+	Inventory.convert(document).list.forEach(function (item) {
+		output.push([item.Id, item.Name, item.Image, item.Description].join("\n"));
+	});
+	
+	( location.hash == "#alert" ? alert : console && console.log || GM_log )(output.join("\n\n"));
 }

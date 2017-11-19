@@ -12,23 +12,16 @@
 // @include        http://www.neopets.com/*
 // @icon           http://gm.wesley.eti.br/icon.php?desc=89503
 // @grant          GM_addStyle
-// @grant          GM.addStyle
 // @grant          GM_getValue
-// @grant          GM.getValue
 // @grant          GM_setValue
-// @grant          GM.setValue
 // @grant          GM_deleteValue
-// @grant          GM.deleteValue
 // @grant          GM_xmlhttpRequest
-// @grant          GM.xmlHttpRequest
 // @grant          GM_getResourceText
-// @grant          GM.getResourceText
 // @run-at         document-start
 // @resource       meta https://github.com/w35l3y/userscripts/raw/master/scripts/Neopets_All_Site_Themes/89503.user.js
 // @resource       i18n ../../includes/Includes_I18n/resources/default.json
 // @resource       updaterWindowCss ../../includes/Includes_Updater/resources/default.css
 // @resource       updaterWindowHtml ../../includes/Includes_Updater/resources/default.html
-// @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @require        ../../includes/Includes_XPath/63808.user.js
 // @require        ../../includes/Includes_HttpRequest/56489.user.js
 // @require        ../../includes/Includes_Translate/85618.user.js
@@ -143,7 +136,7 @@
 
 	if (css_link && username) {
 		var def_theme = /\/((\d+)\w+)\.css/.test(css_link.href) && ["" + parseInt(RegExp.$2, 10), RegExp.$1] || ["0", "000_def_f65b1"],
-		selectedTheme = GM.getValue(username + "-css", def_theme[0]);
+		selectedTheme = GM_getValue(username + "-css", def_theme[0]);
 
 		if (!(selectedTheme in themes)) {
 			selectedTheme = def_theme[0];
@@ -193,7 +186,7 @@
 				if (themeId in themes) {
 					changeTheme(css_link, themeId);
 				} else {
-					GM.deleteValue(username + "-css");
+					GM_deleteValue(username + "-css");
 					e.target.form.submit();
 				}
 			}, false);
@@ -203,9 +196,9 @@
 				var themeId = user_theme.options[user_theme.selectedIndex].getAttribute("data-value");
 
 				if (themeId in themes) {
-					GM.setValue(username + "-css", themeId);
+					GM_setValue(username + "-css", themeId);
 				} else {
-					GM.deleteValue(username + "-css");
+					GM_deleteValue(username + "-css");
 				}
 			}, false);
 		}

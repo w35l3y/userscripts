@@ -11,17 +11,11 @@
 // @language       en
 // @include        http://www.neopets.com/shenkuu/lunar/?show=puzzle
 // @grant          GM_addStyle
-// @grant          GM.addStyle
 // @grant          GM_getValue
-// @grant          GM.getValue
 // @grant          GM_setValue
-// @grant          GM.setValue
 // @grant          GM_deleteValue
-// @grant          GM.deleteValue
 // @grant          GM_xmlhttpRequest
-// @grant          GM.xmlHttpRequest
 // @grant          GM_getResourceText
-// @grant          GM.getResourceText
 // @icon           http://gm.wesley.eti.br/icon.php?desc=28359
 // @connect        github.com
 // @connect        raw.githubusercontent.com
@@ -29,7 +23,6 @@
 // @resource       i18n ../../includes/Includes_I18n/resources/default.json
 // @resource       updaterWindowHtml ../../includes/Includes_Updater/resources/default.html
 // @resource       updaterWindowCss ../../includes/Includes_Updater/resources/default.css
-// @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @require        ../../includes/Includes_XPath/63808.user.js
 // @require        ../../includes/Includes_HttpRequest/56489.user.js
 // @require        ../../includes/Includes_Translate/85618.user.js
@@ -59,7 +52,7 @@
 **************************************************************************/
 
 (function() {	// script scope
-	var interval = JSON.parse(GM.getValue("interval", "[4000, 3000]")),
+	var interval = JSON.parse(GM_getValue("interval", "[4000, 3000]")),
 	answer = (8 + Math.round(document.body.innerHTML.match(/angleKreludor=(\d+)/)[1] / 22.5)) % 16,
 	shadow = xpath(".//form[contains(@action, 'results.phtml')]/table/tbody/tr/td/input[@name = 'phase_choice']")[answer];
 

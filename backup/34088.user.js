@@ -11,23 +11,15 @@
 // @language       en
 // @include        http://www.neopets.com/medieval/cheeseroller.phtml
 // @grant          GM_addStyle
-// @grant          GM.addStyle
 // @grant          GM_getValue
-// @grant          GM.getValue
 // @grant          GM_setValue
-// @grant          GM.setValue
 // @grant          GM_openInTab
-// @grant          GM.openInTab
 // @grant          GM_deleteValue
-// @grant          GM.deleteValue
 // @grant          GM_xmlhttpRequest
-// @grant          GM.xmlHttpRequest
 // @grant          GM_getResourceText
-// @grant          GM.getResourceText
 // @icon           http://gm.wesley.eti.br/icon.php?desc=34088
 // @resource       meta https://github.com/w35l3y/userscripts/raw/master/backup/34088.user.js
 // @resource       i18n https://github.com/w35l3y/userscripts/raw/master/includes/Includes_I18n/resources/default.json
-// @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Translate/85618.user.js
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_I18n/87940.user.js
@@ -54,7 +46,7 @@
 
 (function () {	// script score
 	var cheese = {
-		"default" : GM.getValue("cheese", "Tyrannian Dung"),
+		"default" : GM_getValue("cheese", "Tyrannian Dung"),
 		"group" : ["Recommended", "Others"],
 		"order" : [2, 1], // from the most generic to the most specific
 		"option" : [
@@ -120,7 +112,7 @@
 		}
 
 		if (hidden) {
-			GM.setValue("cheese", hidden.value);
+			GM_setValue("cheese", hidden.value);
 		}
 
 		for (var ai = 0, at = cheese.option.length; ai < at; ++ai) {

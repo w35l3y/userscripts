@@ -11,9 +11,7 @@
 // @language       en
 // @include        /userscripts\.org\/messages(\?|$)/
 // @grant          GM_xmlhttpRequest
-// @grant          GM.xmlHttpRequest
 // @icon           http://gm.wesley.eti.br/icon.php?desc=64611
-// @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @require        /scripts/source/292725.user.js
 // @require        /scripts/source/288385.user.js
 // @require        /scripts/source/63808.user.js
@@ -42,76 +40,76 @@
 **************************************************************************/
 
 Notify.execute(function () {
-    var ul = xpath(".//ul[li/div[@class = 'message']]")[0];
+	var ul = xpath(".//ul[li/div[@class = 'message']]")[0];
 
-    if (ul) {
-        var messages = xpath("./li//a[contains(@href, '/messages/')]", ul),
-        li = document.createElement("li");
-        li.setAttribute("class", "read");
-        li.innerHTML = '<div style="float:left;width:25px;"><input type="checkbox" style="margin-top:8px;"></div><div class="pagination" style="padding:0;"><a href="#">Delete</a></div>';
+	if (ul) {
+		var messages = xpath("./li//a[contains(@href, '/messages/')]", ul),
+		li = document.createElement("li");
+		li.setAttribute("class", "read");
+		li.innerHTML = '<div style="float:left;width:25px;"><input type="checkbox" style="margin-top:8px;"></div><div class="pagination" style="padding:0;"><a href="#">Delete</a></div>';
 
-        ul.insertBefore(li, ul.firstChild);
+		ul.insertBefore(li, ul.firstChild);
 
-        xpath(".//input[1]", li)[0].addEventListener("click", function (e) {
-            if (e.ctrlKey) {
-                e.target.checked = false;
-            }
+		xpath(".//input[1]", li)[0].addEventListener("click", function (e) {
+			if (e.ctrlKey) {
+				e.target.checked = false;
+			}
 
-            var cbs = xpath("./ancestor::ul[1]/li//input[@name = 'delete[]']", e.target);
+			var cbs = xpath("./ancestor::ul[1]/li//input[@name = 'delete[]']", e.target);
 
-            for (var ai in cbs) {
-                var cb = cbs[ai];
-                cb.checked = (e.ctrlKey ? !cb.checked : e.target.checked);    // press and hold ctrl to invert selection
-            }
-        }, false);
+			for (var ai in cbs) {
+				var cb = cbs[ai];
+				cb.checked = (e.ctrlKey ? !cb.checked : e.target.checked);	// press and hold ctrl to invert selection
+			}
+		}, false);
 
-        xpath(".//a[1]", li)[0].addEventListener("click", function (e) {
-            var checked = xpath("./ancestor::ul[1]/li//input[@name = 'delete[]']", e.target).filter(function (a) {
-                return a.checked;
-            });
-            
-            if (checked.length) {
-                if (confirm("Delete these messages permanently?"))
-                (function delete_message (checkboxes) {
-                    HttpRequest.open({
-                        "method" : "post",
-                        "url" : "//userscripts-mirror.org/messages/" + checkboxes[0].value,
-                        "onsuccess" : function (params) {
-                            var row = xpath("./ancestor::li[1]", params.checkboxes.shift())[0];
-                            row.parentNode.removeChild(row);
-                            
-                            if (params.checkboxes.length) {
-                                setTimeout(delete_message, 100, params.checkboxes);
-                            } else {
-                                alert("Messages deleted successfully!");
-                            }
-                        },
-                        "parameters" : {"checkboxes":checkboxes}
-                    }).send({
-                        "_method" : "delete",
-                        "authenticity_token" : unsafeWindow.auth_token
-                    });
-                }(checked));
-            } else {
-                alert("No messages selected.");
-            }
+		xpath(".//a[1]", li)[0].addEventListener("click", function (e) {
+			var checked = xpath("./ancestor::ul[1]/li//input[@name = 'delete[]']", e.target).filter(function (a) {
+				return a.checked;
+			});
+			
+			if (checked.length) {
+				if (confirm("Delete these messages permanently?"))
+				(function delete_message (checkboxes) {
+					HttpRequest.open({
+						"method" : "post",
+						"url" : "//userscripts-mirror.org/messages/" + checkboxes[0].value,
+						"onsuccess" : function (params) {
+							var row = xpath("./ancestor::li[1]", params.checkboxes.shift())[0];
+							row.parentNode.removeChild(row);
+							
+							if (params.checkboxes.length) {
+								setTimeout(delete_message, 100, params.checkboxes);
+							} else {
+								alert("Messages deleted successfully!");
+							}
+						},
+						"parameters" : {"checkboxes":checkboxes}
+					}).send({
+						"_method" : "delete",
+						"authenticity_token" : unsafeWindow.auth_token
+					});
+				}(checked));
+			} else {
+				alert("No messages selected.");
+			}
 
-            e.preventDefault();
-        }, false);
+			e.preventDefault();
+		}, false);
 
-        for (var ai in messages) {
-            var msg = messages[ai];
+		for (var ai in messages) {
+			var msg = messages[ai];
 
-            if (/(\d+)$/.test(msg.href)) {
-                var p = xpath("./ancestor::li[1]", msg)[0],
-                d = document.createElement("div");
-            
-                d.setAttribute("style", "float:left;width:25px");
-            
-                d.innerHTML = '<input type="checkbox" name="delete[]" value="' + RegExp.$1 + '"/>';
-            
-                p.insertBefore(d, p.firstChild);
-            }
-        }
-    }
+			if (/(\d+)$/.test(msg.href)) {
+				var p = xpath("./ancestor::li[1]", msg)[0],
+				d = document.createElement("div");
+			
+				d.setAttribute("style", "float:left;width:25px");
+			
+				d.innerHTML = '<input type="checkbox" name="delete[]" value="' + RegExp.$1 + '"/>';
+			
+				p.insertBefore(d, p.firstChild);
+			}
+		}
+	}
 });

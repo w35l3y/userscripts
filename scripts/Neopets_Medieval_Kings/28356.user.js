@@ -12,17 +12,11 @@
 // @include        http://www.neopets.com/medieval/wiseking.phtml
 // @include        http://www.neopets.com/medieval/grumpyking.phtml
 // @grant          GM_addStyle
-// @grant          GM.addStyle
 // @grant          GM_getValue
-// @grant          GM.getValue
 // @grant          GM_setValue
-// @grant          GM.setValue
 // @grant          GM_deleteValue
-// @grant          GM.deleteValue
 // @grant          GM_xmlhttpRequest
-// @grant          GM.xmlHttpRequest
 // @grant          GM_getResourceText
-// @grant          GM.getResourceText
 // @icon           http://gm.wesley.eti.br/icon.php?desc=28356
 // @connect        github.com
 // @connect        raw.githubusercontent.com
@@ -30,7 +24,6 @@
 // @resource       i18n ../../includes/Includes_I18n/resources/default.json
 // @resource       updaterWindowHtml ../../includes/Includes_Updater/resources/default.html
 // @resource       updaterWindowCss ../../includes/Includes_Updater/resources/default.css
-// @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @require        ../../includes/Includes_XPath/63808.user.js
 // @require        ../../includes/Includes_HttpRequest/56489.user.js
 // @require        ../../includes/Includes_Translate/85618.user.js
@@ -62,7 +55,7 @@
 **************************************************************************/
 
 (function () {	// script scope
-	var config = JSON.parse(GM.getValue("config", JSON.stringify({
+	var config = JSON.parse(GM_getValue("config", JSON.stringify({
 		kings	: {
 			// "What / do / you do if / * / fierce / Pheophins / * / has eaten too much / * / tin of olives"
 			grumpy	: [3, 8, 6, 1, 39, 118, 1, 32, 1, 143],

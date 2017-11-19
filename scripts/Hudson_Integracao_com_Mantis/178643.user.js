@@ -6,19 +6,12 @@
 // @version        2.3.3
 // @language       pt-br
 // @grant          GM_log
-// @grant          GM.log
 // @grant          GM_addStyle
-// @grant          GM.addStyle
 // @grant          GM_getValue
-// @grant          GM.getValue
 // @grant          GM_setValue
-// @grant          GM.setValue
 // @grant          GM_deleteValue
-// @grant          GM.deleteValue
 // @grant          GM_xmlhttpRequest
-// @grant          GM.xmlHttpRequest
 // @grant          GM_getResourceText
-// @grant          GM.getResourceText
 // @icon           http://gm.wesley.eti.br/icon.php?desc=178643
 // @resource       meta https://github.com/w35l3y/userscripts/raw/master/scripts/Hudson_Integracao_com_Mantis/178643.user.js
 // @resource       i18n ../../includes/Includes_I18n/resources/default.json
@@ -27,7 +20,6 @@
 // @resource       winConfigCss ../../includes/Includes_WinConfig/resources/default.css
 // @resource       jobs resources/jobs.json
 // @resource       templates resources/templates.json
-// @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @require        ../../includes/Includes_XPath/63808.user.js
 // @require        ../../includes/Includes_HttpRequest/56489.user.js
 // @require        ../../includes/Includes_Translate/85618.user.js
@@ -50,9 +42,9 @@
 // ==/UserScript==
 
 var jj = /\/job\/([^\/]+)\/changes$/.test(decodeURIComponent(location.pathname)) && [location.origin + "/", RegExp.$1],
-jobs = JSON.parse(GM.getValue("jobs", "{}")),
-jobsInfo = JSON.parse(GM.getResourceText("jobs")),
-debug = GM.getValue("debug", false),
+jobs = JSON.parse(GM_getValue("jobs", "{}")),
+jobsInfo = JSON.parse(GM_getResourceText("jobs")),
+debug = GM_getValue("debug", false),
 types = ["add", "delete", "edit"],
 infos = [],
 refresh = false,
@@ -493,7 +485,7 @@ process = function (jobName, loc, doc, info) {
 											});
 										} else {
 											if (!debug) {
-												GM.setValue("jobs", JSON.stringify(jobs));
+												GM_setValue("jobs", JSON.stringify(jobs));
 											}
 
 											recursive(details, ++index);
@@ -521,7 +513,7 @@ process = function (jobName, loc, doc, info) {
 				}
 
 				if (!debug) {
-					GM.setValue("jobs", JSON.stringify(jobs));
+					GM_setValue("jobs", JSON.stringify(jobs));
 				}
 
 				WinConfig.init({

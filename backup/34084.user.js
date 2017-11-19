@@ -11,23 +11,15 @@
 // @language       en
 // @include        http://www.neopets.com/*
 // @grant          GM_addStyle
-// @grant          GM.addStyle
 // @grant          GM_getValue
-// @grant          GM.getValue
 // @grant          GM_setValue
-// @grant          GM.setValue
 // @grant          GM_openInTab
-// @grant          GM.openInTab
 // @grant          GM_deleteValue
-// @grant          GM.deleteValue
 // @grant          GM_xmlhttpRequest
-// @grant          GM.xmlHttpRequest
 // @grant          GM_getResourceText
-// @grant          GM.getResourceText
 // @icon           http://gm.wesley.eti.br/icon.php?desc=34084
 // @resource       meta https://github.com/w35l3y/userscripts/raw/master/backup/34084.user.js
 // @resource       i18n https://github.com/w35l3y/userscripts/raw/master/includes/Includes_I18n/resources/default.json
-// @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Translate/85618.user.js
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_I18n/87940.user.js
@@ -54,17 +46,17 @@
 **************************************************************************/
 
 (function recursive()
-{    // script scope
-    var last = Date.parse(GM.getValue("lastAccess", "Mon Jun 20 2011 20:40:43 GMT-0300")),
-    curr = new Date(),
-    interval = 28800000;    // 8 hours
+{	// script scope
+	var last = Date.parse(GM_getValue("lastAccess", "Mon Jun 20 2011 20:40:43 GMT-0300")),
+	curr = new Date(),
+	interval = 28800000;	// 8 hours
 
-    curr.setMinutes(0, 0, 0);
-    if (last != curr.valueOf() && /^(?:6am|2pm|10pm)$/.test(unsafeWindow.nh + unsafeWindow.na))
-    {
-        GM.setValue("lastAccess", (last = curr).toString());
-        GM.openInTab("http://www.neopets.com/winter/snowager.phtml");
-    }
+	curr.setMinutes(0, 0, 0);
+	if (last != curr.valueOf() && /^(?:6am|2pm|10pm)$/.test(unsafeWindow.nh + unsafeWindow.na))
+	{
+		GM_setValue("lastAccess", (last = curr).toString());
+		GM_openInTab("http://www.neopets.com/winter/snowager.phtml");
+	}
 
-    setTimeout(recursive, (last - curr) + interval);
+	setTimeout(recursive, (last - curr) + interval);
 })();
