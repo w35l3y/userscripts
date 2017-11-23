@@ -17,6 +17,8 @@
 // @grant          GM_deleteValue
 // @grant          GM_xmlhttpRequest
 // @grant          GM_getResourceText
+// @connect        github.com
+// @connect        raw.githubusercontent.com
 // @run-at         document-start
 // @resource       meta https://github.com/w35l3y/userscripts/raw/master/scripts/Neopets_All_Site_Themes/89503.user.js
 // @resource       i18n ../../includes/Includes_I18n/resources/default.json
