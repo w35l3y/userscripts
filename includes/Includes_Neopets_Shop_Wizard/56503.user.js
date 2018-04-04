@@ -208,8 +208,8 @@ Wizard.find = function (params) {
 					"priceOnly"	: "0",
 					"context"	: (typeof params.is_shop == "undefined" || params.is_shop?"0":"1"),	// 0=shop 1=gallery
 					"partial"	: (typeof params.is_exact == "undefined" || params.is_exact?"0":"1"),
-					"min_price"	: parseInt(("" + params.min_price).replace(/[,.]+/g, "").substr(0, 5), 10) || 0,
-					"max_price"	: parseInt(("" + params.max_price).replace(/[,.]+/g, "").substr(0, 5), 10) || 99999,
+					"min_price"	: parseInt(("" + params.min_price).replace(/[,.]+/g, "").substr(0, 6), 10) || 0,
+					"max_price"	: parseInt(("" + params.max_price).replace(/[,.]+/g, "").substr(0, 6), 10) || 999999,
 					"json"		: "1",
 				});
 			}(params));
@@ -230,8 +230,8 @@ Wizard.find = function (params) {
 					"shopwizard"	: params.text,
 					"table"			: (typeof params.is_shop == "undefined" || params.is_shop?"shop":"gallery"),
 					"criteria"		: (typeof params.is_exact == "undefined" || params.is_exact?"exact":"containing"),
-					"min_price"		: parseInt(("" + params.min_price).replace(/[,.]+/g, "").substr(0, 5), 10) || 0,
-					"max_price"		: parseInt(("" + params.max_price).replace(/[,.]+/g, "").substr(0, 5), 10) || 99999
+					"min_price"		: parseInt(("" + params.min_price).replace(/[,.]+/g, "").substr(0, 6), 10) || 0,
+					"max_price"		: parseInt(("" + params.max_price).replace(/[,.]+/g, "").substr(0, 6), 10) || 999999
 				});
 			}(params));
 		}
