@@ -7,7 +7,7 @@
 // @copyright      2010+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        3.0.6
+// @version        3.0.7
 // @language       en
 // @include        http://www.neopets.com/games/crossword/*
 // @grant          GM_log
@@ -19,7 +19,7 @@
 // @grant          GM_getResourceText
 // @icon           http://gm.wesley.eti.br/icon.php?desc=76450
 // @connect        www.jellyneo.net
-// @connect        cluesandanswers.blogspot.com.br
+// @connect        cluesandanswers.blogspot.com
 // @connect        github.com
 // @connect        raw.githubusercontent.com
 // @connect        translate.google.com.br
@@ -33,8 +33,8 @@
 // @require        ../../includes/Includes_Translate/85618.user.js
 // @require        ../../includes/Includes_I18n/87940.user.js
 // @require        ../../includes/Includes_Updater/87942.user.js
-// @contributor    cluesandanswers (http://cluesandanswers.blogspot.com.br/)
-// @contributor    jellyneo (http://www.jellyneo.net/?go=fcrossword)
+// @contributor    cluesandanswers (https://cluesandanswers.blogspot.com/)
+// @contributor    jellyneo (http://www.jellyneo.net/?go=faerie_crossword)
 // @history        3.0.0 Added <a href="http://userscripts.org/scripts/show/87942">Updater</a>
 // @history        3.0.0 Added <a href="http://userscripts.org/guides/773">Includes Checker</a>
 // @history        3.0.0 Added missing @icon
@@ -121,7 +121,7 @@ if ("/games/crossword/crossword.phtml" == location.pathname) {
 					case 0:
 					HttpRequest.open({
 						"method" : "get",
-						"url" : "http://cluesandanswers.blogspot.com.br/",
+						"url" : "https://cluesandanswers.blogspot.com/",
 						"onsuccess" : function (xhr) {
 							var answers = {};
 							xpath("id('main')//td/blockquote/div/text()", xhr.response.xml).forEach(function (answer) {
