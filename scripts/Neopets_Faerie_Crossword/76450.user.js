@@ -151,7 +151,7 @@ if ("/games/crossword/crossword.phtml" == location.pathname) {
 
 							HttpRequest.open({
 								method		: "get",
-								url			: "http://www.jellyneo.net/?go=fcrossword",
+								url			: "http://www.jellyneo.net/?go=faerie_crossword",
 								onsuccess	: function (xhr) {
 									var xx = {},
 									n = 0,
