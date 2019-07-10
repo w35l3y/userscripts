@@ -1,3 +1,4 @@
+// https://github.com/jonathantneal/array-flat-polyfill/blob/master/src/polyfill-flat.js
 if (!Array.prototype.flat) {
 	Object.defineProperty(Array.prototype, 'flat', {
 		configurable: true,
