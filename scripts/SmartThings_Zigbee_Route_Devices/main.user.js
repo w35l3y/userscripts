@@ -7,11 +7,15 @@
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
 // @version        1.0.0
+// @grant          GM_xmlHttpRequest
+// @grant          GM_setValue
+// @grant          GM_getValue
 // @grant          GM.xmlHttpRequest
 // @grant          GM.setValue
 // @grant          GM.getValue
 // @include        https://*.api.smartthings.com/device/list
 // @require        https://cdnjs.cloudflare.com/ajax/libs/d3/5.16.0/d3.min.js
+// @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // ==/UserScript==
 
 function draw (data) {
@@ -28,22 +32,24 @@ function draw (data) {
 }
 
 function execute (cb = draw) {
-  let zigbeeDevices = Promise.all(Array.from(document.querySelectorAll("tr[data-device-id] td:nth-child(5)"))
+  Promise.all(Array.from(document.querySelectorAll("tr[data-device-id] td:nth-child(5)"))
                                   .filter(n => n.textContent)
                                   .map(({ parentNode : { firstElementChild }}) => firstElementChild.querySelector("a"))
                                   .map(url => new Promise((resolve, reject) => GM.xmlHttpRequest({
     method: "GET",
     url: url.href,
+    onerror: ({ responseText }) => reject(responseText),
     onload: ({ responseText }) => {
+      console.log("Done", url.href, url.textContent)
       let doc = document.implementation.createHTMLDocument("")
       doc.documentElement.innerHTML = responseText
       let route = Array.from(doc.querySelectorAll("td[aria-labelledby='meshRoute-label'] a"))
       let grp = doc.querySelector("td[aria-labelledby='group-label'] a")
       let id = url.parentNode.parentNode.getAttribute("data-device-id")
-      let group = {
+      let group = grp?{
         id: /\/([\w-]+)$/.test(grp.href) && RegExp.$1,
         name: grp.textContent.trim()
-      }
+      }:{}
       let routes = route[0].parentNode.textContent.replace(/\s{2,}/g, "").trim().split("↔").map((value, i, a) => ({
         final: !i || i === a.length - 1,
         group,
@@ -92,6 +98,8 @@ function execute (cb = draw) {
     }
     GM.setValue("route", JSON.stringify(output))
     cb(output)
+  }, err => {
+    alert("Falha ao requisitar página\n" + err)
   })
 }
 
