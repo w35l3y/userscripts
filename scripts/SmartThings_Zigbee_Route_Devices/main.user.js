@@ -6,27 +6,206 @@
 // @copyright      2020+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        1.0.0
+// @version        1.0.1
 // @grant          GM_xmlHttpRequest
 // @grant          GM_setValue
 // @grant          GM_getValue
+// @grant          GM_deleteValue
 // @grant          GM.xmlHttpRequest
 // @grant          GM.setValue
 // @grant          GM.getValue
+// @grant          GM.deleteValue
 // @include        https://*.api.smartthings.com/device/list
 // @require        https://cdnjs.cloudflare.com/ajax/libs/d3/5.16.0/d3.min.js
 // @require        https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // ==/UserScript==
 
+//GM.deleteValue("route")
+
+const graphFn = data => {
+  console.log(data)
+  const nodes = data.nodes.map(({ id, group, value }) => ({
+    id,
+    sourceLinks: [],
+    targetLinks: [],
+    group,
+    value
+  }));
+
+  const nodeById = new Map(nodes.map(d => [d.id, d]));
+
+  const links = data.links.map(({ source, target, value }) => ({
+    source: nodeById.get(source),
+    target: nodeById.get(target),
+    value
+  }));
+
+  for (const link of links) {
+    const { source, target } = link;
+    source.sourceLinks.push(link);
+    target.targetLinks.push(link);
+  }
+
+  return { nodes, links };
+}
+const step = 14
+const margin = {top: 20, right: 20, bottom: 20, left: 300}
+const width = 600
+function arc (d) {
+  const y1 = d.source.y;
+  const y2 = d.target.y;
+  const r = Math.abs(y2 - y1) / 2;
+  return `M${margin.left},${y1}A${r},${r} 0,0,${y1 < y2 ? 1 : 0} ${margin.left},${y2}`;
+}
+let currentOption = 0
+
+function render (data) {
+  const graph = graphFn(data)
+	const color = d3.scaleOrdinal(graph.nodes.map(d => d.group.id).sort(d3.ascending), d3.schemeCategory10)
+	height = (data.nodes.length - 1) * step + margin.top + margin.bottom
+
+  //const svg = d3.select(DOM.svg(width, height));
+  const svg = d3.create("svg").attr("viewBox", [0, 0, width, height]);
+
+  svg.append("style").text(`
+
+.hover path {
+  stroke: #ccc;
+}
+
+.hover text {
+  fill: #ccc;
+}
+
+.hover g.primary text {
+  fill: black;
+  font-weight: bold;
+}
+
+.hover g.secondary text {
+  fill: #333;
+}
+
+.hover path.primary {
+  stroke: #333;
+  stroke-opacity: 1;
+}
+
+`);
+
+  const y = d3.scalePoint(graph.nodes.map(d => d.id).sort(d3.ascending), [margin.top, height - margin.bottom])
+
+  const label = svg.append("g")
+      .attr("font-family", "sans-serif")
+      .attr("font-size", 10)
+      .attr("text-anchor", "end")
+    .selectAll("g")
+    .data(graph.nodes)
+    .join("g")
+      .attr("transform", d => `translate(${margin.left},${d.y = y(d.id)})`)
+      .call(g => g.append("text")
+          .attr("x", -6)
+          .attr("dy", "0.35em")
+          .attr("fill", d => d3.lab(color(d.group.id)).darker(2))
+          .text(d => d.value + " ↔ " + d.group.name))
+      .call(g => g.append("circle")
+          .attr("r", 3)
+          .attr("fill", d => color(d.group.id)));
+
+  const path = svg.insert("g", "*")
+      .attr("fill", "none")
+      .attr("stroke-opacity", 0.6)
+      .attr("stroke-width", 1.5)
+    .selectAll("path")
+    .data(graph.links)
+    .join("path")
+      .attr("stroke", d => d.source.group.id === d.target.group.id ? color(d.source.group.id) : "#aaa")
+      .attr("d", arc);
+
+  const overlay = svg.append("g")
+      .attr("fill", "none")
+      .attr("pointer-events", "all")
+    .selectAll("rect")
+    .data(graph.nodes)
+    .join("rect")
+      .attr("width", margin.left + 40)
+      .attr("height", step)
+      .attr("y", d => y(d.id) - step / 2)
+      .on("mouseover", d => {
+        svg.classed("hover", true);
+        label.classed("primary", n => n === d);
+        label.classed("secondary", n => n.sourceLinks.some(l => l.target === d) || n.targetLinks.some(l => l.source === d));
+        path.classed("primary", l => l.source === d || l.target === d).filter(".primary").raise();
+      })
+      .on("mouseout", d => {
+        svg.classed("hover", false);
+        label.classed("primary", false);
+        label.classed("secondary", false);
+        path.classed("primary", false).order();
+      });
+
+  const orderByName = (a, b) => d3.ascending(a.value, b.value)
+  const orderByGroup = (a, b) => -(a.group.id < b.group.id) || +(a.group.id !== b.group.id)
+  const orderByDegree = (a, b) => {
+    console.log(a, b)
+    console.log(d3.sum(b.sourceLinks, l => l.value), d3.sum(b.targetLinks, l => l.value), d3.sum(a.sourceLinks, l => l.value), d3.sum(a.targetLinks, l => l.value))
+    return d3.sum(b.sourceLinks, l => l.value) + d3.sum(b.targetLinks, l => l.value) - d3.sum(a.sourceLinks, l => l.value) - d3.sum(a.targetLinks, l => l.value)
+  }
+  const options = [
+    { name: "Order by name", value: orderByName },
+    { name: "Order by group", value: (a, b) => orderByGroup(a, b) || orderByDegree(a, b) || orderByName(a, b) },
+    { name: "Order by degree", value: (a, b) => orderByDegree(a, b) || orderByName(a, b) }
+  ]
+
+  function update() {
+    currentOption = (1+currentOption)%options.length
+
+    y.domain(graph.nodes.sort(options[currentOption].value).map(d => d.id));
+    console.log(currentOption, options[currentOption].name, graph.nodes.sort(options[currentOption].value).map(d => d.id))
+
+    const t = svg.transition()
+        .duration(750);
+
+    label.transition(t)
+        .delay((d, i) => i * 20)
+        .attrTween("transform", d => {
+          const i = d3.interpolateNumber(d.y, y(d.id));
+          return t => `translate(${margin.left},${d.y = i(t)})`;
+        });
+
+    path.transition(t)
+        .duration(750 + graph.nodes.length * 20)
+        .attrTween("d", d => () => arc(d));
+
+    overlay.transition(t)
+        .delay((d, i) => i * 20)
+        .attr("y", d => y(d.id) - step / 2);
+  }
+
+	document.addEventListener("keyup", function (event) {
+    if (event.ctrlKey && event.altKey && event.keyCode === "E".charCodeAt(0)) {
+      update()
+    }
+  }, false)  
+  //viewof order.addEventListener("input", update);
+  //invalidation.then(() => viewof order.removeEventListener("input", update));
+
+  return svg.node();
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 function draw (data) {
   let mesh = document.getElementById("meshRoute")
   if (mesh) {
-    mesh.replaceChild(chart(data), mesh.firstElementChild)
+    mesh.replaceChild(render(data), mesh.firstElementChild)
   } else {
     let route = document.createElement("div")
     route.setAttribute("id", "meshRoute")
-    route.setAttribute("style", "width: 400px")
-    route.appendChild(chart(data))
+    route.setAttribute("style", "width: 600px")
+    route.appendChild(render(data))
     document.getElementById("list-device").parentNode.appendChild(route)
   }
 }
@@ -65,7 +244,8 @@ function execute (cb = draw) {
       }))
       let links = routes.map((v, i, a) => ({
         source: v.id || id + " ↔ " + v.value,
-        target: 1+i === a.length?null:a[1 + i].id
+        target: 1+i === a.length?null:a[1 + i].id,
+        value: 1
       })).filter(({target}) => target)
       Array.from(doc.querySelectorAll("td[aria-labelledby='children-label'] a")).forEach(child => {
         let childId = /\/([\w-]+)$/.test(child.href) && RegExp.$1
@@ -78,7 +258,8 @@ function execute (cb = draw) {
         })
         links.push({
           source: childId,
-          target: id
+          target: id,
+          value: 1
         })
       })
       resolve({
@@ -110,91 +291,10 @@ function request () {
 }
 
 document.addEventListener("keyup", function (event) {
-  console.log(event.keyCode)
   if (event.ctrlKey && event.altKey && event.keyCode === "R".charCodeAt(0)) {
 		request()
   }
 }, false)
-
-color = domain => d => {
-  const scale = d3.scaleOrdinal(d3.schemeCategory10).domain(domain);
-  return scale(d.group.id);
-}
-width = 300
-height = 300
-drag = simulation => {
-  
-  function dragstarted(d) {
-    if (!d3.event.active) simulation.alphaTarget(0.3).restart();
-    d.fx = d.x;
-    d.fy = d.y;
-  }
-  
-  function dragged(d) {
-    d.fx = d3.event.x;
-    d.fy = d3.event.y;
-  }
-  
-  function dragended(d) {
-    if (!d3.event.active) simulation.alphaTarget(0);
-    d.fx = null;
-    d.fy = null;
-  }
-  
-  return d3.drag()
-      .on("start", dragstarted)
-      .on("drag", dragged)
-      .on("end", dragended);
-}
-chart = data => {
-  const links = data.links.map(d => Object.create(d));
-  const nodes = data.nodes.map(d => Object.create(d));
-
-  const simulation = d3.forceSimulation(nodes)
-      .force("link", d3.forceLink(links).id(d => d.id))
-      .force("charge", d3.forceManyBody())
-      .force("center", d3.forceCenter(width / 2, height / 2));
-
-  const svg = d3.create("svg")
-      .attr("viewBox", [0, 0, width, height]);
-
-  const link = svg.append("g")
-      .attr("stroke", "#999")
-      .attr("stroke-opacity", 0.6)
-    .selectAll("line")
-    .data(links)
-    .join("line")
-      .attr("stroke-width", d => Math.sqrt(1/*d.value*/));
-
-  const node = svg.append("g")
-      .attr("stroke", "#fff")
-      .attr("stroke-width", 1.5)
-    .selectAll("circle")
-    .data(nodes)
-    .join("circle")
-      .attr("r", 5)
-      .attr("fill", color(data.groups || []))
-      .call(drag(simulation));
-
-  node.append("title")
-      .text(d => d.value);
-
-  simulation.on("tick", () => {
-    link
-        .attr("x1", d => d.source.x)
-        .attr("y1", d => d.source.y)
-        .attr("x2", d => d.target.x)
-        .attr("y2", d => d.target.y);
-
-    node
-        .attr("cx", d => d.x)
-        .attr("cy", d => d.y);
-  });
-
-  //invalidation.then(() => simulation.stop());
-
-  return svg.node();
-}
 
 GM.getValue("route", "{}")
   .then(v => JSON.parse(v))
