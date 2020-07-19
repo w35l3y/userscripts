@@ -23,7 +23,6 @@
 //GM.deleteValue("route")
 
 const graphFn = data => {
-  console.log(data)
   const nodes = data.nodes.map(({ id, group, value }) => ({
     id,
     sourceLinks: [],
@@ -145,15 +144,11 @@ function render (data) {
       });
 
   const orderByName = (a, b) => d3.ascending(a.value, b.value)
-  const orderByGroup = (a, b) => -(a.group.id < b.group.id) || +(a.group.id !== b.group.id)
-  const orderByDegree = (a, b) => {
-    console.log(a, b)
-    console.log(d3.sum(b.sourceLinks, l => l.value), d3.sum(b.targetLinks, l => l.value), d3.sum(a.sourceLinks, l => l.value), d3.sum(a.targetLinks, l => l.value))
-    return d3.sum(b.sourceLinks, l => l.value) + d3.sum(b.targetLinks, l => l.value) - d3.sum(a.sourceLinks, l => l.value) - d3.sum(a.targetLinks, l => l.value)
-  }
+  const orderByGroup = (a, b) => -(a.group.name < b.group.name) || +(a.group.name !== b.group.name)
+  const orderByDegree = (a, b) => d3.sum(b.sourceLinks, l => l.value) + d3.sum(b.targetLinks, l => l.value) - d3.sum(a.sourceLinks, l => l.value) - d3.sum(a.targetLinks, l => l.value)
   const options = [
     { name: "Order by name", value: orderByName },
-    { name: "Order by group", value: (a, b) => orderByGroup(a, b) || orderByDegree(a, b) || orderByName(a, b) },
+    { name: "Order by group", value: (a, b) => orderByGroup(a, b) || orderByName(a, b) },
     { name: "Order by degree", value: (a, b) => orderByDegree(a, b) || orderByName(a, b) }
   ]
 
@@ -161,7 +156,6 @@ function render (data) {
     currentOption = (1+currentOption)%options.length
 
     y.domain(graph.nodes.sort(options[currentOption].value).map(d => d.id));
-    console.log(currentOption, options[currentOption].name, graph.nodes.sort(options[currentOption].value).map(d => d.id))
 
     const t = svg.transition()
         .duration(750);
