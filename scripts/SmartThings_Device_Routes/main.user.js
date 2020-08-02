@@ -6,7 +6,7 @@
 // @copyright      2020+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        1.1.0
+// @version        1.1.1
 // @grant          GM_xmlHttpRequest
 // @grant          GM_setValue
 // @grant          GM_getValue
@@ -222,6 +222,7 @@ function execute (cb = draw) {
       let route = Array.from(doc.querySelectorAll("td[aria-labelledby='meshRoute-label'] a"))
       let grp = doc.querySelector("td[aria-labelledby='group-label'] a")
       let prt = doc.querySelector("td[aria-labelledby='parent-device-label'] a")
+      let hub = doc.querySelector("td[aria-labelledby='hub-label'] a")
       let id = url.parentNode.parentNode.getAttribute("data-device-id")
       let group = grp?{
         id: /\/([\w-]+)$/.test(grp.href) && RegExp.$1,
@@ -233,6 +234,10 @@ function execute (cb = draw) {
       let parentDevice = prt?{
         id: /\/([\w-]+)$/.test(prt.href) && RegExp.$1,
         name: prt.textContent.trim()
+      }:{}
+      let hubV = hub?{
+        id: /\/([\w-]+)$/.test(hub.href) && RegExp.$1,
+        name: hub.textContent.trim()
       }:{}
       let routes = []
       let links = []
@@ -267,6 +272,13 @@ function execute (cb = draw) {
           id,
           type: "device",
           value: url.textContent
+        })
+      }
+      if (hubV.id && !links.length) {
+        links.push({
+          source: id,
+          target: hubV.id,
+          value: 1
         })
       }
       /*Array.from(doc.querySelectorAll("td[aria-labelledby='children-label'] a")).forEach(child => {
