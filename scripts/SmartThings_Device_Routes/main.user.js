@@ -1,12 +1,12 @@
 // ==UserScript==
 // @namespace      br.com.wesley
-// @name           SmartThings : Zigbee Route Devices
+// @name           SmartThings : Device Routes
 // @author         w35l3y
 // @email          w35l3y@brasnet.org
 // @copyright      2020+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br
-// @version        1.0.1
+// @version        1.1.0
 // @grant          GM_xmlHttpRequest
 // @grant          GM_setValue
 // @grant          GM_getValue
@@ -106,7 +106,7 @@ function render (data) {
           .attr("x", -6)
           .attr("dy", "0.35em")
           .attr("fill", d => d3.lab(color(d.group.id)).darker(2))
-          .text(d => d.value + " ↔ " + d.group.name))
+          .text(d => d.value + (d.group.name?" ↔ " + d.group.name:"")))
       .call(g => g.append("circle")
           .attr("r", 3)
           .attr("fill", d => color(d.group.id)));
@@ -114,11 +114,11 @@ function render (data) {
   const path = svg.insert("g", "*")
       .attr("fill", "none")
       .attr("stroke-opacity", 0.6)
-      .attr("stroke-width", 1.5)
+      .attr("stroke-width", 2)
     .selectAll("path")
     .data(graph.links)
     .join("path")
-      .attr("stroke", d => d.source.group.id === d.target.group.id ? color(d.source.group.id) : "#aaa")
+      .attr("stroke", d => d.target && d.source.group.id === d.target.group.id ? color(d.source.group.id) : "#aaa")
       .attr("d", arc);
 
   const overlay = svg.append("g")
@@ -143,13 +143,17 @@ function render (data) {
         path.classed("primary", false).order();
       });
 
-  const orderByName = (a, b) => d3.ascending(a.value, b.value)
-  const orderByGroup = (a, b) => -(a.group.name < b.group.name) || +(a.group.name !== b.group.name)
+  
+  const orderByName = (a, b) => a.value.localeCompare(b.value, 'pt-br', { sensitivity: 'base' })
+  const orderByGroup = (a, b) => a.group.name.localeCompare(b.group.name, 'pt-br', { sensitivity: 'base' })
+  //const orderByName = (a, b) => d3.ascending(a.value, b.value)
+  //const orderByGroup = (a, b) => d3.ascending(a.group.name, b.group.name)
+  //const orderByGroup = (a, b) => -(a.group.name < b.group.name) || +(a.group.name !== b.group.name)
   const orderByDegree = (a, b) => d3.sum(b.sourceLinks, l => l.value) + d3.sum(b.targetLinks, l => l.value) - d3.sum(a.sourceLinks, l => l.value) - d3.sum(a.targetLinks, l => l.value)
   const options = [
     { name: "Order by name", value: orderByName },
     { name: "Order by group", value: (a, b) => orderByGroup(a, b) || orderByName(a, b) },
-    { name: "Order by degree", value: (a, b) => orderByDegree(a, b) || orderByName(a, b) }
+    { name: "Order by degree", value: (a, b) => orderByDegree(a, b) || orderByGroup(a, b) || orderByName(a, b) }
   ]
 
   function update() {
@@ -205,8 +209,7 @@ function draw (data) {
 }
 
 function execute (cb = draw) {
-  Promise.all(Array.from(document.querySelectorAll("tr[data-device-id] td:nth-child(5)"))
-                                  .filter(n => n.textContent)
+  Promise.all(Array.from(document.querySelectorAll("tr[data-device-id] td:nth-child(1)"))
                                   .map(({ parentNode : { firstElementChild }}) => firstElementChild.querySelector("a"))
                                   .map(url => new Promise((resolve, reject) => GM.xmlHttpRequest({
     method: "GET",
@@ -218,30 +221,55 @@ function execute (cb = draw) {
       doc.documentElement.innerHTML = responseText
       let route = Array.from(doc.querySelectorAll("td[aria-labelledby='meshRoute-label'] a"))
       let grp = doc.querySelector("td[aria-labelledby='group-label'] a")
+      let prt = doc.querySelector("td[aria-labelledby='parent-device-label'] a")
       let id = url.parentNode.parentNode.getAttribute("data-device-id")
       let group = grp?{
         id: /\/([\w-]+)$/.test(grp.href) && RegExp.$1,
         name: grp.textContent.trim()
+      }:{
+        id: "-1",
+        name: "Unknown"
+      }
+      let parentDevice = prt?{
+        id: /\/([\w-]+)$/.test(prt.href) && RegExp.$1,
+        name: prt.textContent.trim()
       }:{}
-      let routes = route[0].parentNode.textContent.replace(/\s{2,}/g, "").trim().split("↔").map((value, i, a) => ({
-        final: !i || i === a.length - 1,
-        group,
-        ...(/(\w+)\/show\/([\w-]+)/.test((route.find(({ textContent }) => ~textContent.indexOf(value))||{}).href)?{
-          id: RegExp.$2,
-          type: RegExp.$1
-        }:{
-          id: id + " ↔ " + value,
+      let routes = []
+      let links = []
+      if (parentDevice.id) {
+        links.push({
+          source: id,
+          target: parentDevice.id,
+          value: 1
+        })
+      }
+      if (route.length) {
+        routes.push(...route[0].parentNode.textContent.replace(/\s{2,}/g, "").trim().split("↔").map((value, i, a) => ({
+          group,
           type: "device",
-          final: true
-        }),
-        value: i?value:url.textContent
-      }))
-      let links = routes.map((v, i, a) => ({
-        source: v.id || id + " ↔ " + v.value,
-        target: 1+i === a.length?null:a[1 + i].id,
-        value: 1
-      })).filter(({target}) => target)
-      Array.from(doc.querySelectorAll("td[aria-labelledby='children-label'] a")).forEach(child => {
+          ...(/(\w+)\/show\/([\w-]+)/.test((route.find(({ textContent }) => ~textContent.indexOf(value))||{}).href)?{
+            id: RegExp.$2,
+            type: RegExp.$1,
+            group: RegExp.$1==="hub"?{id: "-2",name: ""}:group
+          }:{
+            id: id + " ↔ " + value,
+          }),
+          value: i?value:url.textContent
+        })))
+        links.push(...routes.map((v, i, a) => ({
+          source: v.id || id + " ↔ " + v.value,
+          target: 1+i === a.length?null:a[1 + i].id,
+          value: 1
+        })).filter(({ target }) => target))
+      } else {
+				routes.push({
+          group,
+          id,
+          type: "device",
+          value: url.textContent
+        })
+      }
+      /*Array.from(doc.querySelectorAll("td[aria-labelledby='children-label'] a")).forEach(child => {
         let childId = /\/([\w-]+)$/.test(child.href) && RegExp.$1
         routes.push({
           final: true,
@@ -250,12 +278,13 @@ function execute (cb = draw) {
           type: "device",
           value: child.textContent.trim()
         })
+        console.log("Target", id)
         links.push({
           source: childId,
           target: id,
           value: 1
         })
-      })
+      })*/
       resolve({
         id,
         name: url.textContent,
@@ -268,7 +297,7 @@ function execute (cb = draw) {
   .then(devices => {
     let output = {
       groups: devices.map(({ group }) => group.id).filter((v, i, a) => v && i === a.findIndex(x => x === v)),
-      nodes: devices.map(({ routes }) => routes).flat().filter(({id, final}, i, a) => i === a.findIndex(x => x.id === id/* && final*/)),
+      nodes: devices.map(({ routes }) => routes).flat().filter(({id, final}, i, a) => i === a.findIndex(x => x.id === id)),
       links: devices.map(({ links }) => links).flat()
     }
     GM.setValue("route", JSON.stringify(output))
