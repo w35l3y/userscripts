@@ -1,3 +1,4 @@
+#### Instalação
 Baixe um plugin do Firefox chamado [Greasemonkey](https://addons.mozilla.org/pt-BR/firefox/addon/greasemonkey/)<br />
 Talvez funcione também no Chrome com um plugin chamando [Tampermonkey](https://addons.mozilla.org/pt-BR/firefox/addon/tampermonkey/), mas não tenho certeza.<br />
 <br />
@@ -11,11 +12,10 @@ O plugin deverá reconhecer este link e questionar se deseja instalar o script.<
 O código do script é aberto, então você pode verificar que não há perigo algum.<br />
 <br />
 Feito isso, acesse a [lista de Devices do Groovy IDE](https://graph-na04-useast2.api.smartthings.com/device/list).<br />
-O endereço da minha região é "graph-na04-useast2", o seu pode ser outro. Então, atente para este detalhe!<br />
+O endereço da minha região começa com "graph-na04-useast2", o seu pode ser outro. Então, atente para este detalhe!<br />
 <br />
 Assim que o script terminar o processamento, deverá ser exibido um gráfico no final da lista.<br />
-<br />
-<br />
+#### Teclas de atalho
 ```
 Ctrl + Alt + R : Atualiza a lista
 Ctrl + Alt + E : Alterna ordenação
