@@ -6,7 +6,7 @@ Estes plugins permitem injetar código JavaScript em qualquer página.<br />
 Por este motivo, é preciso ter muito cuidado com os scripts que rodam nestes plugins.<br />
 <br />
 Depois que instalar, acesse este endereço:<br />
-https://github.com/w35l3y/userscripts/blob/master-greasemonkey/scripts/SmartThings_Device_Routes/main.user.js<br />
+https://github.com/w35l3y/userscripts/raw/master-greasemonkey/scripts/SmartThings_Device_Routes/main.user.js<br />
 <br />
 O plugin deverá reconhecer este link e questionar se deseja instalar o script.<br />
 O código do script é aberto, então você pode verificar que não há perigo algum.<br />
