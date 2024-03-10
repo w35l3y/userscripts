@@ -1,6 +1,8 @@
-# userscripts
+# Neopets Userscripts
 
 # 2024 update to keep alive
+
+neopets has gone through a revamp in 2023 so I have updated some scripts to work.
 
 Scripts that I have tested after updating all "http://" to "https://":
 
@@ -11,8 +13,9 @@ Scripts that I have tested after updating all "http://" to "https://":
 - Neopets_Food_Club (works)
 - Neopets_Healing_Springs (works)
 - Neopets_Quick_Price_Checker (works)
-- Neopets_Shop_Wizard_Improved_Search (defunt)
--
+- Neopets_Shop_Wizard_Improved_Search (works)
+
+---
 
 Check out other scripts
 
