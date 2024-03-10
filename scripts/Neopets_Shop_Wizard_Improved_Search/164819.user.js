@@ -9,8 +9,7 @@
 // @homepage       https://gm.wesley.eti.br
 // @version        2.0.2
 // @language       en
-// @include        https://www.neopets.com/market.phtml?type=wizard
-// @include        https://www.neopets.com/market.phtml
+// @include        https://www.neopets.com/shops/wizard.phtml
 // @icon           https://gm.wesley.eti.br/icon.php?desc=164819
 // @connect        github.com
 // @connect        raw.githubusercontent.com
