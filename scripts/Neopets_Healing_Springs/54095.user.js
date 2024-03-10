@@ -9,12 +9,7 @@
 // @homepage       https://gm.wesley.eti.br
 // @version        1.0.0
 // @language       en
-// @include        https://www.neopets.com/*
-// @exclude        https://www.neopets.com/colorpallette.phtml
-// @exclude        https://www.neopets.com/neomail_block_check.phtml?*
-// @exclude        https://www.neopets.com/ads/*
-// @exclude        https://www.neopets.com/games/play_flash.phtml?*
-// @exclude        https://www.neopets.com/iteminfo.phtml?*
+// @include        https://www.neopets.com/faerieland/springs.phtml
 // @icon           https://gm.wesley.eti.br/icon.php?desc=54095
 // @grant          GM_getValue
 // @grant          GM_setValue
