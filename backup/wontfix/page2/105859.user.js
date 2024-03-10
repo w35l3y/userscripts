@@ -1,21 +1,21 @@
 // ==UserScript==
 // @name           Userscripts : Improved Search bars
-// @namespace      http://gm.wesley.eti.br/userscripts
+// @namespace      https://gm.wesley.eti.br/userscripts
 // @description    Improves /users/* search bars
 // @author         w35l3y
 // @email          w35l3y@brasnet.org
-// @copyright      2011+, w35l3y (http://gm.wesley.eti.br)
+// @copyright      2011+, w35l3y (https://gm.wesley.eti.br)
 // @license        GNU GPL
-// @homepage       http://gm.wesley.eti.br
+// @homepage       https://gm.wesley.eti.br
 // @version        2.0.0.0
 // @language       en
-// @include        http://userscripts-mirror.org/users/*/groups*
-// @include        http://userscripts-mirror.org/users/*/scripts*
-// @include        http://userscripts-mirror.org/users/*/guides*
-// @include        http://userscripts-mirror.org/users/*/posts*
-// @include        http://userscripts-mirror.org/users/*/comments*
-// @include        http://userscripts-mirror.org/users/*/reviews*
-// @include        http://userscripts-mirror.org/users/*/favorites*
+// @include        https://userscripts-mirror.org/users/*/groups*
+// @include        https://userscripts-mirror.org/users/*/scripts*
+// @include        https://userscripts-mirror.org/users/*/guides*
+// @include        https://userscripts-mirror.org/users/*/posts*
+// @include        https://userscripts-mirror.org/users/*/comments*
+// @include        https://userscripts-mirror.org/users/*/reviews*
+// @include        https://userscripts-mirror.org/users/*/favorites*
 // @grant          GM_log
 // @grant          GM_addStyle
 // @grant          GM_getValue
@@ -24,7 +24,7 @@
 // @grant          GM_deleteValue
 // @grant          GM_xmlhttpRequest
 // @grant          GM_getResourceText
-// @icon           http://gm.wesley.eti.br/icon.php?desc=105859
+// @icon           https://gm.wesley.eti.br/icon.php?desc=105859
 // @resource       meta https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page2/105859.user.js
 // @resource       i18n https://github.com/w35l3y/userscripts/raw/master/includes/Includes_I18n/resources/default.json
 // @resource       updaterWindowHtml https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Updater/resources/default.html
@@ -50,41 +50,42 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 **************************************************************************/
 
 (function () {
-	if (/\d+\/(\w+)/.test(location.pathname)) {
-		var path = RegExp.$1,
-		search = xpath("id('section_search')")[0];
+  if (/\d+\/(\w+)/.test(location.pathname)) {
+    var path = RegExp.$1,
+      search = xpath("id('section_search')")[0];
 
-		if (!search) {
-			search = document.createElement("div");
-			search.setAttribute("id", "section_search");
-			search.innerHTML = '<form method="get" action="/scripts/search"><input type="text" title="Search" placeholder="Search scripts" name="q" class="input" /><input type="submit" value="" name="submit" class="go" /></form>';
+    if (!search) {
+      search = document.createElement("div");
+      search.setAttribute("id", "section_search");
+      search.innerHTML =
+        '<form method="get" action="/scripts/search"><input type="text" title="Search" placeholder="Search scripts" name="q" class="input" /><input type="submit" value="" name="submit" class="go" /></form>';
 
-			xpath("id('section')/div[@class~='container']")[0].appendChild(search);
-		}
+      xpath("id('section')/div[@class~='container']")[0].appendChild(search);
+    }
 
-		var q = xpath(".//input[@name='q'][1]", search)[0];
+    var q = xpath(".//input[@name='q'][1]", search)[0];
 
-		switch (path) {
-			case "comments":
-			case "groups":
-			case "guides":
-			case "reviews":
-				q.setAttribute("placeholder", "Search " + path);
-				q.form.setAttribute("action", "/" + path);
-				break;
-			case "posts":
-				q.setAttribute("placeholder", "Search forums");
-				q.form.setAttribute("action", "/posts/search");
-				break;
-			default:
-				q.setAttribute("placeholder", "Search scripts");
-				q.form.setAttribute("action", "/scripts/search");
-				break;
-		}
-	}
-}());
+    switch (path) {
+      case "comments":
+      case "groups":
+      case "guides":
+      case "reviews":
+        q.setAttribute("placeholder", "Search " + path);
+        q.form.setAttribute("action", "/" + path);
+        break;
+      case "posts":
+        q.setAttribute("placeholder", "Search forums");
+        q.form.setAttribute("action", "/posts/search");
+        break;
+      default:
+        q.setAttribute("placeholder", "Search scripts");
+        q.form.setAttribute("action", "/scripts/search");
+        break;
+    }
+  }
+})();

@@ -1,16 +1,16 @@
 // ==UserScript==
 // @name           Neopets : Tyranu Evavu
-// @namespace      http://gm.wesley.eti.br/neopets
+// @namespace      https://gm.wesley.eti.br/neopets
 // @description    Plays Tyranu Evavu as much as possible.
 // @author         w35l3y
 // @email          w35l3y@brasnet.org
-// @copyright      2011+, w35l3y (http://gm.wesley.eti.br)
+// @copyright      2011+, w35l3y (https://gm.wesley.eti.br)
 // @license        GNU GPL
-// @homepage       http://gm.wesley.eti.br
+// @homepage       https://gm.wesley.eti.br
 // @version        2.0.2
 // @language       en
-// @include        http://www.neopets.com/games/tyranuevavu.phtml*
-// @icon           http://gm.wesley.eti.br/icon.php?desc=28580
+// @include        https://www.neopets.com/games/tyranuevavu.phtml*
+// @icon           https://gm.wesley.eti.br/icon.php?desc=28580
 // @connect        github.com
 // @connect        raw.githubusercontent.com
 // @grant          GM_addStyle
@@ -42,46 +42,66 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 **************************************************************************/
 
-(function () {	// script scope
-	var interval = JSON.parse(GM_getValue("interval", "[3000, 2000]")),
-	actionButton = xpath(".//form[contains(@action, 'tyranuevavu.phtml')]/input[@type = 'submit']")[0];
+(function () {
+  // script scope
+  var interval = JSON.parse(GM_getValue("interval", "[3000, 2000]")),
+    actionButton = xpath(
+      ".//form[contains(@action, 'tyranuevavu.phtml')]/input[@type = 'submit']"
+    )[0];
 
-	if (!actionButton && /(\d+)_(\w+)/.test(xpath("string(.//img[contains(@src, 'games/cards/')]/@src[contains(., '_')])"))) {	// keep playing
-		var suit = ["spades", "hearts", "clubs", "diamonds"].indexOf(RegExp.$2),
-		cards = JSON.parse(GM_getValue("cards", "[]")) || [],
-		at = cards.length,
-		evavu = (RegExp.$1 - 1) << 2,
-		tyranu = 55 - at - evavu;
+  if (
+    !actionButton &&
+    /(\d+)_(\w+)/.test(
+      xpath(
+        "string(.//img[contains(@src, 'games/cards/')]/@src[contains(., '_')])"
+      )
+    )
+  ) {
+    // keep playing
+    var suit = ["spades", "hearts", "clubs", "diamonds"].indexOf(RegExp.$2),
+      cards = JSON.parse(GM_getValue("cards", "[]")) || [],
+      at = cards.length,
+      evavu = (RegExp.$1 - 1) << 2,
+      tyranu = 55 - at - evavu;
 
-		cards.push(evavu - 4 + suit);
-		cards.sort(function(a, b) {
-			return (a != b) - ((a < b) << 1);
-		});
+    cards.push(evavu - 4 + suit);
+    cards.sort(function (a, b) {
+      return (a != b) - ((a < b) << 1);
+    });
 
-		// number of cards lower than or equal to the current card
-		for (var ai = 0;ai <= at && 0 < evavu - cards[ai];++ai) {
-			if (4 < evavu - cards[ai]) {
-				++tyranu;
-			}
-		}
-		evavu -= ai;
+    // number of cards lower than or equal to the current card
+    for (var ai = 0; ai <= at && 0 < evavu - cards[ai]; ++ai) {
+      if (4 < evavu - cards[ai]) {
+        ++tyranu;
+      }
+    }
+    evavu -= ai;
 
-		GM_setValue("cards", JSON.stringify(cards));
+    GM_setValue("cards", JSON.stringify(cards));
 
-		function nextAction () {
-			location.replace(xpath("string(.//a[contains(@href, '" + ["higher", "lower"][0|(evavu > tyranu)] + "') and img[contains(@src, '/prehistoric/')]]/@href)"));
-		}		
-	} else {
-		GM_setValue("cards", "[]");
+    function nextAction() {
+      location.replace(
+        xpath(
+          "string(.//a[contains(@href, '" +
+            ["higher", "lower"][0 | (evavu > tyranu)] +
+            "') and img[contains(@src, '/prehistoric/')]]/@href)"
+        )
+      );
+    }
+  } else {
+    GM_setValue("cards", "[]");
 
-		function nextAction () {
-			actionButton.click();
-		};
-	}
+    function nextAction() {
+      actionButton.click();
+    }
+  }
 
-	window.setTimeout(nextAction, interval[0] + Math.floor(Math.random() * interval[1]));
-}());
+  window.setTimeout(
+    nextAction,
+    interval[0] + Math.floor(Math.random() * interval[1])
+  );
+})();

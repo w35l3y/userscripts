@@ -1,20 +1,20 @@
 // ==UserScript==
 // @name           Neopets : Random Events [BETA]
-// @namespace      http://gm.wesley.eti.br
+// @namespace      https://gm.wesley.eti.br
 // @description    Loggs random events
 // @author         w35l3y
 // @email          w35l3y@brasnet.org
-// @copyright      2013+, w35l3y (http://gm.wesley.eti.br)
+// @copyright      2013+, w35l3y (https://gm.wesley.eti.br)
 // @license        GNU GPL
-// @homepage       http://gm.wesley.eti.br
+// @homepage       https://gm.wesley.eti.br
 // @version        1.1.1
 // @language       en
-// @include        http://www.neopets.com/*
-// @exclude        http://www.neopets.com/ads/*
-// @exclude        http://www.neopets.com/games/play_flash.phtml?*
-// @exclude        http://www.neopets.com/neomail_block_check.phtml?*
-// @exclude        http://www.neopets.com/iteminfo.phtml?*
-// @exclude        http://www.neopets.com/~*
+// @include        https://www.neopets.com/*
+// @exclude        https://www.neopets.com/ads/*
+// @exclude        https://www.neopets.com/games/play_flash.phtml?*
+// @exclude        https://www.neopets.com/neomail_block_check.phtml?*
+// @exclude        https://www.neopets.com/iteminfo.phtml?*
+// @exclude        https://www.neopets.com/~*
 // @grant          GM_log
 // @grant          GM_getValue
 // @grant          GM_setValue
@@ -22,7 +22,7 @@
 // @grant          GM_deleteValue
 // @grant          GM_xmlhttpRequest
 // @grant          GM_getResourceText
-// @icon           http://gm.wesley.eti.br/icon.php?desc=154364
+// @icon           https://gm.wesley.eti.br/icon.php?desc=154364
 // @resource       random_events https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Neopets_Random_Events/resources/default.csv
 // @resource       randomEventsHtml https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Neopets_Random_Events/resources/default.html
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
@@ -45,15 +45,15 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 **************************************************************************/
 
 RandomEvents.process({
-	onload	: function (obj) {
-		alert("Random events saved successfully");
-	},
-	onerror	: function (obj) {
-		alert(obj.value);
-	},
+  onload: function (obj) {
+    alert("Random events saved successfully");
+  },
+  onerror: function (obj) {
+    alert(obj.value);
+  },
 });

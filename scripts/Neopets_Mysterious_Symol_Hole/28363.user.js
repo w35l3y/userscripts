@@ -1,17 +1,17 @@
 // ==UserScript==
 // @name           Neopets : Mysterious Symol Hole
-// @namespace      http://gm.wesley.eti.br/neopets
+// @namespace      https://gm.wesley.eti.br/neopets
 // @description    Plays Mysterious Symol Hole
 // @author         w35l3y
 // @email          w35l3y@brasnet.org
-// @copyright      2012+, w35l3y (http://gm.wesley.eti.br)
+// @copyright      2012+, w35l3y (https://gm.wesley.eti.br)
 // @license        GNU GPL
-// @homepage       http://gm.wesley.eti.br
+// @homepage       https://gm.wesley.eti.br
 // @version        2.0.0
 // @language       en
-// @icon           http://gm.wesley.eti.br/icon.php?desc=28363
+// @icon           https://gm.wesley.eti.br/icon.php?desc=28363
 // @grant          GM_getValue
-// @include        http://www.neopets.com/medieval/symolhole.phtml
+// @include        https://www.neopets.com/medieval/symolhole.phtml
 // @require        ../../includes/Includes_XPath/63808.user.js
 // ==/UserScript==
 
@@ -28,18 +28,23 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 **************************************************************************/
 
-(function () {	// script scope
-	var user = {
-		interval	: JSON.parse(GM_getValue("interval",	"[1000, 2000]"))
-	},
-	field = xpath(".//form[contains(@action, 'process_symolhole.phtml')]/select[@name = 'goin']")[0];
-	field.selectedIndex = Math.floor(100 * Math.random() * field.length % (field.length - 1));
+(function () {
+  // script scope
+  var user = {
+      interval: JSON.parse(GM_getValue("interval", "[1000, 2000]")),
+    },
+    field = xpath(
+      ".//form[contains(@action, 'process_symolhole.phtml')]/select[@name = 'goin']"
+    )[0];
+  field.selectedIndex = Math.floor(
+    (100 * Math.random() * field.length) % (field.length - 1)
+  );
 
-	setTimeout(function () {
-		field.form.submit();
-	}, Math.floor(user.interval[0] + Math.random() * user.interval[1]));
-}());
+  setTimeout(function () {
+    field.form.submit();
+  }, Math.floor(user.interval[0] + Math.random() * user.interval[1]));
+})();

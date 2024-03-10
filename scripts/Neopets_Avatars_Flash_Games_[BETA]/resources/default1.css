@@ -1,13 +1,14 @@
 #gr-ctp-avatar-btn {
-	background: url("http://i48.tinypic.com/u93ls.png") no-repeat scroll 0 0 transparent;
-	bottom: 0px;
-	height: 30px;
-	right: 62px;
-	position: relative;
-	width: 30px;
-	float: right;
-	z-index: inherit;
+  background: url("https://i48.tinypic.com/u93ls.png") no-repeat scroll 0 0
+    transparent;
+  bottom: 0px;
+  height: 30px;
+  right: 62px;
+  position: relative;
+  width: 30px;
+  float: right;
+  z-index: inherit;
 }
 #gr-ctp-avatar-btn:hover {
-	background-position: 0 -33px;
+  background-position: 0 -33px;
 }

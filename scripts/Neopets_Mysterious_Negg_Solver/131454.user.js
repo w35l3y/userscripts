@@ -1,25 +1,25 @@
 // ==UserScript==
 // @name           Neopets : Mysterious Negg Solver
-// @namespace      http://gm.wesley.eti.br
+// @namespace      https://gm.wesley.eti.br
 // @description    Solves the puzzle Mysterious Negg
 // @author         w35l3y
 // @email          w35l3y@brasnet.org
-// @copyright      2012+, w35l3y (http://gm.wesley.eti.br)
+// @copyright      2012+, w35l3y (https://gm.wesley.eti.br)
 // @license        GNU GPL
-// @homepage       http://gm.wesley.eti.br
+// @homepage       https://gm.wesley.eti.br
 // @version        2.0.2
 // @language       en
-// @include        http://www.neopets.com/neggfest/y14/negg.phtml
-// @include        http://www.neopets.com/shenkuu/neggcave/
-// @include        http://www.neopets.com/shenkuu/neggcave/index.phtml
+// @include        https://www.neopets.com/neggfest/y14/negg.phtml
+// @include        https://www.neopets.com/shenkuu/neggcave/
+// @include        https://www.neopets.com/shenkuu/neggcave/index.phtml
 // @grant          GM_addStyle
 // @grant          GM_getValue
 // @grant          GM_setValue
 // @grant          GM_openInTab
 // @grant          GM_deleteValue
 // @grant          GM_xmlhttpRequest
-// @icon           http://gm.wesley.eti.br/icon.php?desc=131454
-// @require        http://images.neopets.com/js/jquery-1.7.1.min.js?v=1
+// @icon           https://gm.wesley.eti.br/icon.php?desc=131454
+// @require        https://images.neopets.com/js/jquery-1.7.1.min.js?v=1
 // @require        ../../backup/144996.user.js
 // @require        ../../includes/Includes_Neopets_Neggbreaker/142688.user.js
 // ==/UserScript==
@@ -37,34 +37,38 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 **************************************************************************/
 
 if ("/neggfest/y14/negg.phtml" == location.pathname) {
-	var negg = unsafeWindow.NFNegg;
+  var negg = unsafeWindow.NFNegg;
 
-	negg.watch("currentGrid", function (name, ovalue, nvalue) {
-		if (0 <= nvalue && nvalue <= 2) {
-			var parchment_id = parseInt(/-s(\d+)/.test($("#nfn-negg-symbol-" + nvalue).attr("class")) && RegExp.$1, 10);
+  negg.watch("currentGrid", function (name, ovalue, nvalue) {
+    if (0 <= nvalue && nvalue <= 2) {
+      var parchment_id = parseInt(
+        /-s(\d+)/.test($("#nfn-negg-symbol-" + nvalue).attr("class")) &&
+          RegExp.$1,
+        10
+      );
 
-			negg.showParchment(parchment_id);
+      negg.showParchment(parchment_id);
 
-			if (!negg.gridsSolved[nvalue]) {
-				Neggbreaker.solver({
-					clues	: "#nfn-parch-clues-" + parchment_id,
-					cells	: "div.nfn-negg-clue-cell",
-					negg	: negg,
-				});
-			}
-		}
+      if (!negg.gridsSolved[nvalue]) {
+        Neggbreaker.solver({
+          clues: "#nfn-parch-clues-" + parchment_id,
+          cells: "div.nfn-negg-clue-cell",
+          negg: negg,
+        });
+      }
+    }
 
-		return nvalue;
-	});
+    return nvalue;
+  });
 } else if (!$("img[src $= '/negg_final.jpg']").length) {
-	Neggbreaker.solver({
-		clues	: "#mnc_parch_clues",
-		cells	: "div.mnc_negg_clue_cell",
-		negg	: unsafeWindow.NeggCave,
-	});
+  Neggbreaker.solver({
+    clues: "#mnc_parch_clues",
+    cells: "div.mnc_negg_clue_cell",
+    negg: unsafeWindow.NeggCave,
+  });
 }

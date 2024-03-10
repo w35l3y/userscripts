@@ -1,17 +1,17 @@
 // ==UserScript==
 // @name           Userscripts : Auto-Flag Spam Topics
-// @namespace      http://gm.wesley.eti.br
+// @namespace      https://gm.wesley.eti.br
 // @description    Auto-flag spam topics at the forums
 // @author         w35l3y
 // @email          w35l3y@brasnet.org
-// @copyright      2012+, w35l3y (http://gm.wesley.eti.br)
+// @copyright      2012+, w35l3y (https://gm.wesley.eti.br)
 // @license        GNU GPL
-// @homepage       http://gm.wesley.eti.br
+// @homepage       https://gm.wesley.eti.br
 // @version        1.0.0.7
 // @language       en
-// @include        http://userscripts-mirror.org/forums/*
+// @include        https://userscripts-mirror.org/forums/*
 // @grant          GM_xmlhttpRequest
-// @icon           http://gm.wesley.eti.br/icon.php?desc=131890
+// @icon           https://gm.wesley.eti.br/icon.php?desc=131890
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_HttpRequest/56489.user.js
 // ==/UserScript==
@@ -29,73 +29,93 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 **************************************************************************/
 
-(function recursive (topics) {
-	if (topics.length) {
-		var topic = topics.shift();
+(function recursive(topics) {
+  if (topics.length) {
+    var topic = topics.shift();
 
-		if (/^(?:[A-Z][a-z]+){2}/.test(topic.textContent)	// title
-		&& "0" == xpath("string(./ancestor::tr[1]/td[3]/text())", topic)	// number of replies
-		&& /[a-z]{2,}\d*[a-z]?$/.test(xpath("string(./ancestor::tr[1][td[2]/small/a[1]/text() = td[5]/small/a[1]/text()]/td[2]/small/a[1]/text())", topic))	// username
-		&& /#posts-(\d+)/.test(xpath("string(./ancestor::tr[1]/td[5]/small/a[2]/@href)", topic))	// post id
-		) {
-			var pid = RegExp.$1;
+    if (
+      /^(?:[A-Z][a-z]+){2}/.test(topic.textContent) && // title
+      "0" == xpath("string(./ancestor::tr[1]/td[3]/text())", topic) && // number of replies
+      /[a-z]{2,}\d*[a-z]?$/.test(
+        xpath(
+          "string(./ancestor::tr[1][td[2]/small/a[1]/text() = td[5]/small/a[1]/text()]/td[2]/small/a[1]/text())",
+          topic
+        )
+      ) && // username
+      /#posts-(\d+)/.test(
+        xpath("string(./ancestor::tr[1]/td[5]/small/a[2]/@href)", topic)
+      ) // post id
+    ) {
+      var pid = RegExp.$1;
 
-			HttpRequest.open({
-				method		: "post",
-				url			: "http://userscripts-mirror.org/spam",
-				headers		: {
-					"Referer"	: topic.parentNode.href,
-				},
-				onsuccess	: function (xhr) {
-					xpath("./ancestor::tr[1]/td[1]/img/@class", topic)[0].value = "icon grey";
+      HttpRequest.open({
+        method: "post",
+        url: "https://userscripts-mirror.org/spam",
+        headers: {
+          Referer: topic.parentNode.href,
+        },
+        onsuccess: function (xhr) {
+          xpath("./ancestor::tr[1]/td[1]/img/@class", topic)[0].value =
+            "icon grey";
 
-					var msg = xpath("string(id('post-body-" + pid + "'))", xhr.response.xml).replace(/^\s+|\s+$/g, ""),
-					notice = xpath("id('content')/p[@class = 'notice']", xhr.response.xml)[0],
-					content = xpath("id('content')")[0];
-					if (notice) {
-						content.replaceChild(notice, content.firstChild);	// it works because the first child is a TextNode
-					}
+          var msg = xpath(
+              "string(id('post-body-" + pid + "'))",
+              xhr.response.xml
+            ).replace(/^\s+|\s+$/g, ""),
+            notice = xpath(
+              "id('content')/p[@class = 'notice']",
+              xhr.response.xml
+            )[0],
+            content = xpath("id('content')")[0];
+          if (notice) {
+            content.replaceChild(notice, content.firstChild); // it works because the first child is a TextNode
+          }
 
-					if (!msg || /(?:[A-Z][a-z]+){4}/.test(msg)) {
-						window.setTimeout(recursive, 500, topics);
-					} else {	// ops, the content message doesn't seem to be spam
-						HttpRequest.open({
-							method		: "post",
-							url			: "http://userscripts-mirror.org/spam",
-							headers		: {
-								"Referer"	: topic.parentNode.href,
-							},
-							onsuccess	: function (xhr) {
-								window.setTimeout(recursive, 500, topics);
+          if (!msg || /(?:[A-Z][a-z]+){4}/.test(msg)) {
+            window.setTimeout(recursive, 500, topics);
+          } else {
+            // ops, the content message doesn't seem to be spam
+            HttpRequest.open({
+              method: "post",
+              url: "https://userscripts-mirror.org/spam",
+              headers: {
+                Referer: topic.parentNode.href,
+              },
+              onsuccess: function (xhr) {
+                window.setTimeout(recursive, 500, topics);
 
-								notice = xpath("id('content')/p[@class = 'notice']", xhr.response.xml)[0];
+                notice = xpath(
+                  "id('content')/p[@class = 'notice']",
+                  xhr.response.xml
+                )[0];
 
-								if (notice) {
-									content.replaceChild(notice, content.firstChild);	// it works because the first child is a TextNode
-								}
-							},
-						}).send({
-							"authenticity_token"	: unsafeWindow.auth_token,
-							"post_id"				: pid,
-							"spam"					: "false",
-							"commit"				: "Disagree",
-						});
-					}
-				},
-			}).send({
-				"authenticity_token"	: unsafeWindow.auth_token,
-				"post_id"				: pid,
-				"spam"					: "true",
-				"commit"				: "Flag Spam",
-			});
-		} else {	// next topic
-			recursive(topics);
-		}
-	} else {
-		window.setTimeout("location.reload()", 150000);	// 02m30s
-	}
-}(xpath("id('content')//tr[td[1]/img[@class = 'icon green']]/td[2]/a/text()")));
+                if (notice) {
+                  content.replaceChild(notice, content.firstChild); // it works because the first child is a TextNode
+                }
+              },
+            }).send({
+              authenticity_token: unsafeWindow.auth_token,
+              post_id: pid,
+              spam: "false",
+              commit: "Disagree",
+            });
+          }
+        },
+      }).send({
+        authenticity_token: unsafeWindow.auth_token,
+        post_id: pid,
+        spam: "true",
+        commit: "Flag Spam",
+      });
+    } else {
+      // next topic
+      recursive(topics);
+    }
+  } else {
+    window.setTimeout("location.reload()", 150000); // 02m30s
+  }
+})(xpath("id('content')//tr[td[1]/img[@class = 'icon green']]/td[2]/a/text()"));

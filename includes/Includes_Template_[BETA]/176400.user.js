@@ -1,17 +1,17 @@
 // ==UserScript==
 // @name           Includes : Template [BETA]
-// @namespace      http://gm.wesley.eti.br
+// @namespace      https://gm.wesley.eti.br
 // @description    Template Function
 // @author         w35l3y
 // @email          w35l3y@brasnet.org
-// @copyright      2013+, w35l3y (http://gm.wesley.eti.br)
+// @copyright      2013+, w35l3y (https://gm.wesley.eti.br)
 // @license        GNU GPL
-// @homepage       http://gm.wesley.eti.br
+// @homepage       https://gm.wesley.eti.br
 // @version        2.1.1
 // @language       en
 // @include        /userscripts\.org\/scripts\/review\/176400$/
 // @grant          GM_getResourceText
-// @icon           http://gm.wesley.eti.br/icon.php?desc=176400
+// @icon           https://gm.wesley.eti.br/icon.php?desc=176400
 // @debug          true
 // @uso:author     55607
 // @uso:script     176400
@@ -30,135 +30,168 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 **************************************************************************/
 
 Template = {
-	get templates() {
-		var retorno = {};
+  get templates() {
+    var retorno = {};
 
-		try {
-			retorno = JSON.parse(GM_getResourceText("templates"));
-		} catch (e) {}
+    try {
+      retorno = JSON.parse(GM_getResourceText("templates"));
+    } catch (e) {}
 
-		return retorno;
-	}
+    return retorno;
+  },
 };
 Template.get = function (template, context) {
-	if (/^\w+(?:\.\w+)*$/.test(template)) {
-		template = (function recursive (v, cont, index) {
-			if (index < v.length) {
-				var k = v[index];
+  if (/^\w+(?:\.\w+)*$/.test(template)) {
+    template = (function recursive(v, cont, index) {
+      if (index < v.length) {
+        var k = v[index];
 
-				if (k in cont) {
-					return recursive(v, cont[k], ++index);
-				} else {
-					return v.join(".");
-				}
-			} else {
-				return cont;
-			}
-		}(template.split("."), Template.templates, 0));
-	}
+        if (k in cont) {
+          return recursive(v, cont[k], ++index);
+        } else {
+          return v.join(".");
+        }
+      } else {
+        return cont;
+      }
+    })(template.split("."), Template.templates, 0);
+  }
 
-	return (function recursive (value, root, last, iindex, wild) {
-		return value.replace((wild?/([#$%&@])\{(\w+(?:\.\w+)*)(?:\|(\w+)?\s*([<>=^!$~]{1,2})\s*([-\w]+)?)?\}([^]+)?\1\{\/\2\}/g
-															:/([#$%&@])\{(\w+(?:\.\w+)*)(?:\|(\w+)?\s*([<>=^!$~]{1,2})\s*([-\w]+)?)?\}([^]+?)?\1\{\/\2\}/g), function (all, symbol, key, value1, operator, value2, content) {
-			var c = key.split("."),
-			r = root,
-			l = [];
+  return (function recursive(value, root, last, iindex, wild) {
+    return value
+      .replace(
+        wild
+          ? /([#$%&@])\{(\w+(?:\.\w+)*)(?:\|(\w+)?\s*([<>=^!$~]{1,2})\s*([-\w]+)?)?\}([^]+)?\1\{\/\2\}/g
+          : /([#$%&@])\{(\w+(?:\.\w+)*)(?:\|(\w+)?\s*([<>=^!$~]{1,2})\s*([-\w]+)?)?\}([^]+?)?\1\{\/\2\}/g,
+        function (all, symbol, key, value1, operator, value2, content) {
+          var c = key.split("."),
+            r = root,
+            l = [];
 
-			for (var index in c) {
-				if (typeof r == "object" && c[index] in r) {
-					l.push(c[index]);
-					r = r[iindex = c[index]];
-				} else if ("index" == c[index]) {
-					l.push(c[index]);
-					r = iindex;
-				} else if ("values" == c[index]) {
-					var o = "",
-					x = {};
+          for (var index in c) {
+            if (typeof r == "object" && c[index] in r) {
+              l.push(c[index]);
+              r = r[(iindex = c[index])];
+            } else if ("index" == c[index]) {
+              l.push(c[index]);
+              r = iindex;
+            } else if ("values" == c[index]) {
+              var o = "",
+                x = {};
 
-					for (var index2 in r) {
-						o += recursive(content, r[index2], x, index2, false);
-						x = r[index2];
-					}
+              for (var index2 in r) {
+                o += recursive(content, r[index2], x, index2, false);
+                x = r[index2];
+              }
 
-					return o;
-				} else if (!operator) {
-					return l;
-				}
-			}
+              return o;
+            } else if (!operator) {
+              return l;
+            }
+          }
 
-			if (r instanceof Array && !value1) {
-				value1 = "length";
-			}
+          if (r instanceof Array && !value1) {
+            value1 = "length";
+          }
 
-			var d = true,
-			v1 = (value1?r[value1]:r),
-			v2 = (value2?value2:last && last[key]);
+          var d = true,
+            v1 = value1 ? r[value1] : r,
+            v2 = value2 ? value2 : last && last[key];
 
-			switch (operator) {
-				case ">":d = (v1 > v2);break;
-				case ">=":d = (v1 >= v2);break;
-				case "<":d = (v1 < v2);break;
-				case "<=":d = (v1 <= v2);break;
-				case "=":d = (v1 == v2);break;
-				case "==":d = (v1 === v2);break;
-				case "!=":
-				case "<>":d = (v1 != v2);break;
-				case "^":d = !v1.indexOf(v2);break;
-				case "!^":d = !!v1.indexOf(v2);break;
-				case "~":d = !!~v1.indexOf(v2);break;
-				case "!~":d = !~v1.indexOf(v2);break;
-				case "$":d = !(v1.lastIndexOf(v2) - v1.length + v2.length);break;
-				case "!$":d = !!(v1.lastIndexOf(v2) - v1.length + v2.length);break;
-			}
+          switch (operator) {
+            case ">":
+              d = v1 > v2;
+              break;
+            case ">=":
+              d = v1 >= v2;
+              break;
+            case "<":
+              d = v1 < v2;
+              break;
+            case "<=":
+              d = v1 <= v2;
+              break;
+            case "=":
+              d = v1 == v2;
+              break;
+            case "==":
+              d = v1 === v2;
+              break;
+            case "!=":
+            case "<>":
+              d = v1 != v2;
+              break;
+            case "^":
+              d = !v1.indexOf(v2);
+              break;
+            case "!^":
+              d = !!v1.indexOf(v2);
+              break;
+            case "~":
+              d = !!~v1.indexOf(v2);
+              break;
+            case "!~":
+              d = !~v1.indexOf(v2);
+              break;
+            case "$":
+              d = !(v1.lastIndexOf(v2) - v1.length + v2.length);
+              break;
+            case "!$":
+              d = !!(v1.lastIndexOf(v2) - v1.length + v2.length);
+              break;
+          }
 
-			if (d) {
-				if (r instanceof Array) {
-					if (/[#$%&@]\{values\}/.test(content)) {	// quicker way
-						return recursive(content, r, {}, iindex, true);
-					} else {
-						var o = "";
-						x = {};
+          if (d) {
+            if (r instanceof Array) {
+              if (/[#$%&@]\{values\}/.test(content)) {
+                // quicker way
+                return recursive(content, r, {}, iindex, true);
+              } else {
+                var o = "";
+                x = {};
 
-						for (var index2 in r) {
-							o += recursive(content, r[index2], x, index2, false);
-							x = r[index2];
-						}
+                for (var index2 in r) {
+                  o += recursive(content, r[index2], x, index2, false);
+                  x = r[index2];
+                }
 
-						return o;
-					}
-				} else {
-					return recursive(content, r, {}, iindex, false);
-				}
-			} else {
-				return "";
-			}
-		}).replace(/[#$%&@]\{(\w+(?:\.\w+)*)\/\}/g, function (all, key) {
-			var c = key.split("."),
-			r = root,
-			l = [];
+                return o;
+              }
+            } else {
+              return recursive(content, r, {}, iindex, false);
+            }
+          } else {
+            return "";
+          }
+        }
+      )
+      .replace(/[#$%&@]\{(\w+(?:\.\w+)*)\/\}/g, function (all, key) {
+        var c = key.split("."),
+          r = root,
+          l = [];
 
-			for (var index in c) {
-				if (typeof r == "object" && c[index] in r) {
-					l.push(c[index]);
-					r = r[iindex = c[index]];
-				} else if ("value" == c[index]) {
-					return r;
-				} else if ("index" == c[index]) {
-					return iindex;
-				} else {
-					return l;
-				}
-			}
+        for (var index in c) {
+          if (typeof r == "object" && c[index] in r) {
+            l.push(c[index]);
+            r = r[(iindex = c[index])];
+          } else if ("value" == c[index]) {
+            return r;
+          } else if ("index" == c[index]) {
+            return iindex;
+          } else {
+            return l;
+          }
+        }
 
-			return r;
-		});
-	}(template, context, undefined, 0, true));
-}
+        return r;
+      });
+  })(template, context, undefined, 0, true);
+};
 
 /*
 Assert.execute(new function TemplateTest () {

@@ -11,7 +11,7 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 **************************************************************************/
 
@@ -183,13 +183,13 @@ CheckForUpdate.init = function(header, callback)
 CheckForUpdate.init(<>
 // ==UserScript==
 // @name           Includes : CheckForUpdate
-// @namespace      http://gm.wesley.eti.br/includes
+// @namespace      https://gm.wesley.eti.br/includes
 // @description    CheckForUpdate function. This script doesn't do anything except keep itself updated.
 // @author         w35l3y
 // @email          w35l3y@brasnet.org
 // @copyright      w35l3y 2008
 // @license        GNU GPL
-// @homepage       http://www.wesley.eti.br
+// @homepage       https://www.wesley.eti.br
 // @version        2.0.3.0
 // @include        nowhere
 // @cfu:meta       https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page1/@cfu:id.user.js

@@ -1,12 +1,12 @@
 // ==UserScript==
 // @name        Includes : Neopets : TrainingSchool
-// @namespace   http://gm.wesley.eti.br
+// @namespace   https://gm.wesley.eti.br
 // @description TrainingSchool Function
 // @author      w35l3y
 // @email       w35l3y@brasnet.org
-// @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
+// @copyright   2015+, w35l3y (https://gm.wesley.eti.br)
 // @license     GNU GPL
-// @homepage    http://gm.wesley.eti.br
+// @homepage    https://gm.wesley.eti.br
 // @version     1.0.0
 // @language    en
 // @include     nowhere
@@ -32,226 +32,275 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 **************************************************************************/
 
 var TrainingSchool = function (page, pet) {
-	if (!pet) {
-		pet = page.activePet;
-	}
-	var mode = [{	// Swashbuckling Academy
-		action: "http://www.neopets.com/pirates/process_academy.phtml",
-		referer: "http://www.neopets.com/pirates/academy.phtml",
-		items: function (pet) {
-			var itemsIndexes = {},
-			items = xpath("./td[2]//td[1]/img", pet),
-			output = [];
+  if (!pet) {
+    pet = page.activePet;
+  }
+  var mode = [
+      {
+        // Swashbuckling Academy
+        action: "https://www.neopets.com/pirates/process_academy.phtml",
+        referer: "https://www.neopets.com/pirates/academy.phtml",
+        items: function (pet) {
+          var itemsIndexes = {},
+            items = xpath("./td[2]//td[1]/img", pet),
+            output = [];
 
-			for (var ai = 0,at = items.length;ai < at;++ai) {
-				var img = items[ai],
-				i = {
-					name	: xpath("string(../following-sibling::td[1]/b/text())", img).trim(),
-					image	: img.getAttribute("src"),
-					quantity: 1
-				};
+          for (var ai = 0, at = items.length; ai < at; ++ai) {
+            var img = items[ai],
+              i = {
+                name: xpath(
+                  "string(../following-sibling::td[1]/b/text())",
+                  img
+                ).trim(),
+                image: img.getAttribute("src"),
+                quantity: 1,
+              };
 
-				if (i.name in itemsIndexes) {
-					++output[itemsIndexes[i.name]].quantity;
-				} else {
-					itemsIndexes[i.name] = output.length;
-					output.push(i);
-				}
-			}
+            if (i.name in itemsIndexes) {
+              ++output[itemsIndexes[i.name]].quantity;
+            } else {
+              itemsIndexes[i.name] = output.length;
+              output.push(i);
+            }
+          }
 
-			return output;
-		}
-	}, {	// The Mystery Island Training School
-		action: "http://www.neopets.com/island/process_training.phtml",
-		referer: "http://www.neopets.com/island/training.phtml",
-		items: function (pet) {
-			var itemsIndexes = {},
-			items = xpath("./td[2]/p/img", pet),
-			output = [];
-			
-			for (var ai = 0,at = items.length;ai < at;++ai) {
-				var img = items[ai],
-				i = {
-					name	: xpath("string(preceding-sibling::b[1]/text())", img).trim(),
-					image	: img.getAttribute("src"),
-					quantity: 1
-				};
-				
-				if (i.name in itemsIndexes) {
-					++output[itemsIndexes[i.name]].quantity;
-				} else {
-					output.push(i);
-				}
-			}
+          return output;
+        },
+      },
+      {
+        // The Mystery Island Training School
+        action: "https://www.neopets.com/island/process_training.phtml",
+        referer: "https://www.neopets.com/island/training.phtml",
+        items: function (pet) {
+          var itemsIndexes = {},
+            items = xpath("./td[2]/p/img", pet),
+            output = [];
 
-			return output;
-		}
-	}, {	// Secret Ninja Training School
-		action: "http://www.neopets.com/island/process_fight_training.phtml",
-		referer: "http://www.neopets.com/island/fight_training.phtml",
-		items: function (pet) {
-			var itemsIndexes = {},
-			items = xpath("./td[2]/p/img", pet),
-			output = [];
-			
-			for (var ai = 0,at = items.length;ai < at;++ai) {
-				var img = items[ai],
-				i = {
-					name	: xpath("string(preceding-sibling::b[1]/text())", img).trim(),
-					image	: img.getAttribute("src"),
-					quantity: 1
-				};
-				
-				if (i.name in itemsIndexes) {
-					++output[itemsIndexes[i.name]].quantity;
-				} else {
-					output.push(i);
-				}
-			}
+          for (var ai = 0, at = items.length; ai < at; ++ai) {
+            var img = items[ai],
+              i = {
+                name: xpath(
+                  "string(preceding-sibling::b[1]/text())",
+                  img
+                ).trim(),
+                image: img.getAttribute("src"),
+                quantity: 1,
+              };
 
-			return output;
-		}
-	}][(250 < pet.stats.level?2:(40 >= pet.stats.level?0:1))],
-	_post = function (data, cb) {
-		data.pet_name = pet.name;
-		page.request({
-			method	: "post",
-			action	: mode.action,
-			referer	: mode.referer + "?type=courses",
-			data	: data,
-			delay	: true,
-			callback: cb
-		});
-	},
-	_get = function (data, cb) {
-		data.pet_name = pet.name;
-		page.request({
-			method	: "get",
-			action	: mode.referer,
-			referer	: mode.referer + "?type=status",
-			data	: data,
-			delay	: true,
-			callback: cb
-		});
-	},
-	parse = function (o, cb) {
-		//o.message = xpath("string(.//center[contains(img[1]/@src, '/island/ninja_kyrii')])", o.body);
-		o.pets = xpath(".//td[@class = 'content']//table/tbody/tr[td[1][img and font]]", o.body).map(function (item) {
-			var stats = xpath("./td[1]//b/text()", item).map(function (s) {
-				var ss = s.textContent.replace(/[,.]/g, "");
+            if (i.name in itemsIndexes) {
+              ++output[itemsIndexes[i.name]].quantity;
+            } else {
+              output.push(i);
+            }
+          }
 
-				return (~s.textContent.indexOf("/")?ss.split(/\s+\/\s+/).map(parseFloat):parseInt(ss, 10));
-			}),
-			img = xpath("string(./td/img/@src)", item),
-			timer = xpath("string(./td[2][not(form)]/b/text())", item).match(/\d+/g),
-			timerDate;
+          return output;
+        },
+      },
+      {
+        // Secret Ninja Training School
+        action: "https://www.neopets.com/island/process_fight_training.phtml",
+        referer: "https://www.neopets.com/island/fight_training.phtml",
+        items: function (pet) {
+          var itemsIndexes = {},
+            items = xpath("./td[2]/p/img", pet),
+            output = [];
 
-			if (timer) {
-				timerDate = new Date(page.time);
-				timerDate.setUTCMilliseconds(1000 * (60 * (60 * timer[0] + 1 * timer[1]) + 1 * timer[2] + 1));
-			}
+          for (var ai = 0, at = items.length; ai < at; ++ai) {
+            var img = items[ai],
+              i = {
+                name: xpath(
+                  "string(preceding-sibling::b[1]/text())",
+                  img
+                ).trim(),
+                image: img.getAttribute("src"),
+                quantity: 1,
+              };
 
-			return {
-				name	: img.match(/\/cpn\/(\w+)\//)[1],
-				image	: img,
-				timer	: timerDate,
-				complete: xpath("boolean(.//input[@name = 'type' and @value = 'complete'])", item),
-				items	: mode.items(item),
-				stats	: {
-					level	: stats[0],
-					strength: stats[1],
-					defence	: stats[2],
-					agility	: stats[3],
-					endurance: stats[4][1]
-				},
-				health	: stats[4][0]
-			};
-		});
-		
-		for (var ai = o.pets.length;0 <= --ai;) {
-			if (o.pets[ai].name == pet.name) {
-				pet = o.pets[ai];
-				break;
-			}
-		}
+            if (i.name in itemsIndexes) {
+              ++output[itemsIndexes[i.name]].quantity;
+            } else {
+              output.push(i);
+            }
+          }
 
-		o.activePet = pet;
+          return output;
+        },
+      },
+    ][250 < pet.stats.level ? 2 : 40 >= pet.stats.level ? 0 : 1],
+    _post = function (data, cb) {
+      data.pet_name = pet.name;
+      page.request({
+        method: "post",
+        action: mode.action,
+        referer: mode.referer + "?type=courses",
+        data: data,
+        delay: true,
+        callback: cb,
+      });
+    },
+    _get = function (data, cb) {
+      data.pet_name = pet.name;
+      page.request({
+        method: "get",
+        action: mode.referer,
+        referer: mode.referer + "?type=status",
+        data: data,
+        delay: true,
+        callback: cb,
+      });
+    },
+    parse = function (o, cb) {
+      //o.message = xpath("string(.//center[contains(img[1]/@src, '/island/ninja_kyrii')])", o.body);
+      o.pets = xpath(
+        ".//td[@class = 'content']//table/tbody/tr[td[1][img and font]]",
+        o.body
+      ).map(function (item) {
+        var stats = xpath("./td[1]//b/text()", item).map(function (s) {
+            var ss = s.textContent.replace(/[,.]/g, "");
 
-// 		console.log(o, pet);
-		cb(o);
-	};
+            return ~s.textContent.indexOf("/")
+              ? ss.split(/\s+\/\s+/).map(parseFloat)
+              : parseInt(ss, 10);
+          }),
+          img = xpath("string(./td/img/@src)", item),
+          timer = xpath("string(./td[2][not(form)]/b/text())", item).match(
+            /\d+/g
+          ),
+          timerDate;
 
-	this.start = function (obj) {
-		var courseType = obj.course_type || (function (stats) {
-			// Endurance must be first
-			// Agility must be last
-			var s = ["Endurance", "Strength", "Defence", "Agility"];
+        if (timer) {
+          timerDate = new Date(page.time);
+          timerDate.setUTCMilliseconds(
+            1000 * (60 * (60 * timer[0] + 1 * timer[1]) + 1 * timer[2] + 1)
+          );
+        }
 
-			if (stats && s.every(function (item) {
-				return 2 * stats.level >= stats[item.toLowerCase()];
-			})) {
-				s.pop();	// removes 'Agility'
-				s.shift();	// removes 'Endurance'
-				s.sort(function (a, b) {
-					var vA = 2 * stats.level - stats[a.toLowerCase()],
-					vB = 2 * stats.level - stats[b.toLowerCase()];
-					
-					if (vA == vB) {
-						return 0;
-					}
-					return (vA > vB?-1:1);
-				});
+        return {
+          name: img.match(/\/cpn\/(\w+)\//)[1],
+          image: img,
+          timer: timerDate,
+          complete: xpath(
+            "boolean(.//input[@name = 'type' and @value = 'complete'])",
+            item
+          ),
+          items: mode.items(item),
+          stats: {
+            level: stats[0],
+            strength: stats[1],
+            defence: stats[2],
+            agility: stats[3],
+            endurance: stats[4][1],
+          },
+          health: stats[4][0],
+        };
+      });
 
-				return s[0];
-			}
+      for (var ai = o.pets.length; 0 <= --ai; ) {
+        if (o.pets[ai].name == pet.name) {
+          pet = o.pets[ai];
+          break;
+        }
+      }
 
-			return "Level";
-		}(pet.stats)) || "Level";
+      o.activePet = pet;
 
-		if (!courseType) {
-			throw "course_type is required."
-		}
+      // 		console.log(o, pet);
+      cb(o);
+    };
 
-		_post({
-			type		: "start",
-			course_type	: courseType
-		}, function (o) {
-			parse(o, obj.callback);
-		})
-	};
+  this.start = function (obj) {
+    var courseType =
+      obj.course_type ||
+      (function (stats) {
+        // Endurance must be first
+        // Agility must be last
+        var s = ["Endurance", "Strength", "Defence", "Agility"];
 
-	this.pay = function (obj) {
-		_post({
-			type		: "pay"
-		}, function (o) {
-			parse(o, obj.callback);
-		});
-	};
-	
-	this.cancel = function (obj) {
-		_post({
-			type		: "cancel"
-		}, function (o) {
-			parse(o, obj.callback);
-		});
-	};
+        if (
+          stats &&
+          s.every(function (item) {
+            return 2 * stats.level >= stats[item.toLowerCase()];
+          })
+        ) {
+          s.pop(); // removes 'Agility'
+          s.shift(); // removes 'Endurance'
+          s.sort(function (a, b) {
+            var vA = 2 * stats.level - stats[a.toLowerCase()],
+              vB = 2 * stats.level - stats[b.toLowerCase()];
 
-	this.complete = function (obj) {
-		_post({
-			type		: "complete"
-		}, obj.callback);
-	};
+            if (vA == vB) {
+              return 0;
+            }
+            return vA > vB ? -1 : 1;
+          });
 
-	this.status = function (obj) {
-		_get({
-			type		: "status"
-		}, function (o) {
-			parse(o, obj.callback);
-		});
-	};
+          return s[0];
+        }
+
+        return "Level";
+      })(pet.stats) ||
+      "Level";
+
+    if (!courseType) {
+      throw "course_type is required.";
+    }
+
+    _post(
+      {
+        type: "start",
+        course_type: courseType,
+      },
+      function (o) {
+        parse(o, obj.callback);
+      }
+    );
+  };
+
+  this.pay = function (obj) {
+    _post(
+      {
+        type: "pay",
+      },
+      function (o) {
+        parse(o, obj.callback);
+      }
+    );
+  };
+
+  this.cancel = function (obj) {
+    _post(
+      {
+        type: "cancel",
+      },
+      function (o) {
+        parse(o, obj.callback);
+      }
+    );
+  };
+
+  this.complete = function (obj) {
+    _post(
+      {
+        type: "complete",
+      },
+      obj.callback
+    );
+  };
+
+  this.status = function (obj) {
+    _get(
+      {
+        type: "status",
+      },
+      function (o) {
+        parse(o, obj.callback);
+      }
+    );
+  };
 };

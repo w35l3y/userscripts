@@ -1,17 +1,17 @@
 // ==UserScript==
 // @name           Includes : Queued Events
-// @namespace      http://gm.wesley.eti.br
+// @namespace      https://gm.wesley.eti.br
 // @description    Queued Events Function
 // @author         w35l3y
 // @email          w35l3y@brasnet.org
-// @copyright      2012+, w35l3y (http://gm.wesley.eti.br)
+// @copyright      2012+, w35l3y (https://gm.wesley.eti.br)
 // @license        GNU GPL
-// @homepage       http://www.wesley.eti.br
+// @homepage       https://www.wesley.eti.br
 // @version        1.0.0.1
 // @include        nowhere
 // @exclude        *
 // @grant          GM_log
-// @icon           http://gm.wesley.eti.br/icon.php?desc=144996
+// @icon           https://gm.wesley.eti.br/icon.php?desc=144996
 // ==/UserScript==
 
 /**************************************************************************
@@ -27,84 +27,87 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 **************************************************************************/
 
 QueuedEvent = function (fn, params, wait) {
-	this.wait = wait;
+  this.wait = wait;
 
-	this.execute = function (last) {
-		this.last = last;
-		return this.proceed.apply(this, [this.result = fn.apply(this, [].concat(params))]);
-	};
+  this.execute = function (last) {
+    this.last = last;
+    return this.proceed.apply(this, [
+      (this.result = fn.apply(this, [].concat(params))),
+    ]);
+  };
 
-	this.proceed = function (result) {
-		return true;
-	};
+  this.proceed = function (result) {
+    return true;
+  };
 
-	this.halt = function () {};
+  this.halt = function () {};
 };
 
 QueuedList = function (wait) {
-	var _wait = wait || [500, 500],
-	_running = 0,
-	_list = [];
+  var _wait = wait || [500, 500],
+    _running = 0,
+    _list = [];
 
-	this.add = function (obj) {
-		if (obj instanceof Array) {
-			var r = {};
-			QueuedEvent.apply(r, obj);
-			obj = r;
-		} else if (!(obj instanceof QueuedEvent)) {
-			throw "Wrong type of the parameter";
-		}
+  this.add = function (obj) {
+    if (obj instanceof Array) {
+      var r = {};
+      QueuedEvent.apply(r, obj);
+      obj = r;
+    } else if (!(obj instanceof QueuedEvent)) {
+      throw "Wrong type of the parameter";
+    }
 
-		_list.push(obj);
+    _list.push(obj);
 
-		return obj;
-	}
+    return obj;
+  };
 
-	this.run = function (obj) {
-		if (obj) {
-			this.add.apply(this, Array.prototype.slice.apply(arguments));
-		}
+  this.run = function (obj) {
+    if (obj) {
+      this.add.apply(this, Array.prototype.slice.apply(arguments));
+    }
 
-		if (!_running && (1 == _list.length || !obj)) {
-			_running = 1;
+    if (!_running && (1 == _list.length || !obj)) {
+      _running = 1;
 
-			var _this = this;
-			(function _recursive (last) {
-				if (_running) {
-					if (_list.length) {
-						_running = ~~_list[0].execute(last) >> 0;
+      var _this = this;
+      (function _recursive(last) {
+        if (_running) {
+          if (_list.length) {
+            _running = ~~_list[0].execute(last) >> 0;
 
-						if (!~_running) {	// == -1
-							_this.halt();
-						} else if (_running) {
-							var w = _list[0].wait || _wait;
-							window.setTimeout(function () {
-								_recursive(_list.shift());
-							}, (w[0]||0) + Math.ceil((w[1]||0) * Math.random()));
-						}
-					} else {
-						_running = 0;
-						_this.end.apply(_this, []);
-					}
-				}
-			}());
-		}
-	};
+            if (!~_running) {
+              // == -1
+              _this.halt();
+            } else if (_running) {
+              var w = _list[0].wait || _wait;
+              window.setTimeout(function () {
+                _recursive(_list.shift());
+              }, (w[0] || 0) + Math.ceil((w[1] || 0) * Math.random()));
+            }
+          } else {
+            _running = 0;
+            _this.end.apply(_this, []);
+          }
+        }
+      })();
+    }
+  };
 
-	this.halt = function () {
-		_running = 0;
+  this.halt = function () {
+    _running = 0;
 
-		if (this.list.length) {
-			this.list[0].halt();
-		}
-	};
+    if (this.list.length) {
+      this.list[0].halt();
+    }
+  };
 
-	this.end = function () {};
+  this.end = function () {};
 };
 
 console.log("Loaded 'Includes : Queued Events'");

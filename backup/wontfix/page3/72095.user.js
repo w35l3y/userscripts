@@ -1,17 +1,17 @@
 // ==UserScript==
 // @name           Atlantida : AutoLogin
-// @namespace      http://gm.wesley.eti.br
+// @namespace      https://gm.wesley.eti.br
 // @author         w35l3y
 // @email          w35l3y@brasnet.org
-// @copyright      2010+, w35l3y (http://gm.wesley.eti.br)
+// @copyright      2010+, w35l3y (https://gm.wesley.eti.br)
 // @license        GNU GPL
-// @homepage       http://gm.wesley.eti.br
+// @homepage       https://gm.wesley.eti.br
 // @version        1.0.0.4
 // @language       pt-BR
-// @request        http://userscripts-mirror.org/topics/48665
-// @include        http://192.168.135.1:21680/iha/abertura/atlantica/
+// @request        https://userscripts-mirror.org/topics/48665
+// @include        https://192.168.135.1:21680/iha/abertura/atlantica/
 // @grant          GM_log
-// @icon           http://gm.wesley.eti.br/icon.php?desc=72095
+// @icon           https://gm.wesley.eti.br/icon.php?desc=72095
 // ==/UserScript==
 
 /**************************************************************************
@@ -27,11 +27,12 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 **************************************************************************/
 
-location.href = "http://192.168.135.1:21680/iha/login/login.php?opc=1&idioma=br&idafiliado=1&conexao_tipo=d&conexao_qtde=1&senha=1009&usuario=Faria";
+location.href =
+  "https://192.168.135.1:21680/iha/login/login.php?opc=1&idioma=br&idafiliado=1&conexao_tipo=d&conexao_qtde=1&senha=1009&usuario=Faria";
 
 /*
 (function recursive(reqs)
@@ -52,9 +53,9 @@ location.href = "http://192.168.135.1:21680/iha/login/login.php?opc=1&idioma=br&
 		alert("Logado!");
 	}
 })([
-//	"http://192.168.135.1:21680/iha/abertura/atlantica/",
-	"http://192.168.135.1:21680/iha/abertura/atlantica/aceite.php?dl=br",
-	"http://192.168.135.1:21680/iha/abertura/atlantica/login.php?opc=0&dl=br&checkbox=checkbox",
-	"http://192.168.135.1:21680/iha/login/login.php?opc=1&idioma=br&idafiliado=1&conexao_tipo=d&conexao_qtde=1&senha=1009&usuario=Faria"
+//	"https://192.168.135.1:21680/iha/abertura/atlantica/",
+	"https://192.168.135.1:21680/iha/abertura/atlantica/aceite.php?dl=br",
+	"https://192.168.135.1:21680/iha/abertura/atlantica/login.php?opc=0&dl=br&checkbox=checkbox",
+	"https://192.168.135.1:21680/iha/login/login.php?opc=1&idioma=br&idafiliado=1&conexao_tipo=d&conexao_qtde=1&senha=1009&usuario=Faria"
 ]);
 */

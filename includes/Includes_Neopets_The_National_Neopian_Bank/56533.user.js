@@ -1,15 +1,15 @@
 // ==UserScript==
 // @name           Includes : Neopets : The National Neopian Bank
-// @namespace      http://gm.wesley.eti.br
+// @namespace      https://gm.wesley.eti.br
 // @description    Bank Function
 // @author         w35l3y
 // @email          w35l3y@brasnet.org
-// @copyright      2009+, w35l3y (http://gm.wesley.eti.br)
+// @copyright      2009+, w35l3y (https://gm.wesley.eti.br)
 // @license        GNU GPL
-// @homepage       http://gm.wesley.eti.br
+// @homepage       https://gm.wesley.eti.br
 // @version        1.0.1
 // @language       en
-// @contributor    Steinn (http://userscripts.org/users/85134)
+// @contributor    Steinn (https://userscripts.org/users/85134)
 // @include        nowhere
 // @exclude        *
 // @grant          GM_xmlhttpRequest
@@ -29,67 +29,73 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 **************************************************************************/
 
 Bank = function () {};
 
 Bank.process = function (params) {
-	var data = {};
-	for (var key in params) {
-		if (/^(amount|account_type|type|pin)$/.test(key)) {
-			data[key] = params[key];
-		}
-	}
+  var data = {};
+  for (var key in params) {
+    if (/^(amount|account_type|type|pin)$/.test(key)) {
+      data[key] = params[key];
+    }
+  }
 
-	HttpRequest.open({
-		"method"		: "post",
-		"url"			: "http://www.neopets.com/process_bank.phtml",
-		"headers"		: {
-			"Referer"	: "http://www.neopets.com/bank.phtml",
-		},
-		"synchronous"	: params.synchronous || false,
-		"onsuccess"		: function (params) {
-			var msg = params.response.xml.evaluate(".//div[@class='errormess' and b]", params.response.xml, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+  HttpRequest.open({
+    method: "post",
+    url: "https://www.neopets.com/process_bank.phtml",
+    headers: {
+      Referer: "https://www.neopets.com/bank.phtml",
+    },
+    synchronous: params.synchronous || false,
+    onsuccess: function (params) {
+      var msg = params.response.xml.evaluate(
+        ".//div[@class='errormess' and b]",
+        params.response.xml,
+        null,
+        XPathResult.FIRST_ORDERED_NODE_TYPE,
+        null
+      ).singleNodeValue;
 
-			var obj = params.parameters || {};
-			obj.response = params.response;
-			obj.error = (/\/bank\.phtml$/.test(params.response.raw.finaUrl)?1:0);
-			obj.message = msg;
+      var obj = params.parameters || {};
+      obj.response = params.response;
+      obj.error = /\/bank\.phtml$/.test(params.response.raw.finaUrl) ? 1 : 0;
+      obj.message = msg;
 
-			if (typeof params.onsuccess == "function") {
-				params.onsuccess(obj);
-			}
-		},
-		"parameters" : params
-	}).send(data);
+      if (typeof params.onsuccess == "function") {
+        params.onsuccess(obj);
+      }
+    },
+    parameters: params,
+  }).send(data);
 };
 
 Bank.collect = function (obj) {
-	obj.type = "interest";
+  obj.type = "interest";
 
-	Bank.process(obj);
+  Bank.process(obj);
 };
 
 Bank.deposit = function (obj) {
-	obj.type = "deposit";
-	obj.amount = Math.abs(obj.amount) || 0;
+  obj.type = "deposit";
+  obj.amount = Math.abs(obj.amount) || 0;
 
-	Bank.process(obj);
+  Bank.process(obj);
 };
 
 Bank.withdraw = function (obj) {
-	obj.type = "withdraw";
-	obj.amount = Math.abs(obj.amount) || 0;
+  obj.type = "withdraw";
+  obj.amount = Math.abs(obj.amount) || 0;
 
-	Bank.process(obj);
+  Bank.process(obj);
 };
 
 Bank.upgrade = function (obj) {
-	obj.type = "upgrade";
-	obj.amount = Math.abs(obj.amount) || 0;
-	obj.account_type = obj.account_type;
+  obj.type = "upgrade";
+  obj.amount = Math.abs(obj.amount) || 0;
+  obj.account_type = obj.account_type;
 
-	Bank.process(obj);
+  Bank.process(obj);
 };

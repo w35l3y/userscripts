@@ -1,12 +1,12 @@
 // ==UserScript==
 // @name        Includes : Neopets : TradingPost
-// @namespace   http://gm.wesley.eti.br
+// @namespace   https://gm.wesley.eti.br
 // @description TradingPost Function
 // @author      w35l3y
 // @email       w35l3y@brasnet.org
-// @copyright   2016+, w35l3y (http://gm.wesley.eti.br)
+// @copyright   2016+, w35l3y (https://gm.wesley.eti.br)
 // @license     GNU GPL
-// @homepage    http://gm.wesley.eti.br
+// @homepage    https://gm.wesley.eti.br
 // @version     1.0.0
 // @language    en
 // @include     nowhere
@@ -31,7 +31,7 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 **************************************************************************/
 
@@ -98,8 +98,8 @@
 		_post = function (data, cb) {
 			page.request({
 				method	: "post",
-				action	: "http://www.neopets.com/island/tradingpost.phtml",
-				referer	: "http://www.neopets.com/island/tradingpost.phtml",
+				action	: "https://www.neopets.com/island/tradingpost.phtml",
+				referer	: "https://www.neopets.com/island/tradingpost.phtml",
 				data	: data,
 				delay	: true,
 				callback: function (o) {
@@ -118,8 +118,8 @@
 		_get = function (data, cb) {
 			page.request({
 				method	: "get",
-				action	: "http://www.neopets.com/island/tradingpost.phtml",
-				referer	: "http://www.neopets.com/island/tradingpost.phtml",
+				action	: "https://www.neopets.com/island/tradingpost.phtml",
+				referer	: "https://www.neopets.com/island/tradingpost.phtml",
 				data	: data,
 				delay	: true,
 				callback: function (o) {
@@ -145,8 +145,8 @@
 		this.makeOffer = function (obj) {
 			page.request({
 				method	: "post",
-				action	: "http://www.neopets.com/island/process_tradingpost.phtml",
-				referer	: "http://www.neopets.com/island/tradingpost.phtml",
+				action	: "https://www.neopets.com/island/process_tradingpost.phtml",
+				referer	: "https://www.neopets.com/island/tradingpost.phtml",
 				ck		: "_ref_ck",
 				data	: Object.assign({
 					lot_id			: obj.id || "",

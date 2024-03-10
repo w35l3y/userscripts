@@ -1,10 +1,10 @@
 1;2;/events/grarrg.gif;Grarrg stomps in and says 'You look like a you could help us in our army! I have upgraded your rank!';;;Increases your Tyrannian Army points, which are viewable on your user lookup if you have them.
 2;2;/events/omelette.gif;You find a piece of tasty # lying on the floor!;Omelette;;
 3;2;/events/fungusball.gif;A fungus ball is sitting on this page... and it #. You get confused and drop # Neopoints.;EXPLODES!,+;;
-4;2;/events/jarbjarb.gif;JarbJarb says 'Ugga ugg <a href="http://www.neopets.com/games/tyranuevavu.phtml">Tyranu Evavu</a>';;;
-5;2;/events/uggsul.gif;Uggsul says 'Ugga ugg <a href="http://www.neopets.com/games/tyranuevavu.phtml">Tyranu Evavu</a>';;;
+4;2;/events/jarbjarb.gif;JarbJarb says 'Ugga ugg <a href="https://www.neopets.com/games/tyranuevavu.phtml">Tyranu Evavu</a>';;;
+5;2;/events/uggsul.gif;Uggsul says 'Ugga ugg <a href="https://www.neopets.com/games/tyranuevavu.phtml">Tyranu Evavu</a>';;;
 6;2;/events/grarrg.gif;Grarrg the Battle Master stomps past you, muttering something about war;;;
-7;2;/events/plesio.gif;Plesio says 'Fancy spinning the <a href="http://www.neopets.com/prehistoric/mediocrity.phtml">Wheel of Mediocrity</a>?';;;
+7;2;/events/plesio.gif;Plesio says 'Fancy spinning the <a href="https://www.neopets.com/prehistoric/mediocrity.phtml">Wheel of Mediocrity</a>?';;;
 8;2;/events/crazed_fans.gif;A group of excited fans rush past you shouting '#' are playing tonight!!!;+;;
 9;1;/items/ice_negg.gif;You pick an Ice Negg from a nearby bush;;;
 10;1;/events/ice_treasure.gif;You have stumbled upon the great Ice Treasure of # Neopoints!!!;+;;
@@ -23,7 +23,7 @@
 28;1;/events/snow_faerie.gif;The Snow Faerie says '#';I must get some more Ice Neggs for tea!;;
 29;1;/events/snow_faerie.gif;The Snow Faerie says '#';They say an evil old man lives in a castle at the top of the mountain... I dont believe them!;;
 30;1;/events/snow_faerie.gif;The Snow Faerie says '#';Brrr... im glad I have this warm coat on!;;
-31;1;/events/snow_faerie.gif;The Snow Faerie says '#';I wish I could play <a href="http://www.neopets.com/games/snowwars.phtml">Snow Wars</a> as well as you :(;;
+31;1;/events/snow_faerie.gif;The Snow Faerie says '#';I wish I could play <a href="https://www.neopets.com/games/snowwars.phtml">Snow Wars</a> as well as you :(;;
 32;1;/events/snow_faerie.gif;The Snow Faerie says '#';Have you looked at the Advent Calendar lately?;;
 33;1;/events/snow_faerie.gif;The Snow Faerie says '#';I hope your pets wrap up warm;;
 34;1;/events/snow_faerie.gif;The Snow Faerie says '#';It's toasty warm in this coat!;;
@@ -66,7 +66,7 @@
 71;0;/events/evil_ghost.gif;A Ghost comes out of the ground and says '#';BOO;;
 72;0;/events/alter.gif;You hear mysterious chanting coming from far away!;;;
 73;0;/events/frozen_bori.gif;Brrrrrr, it's cold in here!;;;
-74;0;/images/nigel_small.gif;^Nigel the Stockbroker Chia says 'Have you considered investing in <a href="http://www\.neopets\.com/stockmarket\.phtml">#</a> \(([\w -]+)\)\?\?'$;+,+;;
+74;0;/images/nigel_small.gif;^Nigel the Stockbroker Chia says 'Have you considered investing in <a href="https://www\.neopets\.com/stockmarket\.phtml">#</a> \(([\w -]+)\)\?\?'$;+,+;;
 75;0;/events/evil_spider.gif;A huge spider crawls all over the page...;;;
 76;0;/events/evil_spider.gif;A huge spider spins her web on this page...;;;
 77;0;/events/mark_ta_kutep.gif;The Mark of Ta-Kutep burns into this page. You flee in fear!;;;You are automatically taken back a page.
@@ -95,7 +95,7 @@
 100;0;;# says 'Can we play hide and seek?!';-;;
 101;0;;# says 'I think its time you fed me!!!';-;;
 102;0;;# says 'You will buy me lots of presents from the Grooming Parlour wont you?';-;;
-103;0;/events/lildragon.gif;A dragon flies past overhead, he is headed to the <a href="http://www.neopets.com/island/mysterymap.phtml">#</a>.;Mystery Island;;;
+103;0;/events/lildragon.gif;A dragon flies past overhead, he is headed to the <a href="https://www.neopets.com/island/mysterymap.phtml">#</a>.;Mystery Island;;;
 104;0;/pets/80by80/poogle_red_happy.gif;A <font color="red">#</font> poogle hops past and says '#';red,Hi!;;
 105;0;/pets/80by80/scorchio_green_happy.gif;A green scorchio flies past and says '#';Hope you are having fun!;;
 106;0;/pets/80by80/blumaroo_yellow_happy.gif;A blumaroo bounces past and says '#';Never ever give out your password!;;
@@ -105,7 +105,7 @@
 110;0;/neopedia/joinothers.gif;Adee the Chia says 'You can now get a <a href="/neobadge.phtml">#</a> for your web site!';NeoBadge;;
 111;0;/neopedia/joinothers.gif;Adee the Chia says 'Did you know you can send neopets to friends?? Fill in a simple form <a href="/sendfriend.phtml">#</a>';here;;
 112;0;;We were going to give you the Collectable Card '#', but it looks like you already have that card in your NeoDeck!;+;;
-113;0;;Oh no! We were about to add the Collectable Card # to your <a href="http://www.neopets.com/games/neodeck.phtml?type=cards">NeoDeck</a>, but you don't have enough room!;'+';;
+113;0;;Oh no! We were about to add the Collectable Card # to your <a href="https://www.neopets.com/games/neodeck.phtml?type=cards">NeoDeck</a>, but you don't have enough room!;'+';;
 114;0;/games/games_trading.gif;You might have found a shiny new Collectable Card... if only you had a Neodeck. :(;;;
 115;0;/space/wings.gif;The Grundo Leader attacks!!! He steals #;+;;
 116;0;/events/evil_pantdevil.gif;The pant devil attacks!!! He steals '#';+;;
@@ -113,7 +113,7 @@
 118;0;/evil/shadow_usul80.gif;What was that sound? Your # is nowhere to be seen! Who could have taken it?;+;;
 119;0;/events/lazerhand.gif;# Your # is turned into a mound of sludge!;<font color="red">SLOTH FIRES HIS RAY GUN AT YOU!!!</font>,+;;
 120;0;;Hmmmm, # is feeling a bit funny. You should have him looked at.;-;;
-121;0;/;The Darkest Faerie appears and decides to give one of your pets a disease. What did you ever do to her?! You'd better go <a href="http://www.neopets.com/quickref.phtml">check on your pets</a> to see what happened.;;;
+121;0;/;The Darkest Faerie appears and decides to give one of your pets a disease. What did you ever do to her?! You'd better go <a href="https://www.neopets.com/quickref.phtml">check on your pets</a> to see what happened.;;;
 122;0;;# doesn't look very happy. In fact, (s)he looks downright <font color="blue">#</font>. Maybe a toy would help.;-,Blue;;Changes your pet's colour to Blue
 123;0;;Erm... # looks a little... angry. Don't you think you should keep her happy?;-;;Changes your pet's colour to Red
 124;0;/events/hubrid.gif;Hubrid Nox stares at you, and his eyes glow. All your Neopets have come down with a bad case of '#'!!!;+;;
@@ -134,13 +134,13 @@
 139;0;/events/slothAvatar.gif;Dr. Sloth has his "associates" take 20%25 of your Neopoints away to support his next Neopian invasion effort.;;;
 140;0;/events/illusen.gif;Illusen appears in a puff of smoke and says 'Oh, I was going to give you some money, but you have too much!';;;
 141;0;/items/toy_springgiftbasket.gif;You stumble upon a hidden Spring Gift Basket filled with all sorts of goodies!;;;
-142;0;/items/gro_makeup_giftset.gif;A pushy saleswoman runs up to you, spritzes you with perfume, and hands you a free giftset with a retail value of #. You'll probably enjoy it once you stop coughing from the smell.;500 NP;;Only appears at the <a href="http://www.jellyneo.net/index.php?go=guidetoneopia&amp;shop=5">Grooming Parlour</a>.
+142;0;/items/gro_makeup_giftset.gif;A pushy saleswoman runs up to you, spritzes you with perfume, and hands you a free giftset with a retail value of #. You'll probably enjoy it once you stop coughing from the smell.;500 NP;;Only appears at the <a href="https://www.jellyneo.net/index.php?go=guidetoneopia&amp;shop=5">Grooming Parlour</a>.
 143;0;;You spot something shiny on the ground and you pick it up. It looks like a bead of some sort. Wonder what it's for...;;;You receive a bead for your Lutari Talisman!
 144;0;/events/hatchia.gif;A rather dashing Chia drops by and hands you: #. What a nice fellow! You should put it on to show your thanks.;+;;He used to only give out hats.
 145;0;;You find a piece of the Secret Petpet Laboratory Map!;;;
 146;0;/events/jhudoracandy.gif;Oh look. Jhudora appears and hands you a gift. Wait... Jhudora!? A gift?! Umm... are you sure you should have taken it?;;;You get an item with 'poison' in its name.
-147;0;/events/mar_war_maraquan.gif;Ah, you're a Maraquan soldier aren't you? Great. I was told to give this to you. Please go give it to our friends at the <a href="http://www.neopets.com/water/com_support.phtml">Support Center</a>. They'll know what to do with it.;;;
-148;0;/events/mar_war_pirate.gif;Yarr! It's the swabby. Here, have this token-ma-jig. I bet it'd fetch ya a nice reward from that Scalawag at the <a href="http://www.neopets.com/water/com_support.phtml">Support Center</a>. *shifty eyes*;;;
+147;0;/events/mar_war_maraquan.gif;Ah, you're a Maraquan soldier aren't you? Great. I was told to give this to you. Please go give it to our friends at the <a href="https://www.neopets.com/water/com_support.phtml">Support Center</a>. They'll know what to do with it.;;;
+148;0;/events/mar_war_pirate.gif;Yarr! It's the swabby. Here, have this token-ma-jig. I bet it'd fetch ya a nice reward from that Scalawag at the <a href="https://www.neopets.com/water/com_support.phtml">Support Center</a>. *shifty eyes*;;;
 149;0;/items/gif_bday2004_bag.gif;A # suddenly falls from the sky and lands in your lap. You should see what's inside!;Neopets 5th Birthday Goodie Bag;;
 150;0;/items/bak_bday2004_slice1.gif;A # suddenly falls from the sky and lands in your lap. Lucky you!;Small Slice of Neopets 5th Birthday Cake;;
 151;0;/items/bak_bday2004_slice2.gif;A # suddenly falls from the sky and lands in your lap. Hope you like frosting!;Large Slice of Neopets 5th Birthday Cake;;
@@ -159,14 +159,14 @@
 164;0;;An Alien Aisha gives you a #!!!;+;;
 165;0;;You find a # on the floor!;+;;
 166;0;;You find a mystical codestone on the floor!;;;
-167;0;/events/lotteryman.gif;A mysterious man gives you a lottery ticket. Why not click <a href="http://neopets.com/games/lottery.phtml">here</a> to play!;;;
+167;0;/events/lotteryman.gif;A mysterious man gives you a lottery ticket. Why not click <a href="https://neopets.com/games/lottery.phtml">here</a> to play!;;;
 168;0;/items/bottlefaerie_fire.gif;Your pet has found a captured faerie!!!;;;
 169;0;;Jacko the Phantom Painter gives you a #!!!;+;;
 170;0;;A beautiful Fire Faerie floats down and gives you a #!!!;+;;
 171;0;;You find a piece of the secret laboratory map!;;;
 172;0;;An old sea captain gives you a piece of a treasure map! Keep hold of it, its very valuable!;;;
 173;0;;A passing zombie groans, and hands you a piece of a long lost treasure map!!;;;
-174;0;;Wow! The Collectable Card '#' has magically found its way into your <a href="http://www.neopets.com/games/neodeck.phtml?type=cards">NeoDeck</a>!;+;;
+174;0;;Wow! The Collectable Card '#' has magically found its way into your <a href="https://www.neopets.com/games/neodeck.phtml?type=cards">NeoDeck</a>!;+;;
 175;0;;A Scorchio in a pointy, purple hat hands you a Trading Card and says, "This will be a nice addition to your album!";;;
 176;0;/items/scarypet_sunshine_monk.gif;A Ghostkerchief goes up to # and gives them a big hug. Looks like you have found a new friend!;-;;You now have a Ghostkerchief petpet.
 177;0;;A passing Chia hands you a # and says 'Happy Christmas'!!!;+;;
@@ -197,8 +197,8 @@
 202;0;/events/toothfaerie.gif;The tooth faerie arrives for your lost tooth, and gives you an # in return!;avatar;;
 203;0;/events/slothAvatar.gif;Dr. Sloth has deemed you worthy of using his image on the NeoBoards!;;;
 204;3;/items/hall_petpet1.gif;You have received # from what seems to be a very rich Slorg. That was nice of him. Anyway, thanks for visiting the Shop of Offers today! *triumphant music*;+ Neopoints;;
-205;0;;You are now eligible to use '#' as an avatar on the <a href="http://www.neopets.com/neoboards/">#</a>!;+,NeoBoards;;
-206;0;;Oh no! The avatar '#' has been removed from your collection! You are no longer eligible to use it on the the <a href="http://www.neopets.com/neoboards/">#</a>!;+,NeoBoards;;
+205;0;;You are now eligible to use '#' as an avatar on the <a href="https://www.neopets.com/neoboards/">#</a>!;+,NeoBoards;;
+206;0;;Oh no! The avatar '#' has been removed from your collection! You are no longer eligible to use it on the the <a href="https://www.neopets.com/neoboards/">#</a>!;+,NeoBoards;;
 207;0;/items/mmat_scrap.gif;#;What's this? You stumbled across a pile of scrap metal! Honestly%2C were Moltarans raised in a barn? They ought to clean up once in a while...;;
 208;0;/events/lotteryman.gif;A mysterious Neopet gives you a lottery ticket. Why not click <a href="/games/lottery.phtml">#</a> to play!;here;;
 209;5;/games/games_mp.gif;^You are now eligible to use the '#' theme when browsing the Neopets\.com website! Check out your <a href="/preferences\.phtml">#</a> to change your theme\. Or, click <a href="javascript: void\(0\)" onclick="setTheme\((\d+)\)">#</a> to apply it automatically\.$;+,+,User Preferences,here;;

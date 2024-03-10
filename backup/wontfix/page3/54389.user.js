@@ -1,16 +1,16 @@
 // ==UserScript==
 // @name           Includes : Php
-// @namespace      http://gm.wesley.eti.br/includes
+// @namespace      https://gm.wesley.eti.br/includes
 // @description    Php Functions
 // @author         w35l3y
 // @email          w35l3y@brasnet.org
-// @copyright      2009, w35l3y (http://gm.wesley.eti.br/includes)
+// @copyright      2009, w35l3y (https://gm.wesley.eti.br/includes)
 // @license        GNU GPL
-// @homepage       http://gm.wesley.eti.br/includes
+// @homepage       https://gm.wesley.eti.br/includes
 // @version        1.0.2.0 BETA
 // @include        nowhere
 // @grant          GM_log
-// @icon           http://gm.wesley.eti.br/icon.php?desc=54389
+// @icon           https://gm.wesley.eti.br/icon.php?desc=54389
 // ==/UserScript==
 
 /**************************************************************************
@@ -26,33 +26,30 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 **************************************************************************/
 
-function array_slice(arr, offs, len, preserve_keys)
-{
-	var result = [];
-	var at = arr.length;
-	if (offs < 0)
-		offs += at;
-	if (typeof len == "undefined")
-		len = at;
-	len += offs;
+function array_slice(arr, offs, len, preserve_keys) {
+  var result = [];
+  var at = arr.length;
+  if (offs < 0) offs += at;
+  if (typeof len == "undefined") len = at;
+  len += offs;
 
-	for ( var ai = 0 ; ai < at ; ++ai )
-	if (ai >= offs && ai <= len)
-	if (preserve_keys)
-		result[ai] = arr[ai];
-	else
-		result.push(arr[ai]);
+  for (var ai = 0; ai < at; ++ai)
+    if (ai >= offs && ai <= len)
+      if (preserve_keys) result[ai] = arr[ai];
+      else result.push(arr[ai]);
 
-	return result;
+  return result;
 }
-function in_array(needle, haystack, strict)
-{
-	for ( var key in haystack)
-		if (strict && haystack[key] === needle || !strict && haystack[key] == needle)
-			return true;
-	return false;
+function in_array(needle, haystack, strict) {
+  for (var key in haystack)
+    if (
+      (strict && haystack[key] === needle) ||
+      (!strict && haystack[key] == needle)
+    )
+      return true;
+  return false;
 }

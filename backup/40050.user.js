@@ -1,12 +1,12 @@
 // ==UserScript==
 // @name           Includes : Persist
-// @namespace      http://gm.wesley.eti.br/includes
+// @namespace      https://gm.wesley.eti.br/includes
 // @description    Data persistence function. This script doesn't do anything by its own.
 // @author         w35l3y
 // @email          w35l3y@brasnet.org
 // @copyright      w35l3y 2008
 // @license        GNU GPL
-// @homepage       http://www.wesley.eti.br
+// @homepage       https://www.wesley.eti.br
 // @version        1.0.0.0
 // @include        nowhere
 // @grant          GM_log
@@ -14,7 +14,7 @@
 // @grant          GM_setValue
 // @grant          GM_openInTab
 // @grant          GM_xmlhttpRequest
-// @icon           http://gm.wesley.eti.br/icon.php?desc=40050
+// @icon           https://gm.wesley.eti.br/icon.php?desc=40050
 // @require        https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page1/38788.user.js
 // @cfu:meta       https://github.com/w35l3y/userscripts/raw/master/backup/@cfu:id.user.js
 // @cfu:url        https://github.com/w35l3y/userscripts/raw/master/backup/@cfu:id.user.js
@@ -24,7 +24,8 @@
 // @uso:script     40050
 // @uso:timestamp  10:01 01/08/2009
 // ==/UserScript==
-typeof(CheckForUpdate)!='undefined' && CheckForUpdate.init(GM_info.scriptMetaStr);
+typeof CheckForUpdate != "undefined" &&
+  CheckForUpdate.init(GM_info.scriptMetaStr);
 
 /**************************************************************************
 
@@ -39,48 +40,39 @@ typeof(CheckForUpdate)!='undefined' && CheckForUpdate.init(GM_info.scriptMetaStr
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 **************************************************************************/
 
 const Persist = {
-	'set':function(service, data, onLoad, onError)
-	{
-		var postData = '';
-		for ( var name in data )
-			postData += '&' + name + '=' + encodeURIComponent(data[name])
+  set: function (service, data, onLoad, onError) {
+    var postData = "";
+    for (var name in data)
+      postData += "&" + name + "=" + encodeURIComponent(data[name]);
 
-		GM_xmlhttpRequest({
-			'url':service,
-			'method':'post',
-			'headers':{
-				'Content-Type':'application/x-www-form-urlencoded'
-			},
-			'data':postData.substr(1),
-			'onload':function(e)
-			{
-				if (/^2/.test(e.status))
-					onLoad && onLoad(e);
-				else if (onError)
-					onError(e);
-			},
-			'onerror':onError
-		});
-
-	},
-	'get':function(url, onLoad, onError)
-	{
-		GM_xmlhttpRequest({
-			'url':url,
-			'method':'get',
-			'onload':function(e)
-			{
-				if (/^2/.test(e.status))
-					onLoad && onLoad(e);
-				else if (onError)
-					onError(e);
-			},
-			'onerror':onError
-		});
-	}
+    GM_xmlhttpRequest({
+      url: service,
+      method: "post",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      data: postData.substr(1),
+      onload: function (e) {
+        if (/^2/.test(e.status)) onLoad && onLoad(e);
+        else if (onError) onError(e);
+      },
+      onerror: onError,
+    });
+  },
+  get: function (url, onLoad, onError) {
+    GM_xmlhttpRequest({
+      url: url,
+      method: "get",
+      onload: function (e) {
+        if (/^2/.test(e.status)) onLoad && onLoad(e);
+        else if (onError) onError(e);
+      },
+      onerror: onError,
+    });
+  },
 };

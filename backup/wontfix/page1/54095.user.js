@@ -1,20 +1,20 @@
 // ==UserScript==
 // @name           Neopets : Healing Springs [Silent version]
-// @namespace      http://gm.wesley.eti.br/neopets
+// @namespace      https://gm.wesley.eti.br/neopets
 // @description    Silently visit the Healing Springs every 30 minutes
 // @author         w35l3y
 // @email          w35l3y@brasnet.org
-// @copyright      2013+, w35l3y (http://gm.wesley.eti.br)
+// @copyright      2013+, w35l3y (https://gm.wesley.eti.br)
 // @license        GNU GPL
-// @homepage       http://gm.wesley.eti.br
+// @homepage       https://gm.wesley.eti.br
 // @version        3.2.0
 // @language       en
-// @include        http://www.neopets.com/*
-// @exclude        http://www.neopets.com/colorpallette.phtml
-// @exclude        http://www.neopets.com/neomail_block_check.phtml?*
-// @exclude        http://www.neopets.com/ads/*
-// @exclude        http://www.neopets.com/games/play_flash.phtml?*
-// @exclude        http://www.neopets.com/iteminfo.phtml?*
+// @include        https://www.neopets.com/*
+// @exclude        https://www.neopets.com/colorpallette.phtml
+// @exclude        https://www.neopets.com/neomail_block_check.phtml?*
+// @exclude        https://www.neopets.com/ads/*
+// @exclude        https://www.neopets.com/games/play_flash.phtml?*
+// @exclude        https://www.neopets.com/iteminfo.phtml?*
 // @grant          GM_log
 // @grant          GM_addStyle
 // @grant          GM_getValue
@@ -22,7 +22,7 @@
 // @grant          GM_deleteValue
 // @grant          GM_xmlhttpRequest
 // @grant          GM_getResourceText
-// @icon           http://gm.wesley.eti.br/icon.php?desc=54095
+// @icon           https://gm.wesley.eti.br/icon.php?desc=54095
 // @resource       i18n https://github.com/w35l3y/userscripts/raw/master/includes/Includes_I18n/resources/default.json
 // @resource       meta https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page1/54095.user.js
 // @resource       updaterWindowHtml https://github.com/w35l3y/userscripts/raw/master/includes/Includes_Updater/resources/default.html
@@ -53,35 +53,43 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 **************************************************************************/
 
 if (NeopetsDocument.Username)
-(function () {	// script scope
-	const INTERVAL = 1810000;	// 30 * 60 * 1000 + 10 * 1000 (30 minutes + 10 seconds)
+  (function () {
+    // script scope
+    const INTERVAL = 1810000; // 30 * 60 * 1000 + 10 * 1000 (30 minutes + 10 seconds)
 
-	var n = "HealingSprings-LastAccess-" + NeopetsDocument.Username,
-	la = Date.parse(GM_getValue(n, "Sat Apr 16 2011 08:13:43 GMT-0300")) || new Date(),
-	curr = new Date();
+    var n = "HealingSprings-LastAccess-" + NeopetsDocument.Username,
+      la =
+        Date.parse(GM_getValue(n, "Sat Apr 16 2011 08:13:43 GMT-0300")) ||
+        new Date(),
+      curr = new Date();
 
-	if (la.valueOf() < curr.valueOf() - INTERVAL) {
-		GM_setValue(n, (la = curr).toString());
+    if (la.valueOf() < curr.valueOf() - INTERVAL) {
+      GM_setValue(n, (la = curr).toString());
 
-		HttpRequest.open({
-			"method" : "post",
-			"url" : "http://www.neopets.com/faerieland/springs.phtml",
-			"headers" : {
-				"Referer" : "http://www.neopets.com/faerieland/springs.phtml"
-			},
-			"onsuccess" : function(xhr) {
-				var msg = xpath(".//td[@class = 'content']//div[@class = 'errormess' and b] | .//td[@class = 'content']//center[1]", xhr.response.xml)[0];
+      HttpRequest.open({
+        method: "post",
+        url: "https://www.neopets.com/faerieland/springs.phtml",
+        headers: {
+          Referer: "https://www.neopets.com/faerieland/springs.phtml",
+        },
+        onsuccess: function (xhr) {
+          var msg = xpath(
+            ".//td[@class = 'content']//div[@class = 'errormess' and b] | .//td[@class = 'content']//center[1]",
+            xhr.response.xml
+          )[0];
 
-				Neopets.addMessage('<span style="color:red">[Healing Springs]</span>');
-				Neopets.addMessage(msg.textContent);
-			}
-		}).send({"type" : "heal"});
-	}
+          Neopets.addMessage(
+            '<span style="color:red">[Healing Springs]</span>'
+          );
+          Neopets.addMessage(msg.textContent);
+        },
+      }).send({ type: "heal" });
+    }
 
-	setTimeout(arguments.callee, la - curr + INTERVAL * (1 + Math.random()));
-}());
+    setTimeout(arguments.callee, la - curr + INTERVAL * (1 + Math.random()));
+  })();

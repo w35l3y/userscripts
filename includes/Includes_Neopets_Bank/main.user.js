@@ -1,12 +1,12 @@
 // ==UserScript==
 // @name        Includes : Neopets : Bank
-// @namespace   http://gm.wesley.eti.br
+// @namespace   https://gm.wesley.eti.br
 // @description Bank Function
 // @author      w35l3y
 // @email       w35l3y@brasnet.org
-// @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
+// @copyright   2015+, w35l3y (https://gm.wesley.eti.br)
 // @license     GNU GPL
-// @homepage    http://gm.wesley.eti.br
+// @homepage    https://gm.wesley.eti.br
 // @version     1.1.0
 // @language    en
 // @include     nowhere
@@ -32,59 +32,80 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 **************************************************************************/
 
 var Bank = function (page) {
-	var _post = function (data, cb) {
-		page.request({
-			method	: "post",
-			action	: "http://www.neopets.com/process_bank.phtml",
-			referer	: "http://www.neopets.com/bank.phtml",
-			data	: data,
-			delay	: true,
-			callback: function (xhr) {
-				var _n = function (v) {
-					return parseInt(xpath("string(" + v + ")", xhr.body).replace(/\D+/g, ""), 10);
-				};
+  var _post = function (data, cb) {
+    page.request({
+      method: "post",
+      action: "https://www.neopets.com/process_bank.phtml",
+      referer: "https://www.neopets.com/bank.phtml",
+      data: data,
+      delay: true,
+      callback: function (xhr) {
+        var _n = function (v) {
+          return parseInt(
+            xpath("string(" + v + ")", xhr.body).replace(/\D+/g, ""),
+            10
+          );
+        };
 
-				Object.defineProperties(xhr, {
-					response	: {
-						get	: function () {
-							return {
-								type		: _n(".//option[starts-with(text(), //td[@class = 'content']//td//td[starts-with(@style, 'background-color:')]/text())]/@value"),
-								balance		: _n(".//td[@class = 'content']/div/table//td//tr[2]/td[2]/text()"),
-								daily		: _n(".//td[@class = 'content']//div/table/tbody/tr[2]/td/b/text()"),
-								is_collected: !xpath("boolean(.//td[@class = 'content']//input[@value = 'interest'])", xhr.body),
-							};
-						}
-					}
-				});
+        Object.defineProperties(xhr, {
+          response: {
+            get: function () {
+              return {
+                type: _n(
+                  ".//option[starts-with(text(), //td[@class = 'content']//td//td[starts-with(@style, 'background-color:')]/text())]/@value"
+                ),
+                balance: _n(
+                  ".//td[@class = 'content']/div/table//td//tr[2]/td[2]/text()"
+                ),
+                daily: _n(
+                  ".//td[@class = 'content']//div/table/tbody/tr[2]/td/b/text()"
+                ),
+                is_collected: !xpath(
+                  "boolean(.//td[@class = 'content']//input[@value = 'interest'])",
+                  xhr.body
+                ),
+              };
+            },
+          },
+        });
 
-				cb(xhr);
-			}
-		});
-	};
+        cb(xhr);
+      },
+    });
+  };
 
-	this.withdraw = function (obj) {
-		_post({
-			type	: "withdraw",
-			amount	: obj.value,
-			pin		: page.pin
-		}, obj.callback);
-	};
+  this.withdraw = function (obj) {
+    _post(
+      {
+        type: "withdraw",
+        amount: obj.value,
+        pin: page.pin,
+      },
+      obj.callback
+    );
+  };
 
-    this.deposit = function (obj) {
-        _post({
-            type    : "deposit",
-            amount  : obj.value
-        }, obj.callback);
-    };
-    
-    this.collect = function (obj) {
-        _post({
-			type	: "interest"
-		}, obj.callback);
-	};
+  this.deposit = function (obj) {
+    _post(
+      {
+        type: "deposit",
+        amount: obj.value,
+      },
+      obj.callback
+    );
+  };
+
+  this.collect = function (obj) {
+    _post(
+      {
+        type: "interest",
+      },
+      obj.callback
+    );
+  };
 };

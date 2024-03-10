@@ -1,18 +1,18 @@
 // ==UserScript==
 // @name           Neopets : Infinite Neoboard Pens
-// @namespace      http://gm.wesley.eti.br/neopets
+// @namespace      https://gm.wesley.eti.br/neopets
 // @description    Simulates the neoboard pens
 // @author         w35l3y
 // @email          w35l3y@brasnet.org
-// @copyright      2013+, w35l3y (http://gm.wesley.eti.br)
+// @copyright      2013+, w35l3y (https://gm.wesley.eti.br)
 // @license        GNU GPL
-// @homepage       http://gm.wesley.eti.br
+// @homepage       https://gm.wesley.eti.br
 // @version        2.0.3
 // @language       en
-// @include        http://www.neopets.com/neoboards/preferences.phtml*
-// @include        http://www.neopets.com/neoboards/topic.phtml?topic=*
-// @include        http://www.neopets.com/neoboards/create_topic.phtml*
-// @include        http://www.neopets.com/guilds/guild_board.phtml?id=*&action=*
+// @include        https://www.neopets.com/neoboards/preferences.phtml*
+// @include        https://www.neopets.com/neoboards/topic.phtml?topic=*
+// @include        https://www.neopets.com/neoboards/create_topic.phtml*
+// @include        https://www.neopets.com/guilds/guild_board.phtml?id=*&action=*
 // @grant          GM_log
 // @grant          GM_addStyle
 // @grant          GM_getValue
@@ -20,7 +20,7 @@
 // @grant          GM_deleteValue
 // @grant          GM_xmlhttpRequest
 // @grant          GM_getResourceText
-// @icon           http://gm.wesley.eti.br/icon.php?desc=161705
+// @icon           https://gm.wesley.eti.br/icon.php?desc=161705
 // @connect        neopets.com
 // @connect        github.com
 // @connect        raw.githubusercontent.com
@@ -33,7 +33,7 @@
 // @require        ../../includes/Includes_Translate/85618.user.js
 // @require        ../../includes/Includes_I18n/87940.user.js
 // @require        ../../includes/Includes_Updater/87942.user.js
-// @history        2.0.0 Added <a href="http://userscripts.org/guides/773">Includes Checker</a>
+// @history        2.0.0 Added <a href="https://userscripts.org/guides/773">Includes Checker</a>
 // ==/UserScript==
 
 /**************************************************************************
@@ -49,252 +49,359 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 **************************************************************************/
 
 (function () {
-	var config = JSON.parse(GM_getValue("config", JSON.stringify({
-		custom	: 2,
-	}))),
-	u = "-" + (xpath("string(id('header')//a[contains(@href, 'userlookup')]/text())") || "@"),
-	pens = JSON.parse(GM_getValue("pens" + u, "[]")),
-	active_pens = JSON.parse(GM_getValue("active_pens" + u, '{"d":0}')),
-	active_pen = (/\bsetpen=(\d+)/.test(location.hash)?RegExp.$1:active_pens["d"]);
+  var config = JSON.parse(
+      GM_getValue(
+        "config",
+        JSON.stringify({
+          custom: 2,
+        })
+      )
+    ),
+    u =
+      "-" +
+      (xpath("string(id('header')//a[contains(@href, 'userlookup')]/text())") ||
+        "@"),
+    pens = JSON.parse(GM_getValue("pens" + u, "[]")),
+    active_pens = JSON.parse(GM_getValue("active_pens" + u, '{"d":0}')),
+    active_pen = /\bsetpen=(\d+)/.test(location.hash)
+      ? RegExp.$1
+      : active_pens["d"];
 
-	if (/^\/neoboards\/preferences\.phtml/i.test(location.pathname)) {
-		var form = xpath(".//form[contains(@action, 'process_preferences.phtml')]")[0],
-		pens_list = "<table align='center' cellpadding='3' cellspacing='0' border='0'><tr>",
-		container = document.createElement("div");
-		
-		form.addEventListener("submit", function (e) {
-			GM_setValue("active_pens" + u, JSON.stringify(active_pens));
+  if (/^\/neoboards\/preferences\.phtml/i.test(location.pathname)) {
+    var form = xpath(
+        ".//form[contains(@action, 'process_preferences.phtml')]"
+      )[0],
+      pens_list =
+        "<table align='center' cellpadding='3' cellspacing='0' border='0'><tr>",
+      container = document.createElement("div");
 
-			for ( var ai = form.elements.length - 1 ; ~ai ; --ai ) {
-				var input = form.elements[ai];
-				switch (input.type.toLowerCase()) {
-					case "text":
-						pens[active_pen].form[input.name] = input.value || "";
-						break;
-					case "select":
-					case "select-one":
-						Array.prototype.slice.apply(input.options).some(function (option) {
-							if (option.selected) {
-								pens[active_pen].form[input.name] = option.value;
-								return true;
-							}
-							return false;
-						});
-						break;
-					case "radio":
-						if (input.checked) {
-							pens[active_pen].form[input.name] = input.value;
-						}
-						break;
-				}
-			}
+    form.addEventListener(
+      "submit",
+      function (e) {
+        GM_setValue("active_pens" + u, JSON.stringify(active_pens));
 
-			if (pens.length - 1 != active_pen) {
-				pens.pop();
-			}
+        for (var ai = form.elements.length - 1; ~ai; --ai) {
+          var input = form.elements[ai];
+          switch (input.type.toLowerCase()) {
+            case "text":
+              pens[active_pen].form[input.name] = input.value || "";
+              break;
+            case "select":
+            case "select-one":
+              Array.prototype.slice
+                .apply(input.options)
+                .some(function (option) {
+                  if (option.selected) {
+                    pens[active_pen].form[input.name] = option.value;
+                    return true;
+                  }
+                  return false;
+                });
+              break;
+            case "radio":
+              if (input.checked) {
+                pens[active_pen].form[input.name] = input.value;
+              }
+              break;
+          }
+        }
 
-			GM_setValue("pens" + u, JSON.stringify(pens));
+        if (pens.length - 1 != active_pen) {
+          pens.pop();
+        }
 
-			var pn = document.getElementById("pen_name");
-			if (pn) {
-				pn.parentNode.removeChild(pn);
-			}
-		}, false);
+        GM_setValue("pens" + u, JSON.stringify(pens));
 
-		pens.push(pens.length?{
-			"large" : "http://images.neopets.com/items/mall_thinpen_green.gif",
-			"medium" : "http://images.neopets.com/items/mall_thinpen_green_40.gif",
-			"small" : "http://images.neopets.com/neoboards/mall_sm_thinpen_green.gif",
-			"form" : {"pen_name":"Add new"}
-		}:{
-			"large" : "http://images.neopets.com/neoboards/mall_notebook.gif",
-			"medium" : "http://images.neopets.com/items/mall_notepad_40.gif",
-			"small" : "http://images.neopets.com/neoboards/mall_sm_notebook.gif",
-			"form" : {"pen_name":"Default"}
-		});
+        var pn = document.getElementById("pen_name");
+        if (pn) {
+          pn.parentNode.removeChild(pn);
+        }
+      },
+      false
+    );
 
-		GM_addStyle("td.activePen {color:red}\ntd.activePen img {opacity:0.25};");
-		for (var pen in pens) {
-			pens_list += "<td align='center'><a href='/neoboards/preferences.phtml#setpen=" + pen + "'><img src='" + pens[pen].medium + "' border='0'></a><br><br><b>" + pens[pen].form.pen_name + "</b></td>";
-		}
-		
-		container.innerHTML = pens_list += "</tr></table><br /><br />";
-		form.parentNode.insertBefore(container, form.previousSibling.previousSibling.previousSibling.previousSibling);
-		
-		container = document.createElement("div");
-		container.innerHTML = '<table width="*" cellpadding="4" cellspacing="0" border="0" style="border: 1px solid #000000;"><tr><td class="contentModuleHeaderAlt" style="border-bottom: 1px solid #000000;"><strong>Pen Name</strong></td></tr><tr><td align="center"><b>Select a name for your pen: <input type="text" value="" name="pen_name" size="16" maxlength="11" id="pen_name">&nbsp;&nbsp;</td></tr></table><br /><br />';
-		form.insertBefore(container, form.elements.namedItem("pen_type").nextSibling);
-		
-		var pens_link = xpath(".//td[a[contains(@href, '#setpen=')]]");
+    pens.push(
+      pens.length
+        ? {
+            large: "https://images.neopets.com/items/mall_thinpen_green.gif",
+            medium:
+              "https://images.neopets.com/items/mall_thinpen_green_40.gif",
+            small:
+              "https://images.neopets.com/neoboards/mall_sm_thinpen_green.gif",
+            form: { pen_name: "Add new" },
+          }
+        : {
+            large: "https://images.neopets.com/neoboards/mall_notebook.gif",
+            medium: "https://images.neopets.com/items/mall_notepad_40.gif",
+            small: "https://images.neopets.com/neoboards/mall_sm_notebook.gif",
+            form: { pen_name: "Default" },
+          }
+    );
 
-		function changePen (penNode) {
-			for (var ai in pens_link) {
-				pens_link[ai].removeAttribute("class");
-			}
+    GM_addStyle("td.activePen {color:red}\ntd.activePen img {opacity:0.25};");
+    for (var pen in pens) {
+      pens_list +=
+        "<td align='center'><a href='/neoboards/preferences.phtml#setpen=" +
+        pen +
+        "'><img src='" +
+        pens[pen].medium +
+        "' border='0'></a><br><br><b>" +
+        pens[pen].form.pen_name +
+        "</b></td>";
+    }
 
-			if (/\bsetpen=(\d+)/.test(penNode.firstElementChild.href)) {
-				penNode.setAttribute("class", "activePen");
-				active_pens["d"] = active_pen = parseInt(RegExp.$1, 10);
+    container.innerHTML = pens_list += "</tr></table><br /><br />";
+    form.parentNode.insertBefore(
+      container,
+      form.previousSibling.previousSibling.previousSibling.previousSibling
+    );
 
-				for (var ai = form.elements.length - 1;~ai;--ai) {
-					var input = form.elements[ai],
-					value = pens[active_pen].form[input.name];
+    container = document.createElement("div");
+    container.innerHTML =
+      '<table width="*" cellpadding="4" cellspacing="0" border="0" style="border: 1px solid #000000;"><tr><td class="contentModuleHeaderAlt" style="border-bottom: 1px solid #000000;"><strong>Pen Name</strong></td></tr><tr><td align="center"><b>Select a name for your pen: <input type="text" value="" name="pen_name" size="16" maxlength="11" id="pen_name">&nbsp;&nbsp;</td></tr></table><br /><br />';
+    form.insertBefore(
+      container,
+      form.elements.namedItem("pen_type").nextSibling
+    );
 
-					if (input.name in pens[active_pen].form) {
-						switch (input.type.toLowerCase()) {
-							case "text":
-								input.value = value || "";
-								break;
-							case "select":
-							case "select-one":
-								Array.prototype.slice.apply(input.options).some(function (option) {
-									if (option.value == value && (option.index > 0 || "activeAv" != input.name) && !/^-+$/.test(option.textContent)) {
-										option.selected = true;
-										option.dispatchEvent(new Event("change", { bubbles: true }));
-										return true;
-									}
-									return false;
-								});
-								break;
-							case "radio":
-								if (input.value == value) {
-									input.checked = true;
-								}
-								break;
-						}
-					}
-				}
-			}
-		}
+    var pens_link = xpath(".//td[a[contains(@href, '#setpen=')]]");
 
-		for (var ai in pens_link) {
-			pens_link[ai].addEventListener("click", function (e) {
-				changePen(xpath("./ancestor::td[1]", e.target)[0]);
+    function changePen(penNode) {
+      for (var ai in pens_link) {
+        pens_link[ai].removeAttribute("class");
+      }
 
-				e.preventDefault();
-			}, false);
-			
-			if (ai == active_pen) {
-				changePen(pens_link[ai]);
-			}
-		}
-	} else {
-		var page = (function (path) {
-			switch (path) {
-				case "/neoboards/create_topic.phtml":
-					return [".//td[@class = 'content']/form[@name = 'message_form']/table[2]", function () {
-						var sel = xpath(".//select[@name = 'board_id']")[0];
-						
-						return ["n", ~sel.selectedIndex && ("n" + sel.options[sel.selectedIndex].value)];
-					}];
-				case "/neoboards/topic.phtml":
-					return [".//td[@class = 'content']/div/form[@name = 'message_form']/table", function () {
-						var opt = xpath("string(.//a[contains(@href, 'boardlist.phtml?board=')]/@href)");
+      if (/\bsetpen=(\d+)/.test(penNode.firstElementChild.href)) {
+        penNode.setAttribute("class", "activePen");
+        active_pens["d"] = active_pen = parseInt(RegExp.$1, 10);
 
-						return ["n", /\bboard=(\d+)/.test(opt) && ("n" + RegExp.$1)];
-					}];
-				default:
-					return [".//td[@class = 'content']//tr[4]/td/table", function () {
-						var opt = xpath("string(.//form[@name = 'message_form' and contains(@action, '?id=')]/@action)");
+        for (var ai = form.elements.length - 1; ~ai; --ai) {
+          var input = form.elements[ai],
+            value = pens[active_pen].form[input.name];
 
-						return ["g", /\bid=(\d+)/.test(opt) && ("g" + RegExp.$1)];
-					}];
-			}
-		}(location.pathname)),
-		table = xpath(page[0])[0];
+          if (input.name in pens[active_pen].form) {
+            switch (input.type.toLowerCase()) {
+              case "text":
+                input.value = value || "";
+                break;
+              case "select":
+              case "select-one":
+                Array.prototype.slice
+                  .apply(input.options)
+                  .some(function (option) {
+                    if (
+                      option.value == value &&
+                      (option.index > 0 || "activeAv" != input.name) &&
+                      !/^-+$/.test(option.textContent)
+                    ) {
+                      option.selected = true;
+                      option.dispatchEvent(
+                        new Event("change", { bubbles: true })
+                      );
+                      return true;
+                    }
+                    return false;
+                  });
+                break;
+              case "radio":
+                if (input.value == value) {
+                  input.checked = true;
+                }
+                break;
+            }
+          }
+        }
+      }
+    }
 
-		if (table) {
-			var keys = page[1]();
-			
-			for (var k in keys) {
-				var key = keys[k];
+    for (var ai in pens_link) {
+      pens_link[ai].addEventListener(
+        "click",
+        function (e) {
+          changePen(xpath("./ancestor::td[1]", e.target)[0]);
 
-				if (key && !(key in active_pens)) {
-					active_pens[key] = active_pen;
-				}
-			}
-			
-			active_pen = active_pens[(config.custom & 2) && keys[1] || (config.custom & 1) && keys[0] || "d"];
+          e.preventDefault();
+        },
+        false
+      );
 
-			var cell = table.insertRow(table.rows.length - 1).insertCell(0),
-			output = '<table cellspacing="0" cellpadding="10" border="0" align="center" style="border: 1px solid black;"> <tbody><tr>';
+      if (ai == active_pen) {
+        changePen(pens_link[ai]);
+      }
+    }
+  } else {
+    var page = (function (path) {
+        switch (path) {
+          case "/neoboards/create_topic.phtml":
+            return [
+              ".//td[@class = 'content']/form[@name = 'message_form']/table[2]",
+              function () {
+                var sel = xpath(".//select[@name = 'board_id']")[0];
 
-			cell.setAttribute("align", "center");
-			if (!/^\/guilds\/guild_board\.phtml/i.test(location.pathname)) {
-				cell.setAttribute("colspan", "2");
-			}
+                return [
+                  "n",
+                  ~sel.selectedIndex &&
+                    "n" + sel.options[sel.selectedIndex].value,
+                ];
+              },
+            ];
+          case "/neoboards/topic.phtml":
+            return [
+              ".//td[@class = 'content']/div/form[@name = 'message_form']/table",
+              function () {
+                var opt = xpath(
+                  "string(.//a[contains(@href, 'boardlist.phtml?board=')]/@href)"
+                );
 
-			for (var pen in pens) {
-				output += '<td width="64" align="center"><img width="16" height="16" border="0" src="' + pens[pen].small + '" /><br />' + pens[pen].form.pen_name + '<br /><input type="radio"' + (active_pen == pen?' checked="checked"':'')+' value="' + pen + '" name="select_pen" /></td>';
-			}
+                return ["n", /\bboard=(\d+)/.test(opt) && "n" + RegExp.$1];
+              },
+            ];
+          default:
+            return [
+              ".//td[@class = 'content']//tr[4]/td/table",
+              function () {
+                var opt = xpath(
+                  "string(.//form[@name = 'message_form' and contains(@action, '?id=')]/@action)"
+                );
 
-			output += '</tr></tbody></table>';
+                return ["g", /\bid=(\d+)/.test(opt) && "g" + RegExp.$1];
+              },
+            ];
+        }
+      })(location.pathname),
+      table = xpath(page[0])[0];
 
-			cell.innerHTML = output;
-			
-			function selectRadio (target, e) {
-				if (active_pens["d"] != target.value) {
-					e.preventDefault();
+    if (table) {
+      var keys = page[1]();
 
-					delete pens[target.value].form.pen_name;
+      for (var k in keys) {
+        var key = keys[k];
 
-					var list = Array.prototype.slice.apply(e.target.elements);
-					for (var ai in list) {
-						if (/^submit$/i.test(list[ai].type)) {
-							list[ai].setAttribute("disabled", "disabled");
+        if (key && !(key in active_pens)) {
+          active_pens[key] = active_pen;
+        }
+      }
 
-							HttpRequest.open({
-								"method"	: "post",
-								"url"		: "http://www.neopets.com/neoboards/process_preferences.phtml",
-								"headers"	: {
-									"Referer" : "http://www.neopets.com/neoboards/preferences.phtml",
-								},
-								"onsuccess"	: function () {
-									active_pens[keys[0]] = active_pen = parseInt(target.value, 10);
-									if (keys[1]) {
-										active_pens[keys[1]] = active_pen;
-									}
+      active_pen =
+        active_pens[
+          (config.custom & 2 && keys[1]) ||
+            (config.custom & 1 && keys[0]) ||
+            "d"
+        ];
 
-									GM_log("Neopen changed from " + active_pens["d"] + " to " + active_pen);
+      var cell = table.insertRow(table.rows.length - 1).insertCell(0),
+        output =
+          '<table cellspacing="0" cellpadding="10" border="0" align="center" style="border: 1px solid black;"> <tbody><tr>';
 
-									active_pens["d"] = active_pen;
+      cell.setAttribute("align", "center");
+      if (!/^\/guilds\/guild_board\.phtml/i.test(location.pathname)) {
+        cell.setAttribute("colspan", "2");
+      }
 
-									GM_setValue("active_pens" + u, JSON.stringify(active_pens));
-									
-									e.target.submit();
-								},
-								"onerror"	: function () {
-									GM_log("Unable to change neopen from " + active_pens["d"] + " to " + target.value);
+      for (var pen in pens) {
+        output +=
+          '<td width="64" align="center"><img width="16" height="16" border="0" src="' +
+          pens[pen].small +
+          '" /><br />' +
+          pens[pen].form.pen_name +
+          '<br /><input type="radio"' +
+          (active_pen == pen ? ' checked="checked"' : "") +
+          ' value="' +
+          pen +
+          '" name="select_pen" /></td>';
+      }
 
-									e.target.submit();
-								}
-							}).send(pens[target.value].form);
+      output += "</tr></tbody></table>";
 
-							break;
-						}
-					}
-				}
-			}
+      cell.innerHTML = output;
 
-			var radio = cell.getElementsByTagName("input")[0];
-			(radio && radio.form || xpath(".//form[@name = 'message_form']")[0]).addEventListener("submit", function (e) {
-				var opts = xpath(".//input[@type = 'radio' and @name = 'select_pen']", cell);
+      function selectRadio(target, e) {
+        if (active_pens["d"] != target.value) {
+          e.preventDefault();
 
-				for (var ai in opts) {
-					var opt = opts[ai];
-					
-					if (opt.checked) {
-						selectRadio(opt, e);
+          delete pens[target.value].form.pen_name;
 
-						opt.checked = false;
-					}
-				}
-			}, false);
-		}
-	}
-}());
+          var list = Array.prototype.slice.apply(e.target.elements);
+          for (var ai in list) {
+            if (/^submit$/i.test(list[ai].type)) {
+              list[ai].setAttribute("disabled", "disabled");
+
+              HttpRequest.open({
+                method: "post",
+                url: "https://www.neopets.com/neoboards/process_preferences.phtml",
+                headers: {
+                  Referer:
+                    "https://www.neopets.com/neoboards/preferences.phtml",
+                },
+                onsuccess: function () {
+                  active_pens[keys[0]] = active_pen = parseInt(
+                    target.value,
+                    10
+                  );
+                  if (keys[1]) {
+                    active_pens[keys[1]] = active_pen;
+                  }
+
+                  GM_log(
+                    "Neopen changed from " +
+                      active_pens["d"] +
+                      " to " +
+                      active_pen
+                  );
+
+                  active_pens["d"] = active_pen;
+
+                  GM_setValue("active_pens" + u, JSON.stringify(active_pens));
+
+                  e.target.submit();
+                },
+                onerror: function () {
+                  GM_log(
+                    "Unable to change neopen from " +
+                      active_pens["d"] +
+                      " to " +
+                      target.value
+                  );
+
+                  e.target.submit();
+                },
+              }).send(pens[target.value].form);
+
+              break;
+            }
+          }
+        }
+      }
+
+      var radio = cell.getElementsByTagName("input")[0];
+      (
+        (radio && radio.form) ||
+        xpath(".//form[@name = 'message_form']")[0]
+      ).addEventListener(
+        "submit",
+        function (e) {
+          var opts = xpath(
+            ".//input[@type = 'radio' and @name = 'select_pen']",
+            cell
+          );
+
+          for (var ai in opts) {
+            var opt = opts[ai];
+
+            if (opt.checked) {
+              selectRadio(opt, e);
+
+              opt.checked = false;
+            }
+          }
+        },
+        false
+      );
+    }
+  }
+})();

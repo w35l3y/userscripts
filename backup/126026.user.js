@@ -1,17 +1,17 @@
 // ==UserScript==
 // @name           Neopets : Kitchen Quest : Time countdown
-// @namespace      http://gm.wesley.eti.br
+// @namespace      https://gm.wesley.eti.br
 // @description    Dynamically shows the time till quest finishes
 // @author         w35l3y
 // @email          w35l3y@brasnet.org
-// @copyright      2012+, w35l3y (http://gm.wesley.eti.br)
+// @copyright      2012+, w35l3y (https://gm.wesley.eti.br)
 // @license        GNU GPL
-// @homepage       http://gm.wesley.eti.br
+// @homepage       https://gm.wesley.eti.br
 // @version        1.0.0.0
 // @language       en
-// @include        http://www.neopets.com/island/kitchen.phtml
+// @include        https://www.neopets.com/island/kitchen.phtml
 // @grant          GM_log
-// @icon           http://gm.wesley.eti.br/icon.php?desc=126026
+// @icon           https://gm.wesley.eti.br/icon.php?desc=126026
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
 // ==/UserScript==
 
@@ -28,37 +28,47 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 **************************************************************************/
 
-(function () {	// script scope
-	const MIN_TO_MSEC = 60000,
-	HR_TO_MSEC = 3600000;
+(function () {
+  // script scope
+  const MIN_TO_MSEC = 60000,
+    HR_TO_MSEC = 3600000;
 
-	var dl = xpath(".//td[@class = 'content']//tr[2]/td[2]/b/b");
+  var dl = xpath(".//td[@class = 'content']//tr[2]/td[2]/b/b");
 
-	if (dl.length)
-	(function recursive (obj) {
-		var c = new Date(),
-		d = obj.deadline - c.valueOf() + MIN_TO_MSEC,
-		h = Math.floor(d / HR_TO_MSEC),
-		m = Math.floor(d % HR_TO_MSEC / MIN_TO_MSEC);
+  if (dl.length)
+    (function recursive(obj) {
+      var c = new Date(),
+        d = obj.deadline - c.valueOf() + MIN_TO_MSEC,
+        h = Math.floor(d / HR_TO_MSEC),
+        m = Math.floor((d % HR_TO_MSEC) / MIN_TO_MSEC);
 
-		if (d > 0) {
-			if (obj.dom[0].textContent == h && obj.dom[1].textContent < m) {
-				console.log(obj.dom[1].textContent, m, d % MIN_TO_MSEC, c.getSeconds(), obj.dom[0].textContent, h);
-				obj.deadline -= 1000 * c.getSeconds();
-			} else {
-				obj.dom[1].textContent = m;
-			}
+      if (d > 0) {
+        if (obj.dom[0].textContent == h && obj.dom[1].textContent < m) {
+          console.log(
+            obj.dom[1].textContent,
+            m,
+            d % MIN_TO_MSEC,
+            c.getSeconds(),
+            obj.dom[0].textContent,
+            h
+          );
+          obj.deadline -= 1000 * c.getSeconds();
+        } else {
+          obj.dom[1].textContent = m;
+        }
 
-			obj.dom[0].textContent = h;
+        obj.dom[0].textContent = h;
 
-			window.setTimeout(recursive, MIN_TO_MSEC, obj);
-		}
-	}({
-		deadline : new Date().valueOf() + 1000 * (3600 * dl[0].textContent + 60 * dl[1].textContent),
-		dom : dl,
-	}));
-}());
+        window.setTimeout(recursive, MIN_TO_MSEC, obj);
+      }
+    })({
+      deadline:
+        new Date().valueOf() +
+        1000 * (3600 * dl[0].textContent + 60 * dl[1].textContent),
+      dom: dl,
+    });
+})();

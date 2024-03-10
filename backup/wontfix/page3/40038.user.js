@@ -1,14 +1,14 @@
 // ==UserScript==
 // @name           Userscripts : Backup scripts
-// @namespace      http://gm.wesley.eti.br/userscripts
+// @namespace      https://gm.wesley.eti.br/userscripts
 // @description    Imports/Exports GM scripts
 // @author         w35l3y
 // @email          w35l3y@brasnet.org
 // @copyright      w35l3y 2008
 // @license        GNU GPL
-// @homepage       http://www.wesley.eti.br
+// @homepage       https://www.wesley.eti.br
 // @version        1.0.1.2
-// @include        http://userscripts-mirror.org/*
+// @include        https://userscripts-mirror.org/*
 // @grant          GM_log
 // @grant          GM_addStyle
 // @grant          GM_getValue
@@ -17,7 +17,7 @@
 // @grant          GM_deleteValue
 // @grant          GM_xmlhttpRequest
 // @grant          GM_getResourceText
-// @icon           http://gm.wesley.eti.br/icon.php?desc=40038
+// @icon           https://gm.wesley.eti.br/icon.php?desc=40038
 // @require        https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page1/38788.user.js
 // @require        https://github.com/w35l3y/userscripts/raw/master/backup/40050.user.js
 // @cfu:meta       https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page3/@cfu:id.user.js
@@ -43,154 +43,178 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 **************************************************************************/
 
-typeof(CheckForUpdate)!='undefined' && CheckForUpdate.init(GM_info.scriptMetaStr);
+typeof CheckForUpdate != "undefined" &&
+  CheckForUpdate.init(GM_info.scriptMetaStr);
 
-(function()
-{	// script scope
+(function () {
+  // script scope
 
-	var installs = document
-	.evaluate("//a[contains(@href,'.user.js') and not(substring-after(@href,'.user.js'))]", document, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
-	// contains(@href,'.user.js') and not(substring-after(@href,'.user.js')) simulates ends-with(@href,'.user.js')
+  var installs = document.evaluate(
+    "//a[contains(@href,'.user.js') and not(substring-after(@href,'.user.js'))]",
+    document,
+    null,
+    XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,
+    null
+  );
+  // contains(@href,'.user.js') and not(substring-after(@href,'.user.js')) simulates ends-with(@href,'.user.js')
 
-	// This will be called everytime you click to install an script (Not necessarily the Install button)
-	function onInstall(e)
-	{
-		var scripts = JSON.parse(GM_getValue('scripts', '[]'));
-		var script = parseInt((e.target.href || e.target.parentNode.href).match(/(\d+)\.user\.js/)[1]);
+  // This will be called everytime you click to install an script (Not necessarily the Install button)
+  function onInstall(e) {
+    var scripts = JSON.parse(GM_getValue("scripts", "[]"));
+    var script = parseInt(
+      (e.target.href || e.target.parentNode.href).match(/(\d+)\.user\.js/)[1]
+    );
 
-		// Checks if the current script was added already
-		for ( var i = scripts.length ; ~--i && scripts[i] != script ; );
+    // Checks if the current script was added already
+    for (var i = scripts.length; ~--i && scripts[i] != script; );
 
-		if (!~i)
-		{
-			scripts.push(script);
+    if (!~i) {
+      scripts.push(script);
 
-			GM_setValue('scripts', JSON.stringify(scripts));
-		}
-	}
+      GM_setValue("scripts", JSON.stringify(scripts));
+    }
+  }
 
-	// Adds an EventListener to all links that end with ".user.js"
-	for ( var install, i = installs.snapshotLength ; install = installs.snapshotItem(--i) ; )
-		install.addEventListener('click', onInstall, false);
+  // Adds an EventListener to all links that end with ".user.js"
+  for (
+    var install, i = installs.snapshotLength;
+    (install = installs.snapshotItem(--i));
 
-	var name = '[' + GM_HEADER.match(/^\/\/\s+@name\s+(.+)/m)[1] + '] ';
+  )
+    install.addEventListener("click", onInstall, false);
 
-	function installScripts(scripts)
-	{
-		var i = scripts[2].length;
-		if (i)
-		{
-			if (confirm(i + ' new script(s) was found. Continue?'))
-			{
-				while ( ~--i )
-				{
-					GM_openInTab('https://github.com/w35l3y/userscripts/raw/master/scripts/' + scripts[2][i] + '.user.js');
-					scripts[0].push(scripts[2][i]);
-				}
+  var name = "[" + GM_HEADER.match(/^\/\/\s+@name\s+(.+)/m)[1] + "] ";
 
-				GM_setValue('scripts', JSON.stringify(scripts[0]));
-			}
-		}
-		else
-			alert('No new script was found.');
-	}
+  function installScripts(scripts) {
+    var i = scripts[2].length;
+    if (i) {
+      if (confirm(i + " new script(s) was found. Continue?")) {
+        while (~--i) {
+          GM_openInTab(
+            "https://github.com/w35l3y/userscripts/raw/master/scripts/" +
+              scripts[2][i] +
+              ".user.js"
+          );
+          scripts[0].push(scripts[2][i]);
+        }
 
-	GM_registerMenuCommand(name + 'Import from list...', function()
-	{
-		var code = prompt('Enter the url of the list:');
-		if (code)
-		{
-			Persist.get(code, function(e)
-			{
-				var scripts = [JSON.parse(GM_getValue('scripts', '[]')), [], []];
+        GM_setValue("scripts", JSON.stringify(scripts[0]));
+      }
+    } else alert("No new script was found.");
+  }
 
-				for ( var script ; script = /\/scripts\/source\/(\d+)\.user\.js["'\r\n]/gi.exec(e.responseText) ; )
-				{
-					// Checks if the current script was added already
-					for ( var i = scripts[0].length ; ~--i && script[1] != scripts[0][i] ; );
+  GM_registerMenuCommand(name + "Import from list...", function () {
+    var code = prompt("Enter the url of the list:");
+    if (code) {
+      Persist.get(
+        code,
+        function (e) {
+          var scripts = [JSON.parse(GM_getValue("scripts", "[]")), [], []];
 
-					if (!~i)
-						scripts[2].push(script[1]);
-				}
+          for (
+            var script;
+            (script = /\/scripts\/source\/(\d+)\.user\.js["'\r\n]/gi.exec(
+              e.responseText
+            ));
 
-				installScripts(scripts);
-			}, function(e)
-			{
-				alert('An error has occurred. Try again later.');
-			});
-		}
-	});
+          ) {
+            // Checks if the current script was added already
+            for (
+              var i = scripts[0].length;
+              ~--i && script[1] != scripts[0][i];
 
-	GM_registerMenuCommand(name + 'Import from pastebin...', function()
-	{
-		var code = prompt('Enter the numeric code:');
-		if (/^\d+$/.test(code))
-		{
-			Persist.get('http://pastebin.mozilla.org/?dl=' + code, function(e)
-			{
-				// Checks if the content has the desired pattern (an array json)
-				if (/^\[\d+(?:,\d+)*\]$/.test(e.responseText.replace(/\s+/g,'')))
-				{
-					var scripts = [JSON.parse(GM_getValue('scripts', '[]')), JSON.parse(e.responseText), []];
+            );
 
-					for ( var i = scripts[1].length ; ~--i ; )
-					{
-						// Checks if the current script was added already
-						for ( var j = scripts[0].length ; ~--j && scripts[1][i] != scripts[0][j] ; );
+            if (!~i) scripts[2].push(script[1]);
+          }
 
-						if (!~j)
-							scripts[2].push(scripts[1][i]);
-					}
+          installScripts(scripts);
+        },
+        function (e) {
+          alert("An error has occurred. Try again later.");
+        }
+      );
+    }
+  });
 
-					installScripts(scripts);
-				}
-				else
-					alert('The code is incorrect or doesn\'t exist anymore.');
-			}, function(e)
-			{
-				alert('An error has occurred. Try again later.');
-			});
-		}
-		else
-			alert('The code must be a number.');
-	});
+  GM_registerMenuCommand(name + "Import from pastebin...", function () {
+    var code = prompt("Enter the numeric code:");
+    if (/^\d+$/.test(code)) {
+      Persist.get(
+        "https://pastebin.mozilla.org/?dl=" + code,
+        function (e) {
+          // Checks if the content has the desired pattern (an array json)
+          if (/^\[\d+(?:,\d+)*\]$/.test(e.responseText.replace(/\s+/g, ""))) {
+            var scripts = [
+              JSON.parse(GM_getValue("scripts", "[]")),
+              JSON.parse(e.responseText),
+              [],
+            ];
 
-	GM_registerMenuCommand(name + 'Export to pastebin', function()
-	{
-		var scripts = GM_getValue('scripts', '[]');
+            for (var i = scripts[1].length; ~--i; ) {
+              // Checks if the current script was added already
+              for (
+                var j = scripts[0].length;
+                ~--j && scripts[1][i] != scripts[0][j];
 
-		var installs = JSON.parse(scripts).length;
-		var current = new Date().valueOf();
-		var code = GM_getValue('lastCode', '');
+              );
 
-		// Checks if the number of installed versions changed or if the current date is greater than the last access date + 2 minutes
-		if (installs != GM_getValue('lastExport', 0) || current > 120000 + parseInt(GM_getValue('lastAccess', '0'))) // 2 * 60 * 1000
-		{
-			Persist.set('http://pastebin.mozilla.org/', {
-				'format':'text',
-				'poster':'Backup scripts',
-				'paste':'Send',
-				'expiry':'m',
-				'remember':'1',
-				'parent_pid':code,
-				'code2':scripts
-			}, function(e)
-			{
-				GM_setValue('lastAccess', '' + new Date().valueOf());
-				GM_setValue('lastExport', installs);
-				GM_setValue('lastCode', code = '' + e.finalUrl.match(/\d+/));
+              if (!~j) scripts[2].push(scripts[1][i]);
+            }
 
-				alert('Take a note of this number: ' + code + '\n\nThis will be used to import your scripts later and will be available for 1 month.');
-			}, function(e)
-			{
-				alert('An error has occurred. Try again later.');
-			});
-		}
-		else
-			alert('You don\'t have any new script installed to be exported.' + ( code ? '\n\nLast code: ' + code : '' ));
-	});
+            installScripts(scripts);
+          } else alert("The code is incorrect or doesn't exist anymore.");
+        },
+        function (e) {
+          alert("An error has occurred. Try again later.");
+        }
+      );
+    } else alert("The code must be a number.");
+  });
+
+  GM_registerMenuCommand(name + "Export to pastebin", function () {
+    var scripts = GM_getValue("scripts", "[]");
+
+    var installs = JSON.parse(scripts).length;
+    var current = new Date().valueOf();
+    var code = GM_getValue("lastCode", "");
+
+    // Checks if the number of installed versions changed or if the current date is greater than the last access date + 2 minutes
+    if (
+      installs != GM_getValue("lastExport", 0) ||
+      current > 120000 + parseInt(GM_getValue("lastAccess", "0"))
+    ) {
+      // 2 * 60 * 1000
+      Persist.set(
+        "https://pastebin.mozilla.org/",
+        {
+          format: "text",
+          poster: "Backup scripts",
+          paste: "Send",
+          expiry: "m",
+          remember: "1",
+          parent_pid: code,
+          code2: scripts,
+        },
+        function (e) {
+          GM_setValue("lastAccess", "" + new Date().valueOf());
+          GM_setValue("lastExport", installs);
+          GM_setValue("lastCode", (code = "" + e.finalUrl.match(/\d+/)));
+
+          alert(
+            "Take a note of this number: " +
+              code +
+              "\n\nThis will be used to import your scripts later and will be available for 1 month."
+          );
+        },
+        function (e) {
+          alert("An error has occurred. Try again later.");
+        }
+      );
+    } else alert("You don't have any new script installed to be exported." + (code ? "\n\nLast code: " + code : ""));
+  });
 })();

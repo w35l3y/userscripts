@@ -7,11 +7,12 @@
 [![PayPal - The safer, easier way to pay online!](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif "PayPal - The safer, easier way to pay online!")](https://goo.gl/DNfg2w)
 
 ### Screenshots
+
 ![quick_sdb_example](quick_sdb_example.png)
 ![quick_sdb_settings](quick_sdb_settings.png)
 
-
 ### Installs
-![Daily installs](http://gm.wesley.eti.br/count.php?id=scripts/Neopets_Quick_SDB_Checker/61435.user.js&type=image)
+
+![Daily installs](https://gm.wesley.eti.br/count.php?id=scripts/Neopets_Quick_SDB_Checker/61435.user.js&type=image)
 
 ![Analytics](https://ga-beacon.appspot.com/UA-462297-6/master/Neopets_Quick_SDB_Checker?pixel)

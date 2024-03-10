@@ -1,17 +1,17 @@
 // ==UserScript==
 // @name           Cyanide and Happiness : Ajax Navigation
-// @namespace      http://gm.wesley.eti.br
+// @namespace      https://gm.wesley.eti.br
 // @description    Only updates the comic part of the page
 // @author         w35l3y
 // @email          w35l3y@brasnet.org
-// @copyright      2012+, w35l3y (http://gm.wesley.eti.br)
+// @copyright      2012+, w35l3y (https://gm.wesley.eti.br)
 // @license        GNU GPL
-// @homepage       http://gm.wesley.eti.br
+// @homepage       https://gm.wesley.eti.br
 // @version        1.0.0.3
 // @language       en
-// @include        http://explosm.net/comics/*
+// @include        https://explosm.net/comics/*
 // @grant          GM_xmlhttpRequest
-// @icon           http://gm.wesley.eti.br/icon.php?desc=124978
+// @icon           https://gm.wesley.eti.br/icon.php?desc=124978
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_HttpRequest/56489.user.js
 // ==/UserScript==
@@ -22,7 +22,7 @@
 
     This script was made from scratch.
 
-    Based on http://userscripts-mirror.org/scripts/show/33692 (by avindra)
+    Based on https://userscripts-mirror.org/scripts/show/33692 (by avindra)
 
 ***************************************************************************
 
@@ -37,67 +37,87 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 **************************************************************************/
 
-(function () {	// script scope
-	document.addEventListener("keydown", function (e) {
-		if (/^(?:37|39)$/.test(e.keyCode)) {
-			e.stopPropagation();
-		}
-	}, true);
+(function () {
+  // script scope
+  document.addEventListener(
+    "keydown",
+    function (e) {
+      if (/^(?:37|39)$/.test(e.keyCode)) {
+        e.stopPropagation();
+      }
+    },
+    true
+  );
 
-	document.addEventListener("keyup", function (e) {
-		var b;
-		if (/^(?:37|39|70|78|82)$/.test(e.keyCode) && (b = document.getElementById("nav_" + {
-				37 : "previous",
-				39 : "next",
-				70 : "first",
-				78 : "newest",
-				82 : "random",
-			}[e.keyCode]))) {
-			
-			b.click();
+  document.addEventListener(
+    "keyup",
+    function (e) {
+      var b;
+      if (
+        /^(?:37|39|70|78|82)$/.test(e.keyCode) &&
+        (b = document.getElementById(
+          "nav_" +
+            {
+              37: "previous",
+              39: "next",
+              70: "first",
+              78: "newest",
+              82: "random",
+            }[e.keyCode]
+        ))
+      ) {
+        b.click();
 
-			e.preventDefault();
-			//e.stopPropagation();
-		}
-	}, false);
+        e.preventDefault();
+        //e.stopPropagation();
+      }
+    },
+    false
+  );
 
-	xpath(".//div/div/div[4]/div[2]/table")[0].setAttribute("height", 600);
+  xpath(".//div/div/div[4]/div[2]/table")[0].setAttribute("height", 600);
 
-	function click (e) {
-		HttpRequest.open({
-			"method" : "get",
-			"url" : e.target.href,
-			"onsuccess" : function (xhr) {
-				var o = xpath(".//div/div/div[4]/div[2]/div[2]", document)[0],
-				n = xpath(".//div/div/div[4]/div[2]/div[2]", xhr.response.xml)[0],
-				t = xpath("string(.//title/text())", xhr.response.xml);
-				
-				o.parentNode.replaceChild(n, o);
+  function click(e) {
+    HttpRequest.open({
+      method: "get",
+      url: e.target.href,
+      onsuccess: function (xhr) {
+        var o = xpath(".//div/div/div[4]/div[2]/div[2]", document)[0],
+          n = xpath(".//div/div/div[4]/div[2]/div[2]", xhr.response.xml)[0],
+          t = xpath("string(.//title/text())", xhr.response.xml);
 
-				n.setAttribute("id", "top");
-				location.hash = "#top";
+        o.parentNode.replaceChild(n, o);
 
-				document.title = t;
-				window.history.pushState({}, t, e.target.href);
+        n.setAttribute("id", "top");
+        location.hash = "#top";
 
-				recursive(n);
-			}
-		}).send();
+        document.title = t;
+        window.history.pushState({}, t, e.target.href);
 
-		e.preventDefault();
-	}
+        recursive(n);
+      },
+    }).send();
 
-	function recursive (doc) {
-		xpath(".//table/tbody/tr/td[2]/nobr//a[not(contains(@href, 'archive'))]", doc).forEach(function (nav) {
-			nav.setAttribute("id", "nav_" + nav.textContent.replace(/\W+/g, "").toLowerCase());
+    e.preventDefault();
+  }
 
-			nav.addEventListener("click", click, false);
-		});
-	};
+  function recursive(doc) {
+    xpath(
+      ".//table/tbody/tr/td[2]/nobr//a[not(contains(@href, 'archive'))]",
+      doc
+    ).forEach(function (nav) {
+      nav.setAttribute(
+        "id",
+        "nav_" + nav.textContent.replace(/\W+/g, "").toLowerCase()
+      );
 
-	recursive(document);
-}());
+      nav.addEventListener("click", click, false);
+    });
+  }
+
+  recursive(document);
+})();

@@ -1,21 +1,21 @@
 // ==UserScript==
 // @name           Neopets : The Snowager [Silent version]
-// @namespace      http://gm.wesley.eti.br/neopets
+// @namespace      https://gm.wesley.eti.br/neopets
 // @description    Silently visit the Snowager
 // @author         w35l3y
 // @email          w35l3y@brasnet.org
-// @copyright      2011+, w35l3y (http://gm.wesley.eti.br)
+// @copyright      2011+, w35l3y (https://gm.wesley.eti.br)
 // @license        GNU GPL
-// @homepage       http://gm.wesley.eti.br
+// @homepage       https://gm.wesley.eti.br
 // @version        3.1.1
 // @language       en
-// @include        http://www.neopets.com/*
-// @exclude        http://www.neopets.com/colorpallette.phtml
-// @exclude        http://www.neopets.com/neomail_block_check.phtml?*
-// @exclude        http://www.neopets.com/ads/*
-// @exclude        http://www.neopets.com/games/play_flash.phtml?*
-// @exclude        http://www.neopets.com/iteminfo.phtml?*
-// @icon           http://gm.wesley.eti.br/icon.php?desc=54076
+// @include        https://www.neopets.com/*
+// @exclude        https://www.neopets.com/colorpallette.phtml
+// @exclude        https://www.neopets.com/neomail_block_check.phtml?*
+// @exclude        https://www.neopets.com/ads/*
+// @exclude        https://www.neopets.com/games/play_flash.phtml?*
+// @exclude        https://www.neopets.com/iteminfo.phtml?*
+// @icon           https://gm.wesley.eti.br/icon.php?desc=54076
 // @connect        github.com
 // @connect        raw.githubusercontent.com
 // @grant          GM_log
@@ -57,48 +57,55 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 **************************************************************************/
 
 //GM_setValue("interval", 1);
 
 (function () {
-	var doc = Neopets.convert(document),
-	usern = doc.Username();
+  var doc = Neopets.convert(document),
+    usern = doc.Username();
 
-	if (usern)
-	(function recursive () {	// script scope
-		const INTERVAL = GM_getValue("interval", 8);
+  if (usern)
+    (function recursive() {
+      // script scope
+      const INTERVAL = GM_getValue("interval", 8);
 
-		var key = "Snowager-LastAccess-" + usern,
-		curr = doc.Time(true),
-		compare = new Date(curr),
-		h = curr.getHours(),
-		la = new Date(GM_getValue(key, "Sat Apr 02 2011 12:42:02 GMT-0300")),
-		sd = new Date(curr);
+      var key = "Snowager-LastAccess-" + usern,
+        curr = doc.Time(true),
+        compare = new Date(curr),
+        h = curr.getHours(),
+        la = new Date(GM_getValue(key, "Sat Apr 02 2011 12:42:02 GMT-0300")),
+        sd = new Date(curr);
 
-		compare.setMinutes(0, 0, 0);
-		sd.setHours(h + INTERVAL - ((2 + h) % INTERVAL), 0, 30);
+      compare.setMinutes(0, 0, 0);
+      sd.setHours(h + INTERVAL - ((2 + h) % INTERVAL), 0, 30);
 
-		if (la.valueOf() != compare.valueOf() && 0 === ((2 + h) % INTERVAL)) {
-			GM_setValue(key, (la = compare).toString());
-			
-			HttpRequest.open({
-				"method" : "get",
-				"url" : "http://www.neopets.com/winter/snowager2.phtml",
-				"headers" : {
-					"Referer" : "http://www.neopets.com/winter/snowager.phtml"
-				},
-				"onsuccess" : function (xhr) {
-					var msg = xpath(".//td[@class = 'content']//div[@class = 'errormess' and b] | .//td[@class = 'content']//center//b", xhr.response.xml)[0],
-					v = msg ? msg.textContent : "Error " + (new Date().toISOString());
+      if (la.valueOf() != compare.valueOf() && 0 === (2 + h) % INTERVAL) {
+        GM_setValue(key, (la = compare).toString());
 
-					Message.add(['<span class="warn">[The Snowager]</span>', v], {error:!msg, content:xhr.response.text});
-				}
-			}).send();
-		}
+        HttpRequest.open({
+          method: "get",
+          url: "https://www.neopets.com/winter/snowager2.phtml",
+          headers: {
+            Referer: "https://www.neopets.com/winter/snowager.phtml",
+          },
+          onsuccess: function (xhr) {
+            var msg = xpath(
+                ".//td[@class = 'content']//div[@class = 'errormess' and b] | .//td[@class = 'content']//center//b",
+                xhr.response.xml
+              )[0],
+              v = msg ? msg.textContent : "Error " + new Date().toISOString();
 
-		setTimeout(recursive, sd.valueOf() - curr.valueOf());
-	}());
-}());
+            Message.add(['<span class="warn">[The Snowager]</span>', v], {
+              error: !msg,
+              content: xhr.response.text,
+            });
+          },
+        }).send();
+      }
+
+      setTimeout(recursive, sd.valueOf() - curr.valueOf());
+    })();
+})();

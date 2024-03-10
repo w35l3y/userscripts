@@ -1,8 +1,9 @@
 ### Examples
 
 **SDB.convert**
+
 ```
-At http://www.neopets.com/safetydeposit.phtml
+At https://www.neopets.com/safetydeposit.phtml
 console.log(SDB.convert(document));
 
 Returns an object similar to this: (I will call 'SDBObject')
@@ -23,6 +24,7 @@ Returns an object similar to this: (I will call 'SDBObject')
 ```
 
 **SDB.list**
+
 ```
 SDB.list({
 	name		: "...",	// search for "..."
@@ -50,6 +52,7 @@ SDB.list({
 ```
 
 **SDB.remove**
+
 ```
 SDB.remove({
 	// You may also add: name, category, offset, page (read SDB.list for details)
@@ -63,6 +66,7 @@ SDB.remove({
 
 **SDB.removeOne**<br />
 This is a shortcut to `SDB.remove`
+
 ```
 SDB.removeOne({
 	pin			: "...",	// only if necessary

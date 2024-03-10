@@ -1,17 +1,17 @@
 // ==UserScript==
 // @name           Neopets : Shop Wizard : Improved Search
-// @namespace      http://gm.wesley.eti.br
+// @namespace      https://gm.wesley.eti.br
 // @description    Improves the Shop Wizard
 // @author         w35l3y
 // @email          w35l3y@brasnet.org
-// @copyright      2013+, w35l3y (http://gm.wesley.eti.br)
+// @copyright      2013+, w35l3y (https://gm.wesley.eti.br)
 // @license        GNU GPL
-// @homepage       http://gm.wesley.eti.br
+// @homepage       https://gm.wesley.eti.br
 // @version        2.0.2
 // @language       en
-// @include        http://www.neopets.com/market.phtml?type=wizard
-// @include        http://www.neopets.com/market.phtml
-// @icon           http://gm.wesley.eti.br/icon.php?desc=164819
+// @include        https://www.neopets.com/market.phtml?type=wizard
+// @include        https://www.neopets.com/market.phtml
+// @icon           https://gm.wesley.eti.br/icon.php?desc=164819
 // @connect        github.com
 // @connect        raw.githubusercontent.com
 // @grant          GM_log
@@ -52,103 +52,125 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 **************************************************************************/
 
-GM_addStyle(".winConfig_ShopWizardImprovedSearchSettings .body .fieldName_group > fieldset .fieldClass_default > label {width: 50%}.winConfig_ShopWizardImprovedSearchSettings .fieldName_group > fieldset .fieldType_0 input {width: 20%}");
+GM_addStyle(
+  ".winConfig_ShopWizardImprovedSearchSettings .body .fieldName_group > fieldset .fieldClass_default > label {width: 50%}.winConfig_ShopWizardImprovedSearchSettings .fieldName_group > fieldset .fieldType_0 input {width: 20%}"
+);
 
 (function () {
-	var win = new WinConfig({
-		title	: "Shop Wizard : Improved Search : Settings",
-		type	: WinConfig.WindowType.CUSTOM,
-		default	: {
-			group	: {
-				punct	: ",",
-				buyMax	: false,
-				askBuys	: true,
-				columns	: 0x3D,
-			}
-		},
-		fields	: [{
-			name	: "settingsHotKey",
-			label	: "Settings HotKey",
-			key		: "hotkey",
-			callback: function(event, win) {
-				win.open();
-			},
-		}, {
-			name	: "group",
-			nogroup	: true,
-			type	: WinConfig.FieldType.GROUP,
-			fields	: [{
-				name	: "columns",
-				label	: "Columns",
-				type	: WinConfig.FieldType.CHECK,
-				format	: WinConfig.FieldFormat.NUMBER,
-				multiple: true,
-				unique	: true,
-				empty	: 0,
-				value	: [{
-					value: 0x01,
-					label: "Owner",
-				}, {
-					value: 0x02,
-					label: "Item",
-				}, {
-					value: 0x04,
-					label: "Stock",
-				}, {
-					value: 0x08,
-					label: "Price",
-				}, {
-					value: 0x10,
-					label: "Buy",
-				}, {
-					value: 0x20,
-					label: "Group",
-				}, {
-					value: 0x0F,
-					label: "Normal",
-				}, {
-					value: 0x3F,
-					label: "All",
-				}],
-			}],
-		}, {
-			name	: "group",
-			type	: WinConfig.FieldType.GROUP,
-			fields	: [{
-				name	: "punct",
-				label	: "Thousand separator",
-				description: "Character used to separate thousands.",
-				help	: true,
-			}, {
-				name	: "buyMax",
-				label	: "Buy maximum",
-				type	: WinConfig.FieldType.CHECK,
-				format	: WinConfig.FieldFormat.BOOLEAN,
-				description: "Buys all of the same item at once.",
-				multiple: true,
-				help	: true,
-			}, {
-				name	: "askBuys",
-				label	: "Ask before buying",
-				type	: WinConfig.FieldType.CHECK,
-				format	: WinConfig.FieldFormat.BOOLEAN,
-				description: "Asks before buying more than one of the same item at once.<br />It won't ask if only one item is available.",
-				multiple: true,
-				help	: true,
-			}],
-		}],
-	}),
-	config = win.get("group");
+  var win = new WinConfig({
+      title: "Shop Wizard : Improved Search : Settings",
+      type: WinConfig.WindowType.CUSTOM,
+      default: {
+        group: {
+          punct: ",",
+          buyMax: false,
+          askBuys: true,
+          columns: 0x3d,
+        },
+      },
+      fields: [
+        {
+          name: "settingsHotKey",
+          label: "Settings HotKey",
+          key: "hotkey",
+          callback: function (event, win) {
+            win.open();
+          },
+        },
+        {
+          name: "group",
+          nogroup: true,
+          type: WinConfig.FieldType.GROUP,
+          fields: [
+            {
+              name: "columns",
+              label: "Columns",
+              type: WinConfig.FieldType.CHECK,
+              format: WinConfig.FieldFormat.NUMBER,
+              multiple: true,
+              unique: true,
+              empty: 0,
+              value: [
+                {
+                  value: 0x01,
+                  label: "Owner",
+                },
+                {
+                  value: 0x02,
+                  label: "Item",
+                },
+                {
+                  value: 0x04,
+                  label: "Stock",
+                },
+                {
+                  value: 0x08,
+                  label: "Price",
+                },
+                {
+                  value: 0x10,
+                  label: "Buy",
+                },
+                {
+                  value: 0x20,
+                  label: "Group",
+                },
+                {
+                  value: 0x0f,
+                  label: "Normal",
+                },
+                {
+                  value: 0x3f,
+                  label: "All",
+                },
+              ],
+            },
+          ],
+        },
+        {
+          name: "group",
+          type: WinConfig.FieldType.GROUP,
+          fields: [
+            {
+              name: "punct",
+              label: "Thousand separator",
+              description: "Character used to separate thousands.",
+              help: true,
+            },
+            {
+              name: "buyMax",
+              label: "Buy maximum",
+              type: WinConfig.FieldType.CHECK,
+              format: WinConfig.FieldFormat.BOOLEAN,
+              description: "Buys all of the same item at once.",
+              multiple: true,
+              help: true,
+            },
+            {
+              name: "askBuys",
+              label: "Ask before buying",
+              type: WinConfig.FieldType.CHECK,
+              format: WinConfig.FieldFormat.BOOLEAN,
+              description:
+                "Asks before buying more than one of the same item at once.<br />It won't ask if only one item is available.",
+              multiple: true,
+              help: true,
+            },
+          ],
+        },
+      ],
+    }),
+    config = win.get("group");
 
-	if (config)
-	if (/type=wizard/.test(location.search)) {
-		GM_deleteValue("search");
-	} else {
-		/*
+  if (config)
+    if (/type=wizard/.test(location.search)) {
+      GM_deleteValue("search");
+    } else {
+      /*
 			0x00	normal
 			0x01	bold
 			0x02	link (2)
@@ -159,305 +181,358 @@ GM_addStyle(".winConfig_ShopWizardImprovedSearchSettings .body .fieldName_group 
 			0x40	event handler (3)
 		*/
 
-		var doc = Wizard.convert({
-			doc		: document,
-		}),
-		lang = xpath("string(.//select[@name = 'lang']/option[@selected]/@value)") || "en",
-		msgs = JSON.parse(GM_getResourceText("neopetsMessageJson"))[lang],
-		notFound = [msgs.itemNotFound, msgs.shopIsEmpty],
-		isWhite = true,
-		isWhite2 = false,
-		priceColumnIndex = -1,
-		attrs = [
-			[0x03, "Owner", "Link"],
-			[0x08, doc.search],
-			[0x10, "Stock"],
-			[0x25, "Price"],
-			[0x5A, "$$", "Link", function (e, params) {
-				e.preventDefault();
-				var o = params.item;
+      var doc = Wizard.convert({
+          doc: document,
+        }),
+        lang =
+          xpath("string(.//select[@name = 'lang']/option[@selected]/@value)") ||
+          "en",
+        msgs = JSON.parse(GM_getResourceText("neopetsMessageJson"))[lang],
+        notFound = [msgs.itemNotFound, msgs.shopIsEmpty],
+        isWhite = true,
+        isWhite2 = false,
+        priceColumnIndex = -1,
+        attrs = [
+          [0x03, "Owner", "Link"],
+          [0x08, doc.search],
+          [0x10, "Stock"],
+          [0x25, "Price"],
+          [
+            0x5a,
+            "$$",
+            "Link",
+            function (e, params) {
+              e.preventDefault();
+              var o = params.item;
 
-				Shop.list({
-					link		: o.Link || e.target.href,
-					onsuccess	: function (obj) {
-						(function buyItem (obj, qnty) {
-							if (obj.list.length && qnty) {
-								for (var ai in obj.list) {
-									var i = obj.list[ai];
+              Shop.list({
+                link: o.Link || e.target.href,
+                onsuccess: function (obj) {
+                  (function buyItem(obj, qnty) {
+                    if (obj.list.length && qnty) {
+                      for (var ai in obj.list) {
+                        var i = obj.list[ai];
 
-									if (i.Id == o.Id) {
-										if (-1 == qnty) {
-											qnty = (config.buyMax?i.Quantity:1);
+                        if (i.Id == o.Id) {
+                          if (-1 == qnty) {
+                            qnty = config.buyMax ? i.Quantity : 1;
 
-											if (i.Quantity > 1 && config.askBuys) {
-												qnty = prompt("How many items to buy?", qnty);
-											}
+                            if (i.Quantity > 1 && config.askBuys) {
+                              qnty = prompt("How many items to buy?", qnty);
+                            }
 
-											if (qnty > i.Quantity) {
-												qnty = i.Quantity;
-											}
-										}
+                            if (qnty > i.Quantity) {
+                              qnty = i.Quantity;
+                            }
+                          }
 
-										if (0 < qnty) {
-											if (o.Stock != i.Quantity) {
-												o.Stock = i.Quantity;
+                          if (0 < qnty) {
+                            if (o.Stock != i.Quantity) {
+                              o.Stock = i.Quantity;
 
-												for (var ai in search) {
-													if (search[ai].Link == o.Link) {
-														search[ai].Stock = o.Stock;
+                              for (var ai in search) {
+                                if (search[ai].Link == o.Link) {
+                                  search[ai].Stock = o.Stock;
 
-														if (~priceColumnIndex) {
-															params.row.cells[priceColumnIndex].innerHTML = o.Stock;
-														}
+                                  if (~priceColumnIndex) {
+                                    params.row.cells[
+                                      priceColumnIndex
+                                    ].innerHTML = o.Stock;
+                                  }
 
-														GM_setValue("search", JSON.stringify(search));
+                                  GM_setValue("search", JSON.stringify(search));
 
-														break;
-													}
-												}
-											}
+                                  break;
+                                }
+                              }
+                            }
 
-											obj.onsuccess = function (obj) {
-												if (--qnty) {
-													buyItem(obj, qnty);
-												} else {
-													if (0 <= --o.Stock && (!obj.message || ~notFound.indexOf(obj.message.textContent) && !(o.Stock = 0))) {
-														for (var ai in search) {
-															if (search[ai].Link == o.Link) {
-																search[ai].Stock = o.Stock;
+                            obj.onsuccess = function (obj) {
+                              if (--qnty) {
+                                buyItem(obj, qnty);
+                              } else {
+                                if (
+                                  0 <= --o.Stock &&
+                                  (!obj.message ||
+                                    (~notFound.indexOf(
+                                      obj.message.textContent
+                                    ) &&
+                                      !(o.Stock = 0)))
+                                ) {
+                                  for (var ai in search) {
+                                    if (search[ai].Link == o.Link) {
+                                      search[ai].Stock = o.Stock;
 
-																if (~priceColumnIndex) {
-																	params.row.cells[priceColumnIndex].innerHTML = o.Stock;
-																}
+                                      if (~priceColumnIndex) {
+                                        params.row.cells[
+                                          priceColumnIndex
+                                        ].innerHTML = o.Stock;
+                                      }
 
-																GM_setValue("search", JSON.stringify(search));
+                                      GM_setValue(
+                                        "search",
+                                        JSON.stringify(search)
+                                      );
 
-																break;
-															}
-														}
+                                      break;
+                                    }
+                                  }
 
-														if (!o.Stock) {
-															for (var ai in params.row.cells) {
-																var cell = params.row.cells[ai];
-																cell.innerHTML = "<del>" + cell.innerHTML + "</del>";
-															}
-														}
-													}
+                                  if (!o.Stock) {
+                                    for (var ai in params.row.cells) {
+                                      var cell = params.row.cells[ai];
+                                      cell.innerHTML =
+                                        "<del>" + cell.innerHTML + "</del>";
+                                    }
+                                  }
+                                }
 
-													alert("Item(s) bought successfully!");
-												}
-											}
-											obj.onerror = function (obj) {
-												alert(obj.message.textContent);
-											};
-											obj.link = i.Link;
+                                alert("Item(s) bought successfully!");
+                              }
+                            };
+                            obj.onerror = function (obj) {
+                              alert(obj.message.textContent);
+                            };
+                            obj.link = i.Link;
 
-											GM_log("[" + qnty + "] Buying " + obj.referer + "...");
-											setTimeout(Shop.buy, 1000, obj);
-										}
+                            GM_log(
+                              "[" + qnty + "] Buying " + obj.referer + "..."
+                            );
+                            setTimeout(Shop.buy, 1000, obj);
+                          }
 
-										return;
-									}
-								}
-							}
+                          return;
+                        }
+                      }
+                    }
 
-							if (obj.message) {
-								if (0 < o.Stock && ~notFound.indexOf(obj.message.textContent)) {
-									o.Stock = 0;
+                    if (obj.message) {
+                      if (
+                        0 < o.Stock &&
+                        ~notFound.indexOf(obj.message.textContent)
+                      ) {
+                        o.Stock = 0;
 
-									for (var ai in search) {
-										if (search[ai].Link == o.Link) {
-											params.row.cells[2].innerHTML = search[ai].Stock = o.Stock;
+                        for (var ai in search) {
+                          if (search[ai].Link == o.Link) {
+                            params.row.cells[2].innerHTML = search[ai].Stock =
+                              o.Stock;
 
-											GM_setValue("search", JSON.stringify(search));
+                            GM_setValue("search", JSON.stringify(search));
 
-											break;
-										}
-									}
+                            break;
+                          }
+                        }
 
-									for (var ai in params.row.cells) {
-										var cell = params.row.cells[ai];
-										cell.innerHTML = "<del>" + cell.innerHTML + "</del>";
-									}
-								}
+                        for (var ai in params.row.cells) {
+                          var cell = params.row.cells[ai];
+                          cell.innerHTML = "<del>" + cell.innerHTML + "</del>";
+                        }
+                      }
 
-								alert(obj.message.textContent);
-							} else {
-								GM_log(obj.response.text);
+                      alert(obj.message.textContent);
+                    } else {
+                      GM_log(obj.response.text);
 
-								alert("Unknown error while listing items.");
-							}
-						}(obj, -1));
-					}
-				});
-			}],
-			[0x10, "Group"],
-		],
-		search = JSON.parse(GM_getValue("search", "[]")),
-		updateAttrs = function (obj) {
-			for (var bi in attrs) {
-				if ((Math.pow(2, bi) & config.columns) && obj.index <= bi) {
-					(function (attr) {
-						var cell = obj.row.insertCell(-1),
-						x = (attr[0] & 0x08?attr[1]:obj.item[attr[1]]);
-						cell.setAttribute("bgcolor", obj.bgcolor);
+                      alert("Unknown error while listing items.");
+                    }
+                  })(obj, -1);
+                },
+              });
+            },
+          ],
+          [0x10, "Group"],
+        ],
+        search = JSON.parse(GM_getValue("search", "[]")),
+        updateAttrs = function (obj) {
+          for (var bi in attrs) {
+            if (Math.pow(2, bi) & config.columns && obj.index <= bi) {
+              (function (attr) {
+                var cell = obj.row.insertCell(-1),
+                  x = attr[0] & 0x08 ? attr[1] : obj.item[attr[1]];
+                cell.setAttribute("bgcolor", obj.bgcolor);
 
-						if (attr[0] & 0x10) {
-							cell.setAttribute("align", "center");
-						} else if (attr[0] & 0x20) {
-							cell.setAttribute("align", "right");
-						}
+                if (attr[0] & 0x10) {
+                  cell.setAttribute("align", "center");
+                } else if (attr[0] & 0x20) {
+                  cell.setAttribute("align", "right");
+                }
 
-						if (attr[0] & 0x04) {	// NP
-							x = ("" + x).replace(/\d(?=(?:\d{3})+(?:\D|$))/g, "$&" + config.punct) + ' NP';
-						}
-						if (attr[0] & 0x01) {	// bold
-							x = '<b>' + x + '</b>';
-						}
-						if (attr[0] & 0x02) {	// link
-							x = '<a href="' + obj.item[attr[2]] + '">' + x + '</a>';
-						}
-						if (!obj.item.Stock) {
-							x = '<del>' + x + '</del>';
-						}
-						cell.innerHTML = x;
-						if (attr[0] & 0x40) {
-							cell.firstChild.addEventListener("click", function (e) {
-								attr[3](e, obj);
-							});
-						}
-					}(attrs[bi]));
-				}
-			}
-		},
-		table = xpath(".//td[@class = 'content']/div/table[.//tr[1][td[@class = 'contentModuleHeaderAlt']]][position() = last()]")[0];
-		
-		if (0x04 & config.columns) {
-			for (var ai = 3;ai--;) {
-				priceColumnIndex += !!(Math.pow(2, ai) & config.columns);
-			}
-		}
+                if (attr[0] & 0x04) {
+                  // NP
+                  x =
+                    ("" + x).replace(
+                      /\d(?=(?:\d{3})+(?:\D|$))/g,
+                      "$&" + config.punct
+                    ) + " NP";
+                }
+                if (attr[0] & 0x01) {
+                  // bold
+                  x = "<b>" + x + "</b>";
+                }
+                if (attr[0] & 0x02) {
+                  // link
+                  x = '<a href="' + obj.item[attr[2]] + '">' + x + "</a>";
+                }
+                if (!obj.item.Stock) {
+                  x = "<del>" + x + "</del>";
+                }
+                cell.innerHTML = x;
+                if (attr[0] & 0x40) {
+                  cell.firstChild.addEventListener("click", function (e) {
+                    attr[3](e, obj);
+                  });
+                }
+              })(attrs[bi]);
+            }
+          }
+        },
+        table = xpath(
+          ".//td[@class = 'content']/div/table[.//tr[1][td[@class = 'contentModuleHeaderAlt']]][position() = last()]"
+        )[0];
 
-		if (!table) {
-			var t = document.createElement("div"),
-			anchor = xpath(".//td[@class = 'content']/div/table[1]/following-sibling::br[2]")[0];
-			t.innerHTML = '<table width="600" cellspacing="0" cellpadding="3" border="0" align="center"><tbody><tr><td class="contentModuleHeaderAlt"><b>Shop Owner</b></td><td class="contentModuleHeaderAlt"><b>Item</b></td><td width="40" class="contentModuleHeaderAlt"><b>Stock</b></td><td width="80" class="contentModuleHeaderAlt"><div align="right"><b>Price</b></div></td></tr></tbody></table>';
+      if (0x04 & config.columns) {
+        for (var ai = 3; ai--; ) {
+          priceColumnIndex += !!(Math.pow(2, ai) & config.columns);
+        }
+      }
 
-			isWhite = false;
-			table = anchor.parentNode.insertBefore(t.firstChild, anchor);
-		}
+      if (!table) {
+        var t = document.createElement("div"),
+          anchor = xpath(
+            ".//td[@class = 'content']/div/table[1]/following-sibling::br[2]"
+          )[0];
+        t.innerHTML =
+          '<table width="600" cellspacing="0" cellpadding="3" border="0" align="center"><tbody><tr><td class="contentModuleHeaderAlt"><b>Shop Owner</b></td><td class="contentModuleHeaderAlt"><b>Item</b></td><td width="40" class="contentModuleHeaderAlt"><b>Stock</b></td><td width="80" class="contentModuleHeaderAlt"><div align="right"><b>Price</b></div></td></tr></tbody></table>';
 
-		var hh = ["Buy", "Group"];
-		for (var ai in hh) {
-			var h = table.rows[0].insertCell(-1);
-			h.setAttribute("class", "contentModuleHeaderAlt");
-			h.setAttribute("style", "text-align: center");
-			h.innerHTML = "<b>" + hh[ai] + "</b>";
-		}
+        isWhite = false;
+        table = anchor.parentNode.insertBefore(t.firstChild, anchor);
+      }
 
-		for (var ai = table.rows.length;ai--;)
-		for (var bi = table.rows[ai].cells.length;bi--;) {
-			if (!(Math.pow(2, bi) & config.columns)) {
-				table.rows[ai].deleteCell(bi);
-			}
-		}
+      var hh = ["Buy", "Group"];
+      for (var ai in hh) {
+        var h = table.rows[0].insertCell(-1);
+        h.setAttribute("class", "contentModuleHeaderAlt");
+        h.setAttribute("style", "text-align: center");
+        h.innerHTML = "<b>" + hh[ai] + "</b>";
+      }
 
-		if (doc.list.length) {
-			var currentGroup = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_".indexOf(doc.list[0].Owner[0].toUpperCase()) % 13,
-			users = [];
-			
-			a:for (var ai in doc.list) {
-				doc.list[ai].Group = currentGroup;
+      for (var ai = table.rows.length; ai--; )
+        for (var bi = table.rows[ai].cells.length; bi--; ) {
+          if (!(Math.pow(2, bi) & config.columns)) {
+            table.rows[ai].deleteCell(bi);
+          }
+        }
 
-				for (var bi in search) {
-					if (search[bi].Owner == doc.list[ai].Owner && search[bi].Id == doc.list[ai].Id) {
-						users.push(bi);
+      if (doc.list.length) {
+        var currentGroup =
+            "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_".indexOf(
+              doc.list[0].Owner[0].toUpperCase()
+            ) % 13,
+          users = [];
 
-						continue a;
-					}
-				}
+        a: for (var ai in doc.list) {
+          doc.list[ai].Group = currentGroup;
 
-				doc.list[ai].Search = search.push(JSON.parse(JSON.stringify(doc.list[ai]))) - 1;
-				users.push(doc.list[ai].Search.toString());
-			}
+          for (var bi in search) {
+            if (
+              search[bi].Owner == doc.list[ai].Owner &&
+              search[bi].Id == doc.list[ai].Id
+            ) {
+              users.push(bi);
 
-			// removes all shops that used to be in the list but isn't anymore (item bought or removed)
-			for (var ai in search) {
-				if (currentGroup == search[ai].Group && !~users.indexOf(ai)) {
-					search[ai].Stock = 0;
-				}
-			}
+              continue a;
+            }
+          }
 
-			console.log("Group", currentGroup);
+          doc.list[ai].Search =
+            search.push(JSON.parse(JSON.stringify(doc.list[ai]))) - 1;
+          users.push(doc.list[ai].Search.toString());
+        }
 
-			search.sort(function (a, b) {
-				if (a.Id == b.Id) {
-					if (a.Price == b.Price) {
-						if (a.Stock == b.Stock) {
-							return (a.Owner > b.Owner?1:-1);
-						} else {
-							return (a.Stock > b.Stock?1:-1);
-						}
-					} else {
-						return (a.Price > b.Price?-1:1);
-					}
-				} else {
-					return (a.Item > b.Item?-1:1);
-				}
-			});
+        // removes all shops that used to be in the list but isn't anymore (item bought or removed)
+        for (var ai in search) {
+          if (currentGroup == search[ai].Group && !~users.indexOf(ai)) {
+            search[ai].Stock = 0;
+          }
+        }
 
-			GM_setValue("search", JSON.stringify(search));
+        console.log("Group", currentGroup);
 
-			var list = xpath(".//tbody/tr[position() > 1]", table);
-			for (var ai in doc.list) {
-				updateAttrs({
-					index	: 4,
-					item	: doc.list[ai],
-					row		: list[ai],
-					bgcolor	: (isWhite2?"#FFFFFF":"#F6F6F6"),
-				});
-				
-				isWhite2 = !isWhite2;
-			}
-		}
+        search.sort(function (a, b) {
+          if (a.Id == b.Id) {
+            if (a.Price == b.Price) {
+              if (a.Stock == b.Stock) {
+                return a.Owner > b.Owner ? 1 : -1;
+              } else {
+                return a.Stock > b.Stock ? 1 : -1;
+              }
+            } else {
+              return a.Price > b.Price ? -1 : 1;
+            }
+          } else {
+            return a.Item > b.Item ? -1 : 1;
+          }
+        });
 
-		var fsearch = search.filter(function (element, index, array) {
-			if (element.Item == doc.search && (!doc.list.length || element.Price <= doc.list[0].Price)) {
-				for (var ai in doc.list) {
-					var i = doc.list[ai];
+        GM_setValue("search", JSON.stringify(search));
 
-					if (i.Owner == element.Owner && i.Id == element.Id) {
-						return false;
-					}
-				}
+        var list = xpath(".//tbody/tr[position() > 1]", table);
+        for (var ai in doc.list) {
+          updateAttrs({
+            index: 4,
+            item: doc.list[ai],
+            row: list[ai],
+            bgcolor: isWhite2 ? "#FFFFFF" : "#F6F6F6",
+          });
 
-				return true;
-			}
+          isWhite2 = !isWhite2;
+        }
+      }
 
-			return false;
-		});
+      var fsearch = search.filter(function (element, index, array) {
+        if (
+          element.Item == doc.search &&
+          (!doc.list.length || element.Price <= doc.list[0].Price)
+        ) {
+          for (var ai in doc.list) {
+            var i = doc.list[ai];
 
-		b:for (var ai in search) {
-			var element = search[ai];
+            if (i.Owner == element.Owner && i.Id == element.Id) {
+              return false;
+            }
+          }
 
-			if (element.Item == doc.search && (!doc.list.length || element.Price <= doc.list[0].Price)) {
-				for (var ai in doc.list) {
-					var i = doc.list[ai];
+          return true;
+        }
 
-					if (i.Owner == element.Owner && i.Id == element.Id) {
-						continue b;
-					}
-				}
+        return false;
+      });
 
-				updateAttrs({
-					index	: 0,
-					item	: element,
-					row		: table.insertRow(1),
-					bgcolor	: (isWhite?"#FFFFFF":"#FDEDFD"),
-				});
+      b: for (var ai in search) {
+        var element = search[ai];
 
-				isWhite = !isWhite;
-			}
-		}
-	}
-}());
+        if (
+          element.Item == doc.search &&
+          (!doc.list.length || element.Price <= doc.list[0].Price)
+        ) {
+          for (var ai in doc.list) {
+            var i = doc.list[ai];
+
+            if (i.Owner == element.Owner && i.Id == element.Id) {
+              continue b;
+            }
+          }
+
+          updateAttrs({
+            index: 0,
+            item: element,
+            row: table.insertRow(1),
+            bgcolor: isWhite ? "#FFFFFF" : "#FDEDFD",
+          });
+
+          isWhite = !isWhite;
+        }
+      }
+    }
+})();

@@ -1,16 +1,16 @@
 // ==UserScript==
 // @name           Neopets : The Snowager
-// @namespace      http://gm.wesley.eti.br/neopets
+// @namespace      https://gm.wesley.eti.br/neopets
 // @description    Plays The Snowager
 // @author         w35l3y
 // @email          w35l3y@brasnet.org
-// @copyright      2011+, w35l3y (http://gm.wesley.eti.br)
+// @copyright      2011+, w35l3y (https://gm.wesley.eti.br)
 // @license        GNU GPL
-// @homepage       http://gm.wesley.eti.br
+// @homepage       https://gm.wesley.eti.br
 // @version        2.0.0.0
 // @language       en
-// @include        http://www.neopets.com/winter/snowager.phtml
-// @include        http://www.neopets.com/winter/snowager2.phtml
+// @include        https://www.neopets.com/winter/snowager.phtml
+// @include        https://www.neopets.com/winter/snowager2.phtml
 // @grant          GM_log
 // @grant          GM_addStyle
 // @grant          GM_getValue
@@ -19,7 +19,7 @@
 // @grant          GM_deleteValue
 // @grant          GM_xmlhttpRequest
 // @grant          GM_getResourceText
-// @icon           http://gm.wesley.eti.br/icon.php?desc=35213
+// @icon           https://gm.wesley.eti.br/icon.php?desc=35213
 // @resource       meta https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page2/35213.user.js
 // @resource       i18n https://github.com/w35l3y/userscripts/raw/master/includes/Includes_I18n/resources/default.json
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
@@ -42,19 +42,20 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 **************************************************************************/
 
 //GM_setValue("interval", "[1000, 1000]");
 
-(function() {	// script scope
-	var interval = JSON.parse(GM_getValue("interval", "[1000, 1000]")),
-	snowager = xpath(".//a[contains(@href, 'snowager2.phtml')]")[0];
+(function () {
+  // script scope
+  var interval = JSON.parse(GM_getValue("interval", "[1000, 1000]")),
+    snowager = xpath(".//a[contains(@href, 'snowager2.phtml')]")[0];
 
-	if (snowager) {
-		setTimeout(function () {
-			location.replace(snowager.href);
-		}, Math.floor(interval[0] + interval[1] * Math.random()));
-	}
+  if (snowager) {
+    setTimeout(function () {
+      location.replace(snowager.href);
+    }, Math.floor(interval[0] + interval[1] * Math.random()));
+  }
 })();

@@ -1,12 +1,12 @@
 // ==UserScript==
 // @name           Includes : ShowMyCode
-// @namespace      http://gm.wesley.eti.br/include
+// @namespace      https://gm.wesley.eti.br/include
 // @description    ShowMyCode Function
 // @author         w35l3y
 // @email          w35l3y@brasnet.org
-// @copyright      2012+, w35l3y (http://gm.wesley.eti.br)
+// @copyright      2012+, w35l3y (https://gm.wesley.eti.br)
 // @license        GNU GPL
-// @homepage       http://gm.wesley.eti.br
+// @homepage       https://gm.wesley.eti.br
 // @version        2.2.0
 // @language       en
 // @include        nowhere
@@ -35,70 +35,71 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 **************************************************************************/
 
 ShowMyCode = function () {};
 
 ShowMyCode.execute = function (params) {
-	function x (_params) {
-		HttpRequest.open({
-			"method"	: "post",
-			"url"		: "http://www.showmycode.com/",
-			"headers"	: {
-				"Referer" : "http://www.showmycode.com/"
-			},
-			"onsuccess"	: function (xhr) {
-				_params.response = xhr.response;
+  function x(_params) {
+    HttpRequest.open({
+      method: "post",
+      url: "https://www.showmycode.com/",
+      headers: {
+        Referer: "https://www.showmycode.com/",
+      },
+      onsuccess: function (xhr) {
+        _params.response = xhr.response;
 
-				if (/Wrong captcha/i.test(xhr.response.text)) {
-					_params.error = 4;
+        if (/Wrong captcha/i.test(xhr.response.text)) {
+          _params.error = 4;
 
-					_params.onsuccess(_params);
-				} else if (/Decoding engine is died/i.test(xhr.response.text)) {
-					_params.error = 2;
+          _params.onsuccess(_params);
+        } else if (/Decoding engine is died/i.test(xhr.response.text)) {
+          _params.error = 2;
 
-					_params.onsuccess(_params);
-				} else {
-					HttpRequest.open({
-						"method"	: "get",
-						"url"		: "http://www.showmycode.com/?download",
-						"headers"	: {
-							"Referer" : "http://www.showmycode.com/"
-						},
-						"onsuccess"	: function (xhr) {
-							_params.response = xhr.response;
-							_params.error = (xhr.response.text.length == 0?1:0);
+          _params.onsuccess(_params);
+        } else {
+          HttpRequest.open({
+            method: "get",
+            url: "https://www.showmycode.com/?download",
+            headers: {
+              Referer: "https://www.showmycode.com/",
+            },
+            onsuccess: function (xhr) {
+              _params.response = xhr.response;
+              _params.error = xhr.response.text.length == 0 ? 1 : 0;
 
-							_params.onsuccess(_params);
-						}
-					}).send();
-				}
-			}
-		}).send({
-			"MAX_FILE_SIZE" : "2097152",
-			"decodingurl" : _params.url,
-			"upload"	: "",
-			"captcha" : _params.captcha
-			//"showmycodebutton" : "Show My Code!"
-		});
-	}
-	
-	if (params.captcha) {
-		x(params);
-	} else if (typeof(WinConfig) != "undefined") {
-		WinConfig.init({
-			"title" : "Captcha",
-			"type" : WinConfig.WindowType.PROMPT,
-			"description" : "<center><img src='http://www.showmycode.com/?c' width='30' height='22' /><br /><br />Enter the code from the image above</center>",
-			"load" : function(cfg) {
-				params.captcha = cfg.text.toUpperCase();
-				
-				x(params);
-			}
-		});
-	} else {
-		throw "Missing parameter 'captcha'";
-	}
+              _params.onsuccess(_params);
+            },
+          }).send();
+        }
+      },
+    }).send({
+      MAX_FILE_SIZE: "2097152",
+      decodingurl: _params.url,
+      upload: "",
+      captcha: _params.captcha,
+      //"showmycodebutton" : "Show My Code!"
+    });
+  }
+
+  if (params.captcha) {
+    x(params);
+  } else if (typeof WinConfig != "undefined") {
+    WinConfig.init({
+      title: "Captcha",
+      type: WinConfig.WindowType.PROMPT,
+      description:
+        "<center><img src='https://www.showmycode.com/?c' width='30' height='22' /><br /><br />Enter the code from the image above</center>",
+      load: function (cfg) {
+        params.captcha = cfg.text.toUpperCase();
+
+        x(params);
+      },
+    });
+  } else {
+    throw "Missing parameter 'captcha'";
+  }
 };

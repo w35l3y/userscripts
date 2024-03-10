@@ -1,23 +1,23 @@
 // ==UserScript==
 // @name           Wikipedia : Grey Lady
-// @namespace      http://gm.wesley.eti.br/wikipedia
+// @namespace      https://gm.wesley.eti.br/wikipedia
 // @author         w35l3y
 // @email          w35l3y@brasnet.org
 // @version        1.1.1
 // @copyright      w35l3y 2008
 // @license        GNU GPL
-// @homepage       http://www.wesley.eti.br
-// @include        http://*.wikibooks.tld/*
-// @include        http://*.wikipedia.tld/*
-// @include        http://*.wikimedia.tld/*
-// @include        http://*.wikiquote.tld/*
-// @include        http://*.wikisource.tld/*
-// @include        http://*.wikiversity.tld/*
-// @include        http://*.wiktionary.tld/*
+// @homepage       https://www.wesley.eti.br
+// @include        https://*.wikibooks.tld/*
+// @include        https://*.wikipedia.tld/*
+// @include        https://*.wikimedia.tld/*
+// @include        https://*.wikiquote.tld/*
+// @include        https://*.wikisource.tld/*
+// @include        https://*.wikiversity.tld/*
+// @include        https://*.wiktionary.tld/*
 // @grant          GM_addStyle
 // @grant          GM_getResourceText
-// @icon           http://gm.wesley.eti.br/icon.php?desc=36274
-// @resource       css http://userstyles.org/styles/1365.css?v=1
+// @icon           https://gm.wesley.eti.br/icon.php?desc=36274
+// @resource       css https://userstyles.org/styles/1365.css?v=1
 // ==/UserScript==
 
 /**************************************************************************
@@ -26,7 +26,7 @@
 
     This script is an adaption of "Wikipedia - Grey Lady" made by chochem
 
-    Based on http://userstyles.org/styles/1365 (by chochem)
+    Based on https://userstyles.org/styles/1365 (by chochem)
 
 ***************************************************************************
 
@@ -41,8 +41,8 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 **************************************************************************/
 
-GM_addStyle(GM_getResourceText('css'));
+GM_addStyle(GM_getResourceText("css"));

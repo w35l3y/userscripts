@@ -1,12 +1,12 @@
 // ==UserScript==
 // @name        Includes : Neopets : Wizard
-// @namespace   http://gm.wesley.eti.br
+// @namespace   https://gm.wesley.eti.br
 // @description Wizard Function
 // @author      w35l3y
 // @email       w35l3y@brasnet.org
-// @copyright   2015+, w35l3y (http://gm.wesley.eti.br)
+// @copyright   2015+, w35l3y (https://gm.wesley.eti.br)
 // @license     GNU GPL
-// @homepage    http://gm.wesley.eti.br
+// @homepage    https://gm.wesley.eti.br
 // @version     1.0.1
 // @language    en
 // @include     nowhere
@@ -32,70 +32,81 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 **************************************************************************/
 
 var Wizard = function (page) {
-	var getGroup = function (v) {
-		return "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_".indexOf(v[0].toUpperCase()) % 13;
-	},
-	_post = function (data, cb) {
-		page.request({
-			method	: "post",
-			action	: "http://www.neopets.com/market.phtml",
-			referer	: "http://www.neopets.com/market.phtml?type=wizard",
-			data	: data,
-			delay	: true,
-			callback: function (obj) {
-				obj.items = xpath(".//td[@class = 'content']/div/table/tbody/tr/td[1]/a[contains(@href, '&buy_obj_info_id=')]", obj.body).map(function (item, index) {
-					var row = item.parentNode.parentNode.cells,
-					n = function (v) {
-						return parseInt(v.replace(/\D+/g, ""), 10);
-					},
-					owner = item.textContent.trim(),
-					link = item.href;
+  var getGroup = function (v) {
+      return (
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_".indexOf(v[0].toUpperCase()) % 13
+      );
+    },
+    _post = function (data, cb) {
+      page.request({
+        method: "post",
+        action: "https://www.neopets.com/market.phtml",
+        referer: "https://www.neopets.com/market.phtml?type=wizard",
+        data: data,
+        delay: true,
+        callback: function (obj) {
+          obj.items = xpath(
+            ".//td[@class = 'content']/div/table/tbody/tr/td[1]/a[contains(@href, '&buy_obj_info_id=')]",
+            obj.body
+          ).map(function (item, index) {
+            var row = item.parentNode.parentNode.cells,
+              n = function (v) {
+                return parseInt(v.replace(/\D+/g, ""), 10);
+              },
+              owner = item.textContent.trim(),
+              link = item.href;
 
-					return {
-						index	: index,
-						id		: n(link.match(/obj_info_id=(\d+)/)[1]),
-						name	: row[1].textContent.trim(),
-						link	: (link.indexOf("http://")?"http://www.neopets.com" + ("/" == link[0]?"":"/"):"") + link,
-						stock	: n(row[2].textContent),
-						price	: n(row[3].textContent),
-						owner	: owner,
-						group	: getGroup(owner)
-					};
-				});
+            return {
+              index: index,
+              id: n(link.match(/obj_info_id=(\d+)/)[1]),
+              name: row[1].textContent.trim(),
+              link:
+                (link.indexOf("https://")
+                  ? "https://www.neopets.com" + ("/" == link[0] ? "" : "/")
+                  : "") + link,
+              stock: n(row[2].textContent),
+              price: n(row[3].textContent),
+              owner: owner,
+              group: getGroup(owner),
+            };
+          });
 
-				obj.item = {
-					name	: xpath("string(.//td[@class = 'content']/div//td[a/img]/b/span/text())", obj.body),
-					group	: (obj.items.length?obj.items[0].group:undefined)
-				};
+          obj.item = {
+            name: xpath(
+              "string(.//td[@class = 'content']/div//td[a/img]/b/span/text())",
+              obj.body
+            ),
+            group: obj.items.length ? obj.items[0].group : undefined,
+          };
 
-				cb(obj);
-			}
-		});
-	};
+          cb(obj);
+        },
+      });
+    };
 
-	this.search = function (obj) {
-		var data = {
-			table		: "shop",
-			criteria	: "exact",
-			min_price	: "0",
-			max_price	: "99999"
-		};
+  this.search = function (obj) {
+    var data = {
+      table: "shop",
+      criteria: "exact",
+      min_price: "0",
+      max_price: "99999",
+    };
 
-		if ("data" in obj) {
-			for (var d in obj.data) {
-				data[d] = obj.data[d];
-			}
-		}
+    if ("data" in obj) {
+      for (var d in obj.data) {
+        data[d] = obj.data[d];
+      }
+    }
 
-		data.type = "process_wizard";
-		data.feedset = "0";
-		data.shopwizard = obj.text;
+    data.type = "process_wizard";
+    data.feedset = "0";
+    data.shopwizard = obj.text;
 
-		_post(data, obj.callback);
-	};
+    _post(data, obj.callback);
+  };
 };

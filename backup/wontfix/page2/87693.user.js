@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name           Examples : Self Reference
-// @namespace      http://gm.wesley.eti.br/examples
-// @include        http://userscripts-mirror.org/scripts/review/87693
+// @namespace      https://gm.wesley.eti.br/examples
+// @include        https://userscripts-mirror.org/scripts/review/87693
 // @grant          GM_log
 // @grant          GM_addStyle
 // @grant          GM_getValue
@@ -10,7 +10,7 @@
 // @grant          GM_deleteValue
 // @grant          GM_xmlhttpRequest
 // @grant          GM_getResourceText
-// @icon           http://gm.wesley.eti.br/icon.php?desc=87693
+// @icon           https://gm.wesley.eti.br/icon.php?desc=87693
 // @resource       i18n https://github.com/w35l3y/userscripts/raw/master/includes/Includes_I18n/resources/default.json
 // @resource       meta https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page2/87693.user.js
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js

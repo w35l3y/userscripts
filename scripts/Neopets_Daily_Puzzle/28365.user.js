@@ -1,23 +1,23 @@
 // ==UserScript==
 // @name           Neopets : Daily Puzzle
-// @namespace      http://gm.wesley.eti.br/neopets
+// @namespace      https://gm.wesley.eti.br/neopets
 // @description    Selects the correct option to Daily Puzzle
 // @author         w35l3y
 // @email          w35l3y@brasnet.org
-// @copyright      2013+, w35l3y (http://gm.wesley.eti.br)
+// @copyright      2013+, w35l3y (https://gm.wesley.eti.br)
 // @license        GNU GPL
-// @homepage       http://gm.wesley.eti.br
+// @homepage       https://gm.wesley.eti.br
 // @version        4.0.5
 // @language       en
-// @include        http://www.neopets.com/community/
-// @include        http://www.neopets.com/community/index.phtml
+// @include        https://www.neopets.com/community/
+// @include        https://www.neopets.com/community/index.phtml
 // @grant          GM_addStyle
 // @grant          GM_getValue
 // @grant          GM_setValue
 // @grant          GM_deleteValue
 // @grant          GM_xmlhttpRequest
 // @grant          GM_getResourceText
-// @icon           http://gm.wesley.eti.br/icon.php?desc=28365
+// @icon           https://gm.wesley.eti.br/icon.php?desc=28365
 // @connect        www.jellyneo.net
 // @connect        www.sunnyneo.com
 // @connect        github.com
@@ -33,9 +33,9 @@
 // @require        ../../includes/Includes_I18n/87940.user.js
 // @require        ../../includes/Includes_Updater/87942.user.js
 // @cfu:version    version
-// @contributor    jellyneo (http://www.jellyneo.net/?go=dailypuzzle)
-// @contributor    sunnyneo (http://www.sunnyneo.com/dailypuzzle.php)
-// @history        4.0.0 Added <a href="http://userscripts.org/guides/773">Includes Checker</a>
+// @contributor    jellyneo (https://www.jellyneo.net/?go=dailypuzzle)
+// @contributor    sunnyneo (https://www.sunnyneo.com/dailypuzzle.php)
+// @history        4.0.0 Added <a href="https://userscripts.org/guides/773">Includes Checker</a>
 // @history        3.1.0 Changed the order of @require#56489
 // @history        3.0.0.0 Updated @require#87942
 // @history        2.0.0.1 Added new source (sunnyneo)
@@ -54,56 +54,74 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 **************************************************************************/
 
-(function () {	// script scope
-    "use strict";
+(function () {
+  // script scope
+  "use strict";
 
-    var interval = JSON.parse(GM_getValue("interval",	"[2000, 1000]")),
-	language = xpath("string(.//select[@name = 'lang']/option[@selected]/@value)") || "en",
-	sources = [
-		["http://www.jellyneo.net/?go=dailypuzzle", "string(id('contentshell')/div/center/div/span/text())"],
-		["http://www.sunnyneo.com/dailypuzzle.php", "string(.//table//table//table/tbody/tr[3]/td[2]/b[2]/text())"],
-	];
-	(function recursive (list) {
-		if (list.length) {
-			var source = list.shift();
+  var interval = JSON.parse(GM_getValue("interval", "[2000, 1000]")),
+    language =
+      xpath("string(.//select[@name = 'lang']/option[@selected]/@value)") ||
+      "en",
+    sources = [
+      [
+        "https://www.jellyneo.net/?go=dailypuzzle",
+        "string(id('contentshell')/div/center/div/span/text())",
+      ],
+      [
+        "https://www.sunnyneo.com/dailypuzzle.php",
+        "string(.//table//table//table/tbody/tr[3]/td[2]/b[2]/text())",
+      ],
+    ];
+  (function recursive(list) {
+    if (list.length) {
+      var source = list.shift();
 
-			HttpRequest.open({
-				"method" : "get",
-				"url" : source[0],
-				"onsuccess" : function (xhr) {
-					var answer = xpath(source[1], xhr.response.xml);
+      HttpRequest.open({
+        method: "get",
+        url: source[0],
+        onsuccess: function (xhr) {
+          var answer = xpath(source[1], xhr.response.xml);
 
-					if (answer) {
-						Translate.execute(answer, "en", language, function (result) {
-							if (!xpath(".//form[input[@name = 'trivia_date']]/select[@name = 'trivia_response']/option[position() > 1]").some(function (option) {
-								if (~[result.translation.toLowerCase(), answer.trim().toLowerCase()].indexOf(option.textContent.toLowerCase())) {
-									option.selected = true;
+          if (answer) {
+            Translate.execute(answer, "en", language, function (result) {
+              if (
+                !xpath(
+                  ".//form[input[@name = 'trivia_date']]/select[@name = 'trivia_response']/option[position() > 1]"
+                ).some(function (option) {
+                  if (
+                    ~[
+                      result.translation.toLowerCase(),
+                      answer.trim().toLowerCase(),
+                    ].indexOf(option.textContent.toLowerCase())
+                  ) {
+                    option.selected = true;
 
-									window.setTimeout(function() {
-                                        var f = option.parentNode.form;
-                                        if (f.submit instanceof Function) f.submit();
-                                        else f.submit.click();
-									}, interval[0] + Math.floor(interval[1] * Math.random()));
+                    window.setTimeout(function () {
+                      var f = option.parentNode.form;
+                      if (f.submit instanceof Function) f.submit();
+                      else f.submit.click();
+                    }, interval[0] + Math.floor(interval[1] * Math.random()));
 
-									return true;
-								}
-								return false;
-							})) {
-								recursive(list);
-							}
-						});
-					} else {
-						recursive(list);
-					}
-				},
-				"onerror" : function (xhr) {
-					recursive(list);
-				}
-			}).send();
-		}
-	}(sources));
-}());
+                    return true;
+                  }
+                  return false;
+                })
+              ) {
+                recursive(list);
+              }
+            });
+          } else {
+            recursive(list);
+          }
+        },
+        onerror: function (xhr) {
+          recursive(list);
+        },
+      }).send();
+    }
+  })(sources);
+})();

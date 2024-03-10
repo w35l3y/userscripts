@@ -1,18 +1,18 @@
 // ==UserScript==
 // @name           Userscripts : code2pre
-// @namespace      http://gm.wesley.eti.br/userscripts
+// @namespace      https://gm.wesley.eti.br/userscripts
 // @description    Converts multi-line <code> blocks into <pre> blocks
 // @author         w35l3y
 // @email          w35l3y@brasnet.org
-// @copyright      2010+, w35l3y (http://gm.wesley.eti.br)
+// @copyright      2010+, w35l3y (https://gm.wesley.eti.br)
 // @license        GNU GPL
-// @homepage       http://gm.wesley.eti.br
+// @homepage       https://gm.wesley.eti.br
 // @version        1.0.0.2
 // @language       en
-// @include        http://userscripts-mirror.org/topics/*
-// @include        http://userscripts-mirror.org/home/comments*
+// @include        https://userscripts-mirror.org/topics/*
+// @include        https://userscripts-mirror.org/home/comments*
 // @grant          GM_log
-// @icon           http://gm.wesley.eti.br/icon.php?desc=71124
+// @icon           https://gm.wesley.eti.br/icon.php?desc=71124
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
 // ==/UserScript==
 
@@ -29,12 +29,17 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 **************************************************************************/
 
-xpath(".//code[not(ancestor::pre or ancestor::code) and (descendant::br or contains(descendant::text(), '\n'))]").forEach(function (code) {
-	var pre = document.createElement("pre");
-	pre.innerHTML = code.innerHTML.replace(/(?:\r?\n(?=<br(?: ?\/)?>)|^\s+|\s+$)/gi, "");
-	code.parentNode.replaceChild(pre, code);
+xpath(
+  ".//code[not(ancestor::pre or ancestor::code) and (descendant::br or contains(descendant::text(), '\n'))]"
+).forEach(function (code) {
+  var pre = document.createElement("pre");
+  pre.innerHTML = code.innerHTML.replace(
+    /(?:\r?\n(?=<br(?: ?\/)?>)|^\s+|\s+$)/gi,
+    ""
+  );
+  code.parentNode.replaceChild(pre, code);
 });

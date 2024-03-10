@@ -1,16 +1,16 @@
 // ==UserScript==
 // @name           Neopets : Training School : Time till course finishes
-// @namespace      http://gm.wesley.eti.br/neopets
+// @namespace      https://gm.wesley.eti.br/neopets
 // @description    Dynamically shows the time till course finishes
 // @author         w35l3y
 // @email          w35l3y@brasnet.org
-// @copyright      2009, w35l3y (http://gm.wesley.eti.br/includes)
+// @copyright      2009, w35l3y (https://gm.wesley.eti.br/includes)
 // @license        GNU GPL
-// @homepage       http://gm.wesley.eti.br/includes
+// @homepage       https://gm.wesley.eti.br/includes
 // @version        1.0.0.2
 // @language       en
-// @include        http://www.neopets.com/pirates/academy.phtml?type=status
-// @include        http://www.neopets.com/island/training.phtml?type=status
+// @include        https://www.neopets.com/pirates/academy.phtml?type=status
+// @include        https://www.neopets.com/island/training.phtml?type=status
 // @grant          GM_log
 // @grant          GM_addStyle
 // @grant          GM_getValue
@@ -19,7 +19,7 @@
 // @grant          GM_deleteValue
 // @grant          GM_xmlhttpRequest
 // @grant          GM_getResourceText
-// @icon           http://gm.wesley.eti.br/icon.php?desc=54605
+// @icon           https://gm.wesley.eti.br/icon.php?desc=54605
 // @require        https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page1/38788.user.js
 // @require        https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page2/54000.user.js
 // @cfu:meta       https://github.com/w35l3y/userscripts/raw/master/backup/wontfix/page3/@cfu:id.user.js
@@ -45,40 +45,65 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 **************************************************************************/
 
-typeof(CheckForUpdate)!='undefined' && CheckForUpdate.init(GM_info.scriptMetaStr, typeof CourseTimeCheckForUpdateCallback == 'function' && CourseTimeCheckForUpdateCallback || undefined);
+typeof CheckForUpdate != "undefined" &&
+  CheckForUpdate.init(
+    GM_info.scriptMetaStr,
+    (typeof CourseTimeCheckForUpdateCallback == "function" &&
+      CourseTimeCheckForUpdateCallback) ||
+      undefined
+  );
 
 if (NeopetsDocument.Username)
-(function()
-{	// script scope
-	var staticTimes = {};
+  (function () {
+    // script scope
+    var staticTimes = {};
 
-	var times = document.evaluate("//td[@class='content']//td[not(form)][2]/b", document, null, XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE, null);
-	var at = times.snapshotLength;
-	for ( var ai = 0 ; ai < at ; ++ai )
-		staticTimes[ai] = times.snapshotItem(ai).textContent.match(/\d+/g);
+    var times = document.evaluate(
+      "//td[@class='content']//td[not(form)][2]/b",
+      document,
+      null,
+      XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE,
+      null
+    );
+    var at = times.snapshotLength;
+    for (var ai = 0; ai < at; ++ai)
+      staticTimes[ai] = times.snapshotItem(ai).textContent.match(/\d+/g);
 
-	if (at)
-	(function recursive()
-	{
-		var elapsed = Math.floor( ( NeopetsDocument.Time(true) - NeopetsDocument.Time(false) ) / 1000 );
+    if (at)
+      (function recursive() {
+        var elapsed = Math.floor(
+          (NeopetsDocument.Time(true) - NeopetsDocument.Time(false)) / 1000
+        );
 
-		for ( var ai = 0 ; ai < at ; ++ai )
-		{
-			var time = times.snapshotItem(ai);
-			var t = time.textContent.split(/\d+/);
+        for (var ai = 0; ai < at; ++ai) {
+          var time = times.snapshotItem(ai);
+          var t = time.textContent.split(/\d+/);
 
-			var s = 3600 * staticTimes[ai][0] + 60 * staticTimes[ai][1] + 1 * staticTimes[ai][2] - elapsed;	// 1 * X = parseInt(X, 10)
+          var s =
+            3600 * staticTimes[ai][0] +
+            60 * staticTimes[ai][1] +
+            1 * staticTimes[ai][2] -
+            elapsed; // 1 * X = parseInt(X, 10)
 
-			time.textContent = ( s >= 0 ?
-				Math.floor(s/3600) + t[1] + Math.floor(s%3600/60) + t[2] + (s%60) :	/*positive*/
-				"- " + Math.abs(Math.ceil(s/3600)) + t[1] + Math.abs(Math.ceil(s%3600/60)) + t[2] + Math.abs(s%60)	/*negative*/
-			) + t[3];
-		}
+          time.textContent =
+            (s >= 0
+              ? Math.floor(s / 3600) +
+                t[1] +
+                Math.floor((s % 3600) / 60) +
+                t[2] +
+                (s % 60) /*positive*/
+              : "- " +
+                Math.abs(Math.ceil(s / 3600)) +
+                t[1] +
+                Math.abs(Math.ceil((s % 3600) / 60)) +
+                t[2] +
+                Math.abs(s % 60)) /*negative*/ + t[3];
+        }
 
-		setTimeout(recursive, 1000);
-	})();
-})();
+        setTimeout(recursive, 1000);
+      })();
+  })();

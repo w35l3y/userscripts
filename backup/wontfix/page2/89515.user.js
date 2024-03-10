@@ -1,17 +1,17 @@
 // ==UserScript==
 // @name           Includes : AspxPostBackRequest
-// @namespace      http://gm.wesley.eti.br/includes
+// @namespace      https://gm.wesley.eti.br/includes
 // @description    AspxPostBackRequest Function
 // @author         w35l3y
 // @email          w35l3y@brasnet.org
-// @copyright      2010+, w35l3y (http://gm.wesley.eti.br)
+// @copyright      2010+, w35l3y (https://gm.wesley.eti.br)
 // @license        GNU GPL
-// @homepage       http://gm.wesley.eti.br
+// @homepage       https://gm.wesley.eti.br
 // @version        1.0.0.0
 // @language       en
 // @include        nowhere
 // @grant          GM_xmlhttpRequest
-// @icon           http://gm.wesley.eti.br/icon.php?desc=89515
+// @icon           https://gm.wesley.eti.br/icon.php?desc=89515
 // @require        https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
 // ==/UserScript==
 
@@ -28,42 +28,39 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 **************************************************************************/
 
-function AspxPostBackRequest(opts)
-{
-	var data = {
-		"__ASYNCPOST" : "true",
-		"__EVENTTARGET" : opts.eventTarget
-	};
-	data[opts.manager] = "|" + opts.eventTarget;
-	
-	for (var key in opts.data)
-	data[key] = opts.data[key];
+function AspxPostBackRequest(opts) {
+  var data = {
+    __ASYNCPOST: "true",
+    __EVENTTARGET: opts.eventTarget,
+  };
+  data[opts.manager] = "|" + opts.eventTarget;
 
-	var strdata = (function(obj)
-	{
-		var output = "";
+  for (var key in opts.data) data[key] = opts.data[key];
 
-		for (var key in obj)
-		output += "&" + encodeURIComponent(key) + "=" + encodeURIComponent(obj[key]);
+  var strdata = (function (obj) {
+    var output = "";
 
-		return output.substr(1);
-	})(data);
+    for (var key in obj)
+      output +=
+        "&" + encodeURIComponent(key) + "=" + encodeURIComponent(obj[key]);
 
-	GM_xmlhttpRequest({
-		"url" : opts.url,
-		"method" : "post",
-		"headers" : {
-			"Content-Type" : "application/x-www-form-urlencoded",
-			"Content-Length" : strdata.length
-		},
-		"data" : strdata,
-		"onload" : function(xhr)
-		{
-			opts.callback(xhr);
-		}
-	});
-};
+    return output.substr(1);
+  })(data);
+
+  GM_xmlhttpRequest({
+    url: opts.url,
+    method: "post",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      "Content-Length": strdata.length,
+    },
+    data: strdata,
+    onload: function (xhr) {
+      opts.callback(xhr);
+    },
+  });
+}

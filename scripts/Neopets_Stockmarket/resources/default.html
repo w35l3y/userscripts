@@ -1,19 +1,98 @@
-<div style="position:relative;">
-	<img src="http://images.neopets.com/help/question_mark.png" style="float: right; cursor: pointer; margin-right: 3px;" id="stockmarketOption" align="absbottom" border="0" height="13" width="13" />
-	<a href="/stockmarket.phtml?type=list&full=true">__TITLE__</a>
-	<div id="stockmarketDiv" style="font-weight:normal;position:absolute;left:14px;top:21px;display:none;">
-		<form id="stockmarketFormOption">
-			<table border="0" cellpadding="3" cellspacing="0" class="sidebarTable activePetInfo" width="120">
-				<thead><tr align="center"><th colspan="2" class="activePet sf" style="background-color:#EFEFEF;padding-bottom:4px;">__OPTIONS__</th></tr></thead>
-				<tbody>
-					<tr><th colspan="2" align="center">__BUYPRICE__</th></tr>
-					<tr><td align="right">__MINIMUM__</td><td><input class="sf" name="buy_min" value="__BUYMIN__" size="3" maxlength="3" /></td></tr>
-					<tr><td align="right">__MAXIMUM__</td><td><input class="sf" name="buy_max" value="__BUYMAX__" size="3" maxlength="3" /></td></tr>
-					<tr><th colspan="2" align="center">__SELLPRICE__</th></tr>
-					<tr><td align="right">__MINIMUM__</td><td><input class="sf" name="sell_min" value="__SELLMIN__" size="3" maxlength="3" /></td></tr>
-					<tr><th colspan="2" align="center"><input class="sf" id="stockmarketCloseOption" type="submit" value="__CLOSE__" /></th></tr>
-				</tbody>
-			</table>
-		</form>
-	</div>
+<div style="position: relative">
+  <img
+    src="https://images.neopets.com/help/question_mark.png"
+    style="float: right; cursor: pointer; margin-right: 3px"
+    id="stockmarketOption"
+    align="absbottom"
+    border="0"
+    height="13"
+    width="13"
+  />
+  <a href="/stockmarket.phtml?type=list&full=true">__TITLE__</a>
+  <div
+    id="stockmarketDiv"
+    style="
+      font-weight: normal;
+      position: absolute;
+      left: 14px;
+      top: 21px;
+      display: none;
+    "
+  >
+    <form id="stockmarketFormOption">
+      <table
+        border="0"
+        cellpadding="3"
+        cellspacing="0"
+        class="sidebarTable activePetInfo"
+        width="120"
+      >
+        <thead>
+          <tr align="center">
+            <th
+              colspan="2"
+              class="activePet sf"
+              style="background-color: #efefef; padding-bottom: 4px"
+            >
+              __OPTIONS__
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th colspan="2" align="center">__BUYPRICE__</th>
+          </tr>
+          <tr>
+            <td align="right">__MINIMUM__</td>
+            <td>
+              <input
+                class="sf"
+                name="buy_min"
+                value="__BUYMIN__"
+                size="3"
+                maxlength="3"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td align="right">__MAXIMUM__</td>
+            <td>
+              <input
+                class="sf"
+                name="buy_max"
+                value="__BUYMAX__"
+                size="3"
+                maxlength="3"
+              />
+            </td>
+          </tr>
+          <tr>
+            <th colspan="2" align="center">__SELLPRICE__</th>
+          </tr>
+          <tr>
+            <td align="right">__MINIMUM__</td>
+            <td>
+              <input
+                class="sf"
+                name="sell_min"
+                value="__SELLMIN__"
+                size="3"
+                maxlength="3"
+              />
+            </td>
+          </tr>
+          <tr>
+            <th colspan="2" align="center">
+              <input
+                class="sf"
+                id="stockmarketCloseOption"
+                type="submit"
+                value="__CLOSE__"
+              />
+            </th>
+          </tr>
+        </tbody>
+      </table>
+    </form>
+  </div>
 </div>

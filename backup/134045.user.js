@@ -1,16 +1,16 @@
 // ==UserScript==
 // @name        Neopets : Neopoints
-// @namespace   http://gm.wesley.eti.br
+// @namespace   https://gm.wesley.eti.br
 // @description Shows the score needed to get 1000 NP
 // @author      w35l3y
 // @email       w35l3y@brasnet.org
-// @copyright   2012+, w35l3y (http://gm.wesley.eti.br)
+// @copyright   2012+, w35l3y (https://gm.wesley.eti.br)
 // @license     GNU GPL
-// @homepage    http://gm.wesley.eti.br
+// @homepage    https://gm.wesley.eti.br
 // @version     1.0.0.3
-// @include     http://www.neopets.com/games/game.phtml?game_id=*
+// @include     https://www.neopets.com/games/game.phtml?game_id=*
 // @grant       GM_log
-// @icon        http://gm.wesley.eti.br/icon.php?desc=134045
+// @icon        https://gm.wesley.eti.br/icon.php?desc=134045
 // @require     https://github.com/w35l3y/userscripts/raw/master/includes/Includes_XPath/63808.user.js
 // ==/UserScript==
 
@@ -27,21 +27,24 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 **************************************************************************/
 
 (function () {
-	var score = xpath("id('gr-ctp-scores')/div[3]/div[2]")[0];
+  var score = xpath("id('gr-ctp-scores')/div[3]/div[2]")[0];
 
-	if (score)
-	score.innerHTML = score.innerHTML.replace(/(\d+(?:[,.]\d+)?)/g, function ($0, $1) {
-		var result = (1000 * parseFloat($1.replace(",", "."))).toFixed();
+  if (score)
+    score.innerHTML = score.innerHTML.replace(
+      /(\d+(?:[,.]\d+)?)/g,
+      function ($0, $1) {
+        var result = (1000 * parseFloat($1.replace(",", "."))).toFixed();
 
-		if (~$1.indexOf(",")) {
-			result = result.replace(".", ",");
-		}
+        if (~$1.indexOf(",")) {
+          result = result.replace(".", ",");
+        }
 
-		return result;
-	});
-}());
+        return result;
+      }
+    );
+})();
