@@ -85,6 +85,9 @@ HttpRequest.open = function (params) {
 				},
 				json: {
 					get	: function () {
+						if (e.responseText === "") {
+							return null
+						}
 						try {
 							return JSON.parse(e.responseText);
 						} catch (e) {
