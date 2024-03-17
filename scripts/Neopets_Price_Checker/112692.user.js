@@ -25,7 +25,6 @@
 // @include        http*://www.neopets.com/faerieland/employ/employment.phtml?*type=jobs*
 // @include        http*://www.neopets.com/objects.phtml?*type=shop*
 // @include        http*://www.neopets.com/island/kitchen.phtml
-// @include        http*://www.neopets.com/island/kitchen2.phtml
 // @include        http*://www.neopets.com/quickstock.phtml*
 // @include        http*://www.neopets.com/halloween/garage.phtml
 // @include        http*://www.neopets.com/winter/igloo2.phtml
@@ -135,13 +134,9 @@
 			/island/fight_training.phtml
 	0x0400	/objects.phtml (type=shop)
 	0x0800  /island/kitchen.phtml
-			/island/kitchen2.phtml
 			/halloween/witchtower.phtml
-			/halloween/witchtower2.phtml
 			/halloween/esophagor.phtml
-			/halloween/esophagor2.phtml
 			/winter/snowfaerie.phtml
-			/winter/snowfaerie2.phtml
 	0x1000	/quickstock.phtml
 	0x8000	/space/coincidence.phtml
 
@@ -786,29 +781,15 @@ GM_addStyle(GM_getResourceText("winConfigPriceCheckerCss"));
       case "/winter/snowfaerie.phtml":
         return {
           key: 0x0800,
-          item: ".//b[preceding-sibling::img[1][contains(@src, '/items/')]]/text()[1]",
+          item: ".//div[@class='ingredient-grid'][1]/div/p[1]/b/text()",
           inline: true,
+          newLayout: true,
         };
       case "/halloween/witchtower.phtml":
         return {
           key: 0x0800,
-          item: ".//b[preceding-sibling::img[1][contains(@src, '/items/')]]/text()[1]",
+          item: ".//div[@class='ingredient-grid'][1]/div/p[1]/b/text()",
           inline: true,
-          ignore: function (doc, items) {
-            return 3 != items.length;
-          },
-        };
-      case "/island/kitchen2.phtml":
-      case "/halloween/esophagor2.phtml":
-      case "/winter/snowfaerie2.phtml":
-        return {
-          key: 0x0800,
-          item: ".//b[preceding-sibling::img[1][contains(@src, '/items/')]]/text()[1]",
-        };
-      case "/halloween/witchtower2.phtml":
-        return {
-          key: 0x0800,
-          item: ".//b[preceding-sibling::img[1][contains(@src, '/items/')]]/text()[1]",
           ignore: function (doc, items) {
             return 3 != items.length;
           },
@@ -840,17 +821,19 @@ GM_addStyle(GM_getResourceText("winConfigPriceCheckerCss"));
     }
 
     var pn = new RegExp(
-        (/^\.\/\/(\w+)/.test(obj.item) && RegExp.$1) || "td",
-        "i"
-      ),
-      _w = function () {
-        return Math.floor(
-          config.interval.min + config.interval.rnd * Math.random()
-        );
-      },
-      doc = document,
-      listButtons = [],
-      buy = function (_this) {
+      (/^\.\/\/(\w+)/.test(obj.item) && RegExp.$1) || "td",
+      "i"
+    );
+    if (obj.newLayout === true) {
+      pn = new RegExp("b", "i");
+    }
+    (_w = function () {
+      return Math.floor(
+        config.interval.min + config.interval.rnd * Math.random()
+      );
+    })((doc = document)),
+      (listButtons = []),
+      (buy = function (_this) {
         _this.target.style.color = "#CC8800";
         GM_log("Buying " + _this.previous.Item + "...");
 
@@ -883,8 +866,8 @@ GM_addStyle(GM_getResourceText("winConfigPriceCheckerCss"));
             _this.target.style.color = "#CC0000";
           },
         });
-      },
-      DollarButton = function (item, parent, target) {
+      }),
+      (DollarButton = function (item, parent, target) {
         this.item = item;
         this.name = item.textContent.trim();
         this.price = NaN;
@@ -971,8 +954,8 @@ GM_addStyle(GM_getResourceText("winConfigPriceCheckerCss"));
             },
           });
         };
-      },
-      executeWithdraw = function (list) {
+      }),
+      (executeWithdraw = function (list) {
         var cb = function (index) {
           if (index < list.length) {
             if (list[index]) {
@@ -1029,8 +1012,8 @@ GM_addStyle(GM_getResourceText("winConfigPriceCheckerCss"));
         } else {
           cb(0);
         }
-      },
-      executeBuy = function (b) {
+      }),
+      (executeBuy = function (b) {
         if (b || window.confirm("Confirm auto buying the priced items?")) {
           var iList = {},
             tList = [];
@@ -1104,8 +1087,8 @@ GM_addStyle(GM_getResourceText("winConfigPriceCheckerCss"));
             }
           })(tList);
         }
-      },
-      testBuy = function () {
+      }),
+      (testBuy = function () {
         for (var ai in listButtons) {
           if (listButtons[ai].previous) {
             return true;
@@ -1113,8 +1096,8 @@ GM_addStyle(GM_getResourceText("winConfigPriceCheckerCss"));
         }
 
         return false;
-      },
-      autoprice = function (e) {
+      }),
+      (autoprice = function (e) {
         if (wait) {
           wait = false;
 
@@ -1204,8 +1187,8 @@ GM_addStyle(GM_getResourceText("winConfigPriceCheckerCss"));
             })(0);
           }
         }
-      },
-      list = xpath(obj.item, doc);
+      }),
+      (list = xpath(obj.item, doc));
 
     for (var ai in list) {
       var item = list[ai];
@@ -1228,12 +1211,18 @@ GM_addStyle(GM_getResourceText("winConfigPriceCheckerCss"));
 
       var previous = item;
       while (!pn.test(previous.parentNode.tagName)) {
+        console.log("tagname");
+        console.log(previous.parentNode.tagName);
         previous = previous.parentNode;
       }
       previous.parentNode[obj.append ? "appendChild" : "insertBefore"](
         block,
         previous.nextSibling
       );
+
+      console.log("=-==-=-=");
+      console.log(previous.parentNode);
+      console.log("=-==-=-=");
 
       var link = new DollarButton(
         item,

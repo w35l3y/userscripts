@@ -14,6 +14,7 @@ Scripts that I have tested after updating all "http://" to "https://":
 - Neopets_Healing_Springs (works)
 - Neopets_Price_Checker (Half working (Please help me fix this~!))
 - Neopets_Quick_Price_Checker (works)
+- Neopets_Price_Checker (works fixed it for new quests)
 - Neopets_Shop_Wizard_Improved_Search (works)
 
 ---
