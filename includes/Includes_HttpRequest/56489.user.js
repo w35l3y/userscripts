@@ -91,11 +91,11 @@ HttpRequest.open = function (params) {
 						try {
 							return JSON.parse(e.responseText);
 						} catch (e) {
-							console.log(e);
+							console.debug(e);
 							try {
 								return eval("(" + e.responseText + ")");
 							} catch (e) {
-								console.log(e);
+								console.debug(e);
 								return {};
 							}
 						}
@@ -162,8 +162,13 @@ HttpRequest.open = function (params) {
 					content = data;
 				}
 
-				if (typeof content == "object") {
-					var x = "";
+				if (typeof content === "object") {
+					if (/^application\/json/.test(this.options.headers["Content-Type"])) {
+						this.options.data = JSON.stringify(content)
+						return
+					}
+
+          var x = "";
 					for (var key in content) {
 						if (content[key] instanceof Array) {
 							var keyarr = key.trim();
@@ -181,7 +186,7 @@ HttpRequest.open = function (params) {
 
 					content = x.substr(1);
 
-					if ("POST" == this.options.method) {
+					if ("POST" === this.options.method) {
 						if (!this.options.headers["Content-Type"]) {
 							this.options.headers["Content-Type"] = "application/x-www-form-urlencoded";
 						}
