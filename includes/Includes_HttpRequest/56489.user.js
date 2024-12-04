@@ -7,7 +7,7 @@
 // @copyright      2011+, w35l3y (http://gm.wesley.eti.br)
 // @license        GNU GPL
 // @homepage       http://gm.wesley.eti.br/includes
-// @version        2.3.1
+// @version        2.3.2
 // @language       en
 // @include        nowhere
 // @exclude        *
@@ -164,27 +164,35 @@ HttpRequest.open = function (params) {
 
 				if (typeof content === "object") {
 					if (/^application\/json/.test(this.options.headers["Content-Type"])) {
-						this.options.data = JSON.stringify(content)
+            if (content instanceof URLSearchParams) {
+							this.options.data = JSON.stringify(Object.fromEntries(content))
+            } else {
+							this.options.data = JSON.stringify(content)
+            }
 						return
 					}
 
-          var x = "";
-					for (var key in content) {
-						if (content[key] instanceof Array) {
-							var keyarr = key.trim();
-							if (!/\[\w*\]$/.test(key)) {
-								keyarr += "[]";
-							}
+          if (content instanceof URLSearchParams) {
+            content = content.toString()
+          } else {
+            var x = "";
+            for (var key in content) {
+              if (content[key] instanceof Array) {
+                var keyarr = key.trim();
+                if (!/\[\w*\]$/.test(key)) {
+                  keyarr += "[]";
+                }
 
-							for (var vk in content[key]) {
-								x += "&" + encodeURIComponent(keyarr) + "=" + encodeURIComponent(content[key][vk]);
-							}
-						} else {
-							x += "&" + encodeURIComponent(key) + "=" + encodeURIComponent(content[key]);
-						}
-					}
+                for (var vk in content[key]) {
+                  x += "&" + encodeURIComponent(keyarr) + "=" + encodeURIComponent(content[key][vk]);
+                }
+              } else {
+                x += "&" + encodeURIComponent(key) + "=" + encodeURIComponent(content[key]);
+              }
+            }
 
-					content = x.substr(1);
+            content = x.substr(1);
+          }
 
 					if ("POST" === this.options.method) {
 						if (!this.options.headers["Content-Type"]) {
